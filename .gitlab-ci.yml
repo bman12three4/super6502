@@ -4,7 +4,7 @@ default:
 
 build-sw:
   stage: build
-  image: bslathi19/cc65
+  image: a2geek/cc65-pipeline
   script:
     - cd sw/
     - make
