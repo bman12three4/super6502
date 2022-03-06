@@ -28,6 +28,22 @@ assign cpu_data_in = cpu_data;
 logic [7:0] cpu_data_out;
 assign cpu_data = cpu_rwb ? cpu_data_out : 'z;
 
+
+
+
+logic [7:0] rom_data_out;
+logic [7:0] ram_data_out;
+
+logic ram_cs;
+logic rom_cs;
+
+
+addr_decode decode(
+    .addr(cpu_addr),
+    .ram_cs(ram_cs),
+    .rom_cs(rom_cs)
+);
+
  
 logic [2:0] clk_count;
 always_ff @(posedge clk) begin
@@ -38,17 +54,20 @@ always_ff @(posedge clk) begin
     end
 end
 
+
+
 always_comb begin
     if (ram_cs)
         cpu_data_out = ram_data_out;
-    else
+    else if (rom_cs)
         cpu_data_out = rom_data_out;
+    else
+        cpu_data_out = 'x;
 end
 
 
-logic [7:0] ram_data_out;
-logic ram_cs;
-assign ram_cs = ~cpu_addr[15];
+
+
 ram main_memory(
     .address(cpu_addr[14:0]),
     .clock(clk),
@@ -58,7 +77,6 @@ ram main_memory(
 );
 
 
-logic [7:0] rom_data_out;
 rom boot_rom(
     .address(cpu_addr[14:0]),
     .clock(clk),
