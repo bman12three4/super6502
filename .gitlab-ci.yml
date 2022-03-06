@@ -4,4 +4,4 @@ sw:
 
 fpga:
   trigger:
-    include: sw/fpga/.gitlab-ci.yml
+    include: hw/fpga/.gitlab-ci.yml
