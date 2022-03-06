@@ -1,5 +1,6 @@
 #include <io.h>
 
 int main() {
-   IO_REMAP = 1; 
+    io_remap(io_region_de10lite);
+    return 0;
 }
