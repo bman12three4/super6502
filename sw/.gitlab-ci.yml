@@ -1,0 +1,12 @@
+default:
+  image: bslathi19/cc65
+  tags:
+    - docker-gcc
+
+build-job:
+  stage: build
+  script:
+    - cd sw/
+    - make
+
+
