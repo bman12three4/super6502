@@ -2,7 +2,7 @@
 #define IO_H
 
 
-#define IO_REMAP 0x7f00
+#define IO_REMAP 0x7fff
 
 
 enum io_regions {
