@@ -38,13 +38,31 @@ always_ff @(posedge clk) begin
     end
 end
 
+always_comb begin
+    if (ram_cs)
+        cpu_data_out = ram_data_out;
+    else
+        cpu_data_out = rom_data_out;
+end
 
+
+logic [7:0] ram_data_out;
+logic ram_cs;
+assign ram_cs = ~cpu_addr[15];
 ram main_memory(
     .address(cpu_addr[14:0]),
     .clock(clk),
     .data(cpu_data_in),
-    .wren(~cpu_rwb),
-    .q(cpu_data_out)
+    .wren(~cpu_rwb & ram_cs),
+    .q(ram_data_out)
+);
+
+
+logic [7:0] rom_data_out;
+rom boot_rom(
+    .address(cpu_addr[14:0]),
+    .clock(clk),
+    .q(rom_data_out)
 );
  
  
