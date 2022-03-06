@@ -23,6 +23,10 @@ $(BIN): $(OBJS)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
+%.o: %.S
+	$(CC) $(CFLAGS) -c $< -o $@
+
+
 .PHONY: clean
 clean:
 	rm -rf $(OBJS) $(BIN) $(HEX)
