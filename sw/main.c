@@ -1,4 +1,5 @@
+#include <io.h>
 
 int main() {
-    return 1;
+   IO_REMAP = 1; 
 }
