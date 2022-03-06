@@ -5,5 +5,7 @@ default:
 
 build1:
   stage: build
-  script: quartus_map super6502 -c super6502
+  script:
+    - cd hw/fpga/
+    - quartus_map super6502 -c super6502
 
