@@ -16,3 +16,10 @@ build-fpga:
   script:
     - cd hw/fpga/
     - quartus_map super6502 -c super6502
+
+test_addr_decode:
+    stage: test
+    image: bslathi19/modelsim_18.1:lite
+    script:
+      - cd hw/fpga/simulation/modelsim/
+      - vsim -do "do cs_testbench.do"
