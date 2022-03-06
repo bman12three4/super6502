@@ -1,5 +1,7 @@
 sw:
-  include: sw/.gitlab-ci.yml
+  trigger:
+    include: sw/.gitlab-ci.yml
 
 fpga:
-  include: hw/fpga/.gitlab-ci.yml
+  trigger:
+    include: hw/fpga/.gitlab-ci.yml
