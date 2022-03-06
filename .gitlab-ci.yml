@@ -1,7 +1,18 @@
-sw:
-  trigger:
-    include: sw/.gitlab-ci.yml
+default:
+  tags:
+    - docker
 
-fpga:
-  trigger:
-    include: hw/fpga/.gitlab-ci.yml
+build-sw:
+  stage: build
+  image: bslathi19/cc65
+  script:
+    - cd sw/
+    - make
+
+
+build-fpga:
+  stage: build
+  image: bslathi19/modelsim_18.1:lite
+  script:
+    - cd hw/fpga/
+    - quartus_map super6502 -c super6502
