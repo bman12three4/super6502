@@ -2,7 +2,7 @@ CC=cl65
 CFLAGS=-t none
 LDFLAGS=-C link.ld
 
-NAME=main
+NAME=bootrom
 
 BIN=$(NAME).bin
 HEX=$(NAME).hex

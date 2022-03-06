@@ -1,10 +1,35 @@
 MEMORY
 {
-  ROM: start=$8000, size=$8000, type=ro, define=yes, fill=yes, file=%O;
+  ZP:  start = $0,    size = $100,  type = rw, define = yes;
+  RAM: start = $0200, size = $7D00, type = rw, define = yes;
+  ROM: start = $8000, size = $8000, fill = yes, fillval = $ff, file = %O;
 }
 
-SEGMENTS
-{
-  CODE: load=ROM, type=ro;
-  VECTORS: load=ROM, type=ro, offset=$7ffa;
+SEGMENTS {
+    ZEROPAGE: load = ZP,  type = zp,  define   = yes;
+    DATA:     load = ROM, type = rw,  define   = yes, run = RAM;
+    BSS:      load = RAM, type = bss, define   = yes;
+    HEAP:     load = RAM, type = bss, optional = yes;
+    STARTUP:  load = ROM, type = ro;
+    ONCE:     load = ROM, type = ro,  optional = yes;
+    CODE:     load = ROM, type = ro;
+    RODATA:   load = ROM, type = ro;
+    VECTORS:  load = ROM, type = ro,  start    = $FFFA;
+}
+
+FEATURES {
+    CONDES:    segment = STARTUP,
+               type    = constructor,
+               label   = __CONSTRUCTOR_TABLE__,
+               count   = __CONSTRUCTOR_COUNT__;
+    CONDES:    segment = STARTUP,
+               type    = destructor,
+               label   = __DESTRUCTOR_TABLE__,
+               count   = __DESTRUCTOR_COUNT__;
+}
+
+SYMBOLS {
+    # Define the stack size for the application
+    __STACKSIZE__:  value = $0200, type = weak;
+    __STACKSTART__: type = weak, value = $0800; # 2k stack
 }
