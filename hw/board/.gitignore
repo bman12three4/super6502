@@ -26,3 +26,5 @@ fp-info-cache
 
 # kicad 8 backups
 *-backups
+output/
+output*
