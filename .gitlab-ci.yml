@@ -23,3 +23,10 @@ test_addr_decode:
     script:
       - cd hw/fpga/simulation/modelsim/
       - vsim -do "do cs_testbench.do"
+
+test_bb_spi:
+    stage: test
+    image: bslathi19/modelsim_18.1:lite
+    script:
+      - cd hw/fpga/simulation/modelsim/
+      - vsim -do "do bb_spi_testbench.do"
