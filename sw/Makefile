@@ -1,11 +1,13 @@
 CC=cl65
 CFLAGS=-t none -I. --cpu "65C02"
-LDFLAGS=-C link.ld
+LDFLAGS=-C link.ld -m $(NAME).map
 
 NAME=bootrom
 
 BIN=$(NAME).bin
 HEX=$(NAME).hex
+
+LISTS=lists/
 
 SRCS=$(wildcard *.s) $(wildcard *.c)
 OBJS+=$(patsubst %.s,%.o,$(filter %s,$(SRCS)))
@@ -20,12 +22,14 @@ $(HEX): $(BIN)
 $(BIN): $(OBJS)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $@
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+%.o: %.c $(LISTS)
+	$(CC) $(CFLAGS) -l $(LISTS)/$<.list -c $< -o $@
 
-%.o: %.s
-	$(CC) $(CFLAGS) -c $< -o $@
+%.o: %.s $(LISTS)
+	$(CC) $(CFLAGS) -l $(LISTS)/$<.list -c $< -o $@
 
+$(LISTS):
+	mkdir $(LISTS)
 
 .PHONY: clean
 clean:
