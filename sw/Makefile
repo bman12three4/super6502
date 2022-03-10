@@ -1,5 +1,5 @@
 CC=cl65
-CFLAGS=-t none -I.
+CFLAGS=-t none -I. --cpu "65C02"
 LDFLAGS=-C link.ld
 
 NAME=bootrom
@@ -7,8 +7,8 @@ NAME=bootrom
 BIN=$(NAME).bin
 HEX=$(NAME).hex
 
-SRCS=$(wildcard *.S) $(wildcard *.c)
-OBJS+=$(patsubst %.S,%.o,$(filter %S,$(SRCS)))
+SRCS=$(wildcard *.s) $(wildcard *.c)
+OBJS+=$(patsubst %.s,%.o,$(filter %s,$(SRCS)))
 OBJS+=$(patsubst %.c,%.o,$(filter %c,$(SRCS)))
 
 all: $(HEX)
@@ -23,7 +23,7 @@ $(BIN): $(OBJS)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-%.o: %.S
+%.o: %.s
 	$(CC) $(CFLAGS) -c $< -o $@
 
 
