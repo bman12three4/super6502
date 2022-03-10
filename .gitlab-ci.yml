@@ -30,3 +30,10 @@ test_bb_spi:
     script:
       - cd hw/fpga/simulation/modelsim/
       - vsim -do "do bb_spi_testbench.do"
+
+test-sw:
+  stage: test
+  image: bslathi19/cc65-pipeline
+  script:
+    - cd sw/
+    - make test
