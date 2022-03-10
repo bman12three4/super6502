@@ -4,7 +4,7 @@ default:
 
 build-sw:
   stage: build
-  image: bslathi19/cc65-pipeline
+  image: a2geek/cc65-pipeline
   script:
     - cd sw/
     - make
@@ -33,7 +33,7 @@ test_bb_spi:
 
 test-sw:
   stage: test
-  image: bslathi19/cc65-pipeline
+  image: a2geek/cc65-pipeline
   script:
     - cd sw/
     - make test
