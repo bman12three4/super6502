@@ -15,6 +15,7 @@ LISTS=lists
 TESTS=tests
 
 SRCS=$(wildcard *.s) $(wildcard *.c)
+SRCS+=$(wildcard usb/*.c)
 OBJS+=$(patsubst %.s,%.o,$(filter %s,$(SRCS)))
 OBJS+=$(patsubst %.c,%.o,$(filter %c,$(SRCS)))
 
@@ -45,8 +46,8 @@ $(BIN): $(OBJS)
 	$(CC) $(CFLAGS) -l $(LISTS)/$<.list -c $< -o $@
 
 $(LISTS):
-	mkdir $(LISTS)
-	mkdir $(LISTS)/$(TESTS)
+	mkdir -p $(addprefix $(LISTS)/,$(sort $(dir $(SRCS))))
+	mkdir $(LISTS)/$(sort $(dir $(TEST_SRCS)))
 
 .PHONY: clean
 clean:
