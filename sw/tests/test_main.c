@@ -3,7 +3,7 @@
 
 #include <spi.h>
 
-char retval;
+uint16_t retval;
 
 int main(void)
 {
@@ -19,6 +19,15 @@ int main(void)
     retval = spi_byte(0xa5);
     if (retval != 0) {
         printf("Expected 0 return value from spi_byte\n");
+        return 1;
+    }
+    printf("Done!   %x\n\n", retval);
+
+    printf("Starting spi_word test...\n");
+    retval = spi_word(0xa5a5);
+    if (retval != 0) {
+        printf("Expected 0 return value from spi_word.\n");
+        printf("Got: %x\n\n", retval);
         return 1;
     }
     printf("Done!   %x\n", retval);
