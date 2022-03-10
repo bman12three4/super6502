@@ -26,24 +26,9 @@ _spi_write_byte:
         adc #$01
         sta BB_SPI_BASE     ; Write clock
         txa
-        lsr                 ; Select net bit
+        lsr                 ; Select next bit
+        tax
         bne @loop           ; Stop when mask is 0
         ply                 ; Restore regs
         plx
         rts                 ; Return
-
-
-
-
-    and #$01            ; Get first bit
-    asl
-    asl
-    sta BB_SPI_BASE     ; write bit without clock
-    adc #$01            
-    sta BB_SPI_BASE     ; write bit with clock
-    tay
-    and #$022
-
-    ply
-    plx
-    rts
