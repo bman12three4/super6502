@@ -3,6 +3,6 @@
 
 #include <stdint.h>
 
-void spi_write_byte(uint8_t);
+uint8_t spi_byte(uint8_t);
 
 #endif
