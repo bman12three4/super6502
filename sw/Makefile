@@ -7,7 +7,7 @@ NAME=bootrom
 BIN=$(NAME).bin
 HEX=$(NAME).hex
 
-LISTS=lists/
+LISTS=lists
 
 SRCS=$(wildcard *.s) $(wildcard *.c)
 OBJS+=$(patsubst %.s,%.o,$(filter %s,$(SRCS)))
@@ -33,5 +33,5 @@ $(LISTS):
 
 .PHONY: clean
 clean:
-	rm -rf $(OBJS) $(BIN) $(HEX)
+	rm -rf $(OBJS) $(BIN) $(HEX) $(LISTS)
 
