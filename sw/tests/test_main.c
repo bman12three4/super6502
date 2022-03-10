@@ -23,13 +23,7 @@ int main(void)
     }
     printf("Done!   %x\n\n", retval);
 
-    printf("Starting spi_word test...\n");
-    retval = spi_word(0xa5a5);
-    if (retval != 0) {
-        printf("Expected 0 return value from spi_word.\n");
-        printf("Got: %x\n\n", retval);
-        return 1;
-    }
-    printf("Done!   %x\n", retval);
+    printf("Starting spi_deselect test...\n");
+    spi_deselect();
     return 0;
 }
