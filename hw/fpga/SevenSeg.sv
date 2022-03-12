@@ -16,7 +16,7 @@ logic [7:0] _data [2];
 always_ff @(posedge clk) begin
     if (rst)
         _data = '{default:'0};
-    if (~rw)
+    if (~rw & cs)
         _data[addr] <= data;
 end
 

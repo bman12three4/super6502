@@ -47,23 +47,23 @@ cpu_clk cpu_clk(
 	.c0(clk)
 );
 
+always @(posedge clk) begin
+    cpu_phi2 <= ~cpu_phi2;
+end
+
+assign cpu_rdy = '1;
+assign cpu_sob = '0;
+assign cpu_resb = rst_n;
+assign cpu_be = '1;
+assign cpu_nmib = '1;
+assign cpu_irqb = '1;
+
 addr_decode decode(
     .addr(cpu_addr),
     .ram_cs(ram_cs),
     .rom_cs(rom_cs),
     .hex_cs(hex_cs)
 );
-
- 
-logic [2:0] clk_count;
-always_ff @(posedge clk) begin
-    clk_count <= clk_count + 3'b1;
-    if (clk_count == 3'h4) begin
-        clk_count <= '0;
-        cpu_phi2 <= ~cpu_phi2;
-    end
-end
-
 
 
 always_comb begin
