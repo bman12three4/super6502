@@ -26,6 +26,10 @@
 # *.vhd
 # *.v
 
+# Don't keep signal tap files.
+*.stp
+*.vcd
+
 # ignore Quartus II generated files
 *_generation_script*
 *_inst.vhd
@@ -59,7 +63,7 @@
 # ignore Quartus II generated folders
 */db/
 */incremental_db/
-*/simulation/
+*/*/simulation/
 */timing/
 */testbench/
 */*_sim/
