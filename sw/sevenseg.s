@@ -25,8 +25,13 @@ _hex_set_8:
         plx
         rts
 
+; @in A/X: val
+; @out A: 0 for success, 1 for failure
+; Sets the low 2 pairs of hex digits
 _hex_set_16:
-        lda #$1
+        sta SEVEN_SEG
+        stx SEVEN_SEG+1
+        lda #$0
         rts
 
 _hex_set_24:
