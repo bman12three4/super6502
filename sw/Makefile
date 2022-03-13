@@ -1,6 +1,6 @@
 CC=cl65
-CFLAGS=-t none -I. --cpu "65C02"
-test: CFLAGS=-t sim65c02 -I.
+CFLAGS=-T -t none -I. --cpu "65C02"
+test: CFLAGS=-T -t sim65c02 -I.
 LDFLAGS=-C link.ld -m $(NAME).map
 SIM=sim65
 SIMARGS=-v -c -x 1000000
