@@ -36,4 +36,5 @@ _hex_set_24:
 ; @in A: mask
 ; Set the mask for seven seg enables
 _hex_enable:
+        sta SEVEN_SEG+3
         rts
