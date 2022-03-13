@@ -18,6 +18,7 @@ _hex_set_8:
         phx
         cmp #$3         ; If idx >= 3 then fail
         bcc @1
+        plx
         lda #$1
         rts
 @1:     tax             ; Move idx into x
@@ -44,6 +45,7 @@ _hex_set_24:
         stx SEVEN_SEG+1
         lda sreg
         sta SEVEN_SEG+2
+        lda #$0
         rts
 
 ; @in A: mask
