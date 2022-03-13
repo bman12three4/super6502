@@ -1,1 +1,1 @@
-BB_SPI_BASE = $7ff0
+SEVEN_SEG  = $7ff0

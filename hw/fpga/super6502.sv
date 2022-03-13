@@ -20,7 +20,7 @@ module super6502(
     output  logic           cpu_be,
     output  logic           cpu_nmib,
     
-    output logic [6:0] HEX0, HEX1, HEX2, HEX3
+    output logic [6:0] HEX0, HEX1, HEX2, HEX3, HEX4, HEX5
   );
   
 logic rst;
@@ -99,8 +99,8 @@ SevenSeg segs(
     .rw(cpu_rwb),
     .data(cpu_data_in),
     .cs(hex_cs),
-    .addr(cpu_addr[0]),
-    .HEX0(HEX0), .HEX1(HEX1), .HEX2(HEX2), .HEX3(HEX3),
+    .addr(cpu_addr[1:0]),
+    .HEX0(HEX0), .HEX1(HEX1), .HEX2(HEX2), .HEX3(HEX3), .HEX4(HEX4), .HEX5(HEX5)
 );
  
  

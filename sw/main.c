@@ -1,11 +1,10 @@
-#define SEVEN_SEG 0x7ff0
-
 #include <stdint.h>
 
-int main() {
-    uint16_t* seven_seg;
-    seven_seg = (uint16_t*)SEVEN_SEG;
+#include "sevenseg.h"
 
-    *seven_seg = 0xbabe;
+int main() {
+    hex_enable(0x3f);
+    hex_set_24(0xabcdef);
+    while(1);
     return 0;
 }
