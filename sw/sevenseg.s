@@ -1,5 +1,7 @@
 .include "io.inc65"
 
+.importzp sp, sreg
+
 .export _hex_set_8
 .export _hex_set_16
 .export _hex_set_24
@@ -34,8 +36,14 @@ _hex_set_16:
         lda #$0
         rts
 
+; @in A/X/sreg: val
+; @out A: 0 for success, 1 for failure
+; Sets the 3 pairs of hex digits for a 24 bit value
 _hex_set_24:
-        lda #$1
+        sta SEVEN_SEG
+        stx SEVEN_SEG+1
+        lda sreg
+        sta SEVEN_SEG+2
         rts
 
 ; @in A: mask
