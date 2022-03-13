@@ -7,6 +7,6 @@ module addr_decode(
 
 assign rom_cs = addr[15];
 assign ram_cs = ~addr[15] && addr < 16'h7ff0;
-assign hex_cs = addr >= 16'h7ff0 && addr < 16'h7ff2;
+assign hex_cs = addr >= 16'h7ff0 && addr < 16'h7ff4;
 
 endmodule

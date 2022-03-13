@@ -26,7 +26,7 @@ initial begin : TEST_VECTORS
             else
                 $error("Bad CS! addr=%4x should have ram_cs!", addr);
         end
-        if (i >= 16'h7ff0 && i < 16'h7ff2) begin
+        if (i >= 16'h7ff0 && i < 16'h7ff4) begin
             assert(hex_cs == '1)
             else
                 $error("Bad CS! addr=%4x should have io_cs!", addr);
