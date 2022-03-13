@@ -1,6 +1,8 @@
 # ignore ModelSim generated files and directories (temp files and so on)
 [_@]*
 
+*.ini
+
 # ignore compilation output of ModelSim
 *.mti
 *.dat
@@ -21,3 +23,7 @@ cov*/
 transcript*
 sc_dpiheader.h
 vsim.dbg
+*.sft
+*.svo
+*.xrf
+
