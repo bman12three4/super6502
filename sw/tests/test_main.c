@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include "sevenseg.h"
+#include "uart.h"
 
 int main(void)
 {
@@ -51,6 +52,23 @@ int main(void)
     printf("Testing hex_enable...\n");
     hex_enable(0xa5);
     if (*(uint8_t*)0x7ff3 != 0xa5) {
+        printf("Incorrect value!\n", i);
+        retval++;
+    }
+    printf("Done!\n\n");
+
+    printf("Testing uart_txb_block...\n");
+    *(uint8_t*)0x7ff5 = 0;
+    uart_txb_block(0xa5);
+    if (*(uint8_t*)0x7ff4 != 0xa5) {
+        printf("Incorrect value!\n", i);
+        retval++;
+    }
+    printf("Done!\n\n");
+
+    printf("Testing uart_status...\n");
+    *(uint8_t*)0x7ff5 = 0xa5;
+    if (uart_status() != 0xa5) {
         printf("Incorrect value!\n", i);
         retval++;
     }
