@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 #define BUTTON  (1 << 0)
+#define UART    (1 << 1)
 
 void irq_int();
 void nmi_int();

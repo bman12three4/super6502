@@ -117,6 +117,8 @@ SevenSeg segs(
     .HEX0(HEX0), .HEX1(HEX1), .HEX2(HEX2), .HEX3(HEX3), .HEX4(HEX4), .HEX5(HEX5)
 );
 
+logic uart_irq;
+
 uart uart(
     .clk_50(clk_50),
     .clk(clk),
@@ -127,6 +129,7 @@ uart uart(
     .addr(cpu_addr[1:0]),
     .RXD(UART_RXD),
     .TXD(UART_TXD),
+    .irq(uart_irq),
     .data_out(uart_data_out)
 );
 
@@ -135,8 +138,13 @@ always_ff @(posedge clk_50) begin
         irq_data_out <= '0;
     else if (irq_cs && ~cpu_rwb)
         irq_data_out <= irq_data_out & cpu_data_in;
-    else if (~button_1)
-        irq_data_out <= {irq_data_out[7:1], ~button_1};
+
+    else begin
+        if (~button_1)
+            irq_data_out[0] <= '1;
+        if (uart_irq)
+            irq_data_out[1] <= '1;
+    end
 
 end
  
