@@ -58,12 +58,12 @@ always_ff @(posedge clk) begin
         tx_flag_set <= '0;
 end
 
-// state controller
+// tx state controller
 typedef enum bit [2:0] {START, DATA, PARITY, STOP, IDLE} macro_t;
 struct packed {
     macro_t macro;
     logic [3:0] count;
-} state, next_state;
+} tx_state, tx_next_state, rx_state, rx_next_state;
 localparam logic [3:0] maxcount = 4'h7;
 
 // baud rate: 9600
@@ -74,8 +74,8 @@ logic [14:0] clkdiv;
 always_ff @(posedge clk_50) begin
     if (rst) begin
         clkdiv <= 0;
-        state.macro <= IDLE;
-        state.count <= 3'b0;
+        tx_state.macro <= IDLE;
+        tx_state.count <= 3'b0;
         tx_flag <= '0;
     end else begin
         if (tx_flag_set)
@@ -85,7 +85,7 @@ always_ff @(posedge clk_50) begin
 
         if (clkdiv == count) begin
             clkdiv <= 0;
-            state <= next_state;
+            tx_state <= tx_next_state;
         end else begin
             clkdiv <= clkdiv + 15'b1;
         end
@@ -93,33 +93,33 @@ always_ff @(posedge clk_50) begin
 end
 
 always_comb begin
-    next_state = state;
+    tx_next_state = tx_state;
 
-    unique case (state.macro)
+    unique case (tx_state.macro)
         START: begin
-            next_state.macro = DATA;
-            next_state.count = 3'b0;
+            tx_next_state.macro = DATA;
+            tx_next_state.count = 3'b0;
         end
         DATA: begin
-            if (state.count == maxcount) begin
-                next_state.macro = STOP;    // or PARITY
-                next_state.count = 3'b0;
+            if (tx_state.count == maxcount) begin
+                tx_next_state.macro = STOP;    // or PARITY
+                tx_next_state.count = 3'b0;
             end else begin
-                next_state.count = state.count + 3'b1;
-                next_state.macro = DATA;
+                tx_next_state.count = tx_state.count + 3'b1;
+                tx_next_state.macro = DATA;
             end
         end
         PARITY: begin
         end
         STOP: begin
-            next_state.macro = IDLE;
-            next_state.count = '0;
+            tx_next_state.macro = IDLE;
+            tx_next_state.count = '0;
         end
         IDLE: begin
             if (tx_flag)
-                next_state.macro = START;
+                tx_next_state.macro = START;
             else
-                next_state.macro = IDLE;
+                tx_next_state.macro = IDLE;
         end
     
         default:;
@@ -130,12 +130,12 @@ always_comb begin
     TXD = '1;
     tx_flag_clear = '0;
 
-    unique case (state.macro)
+    unique case (tx_state.macro)
         START: begin
             TXD = '0;
         end
         DATA: begin
-            TXD = tx_buf[state.count];
+            TXD = tx_buf[tx_state.count];
         end 
         PARITY: begin
 
