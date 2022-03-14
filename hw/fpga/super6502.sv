@@ -20,7 +20,10 @@ module super6502(
     output  logic           cpu_be,
     output  logic           cpu_nmib,
     
-    output logic [6:0] HEX0, HEX1, HEX2, HEX3, HEX4, HEX5
+    output logic [6:0] HEX0, HEX1, HEX2, HEX3, HEX4, HEX5,
+    
+    input   logic           UART_RXD,
+    output  logic           UART_TXD
   );
   
 logic rst;
@@ -102,7 +105,19 @@ SevenSeg segs(
     .addr(cpu_addr[1:0]),
     .HEX0(HEX0), .HEX1(HEX1), .HEX2(HEX2), .HEX3(HEX3), .HEX4(HEX4), .HEX5(HEX5)
 );
- 
+
+uart uart(
+    .clk_50(clk_50),
+    .clk(clk),
+    .rst(rst),
+    .rw(cpu_rwb),
+    .data_in(cpu_data_in),
+    .cs(),
+    .addr(cpu_addr[1:0]),
+    .RXD(UART_RXD),
+    .TXD(UART_TXD),
+    .data_out()
+);
  
 endmodule
  
