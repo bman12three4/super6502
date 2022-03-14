@@ -17,42 +17,71 @@ module uart(
 
 //Handle reading and writing registers
 
-logic [7:0] _data [3:0];
+logic [7:0] tx_buf;
+logic [7:0] rx_buf;
+logic [7:0] status;
 
-assign data_out = _data[addr];
+logic tx_flag;
+
+logic tx_flag_set;
+logic tx_flag_clear;
+
+assign status[0] = tx_flag | tx_flag_clear;
 
 always_ff @(posedge clk) begin
-    if (rst)
-        _data = '{default:'0};
-    if (~rw & cs)
-        _data[addr] <= data_in;
+    if (rst) begin
+        tx_flag_set <= '0;
+        tx_buf <= '0;
+        rx_buf <= '0;
+        status[7:1] <= '0;
+    end
+
+    if (cs) begin
+        if (~rw) begin
+            if (addr == 0)
+                tx_buf <= data_in;
+        end else begin
+            if (addr == 0)
+                data_out <= rx_buf;
+            if (addr == 1)
+                data_out <= status;
+        end
+    end
+
+    if (~rw & cs && addr == 0)
+        tx_flag_set <= '1;
+    else
+        tx_flag_set <= '0;
 end
 
 // state controller
-typedef enum bit [1:0] {START, DATA, PARITY, STOP} macro_t;
+typedef enum bit [2:0] {START, DATA, PARITY, STOP, IDLE} macro_t;
 struct packed {
     macro_t macro;
     logic [3:0] count;
 } state, next_state;
 localparam logic [3:0] maxcount = 4'h7;
 
-logic [7:0] testval, next_testval;
-
-
 // baud rate: 9600
+localparam baud = 9600;
+localparam count = (50000000/baud)-1;
 logic [14:0] clkdiv;
 
 always_ff @(posedge clk_50) begin
     if (rst) begin
         clkdiv <= 0;
-        state.macro <= STOP;
+        state.macro <= IDLE;
         state.count <= 3'b0;
-        testval <= '0;
+        tx_flag <= '0;
     end else begin
-        if (clkdiv == 5207) begin
+        if (tx_flag_set)
+            tx_flag <= '1;
+        else if (tx_flag_clear)
+            tx_flag <= '0;
+
+        if (clkdiv == count) begin
             clkdiv <= 0;
             state <= next_state;
-            testval <= next_testval;
         end else begin
             clkdiv <= clkdiv + 15'b1;
         end
@@ -79,30 +108,43 @@ always_comb begin
         PARITY: begin
         end
         STOP: begin
-            next_state.macro = START;
+            next_state.macro = IDLE;
             next_state.count = '0;
         end
+        IDLE: begin
+            if (tx_flag)
+                next_state.macro = START;
+            else
+                next_state.macro = IDLE;
+        end
+    
+        default:;
     endcase
 end
 
 always_comb begin
     TXD = '1;
-    next_testval = testval;
+    tx_flag_clear = '0;
 
     unique case (state.macro)
         START: begin
             TXD = '0;
         end
         DATA: begin
-            TXD = testval[state.count];
+            TXD = tx_buf[state.count];
         end 
         PARITY: begin
 
         end
         STOP: begin
-        next_testval = testval + 8'b1;
+            tx_flag_clear = '1;
             TXD = '1;
         end
+        IDLE: begin
+            TXD = '1;
+        end
+
+        default:;
     endcase
 end
 
