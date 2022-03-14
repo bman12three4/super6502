@@ -12,3 +12,6 @@ vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lns
 
 add wave -group {dut} -radix hexadecimal sim:/testbench/dut/*
 
+onfinish stop
+run -all
+
