@@ -8,7 +8,7 @@
 *.dat
 *.dbs
 *.psm
-*.bak
+*.bak*
 *.cmp
 *.jpg
 *.html
@@ -20,7 +20,7 @@ wlf*
 *.vstf
 *.ucdb
 cov*/
-transcript*
+*transcript*
 sc_dpiheader.h
 vsim.dbg
 *.sft
