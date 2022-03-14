@@ -20,7 +20,10 @@ module super6502(
     output  logic           cpu_be,
     output  logic           cpu_nmib,
     
-    output logic [6:0] HEX0, HEX1, HEX2, HEX3, HEX4, HEX5
+    output logic [6:0] HEX0, HEX1, HEX2, HEX3, HEX4, HEX5,
+    
+    input   logic           UART_RXD,
+    output  logic           UART_TXD
   );
   
 logic rst;
@@ -37,10 +40,12 @@ assign cpu_data = cpu_rwb ? cpu_data_out : 'z;
 
 logic [7:0] rom_data_out;
 logic [7:0] ram_data_out;
+logic [7:0] uart_data_out;
 
 logic ram_cs;
 logic rom_cs;
 logic hex_cs;
+logic uart_cs;
 
 cpu_clk cpu_clk(
 	.inclk0(clk_50),
@@ -62,7 +67,8 @@ addr_decode decode(
     .addr(cpu_addr),
     .ram_cs(ram_cs),
     .rom_cs(rom_cs),
-    .hex_cs(hex_cs)
+    .hex_cs(hex_cs),
+    .uart_cs(uart_cs)
 );
 
 
@@ -71,6 +77,8 @@ always_comb begin
         cpu_data_out = ram_data_out;
     else if (rom_cs)
         cpu_data_out = rom_data_out;
+    else if (uart_cs)
+        cpu_data_out = uart_data_out;
     else
         cpu_data_out = 'x;
 end
@@ -102,7 +110,19 @@ SevenSeg segs(
     .addr(cpu_addr[1:0]),
     .HEX0(HEX0), .HEX1(HEX1), .HEX2(HEX2), .HEX3(HEX3), .HEX4(HEX4), .HEX5(HEX5)
 );
- 
+
+uart uart(
+    .clk_50(clk_50),
+    .clk(clk),
+    .rst(rst),
+    .rw(cpu_rwb),
+    .data_in(cpu_data_in),
+    .cs(uart_cs),
+    .addr(cpu_addr[1:0]),
+    .RXD(UART_RXD),
+    .TXD(UART_TXD),
+    .data_out(uart_data_out)
+);
  
 endmodule
  
