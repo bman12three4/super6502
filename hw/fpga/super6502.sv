@@ -2,6 +2,7 @@
 module super6502(
     input                   clk_50,
     input   logic           rst_n,
+    input   logic           button_1,
     
     input   logic [15:0]    cpu_addr,
     inout   logic [7:0]     cpu_data,
@@ -61,7 +62,7 @@ assign cpu_sob = '0;
 assign cpu_resb = rst_n;
 assign cpu_be = '1;
 assign cpu_nmib = '1;
-assign cpu_irqb = '1;
+assign cpu_irqb = button_1;
 
 addr_decode decode(
     .addr(cpu_addr),
