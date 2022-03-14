@@ -2,8 +2,8 @@
 
 .importzp sp, sreg
 
-.export _uart_txb
-.export _uart_txb_block
+.export _uart_txb, _uart_txb_block
+.export _uart_rxb
 .export _uart_status
 
 .autoimport	on
@@ -21,6 +21,11 @@ _uart_txb_block:
 @1:     lda UART_STATUS     ; Wait for status[0] to be 0
         bit #$01
         bne @1
+        rts
+
+_uart_rxb:
+        lda UART_RXB        ; Read value
+        ldx #$00
         rts
 
 _uart_status:
