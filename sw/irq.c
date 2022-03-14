@@ -17,4 +17,8 @@ void handle_irq() {
         puts("Button Interrupt!\n");
         irq_set_status(status & ~BUTTON);
     }
+    if (status & UART) {
+        puts("UART Interrupt!\n");
+        irq_set_status(status & ~UART);
+    }
 }

@@ -12,8 +12,12 @@ module uart(
     
     output logic TXD,
     
+    output logic irq,
     output logic [7:0] data_out
 );
+
+//Temporary!
+assign irq = ~RXD;
 
 //Handle reading and writing registers
 
