@@ -69,11 +69,11 @@ localparam logic [3:0] maxcount = 4'h7;
 // baud rate: 9600
 localparam baud = 9600;
 localparam count = (50000000/baud)-1;
-logic [14:0] clkdiv;
+logic [14:0] tx_clkdiv;
 
 always_ff @(posedge clk_50) begin
     if (rst) begin
-        clkdiv <= 0;
+        tx_clkdiv <= 0;
         tx_state.macro <= IDLE;
         tx_state.count <= 3'b0;
         tx_flag <= '0;
@@ -83,11 +83,11 @@ always_ff @(posedge clk_50) begin
         else if (tx_flag_clear)
             tx_flag <= '0;
 
-        if (clkdiv == count) begin
-            clkdiv <= 0;
+        if (tx_clkdiv == count) begin
+            tx_clkdiv <= 0;
             tx_state <= tx_next_state;
         end else begin
-            clkdiv <= clkdiv + 15'b1;
+            tx_clkdiv <= tx_clkdiv + 15'b1;
         end
     end
 end
