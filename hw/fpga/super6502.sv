@@ -40,10 +40,12 @@ assign cpu_data = cpu_rwb ? cpu_data_out : 'z;
 
 logic [7:0] rom_data_out;
 logic [7:0] ram_data_out;
+logic [7:0] uart_data_out;
 
 logic ram_cs;
 logic rom_cs;
 logic hex_cs;
+logic uart_cs;
 
 cpu_clk cpu_clk(
 	.inclk0(clk_50),
@@ -65,7 +67,8 @@ addr_decode decode(
     .addr(cpu_addr),
     .ram_cs(ram_cs),
     .rom_cs(rom_cs),
-    .hex_cs(hex_cs)
+    .hex_cs(hex_cs),
+    .uart_cs(uart_cs)
 );
 
 
@@ -74,6 +77,8 @@ always_comb begin
         cpu_data_out = ram_data_out;
     else if (rom_cs)
         cpu_data_out = rom_data_out;
+    else if (uart_cs)
+        cpu_data_out = uart_data_out;
     else
         cpu_data_out = 'x;
 end
@@ -112,11 +117,11 @@ uart uart(
     .rst(rst),
     .rw(cpu_rwb),
     .data_in(cpu_data_in),
-    .cs(),
+    .cs(uart_cs),
     .addr(cpu_addr[1:0]),
     .RXD(UART_RXD),
     .TXD(UART_TXD),
-    .data_out()
+    .data_out(uart_data_out)
 );
  
 endmodule
