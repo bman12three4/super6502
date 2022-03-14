@@ -2,6 +2,7 @@
 module super6502(
     input                   clk_50,
     input   logic           rst_n,
+    input   logic           button_1,
     
     input   logic [15:0]    cpu_addr,
     inout   logic [7:0]     cpu_data,
@@ -41,11 +42,13 @@ assign cpu_data = cpu_rwb ? cpu_data_out : 'z;
 logic [7:0] rom_data_out;
 logic [7:0] ram_data_out;
 logic [7:0] uart_data_out;
+logic [7:0] irq_data_out;
 
 logic ram_cs;
 logic rom_cs;
 logic hex_cs;
 logic uart_cs;
+logic irq_cs;
 
 cpu_clk cpu_clk(
 	.inclk0(clk_50),
@@ -61,14 +64,15 @@ assign cpu_sob = '0;
 assign cpu_resb = rst_n;
 assign cpu_be = '1;
 assign cpu_nmib = '1;
-assign cpu_irqb = '1;
+assign cpu_irqb = irq_data_out == 0;
 
 addr_decode decode(
     .addr(cpu_addr),
     .ram_cs(ram_cs),
     .rom_cs(rom_cs),
     .hex_cs(hex_cs),
-    .uart_cs(uart_cs)
+    .uart_cs(uart_cs),
+    .irq_cs(irq_cs)
 );
 
 
@@ -79,6 +83,8 @@ always_comb begin
         cpu_data_out = rom_data_out;
     else if (uart_cs)
         cpu_data_out = uart_data_out;
+    else if (irq_cs)
+        cpu_data_out = irq_data_out;
     else
         cpu_data_out = 'x;
 end
@@ -123,6 +129,16 @@ uart uart(
     .TXD(UART_TXD),
     .data_out(uart_data_out)
 );
+
+always_ff @(posedge clk_50) begin
+    if (rst)
+        irq_data_out <= '0;
+    else if (irq_cs && ~cpu_rwb)
+        irq_data_out <= irq_data_out & cpu_data_in;
+    else if (~button_1)
+        irq_data_out <= {irq_data_out[7:1], ~button_1};
+
+end
  
 endmodule
  

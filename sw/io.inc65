@@ -4,3 +4,5 @@ UART        = $7ff4
 UART_TXB    = UART
 UART_RXB    = UART
 UART_STATUS = UART + 1
+
+IRQ_STATUS  = $7fff

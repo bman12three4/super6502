@@ -14,12 +14,6 @@
 
 .include  "zeropage.inc"
 
-.segment "VECTORS"
-
-.addr _init
-.addr _init
-.addr _init
-
 ; ---------------------------------------------------------------------------
 ; Place the startup code in a special segment
 
@@ -49,7 +43,7 @@ _init:    LDX     #$FF                 ; Initialize stack pointer to $01FF
 
 ; ---------------------------------------------------------------------------
 ; Call main()
-
+          cli
           JSR     _main
 
 ; ---------------------------------------------------------------------------

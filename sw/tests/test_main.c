@@ -2,6 +2,7 @@
 
 #include "sevenseg.h"
 #include "uart.h"
+#include "interrupt.h"
 
 int main(void)
 {
@@ -69,6 +70,15 @@ int main(void)
     printf("Testing uart_status...\n");
     *(uint8_t*)0x7ff5 = 0xa5;
     if (uart_status() != 0xa5) {
+        printf("Incorrect value!\n", i);
+        retval++;
+    }
+    printf("Done!\n\n");
+
+
+    printf("Testing irq_get_status...\n");
+    *(uint8_t*)0x7fff = 0xa5;
+    if (irq_get_status() != 0xa5) {
         printf("Incorrect value!\n", i);
         retval++;
     }

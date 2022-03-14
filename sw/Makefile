@@ -22,7 +22,7 @@ OBJS+=$(patsubst %.c,%.o,$(filter %c,$(SRCS)))
 TEST_SRCS=$(wildcard $(TESTS)/*.s) $(wildcard $(TESTS)/*.c)
 TEST_OBJS+=$(patsubst %.s,%.o,$(filter %s,$(TEST_SRCS)))
 TEST_OBJS+=$(patsubst %.c,%.o,$(filter %c,$(TEST_SRCS)))
-TEST_OBJS+=$(filter-out boot.o,$(filter-out main.o,$(OBJS)))
+TEST_OBJS+=$(filter-out boot.o,$(filter-out main.o,$(filter-out vectors.o,$(OBJS))))
 
 all: $(HEX)
 

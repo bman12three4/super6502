@@ -9,6 +9,7 @@ logic ram_cs;
 logic rom_cs;
 logic hex_cs;
 logic uart_cs;
+logic irq_cs;
 
 int cs_count = ram_cs + rom_cs + hex_cs + uart_cs;
 
@@ -32,10 +33,15 @@ initial begin : TEST_VECTORS
             else
                 $error("Bad CS! addr=%4x should have hex_cs!", addr);
         end
-        if (i >= 16'h7ff4 && i < 16'6) begin
+        if (i >= 16'h7ff4 && i < 16'h7ff6) begin
             assert(uart_cs == '1)
             else
                 $error("Bad CS! addr=%4x should have uart_cs!", addr);
+        end
+        if (i == 16'h7fff) begin
+            assert(irq_cs == '1)
+            else
+                $error("Bad CS! addr=%4x should have irq_cs!", addr);
         end
         if (i >= 2**15) begin
             assert(rom_cs == '1)
