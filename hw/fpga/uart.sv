@@ -16,9 +16,6 @@ module uart(
     output logic [7:0] data_out
 );
 
-//Temporary!
-assign irq = ~RXD;
-
 //Handle reading and writing registers
 
 logic [7:0] tx_buf;
@@ -26,18 +23,24 @@ logic [7:0] rx_buf;
 logic [7:0] status;
 
 logic tx_flag;
+logic rx_flag;
 
 logic tx_flag_set;
 logic tx_flag_clear;
+logic rx_flag_set;
+logic rx_flag_clear;
 
 assign status[0] = tx_flag | tx_flag_clear;
+assign status[1] = rx_flag | rx_flag_set;
+
+assign irq = status[1];
 
 always_ff @(posedge clk) begin
     if (rst) begin
         tx_flag_set <= '0;
+        rx_flag_clear <= '0;
         tx_buf <= '0;
-        rx_buf <= '0;
-        status[7:1] <= '0;
+        status[7:2] <= '0;
     end
 
     if (cs) begin
@@ -56,6 +59,11 @@ always_ff @(posedge clk) begin
         tx_flag_set <= '1;
     else
         tx_flag_set <= '0;
+
+    if (rw & cs && addr == 0)
+        rx_flag_clear <= '1;
+    else
+        rx_flag_clear <= '0;
 end
 
 // tx state controller
@@ -149,6 +157,71 @@ always_comb begin
         end
 
         default:;
+    endcase
+end
+
+//basically in idle state we need to sample RXD very fast,
+//then as soon as we detect that RXD is low, we start clkdiv
+//going and then go into the start state.
+
+logic [14:0] rx_clkdiv;
+
+always_ff @(posedge clk_50) begin
+    if (rst) begin
+        rx_buf <= '0;
+        rx_clkdiv <= 0;
+        rx_state.macro <= IDLE;
+        rx_state.count <= 3'b0;
+    end else begin
+        if (rx_flag_set)
+            rx_flag <= '1;
+        else if (rx_flag_clear)
+            rx_flag <= '0;
+
+        if (rx_state.macro == IDLE) begin           // Sample constantly in idle state
+            rx_state <= rx_next_state;
+            rx_clkdiv <= count/15'h2;                   // offset rx clock by 1/2 phase
+        end else begin              
+            if (rx_clkdiv == count) begin           // other states are as usual
+                rx_clkdiv <= 0;
+                rx_state <= rx_next_state;
+                if (rx_state.macro == DATA)
+                    rx_buf[rx_state.count] = RXD;
+            end else begin
+                rx_clkdiv <= rx_clkdiv + 15'b1;
+            end
+        end
+    end
+end
+
+always_comb begin
+    rx_next_state = rx_state;
+    rx_flag_set = '0;
+
+    unique case (rx_state.macro)
+        IDLE: begin
+            if (~RXD)
+                rx_next_state.macro = START;
+        end
+        START: begin
+            rx_next_state.macro = DATA;
+            rx_next_state.count = 3'b0;
+        end
+        DATA: begin
+            if (rx_state.count == maxcount) begin
+                rx_next_state.macro = STOP;
+                rx_next_state.count = 3'b0;
+            end else begin
+                rx_next_state.count = rx_state.count + 3'b1;
+                rx_next_state.macro = DATA;
+            end
+        end
+        PARITY: begin
+        end
+        STOP: begin
+            rx_flag_set = '1;
+            rx_next_state.macro = IDLE;
+        end
     endcase
 end
 
