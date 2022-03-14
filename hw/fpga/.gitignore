@@ -62,6 +62,7 @@
 
 # ignore Quartus II generated folders
 */db/
+greybox_tmp/
 */incremental_db/
 */*/simulation/
 */timing/
