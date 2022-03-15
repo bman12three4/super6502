@@ -17,10 +17,12 @@ _uart_txb:
         rts
 
 _uart_txb_block:
+        pha
         sta UART_TXB        ; Write value
 @1:     lda UART_STATUS     ; Wait for status[0] to be 0
         bit #$01
         bne @1
+        pla
         rts
 
 _uart_rxb:
