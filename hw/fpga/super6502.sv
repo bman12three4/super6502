@@ -24,7 +24,20 @@ module super6502(
     output logic [6:0] HEX0, HEX1, HEX2, HEX3, HEX4, HEX5,
     
     input   logic           UART_RXD,
-    output  logic           UART_TXD
+    output  logic           UART_TXD,
+
+    ///////// SDRAM /////////
+    output             DRAM_CLK,
+    output             DRAM_CKE,
+    output   [12: 0]   DRAM_ADDR,
+    output   [ 1: 0]   DRAM_BA,
+    inout    [15: 0]   DRAM_DQ,
+    output             DRAM_LDQM,
+    output             DRAM_UDQM,
+    output             DRAM_CS_N,
+    output             DRAM_WE_N,
+    output             DRAM_CAS_N,
+    output             DRAM_RAS_N
   );
   
 logic rst;
@@ -41,10 +54,12 @@ assign cpu_data = cpu_rwb ? cpu_data_out : 'z;
 
 logic [7:0] rom_data_out;
 logic [7:0] ram_data_out;
+logic [7:0] sdram_data_out;
 logic [7:0] uart_data_out;
 logic [7:0] irq_data_out;
 
 logic ram_cs;
+logic sdram_cs;
 logic rom_cs;
 logic hex_cs;
 logic uart_cs;
@@ -69,6 +84,7 @@ assign cpu_irqb = irq_data_out == 0;
 addr_decode decode(
     .addr(cpu_addr),
     .ram_cs(ram_cs),
+    .sdram_cs(sdram_cs),
     .rom_cs(rom_cs),
     .hex_cs(hex_cs),
     .uart_cs(uart_cs),
@@ -79,6 +95,8 @@ addr_decode decode(
 always_comb begin
     if (ram_cs)
         cpu_data_out = ram_data_out;
+    else if (sdram_cs)
+        cpu_data_out = sdram_data_out;
     else if (rom_cs)
         cpu_data_out = rom_data_out;
     else if (uart_cs)
@@ -90,7 +108,29 @@ always_comb begin
 end
 
 
+sdram sdram(
+    .rst(rst),
+    .clk_50(clk_50),
+    .cpu_clk(cpu_phi2),
+    .addr(cpu_addr),
+    .sdram_cs(sdram_cs),
+    .rwb(cpu_rwb),
+    .data_in(cpu_data_in),
+    .data_out(sdram_data_out),
 
+    //SDRAM
+    .DRAM_CLK(DRAM_CLK),                           //clk_sdram.clk
+    .DRAM_ADDR(DRAM_ADDR),                         //sdram_wire.addr
+    .DRAM_BA(DRAM_BA),                             //.ba
+    .DRAM_CAS_N(DRAM_CAS_N),                       //.cas_n
+    .DRAM_CKE(DRAM_CKE),                           //.cke
+    .DRAM_CS_N(DRAM_CS_N),                         //.cs_n
+    .DRAM_DQ(DRAM_DQ),                             //.dq
+    .DRAM_UDQM(DRAM_UDQM),                         //.dqm
+    .DRAM_LDQM(DRAM_LDQM),
+    .DRAM_RAS_N(DRAM_RAS_N),                       //.ras_n
+    .DRAM_WE_N(DRAM_WE_N)                          //.we_n
+);
 
 ram main_memory(
     .address(cpu_addr[14:0]),

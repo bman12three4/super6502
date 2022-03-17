@@ -23,8 +23,6 @@
 # design.
 
 # Need to keep all HDL files
-# *.vhd
-# *.v
 
 # Don't keep signal tap files.
 *.stp
@@ -52,6 +50,7 @@
 *.smsg
 *.sof
 *.sopc_builder
+*.sopcinfo
 *.summary
 *.tcl
 *.txt # Explicitly add any text files used
@@ -71,5 +70,7 @@ greybox_tmp/
 incremental_db/
 db/
 output_files/
+.qsys_edit/
+sdram_platform/
 PLLJ_PLLSPE_INFO.txt
 
