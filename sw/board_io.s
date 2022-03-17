@@ -6,6 +6,8 @@
 .export _hex_set_16
 .export _hex_set_24
 .export _hex_enable
+.export _sw_read
+.export _led_set
 
 .autoimport	on
 
@@ -52,4 +54,18 @@ _hex_set_24:
 ; Set the mask for seven seg enables
 _hex_enable:
         sta SEVEN_SEG+3
+        rts
+
+; @out A: The Value of the switches
+; Reads the current values of the switches.
+_sw_read:
+        lda SW
+        ldx #$0
+        rts
+
+; @in A: val
+; @out A: 0 for success, 1 for failure
+; Sets the LEDs
+_led_set:
+        sta LED
         rts

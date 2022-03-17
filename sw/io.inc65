@@ -5,4 +5,7 @@ UART_TXB    = UART
 UART_RXB    = UART
 UART_STATUS = UART + 1
 
+LED         = $7ff6
+SW          = LED
+
 IRQ_STATUS  = $7fff

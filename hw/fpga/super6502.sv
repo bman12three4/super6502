@@ -26,6 +26,9 @@ module super6502(
     input   logic           UART_RXD,
     output  logic           UART_TXD,
 
+    input [7:0] SW,
+    output [7:0] LED,
+
     ///////// SDRAM /////////
     output             DRAM_CLK,
     output             DRAM_CKE,
@@ -57,6 +60,7 @@ logic [7:0] ram_data_out;
 logic [7:0] sdram_data_out;
 logic [7:0] uart_data_out;
 logic [7:0] irq_data_out;
+logic [7:0] board_io_data_out;
 
 logic ram_cs;
 logic sdram_cs;
@@ -64,6 +68,7 @@ logic rom_cs;
 logic hex_cs;
 logic uart_cs;
 logic irq_cs;
+logic board_io_cs;
 
 cpu_clk cpu_clk(
 	.inclk0(clk_50),
@@ -88,7 +93,8 @@ addr_decode decode(
     .rom_cs(rom_cs),
     .hex_cs(hex_cs),
     .uart_cs(uart_cs),
-    .irq_cs(irq_cs)
+    .irq_cs(irq_cs),
+    .board_io_cs(board_io_cs)
 );
 
 
@@ -103,6 +109,8 @@ always_comb begin
         cpu_data_out = uart_data_out;
     else if (irq_cs)
         cpu_data_out = irq_data_out;
+    else if (board_io_cs)
+        cpu_data_out = board_io_data_out;
     else
         cpu_data_out = 'x;
 end
@@ -155,6 +163,17 @@ SevenSeg segs(
     .cs(hex_cs),
     .addr(cpu_addr[1:0]),
     .HEX0(HEX0), .HEX1(HEX1), .HEX2(HEX2), .HEX3(HEX3), .HEX4(HEX4), .HEX5(HEX5)
+);
+
+board_io board_io(
+    .clk(clk),
+    .rst(rst),
+    .rw(cpu_rwb),
+    .data_in(cpu_data_in),
+    .data_out(board_io_data_out),
+    .cs(board_io_cs),
+    .led(LED),
+    .sw(SW)
 );
 
 logic uart_irq;

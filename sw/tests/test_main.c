@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "sevenseg.h"
+#include "board_io.h"
 #include "uart.h"
 #include "interrupt.h"
 
