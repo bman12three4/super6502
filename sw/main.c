@@ -5,22 +5,21 @@
 #include "uart.h"
 
 int main() {
-    uint8_t* test;
-    uint8_t i;
-
-    test = (uint8_t*)0x5000;
+    int i;
+    char s[16];
+    s[15] = 0;
 
     clrscr();
+    cprintf("Hello, world!\n");
 
-    for (test = (uint8_t*)0x4000; test < (uint8_t*)0x5000; test++) {
-        for (i = 0; i < 64; i++) {
-            *test = i;
-            if (*test != i)
-                cprintf("Failed to read/write %x to %x\n", i, test);
-        }
+    while (1) {
+        cscanf("%15s", s);
+        cprintf("\n");
+        for (i = 0; i < 16; i++)
+            cprintf("s[%d]=%c ", i, s[i]);
+        cprintf("\n");
+        cprintf("Read string: %s\n", s);
     }
-
-    cprintf("Done! no SDRAM errors!\n");
 
     return 0;
 }
