@@ -15,6 +15,7 @@ build-fpga:
   image: bslathi19/modelsim_18.1:lite
   script:
     - cd hw/fpga/
+    - qsys-generate /builds/bslathi19/super6502/hw/fpga/sdram_platform.qsys --synthesis=VERILOG --output-directory=/builds/bslathi19/super6502/hw/fpga/sdram_platform --family="MAX 10" --part=10M50DAF484C7G
     - quartus_map super6502 -c super6502
 
 test_addr_decode:
