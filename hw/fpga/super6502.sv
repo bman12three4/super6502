@@ -26,18 +26,18 @@ module super6502(
     input   logic           UART_RXD,
     output  logic           UART_TXD,
 
-          ///////// SDRAM /////////
-      output             DRAM_CLK,
-      output             DRAM_CKE,
-      output   [12: 0]   DRAM_ADDR,
-      output   [ 1: 0]   DRAM_BA,
-      inout    [15: 0]   DRAM_DQ,
-      output             DRAM_LDQM,
-      output             DRAM_UDQM,
-      output             DRAM_CS_N,
-      output             DRAM_WE_N,
-      output             DRAM_CAS_N,
-      output             DRAM_RAS_N
+    ///////// SDRAM /////////
+    output             DRAM_CLK,
+    output             DRAM_CKE,
+    output   [12: 0]   DRAM_ADDR,
+    output   [ 1: 0]   DRAM_BA,
+    inout    [15: 0]   DRAM_DQ,
+    output             DRAM_LDQM,
+    output             DRAM_UDQM,
+    output             DRAM_CS_N,
+    output             DRAM_WE_N,
+    output             DRAM_CAS_N,
+    output             DRAM_RAS_N
   );
   
 logic rst;
@@ -107,59 +107,30 @@ always_comb begin
         cpu_data_out = 'x;
 end
 
-enum logic {S_0, S_1 } teststate, next_teststate;
-logic ack;
-logic write;
-logic _sdram_cs;
 
-always @(posedge clk_50) begin
-    if (rst)
-        teststate <= S_0;
-    else
-        teststate <= next_teststate;
-end
+sdram sdram(
+    .rst(rst),
+    .clk_50(clk_50),
+    .cpu_clk(cpu_phi2),
+    .addr(cpu_addr),
+    .sdram_cs(sdram_cs),
+    .rwb(cpu_rwb),
+    .data_in(cpu_data_in),
+    .data_out(sdram_data_out),
 
-always_comb begin
-    next_teststate = teststate;
-    write = '0;
-    _sdram_cs = '0;
-    case (teststate)
-    S_0: begin
-        write = sdram_cs & ~cpu_rwb & cpu_phi2;
-        _sdram_cs = sdram_cs & cpu_phi2;
-        if (sdram_cs & ~cpu_rwb & ack)
-            next_teststate = S_1;
-    end
-    S_1: begin
-        if (~(sdram_cs & ~cpu_rwb))
-            next_teststate = S_0;
-    end
-    endcase
-end
-
-sdram_platform u0 (
-    .clk_clk             (clk_50),                      //        clk.clk
-    .reset_reset_n       (1'b1),                        //      reset.reset_n
-    .ext_bus_address     (cpu_addr),                    //    ext_bus.address
-    .ext_bus_byte_enable (1'b1),                        //           .byte_enable
-    .ext_bus_read        (_sdram_cs & cpu_rwb),          //           .read
-    .ext_bus_write       (write),                       //           .write
-    .ext_bus_write_data  (cpu_data_in),                 //           .write_data
-    .ext_bus_acknowledge (ack),                         //           .acknowledge
-    .ext_bus_read_data   (sdram_data_out),              //           .read_data
     //SDRAM
-    .sdram_clk_clk(DRAM_CLK),                            //clk_sdram.clk
-    .sdram_wire_addr(DRAM_ADDR),                         //sdram_wire.addr
-    .sdram_wire_ba(DRAM_BA),                             //.ba
-    .sdram_wire_cas_n(DRAM_CAS_N),                       //.cas_n
-    .sdram_wire_cke(DRAM_CKE),                           //.cke
-    .sdram_wire_cs_n(DRAM_CS_N),                         //.cs_n
-    .sdram_wire_dq(DRAM_DQ),                             //.dq
-    .sdram_wire_dqm({DRAM_UDQM,DRAM_LDQM}),              //.dqm
-    .sdram_wire_ras_n(DRAM_RAS_N),                       //.ras_n
-    .sdram_wire_we_n(DRAM_WE_N)                          //.we_n
+    .DRAM_CLK(DRAM_CLK),                           //clk_sdram.clk
+    .DRAM_ADDR(DRAM_ADDR),                         //sdram_wire.addr
+    .DRAM_BA(DRAM_BA),                             //.ba
+    .DRAM_CAS_N(DRAM_CAS_N),                       //.cas_n
+    .DRAM_CKE(DRAM_CKE),                           //.cke
+    .DRAM_CS_N(DRAM_CS_N),                         //.cs_n
+    .DRAM_DQ(DRAM_DQ),                             //.dq
+    .DRAM_UDQM(DRAM_UDQM),                         //.dqm
+    .DRAM_LDQM(DRAM_LDQM),
+    .DRAM_RAS_N(DRAM_RAS_N),                       //.ras_n
+    .DRAM_WE_N(DRAM_WE_N)                          //.we_n
 );
-
 
 ram main_memory(
     .address(cpu_addr[14:0]),

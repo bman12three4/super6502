@@ -3,7 +3,7 @@
 #**************************************************************
 create_clock -name {clk_50} -period 20ns -waveform {0.000 5.000} [get_ports {clk_50}]
 
-create_generated_clock -source [get_pins {u0|sdram_pll|sd1|pll7|clk[1] }] \
+create_generated_clock -source [get_pins {sdram|u0|sdram_pll|sd1|pll7|clk[1] }] \
                       -name clk_dram_ext [get_ports {DRAM_CLK}]
 
 derive_pll_clocks
@@ -21,7 +21,7 @@ set_input_delay -min -clock clk_dram_ext 3.0 [get_ports DRAM_DQ*]
 
 
 set_multicycle_path -from [get_clocks {clk_dram_ext}] \
-                    -to [get_clocks {u0|sdram_pll|sd1|pll7|clk[0] }] \
+                    -to [get_clocks {sdram|u0|sdram_pll|sd1|pll7|clk[0] }] \
                         -setup 2
 
 set_output_delay -max -clock clk_dram_ext 1.6   [get_ports {DRAM_DQ* DRAM_*DQM}]
