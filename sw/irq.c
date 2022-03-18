@@ -4,7 +4,6 @@
 
 #include "interrupt.h"
 #include "uart.h"
-#include "sevenseg.h"
 
 char lastchar;
 

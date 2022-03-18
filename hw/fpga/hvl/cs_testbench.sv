@@ -9,10 +9,11 @@ logic ram_cs;
 logic sdram_cs;
 logic rom_cs;
 logic hex_cs;
+logic board_io_cs;
 logic uart_cs;
 logic irq_cs;
 
-int cs_count = ram_cs + sdram_cs + rom_cs + hex_cs + uart_cs;
+int cs_count = ram_cs + sdram_cs + rom_cs + hex_cs + uart_cs + board_io_cs;
 
 addr_decode dut(.*);
 
@@ -43,6 +44,11 @@ initial begin : TEST_VECTORS
             assert(uart_cs == '1)
             else
                 $error("Bad CS! addr=%4x should have uart_cs!", addr);
+        end
+        if (i == 16'h7ff6) begin
+            assert(board_io_cs == '1)
+            else
+                $error("Bad CS! addr=%4x should have board_io_cs!", addr);
         end
         if (i == 16'h7fff) begin
             assert(irq_cs == '1)
