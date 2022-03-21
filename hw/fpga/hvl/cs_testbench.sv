@@ -5,7 +5,6 @@ timeunit 10ns;
 timeprecision 1ns;
 
 logic [15:0] addr;
-logic ram_cs;
 logic sdram_cs;
 logic rom_cs;
 logic hex_cs;
@@ -13,7 +12,7 @@ logic board_io_cs;
 logic uart_cs;
 logic irq_cs;
 
-int cs_count = ram_cs + sdram_cs + rom_cs + hex_cs + uart_cs + board_io_cs;
+int cs_count = sdram_cs + rom_cs + hex_cs + uart_cs + board_io_cs;
 
 addr_decode dut(.*);
 
@@ -25,12 +24,7 @@ initial begin : TEST_VECTORS
         assert(cs_count < 2)
         else
             $error("Multiple chip selects present!");
-        if (i < 16'h4000) begin
-            assert(ram_cs == '1)
-            else
-                $error("Bad CS! addr=%4x should have ram_cs!", addr);
-        end
-        if (i >= 16'h4000 && i < 16'h7ff0) begin
+        if (i < 16'h7ff0) begin
             assert(sdram_cs == '1)
             else
                 $error("Bad CS! addr=%4x should have sdram_cs!", addr);

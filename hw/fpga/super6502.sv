@@ -56,13 +56,11 @@ assign cpu_data = cpu_rwb ? cpu_data_out : 'z;
 
 
 logic [7:0] rom_data_out;
-logic [7:0] ram_data_out;
 logic [7:0] sdram_data_out;
 logic [7:0] uart_data_out;
 logic [7:0] irq_data_out;
 logic [7:0] board_io_data_out;
 
-logic ram_cs;
 logic sdram_cs;
 logic rom_cs;
 logic hex_cs;
@@ -88,7 +86,6 @@ assign cpu_irqb = irq_data_out == 0;
 
 addr_decode decode(
     .addr(cpu_addr),
-    .ram_cs(ram_cs),
     .sdram_cs(sdram_cs),
     .rom_cs(rom_cs),
     .hex_cs(hex_cs),
@@ -99,9 +96,7 @@ addr_decode decode(
 
 
 always_comb begin
-    if (ram_cs)
-        cpu_data_out = ram_data_out;
-    else if (sdram_cs)
+    if (sdram_cs)
         cpu_data_out = sdram_data_out;
     else if (rom_cs)
         cpu_data_out = rom_data_out;
@@ -138,14 +133,6 @@ sdram sdram(
     .DRAM_LDQM(DRAM_LDQM),
     .DRAM_RAS_N(DRAM_RAS_N),                       //.ras_n
     .DRAM_WE_N(DRAM_WE_N)                          //.we_n
-);
-
-ram main_memory(
-    .address(cpu_addr[14:0]),
-    .clock(clk),
-    .data(cpu_data_in),
-    .wren(~cpu_rwb & ram_cs),
-    .q(ram_data_out)
 );
 
 
