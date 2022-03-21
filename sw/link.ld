@@ -14,6 +14,7 @@ SEGMENTS {
     STARTUP:  load = ROM, type = ro;
     ONCE:     load = ROM, type = ro,  optional = yes;
     CODE:     load = ROM, type = ro;
+    RAMCODE:  load = ROM, type = ro, define = yes, run = RAM;
     RODATA:   load = ROM, type = ro;
     VECTORS:  load = ROM, type = ro,  start    = $FFFA;
 }
