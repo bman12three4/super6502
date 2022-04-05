@@ -2,7 +2,7 @@ module sdram(
     input rst,
     input clk_50,
     input cpu_clk,
-    input [15:0] addr,
+    input [23:0] addr,
     input sdram_cs,
     input rwb,
     input [7:0] data_in,

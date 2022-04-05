@@ -3,15 +3,15 @@ module super6502(
     input                   clk_50,
     input   logic           rst_n,
     input   logic           button_1,
-    
+
     input   logic [15:0]    cpu_addr,
     inout   logic [7:0]     cpu_data,
-    
+
     input   logic           cpu_vpb,
     input   logic           cpu_mlb,
     input   logic           cpu_rwb,
     input   logic           cpu_sync,
-    
+
     output  logic           cpu_led,
     output  logic           cpu_resb,
     output  logic           cpu_rdy,
@@ -20,9 +20,9 @@ module super6502(
     output  logic           cpu_phi2,
     output  logic           cpu_be,
     output  logic           cpu_nmib,
-    
+
     output logic [6:0] HEX0, HEX1, HEX2, HEX3, HEX4, HEX5,
-    
+
     input   logic           UART_RXD,
     output  logic           UART_TXD,
 
@@ -42,7 +42,7 @@ module super6502(
     output             DRAM_CAS_N,
     output             DRAM_RAS_N
   );
-  
+
 logic rst;
 assign rst = ~rst_n;
 
@@ -60,6 +60,7 @@ logic [7:0] sdram_data_out;
 logic [7:0] uart_data_out;
 logic [7:0] irq_data_out;
 logic [7:0] board_io_data_out;
+logic [7:0] mm_data_out;
 
 logic sdram_cs;
 logic rom_cs;
@@ -67,6 +68,8 @@ logic hex_cs;
 logic uart_cs;
 logic irq_cs;
 logic board_io_cs;
+logic mm_cs1;
+logic mm_cs2;
 
 cpu_clk cpu_clk(
 	.inclk0(clk_50),
@@ -84,6 +87,23 @@ assign cpu_be = '1;
 assign cpu_nmib = '1;
 assign cpu_irqb = irq_data_out == 0;
 
+logic [11:0] mm_MO;
+
+logic [23:0] mm_address;
+assign mm_address = {mm_MO, cpu_addr[11:0]};
+
+memory_mapper memory_mapper(
+	.clk(clk),
+	.rw(cpu_rwb),
+	.cs(mm_cs1),
+	.MM_cs(mm_cs2),
+	.RS(cpu_addr[3:0]),
+	.MA(cpu_addr[15:12]),
+	.data_in(cpu_data_in),
+	.data_out(mm_data_out),
+	.MO(mm_MO)
+);
+
 addr_decode decode(
     .addr(cpu_addr),
     .sdram_cs(sdram_cs),
@@ -91,7 +111,9 @@ addr_decode decode(
     .hex_cs(hex_cs),
     .uart_cs(uart_cs),
     .irq_cs(irq_cs),
-    .board_io_cs(board_io_cs)
+    .board_io_cs(board_io_cs),
+	.mm_cs1(mm_cs1),
+	.mm_cs2(mm_cs2)
 );
 
 
@@ -106,6 +128,8 @@ always_comb begin
         cpu_data_out = irq_data_out;
     else if (board_io_cs)
         cpu_data_out = board_io_data_out;
+	else if (mm_cs1)
+		cpu_data_out = mm_data_out;
     else
         cpu_data_out = 'x;
 end
@@ -115,7 +139,7 @@ sdram sdram(
     .rst(rst),
     .clk_50(clk_50),
     .cpu_clk(cpu_phi2),
-    .addr(cpu_addr),
+    .addr(mm_address),
     .sdram_cs(sdram_cs),
     .rwb(cpu_rwb),
     .data_in(cpu_data_in),
@@ -193,6 +217,6 @@ always_ff @(posedge clk_50) begin
     end
 
 end
- 
+
 endmodule
- 
+
