@@ -38,3 +38,10 @@ test-sw:
   script:
     - cd sw/
     - make test
+
+test_mm:
+    stage: test
+    image: bslathi19/modelsim_18.1:lite
+    script:
+      - cd hw/fpga/simulation/modelsim/
+      - vsim -do "do mm_testbench.do"
