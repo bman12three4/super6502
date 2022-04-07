@@ -15,3 +15,10 @@ add wave -group {dut} -radix hexadecimal sim:/testbench/dut/*
 onfinish stop
 run -all
 
+if { [coverage attribute -name TESTSTATUS -concise] == "1"} {
+    echo Warning
+    quit -f -code 0
+}
+
+quit -code [coverage attribute -name TESTSTATUS -concise]
+

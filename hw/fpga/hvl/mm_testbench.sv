@@ -6,6 +6,7 @@ timeprecision 1ns;
 
 logic clk_50, clk, cs;
 logic rw, MM_cs;
+logic rst;
 logic [3:0] RS, MA;
 logic [7:0] data_in;
 logic [7:0] data_out;
@@ -56,6 +57,10 @@ task enable(logic [7:0] data);
 endtask
 
 initial begin
+	rst <= '1;
+	repeat(5) @(posedge clk);
+	rst <= '0;
+
 	cpu_addr <= 16'h0abc;
 	write_reg(4'h0, 8'hcc);
 	$display("Address: %x", mm_address);
