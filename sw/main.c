@@ -3,6 +3,7 @@
 
 #include "board_io.h"
 #include "uart.h"
+#include "mapper.h"
 
 int main() {
     int i;
@@ -12,6 +13,14 @@ int main() {
 
     clrscr();
     cprintf("Hello, world!\n");
+
+	for (i = 0; i < 16; i++){
+		cprintf("Mapping %1xxxx to %2xxxx\n", i, i);
+		mapper_write(i, i);
+	}
+
+	cprintf("Enabling Mapper\n");
+	mapper_enable(1);
 
     while (1) {
 
