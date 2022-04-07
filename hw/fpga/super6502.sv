@@ -89,8 +89,8 @@ assign cpu_irqb = irq_data_out == 0;
 
 logic [11:0] mm_MO;
 
-logic [23:0] mm_address;
-assign mm_address = {mm_MO, cpu_addr[11:0]};
+logic [23:0] mm_addr;
+assign mm_addr = {mm_MO, cpu_addr[11:0]};
 
 memory_mapper memory_mapper(
 	.clk(clk),
@@ -106,7 +106,7 @@ memory_mapper memory_mapper(
 );
 
 addr_decode decode(
-    .addr(cpu_addr),
+    .addr(mm_addr),
     .sdram_cs(sdram_cs),
     .rom_cs(rom_cs),
     .hex_cs(hex_cs),
@@ -140,7 +140,7 @@ sdram sdram(
     .rst(rst),
     .clk_50(clk_50),
     .cpu_clk(cpu_phi2),
-    .addr(mm_address),
+    .addr(mm_addr),
     .sdram_cs(sdram_cs),
     .rwb(cpu_rwb),
     .data_in(cpu_data_in),
