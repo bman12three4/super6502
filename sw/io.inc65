@@ -8,4 +8,7 @@ UART_STATUS = UART + 1
 LED         = $7ff6
 SW          = LED
 
+MM_CTRL		= $7ff7
+MM_DATA		= $7fe0
+
 IRQ_STATUS  = $7fff
