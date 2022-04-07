@@ -26,7 +26,7 @@ initial begin : TEST_VECTORS
         assert(cs_count < 2)
         else
             $error("Multiple chip selects present!");
-        if (i < 16'h7ff0) begin
+        if (i < 16'h7fe0) begin
             assert(sdram_cs == '1)
             else
                 $error("Bad CS! addr=%4x should have sdram_cs!", addr);
@@ -51,7 +51,7 @@ initial begin : TEST_VECTORS
             else
                 $error("Bad CS! addr=%4x should have mm_cs2!", addr);
         end
-        if (i >= 16'h7ff8 && i < 16'h7ffc) begin
+        if (i >= 16'h7fe0 && i < 16'h7ff0) begin
             assert(mm_cs1 == '1)
             else
                 $error("Bad CS! addr=%4x should have mm_cs1!", addr);
