@@ -7,6 +7,7 @@
 
 module memory_mapper(
 	input clk,
+	input rst,
 
 	input rw,
 	input cs,
@@ -29,15 +30,19 @@ logic MM;
 
 
 always_ff @(posedge clk) begin
-	if (MM_cs & ~rw) begin					// can't read MM but do you really need too?
-		MM = |data_in;
-	end
+    if (rst) begin
+        MM <= '0;
+    end else begin
+        if (MM_cs & ~rw) begin					// can't read MM but do you really need too?
+            MM = |data_in;
+        end
 
-	if (cs & ~rw) begin					// write to registers
-		RAM[RS] <= data_in;
-	end else if (cs & rw) begin			// read registers
-		data_out <= RAM[RS];
-	end
+        if (cs & ~rw) begin					// write to registers
+            RAM[RS] <= data_in;
+        end else if (cs & rw) begin			// read registers
+            data_out <= RAM[RS];
+        end
+    end
 end
 
 

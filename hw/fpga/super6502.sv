@@ -94,6 +94,7 @@ assign mm_address = {mm_MO, cpu_addr[11:0]};
 
 memory_mapper memory_mapper(
 	.clk(clk),
+    .rst(rst),
 	.rw(cpu_rwb),
 	.cs(mm_cs1),
 	.MM_cs(mm_cs2),
