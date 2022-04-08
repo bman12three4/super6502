@@ -350,6 +350,7 @@ set_location_assignment PIN_V22 -to DRAM_LDQM
 set_location_assignment PIN_U22 -to DRAM_RAS_N
 set_location_assignment PIN_J21 -to DRAM_UDQM
 set_location_assignment PIN_V20 -to DRAM_WE_N
+set_global_assignment -name SYSTEMVERILOG_FILE crc7.sv
 set_global_assignment -name SYSTEMVERILOG_FILE memory_mapper.sv
 set_global_assignment -name SYSTEMVERILOG_FILE board_io.sv
 set_global_assignment -name SYSTEMVERILOG_FILE sdram.sv
