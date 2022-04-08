@@ -95,6 +95,7 @@ always_comb begin
 
         VALID: begin
             valid =  ~load;
+            next_data = data;
             crc_out = data[6:0];
         end
 
