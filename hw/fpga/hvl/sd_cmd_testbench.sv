@@ -8,7 +8,7 @@ logic clk;
 logic clk_50;
 logic rst;
 
-logic [3:0] addr;
+logic [2:0] addr;
 logic [7:0] data;
 logic cs;
 

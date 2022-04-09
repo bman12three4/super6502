@@ -2,7 +2,7 @@ module sd_controller(
     input clk,
     input rst,
 
-    input [3:0] addr,
+    input [2:0] addr,
     input [7:0] data,
     input cs,
 
