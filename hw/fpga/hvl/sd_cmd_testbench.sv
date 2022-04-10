@@ -5,6 +5,7 @@ timeunit 10ns;
 timeprecision 1ns;
 
 logic clk;
+logic rw;
 logic clk_50;
 logic rst;
 
@@ -16,21 +17,32 @@ logic i_sd_cmd;
 logic o_sd_cmd;
 
 logic i_sd_data;
-logic o_sd_dat;
+logic o_sd_data;
 
-sd_controller dut(.*);
+logic cpu_phi2;
+
+always @(posedge clk) begin
+    cpu_phi2 <= cpu_phi2 === '0;
+end
+
+sd_controller dut(
+    .sd_clk(cpu_phi2),
+    .*);
 
 always #1 clk_50 = clk_50 === 1'b0;
 always #100 clk = clk === 1'b0;
 
 task write_reg(logic [3:0] _addr, logic [7:0] _data);
-    @(negedge clk);
-    cs <= '1;
-    addr <= _addr;
-    data <= _data;
     @(posedge clk);
-    cs <= '0;
-    @(negedge clk);
+    cs = '1;
+    addr = _addr;
+    rw = '0;
+    data = '1;
+    @(posedge clk);
+    data = _data;
+    @(posedge clk);
+    cs = '0;
+    rw = '1;
 endtask
 
 task verify_cmd(logic [5:0] cmd, logic [31:0] arg, logic [47:0] verify);
@@ -39,6 +51,9 @@ task verify_cmd(logic [5:0] cmd, logic [31:0] arg, logic [47:0] verify);
     write_reg(2, arg[23:16]);
     write_reg(3, arg[31:24]);
     write_reg(4, cmd);
+
+    $display("arg: %x", dut.arg);
+    $display("dut.cmd: %x", dut.cmd);
 
     @(posedge clk);
     @(posedge clk);
