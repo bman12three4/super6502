@@ -1,16 +1,18 @@
 module sd_controller(
     input clk,
+    input sd_clk,
     input rst,
 
     input [2:0] addr,
     input [7:0] data,
     input cs,
+    input rw,
 
     input i_sd_cmd,
     output logic o_sd_cmd,
 
     input i_sd_data,
-    output logic o_sd_dat
+    output logic o_sd_data
 );
 
 logic [31:0] arg;
@@ -18,7 +20,7 @@ logic [5:0] cmd;
 
 logic [47:0] rxcmd_buf;
 
-typedef enum bit [1:0] {IDLE, CRC, TXCMD, RXCMD} macro_t;
+typedef enum bit [2:0] {IDLE, LOAD, CRC, TXCMD, RXCMD} macro_t;
 struct packed {
     macro_t macro;
     logic [5:0] count;
@@ -29,18 +31,23 @@ always_ff @(posedge clk) begin
         state.macro <= IDLE;
         state.count <= '0;
     end else begin
-        state <= next_state;
+        if (state.macro == TXCMD || state.macro == CRC) begin
+            if (sd_clk) begin
+                state <= next_state;
+            end
+        end else begin
+            state <= next_state;
+        end
     end
 
-    if (state.macro == IDLE) begin
-        if (cs) begin
-            if (addr < 4'h4) begin
-                arg[8 * addr +: 8] <= data;
-            end else if (addr == 4'h4) begin
-                cmd <= data;
-            end
+    if (cs & ~rw) begin
+        if (addr < 4'h4) begin
+            arg[8 * addr +: 8] <= data;
+        end else if (addr == 4'h4) begin
+            cmd <= data;
         end
-    end else if (state.macro == RXCMD) begin
+    end
+    if (state.macro == RXCMD) begin
         rxcmd_buf[6'd46-state.count] <= i_sd_cmd;   //we probabily missed bit 47
     end
 end
@@ -71,9 +78,13 @@ always_comb begin
                 next_state.macro = RXCMD;
             end
 
-            if (addr == 4'h4 & cs) begin     // transmit if cpu writes to cmd
-                next_state.macro = CRC;
+            if (addr == 4'h4 & cs & ~rw) begin     // transmit if cpu writes to cmd
+                next_state.macro = LOAD;
             end
+        end
+
+        LOAD: begin
+            next_state.macro = CRC;
         end
 
         CRC: begin
@@ -102,7 +113,7 @@ end
 
 always_comb begin
     o_sd_cmd = '1;  //default to 1
-    o_sd_dat = '1;
+    o_sd_data = '1;
 
     load_crc = '0;
 
