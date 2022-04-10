@@ -26,8 +26,10 @@ module super6502(
     input   logic           UART_RXD,
     output  logic           UART_TXD,
 
-    input [7:0] SW,
-    output [7:0] LED,
+    input                   [7:0] SW,
+    output  logic           [7:0] LED,
+
+    inout   logic [15: 0]   ARDUINO_IO,
 
     ///////// SDRAM /////////
     output             DRAM_CLK,
@@ -54,6 +56,16 @@ assign cpu_data_in = cpu_data;
 logic [7:0] cpu_data_out;
 assign cpu_data = cpu_rwb ? cpu_data_out : 'z;
 
+logic o_sd_cmd, i_sd_cmd;
+logic o_sd_data, i_sd_data;
+
+assign ARDUINO_IO[11] = o_sd_cmd ? 1'bz : 1'b0;
+assign ARDUINO_IO[12] = o_sd_data ? 1'bz : 1'b0;
+assign ARDUINO_IO[13] = cpu_phi2;
+assign ARDUINO_IO[6] = 1'b1;
+
+assign i_sd_cmd = ARDUINO_IO[11];
+assign i_sd_data = ARDUINO_IO[12];
 
 logic [7:0] rom_data_out;
 logic [7:0] sdram_data_out;
@@ -70,6 +82,7 @@ logic irq_cs;
 logic board_io_cs;
 logic mm_cs1;
 logic mm_cs2;
+logic sd_cs;
 
 cpu_clk cpu_clk(
 	.inclk0(clk_50),
@@ -114,7 +127,8 @@ addr_decode decode(
     .irq_cs(irq_cs),
     .board_io_cs(board_io_cs),
 	.mm_cs1(mm_cs1),
-	.mm_cs2(mm_cs2)
+	.mm_cs2(mm_cs2),
+    .sd_cs(sd_cs)
 );
 
 
@@ -202,6 +216,22 @@ uart uart(
     .TXD(UART_TXD),
     .irq(uart_irq),
     .data_out(uart_data_out)
+);
+
+sd_controller sd_controller(
+    .clk(clk),
+    .sd_clk(cpu_phi2),
+    .rst(rst),
+    .addr(cpu_addr[2:0]),
+    .data(cpu_data_in),
+    .cs(sd_cs),
+    .rw(cpu_rwb),
+
+    .i_sd_cmd(i_sd_cmd),
+    .o_sd_cmd(o_sd_cmd),
+
+    .i_sd_data(i_sd_data),
+    .o_sd_data(o_sd_data)
 );
 
 always_ff @(posedge clk_50) begin
