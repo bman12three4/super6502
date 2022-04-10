@@ -4,6 +4,7 @@
 #include "board_io.h"
 #include "uart.h"
 #include "mapper.h"
+#include "sd_card.h"
 
 int main() {
     int i;
@@ -45,6 +46,9 @@ int main() {
 
 	cprintf("Reading from 0x4000: %x\n", *(unsigned int*)(0x4000));
 	cprintf("Reading from 0x5000: %x\n", *(unsigned int*)(0x5000));
+
+	sd_card_command(0, 0);
+	sd_card_command(0x000001aa, 8);
 
     while (1) {
 
