@@ -84,12 +84,12 @@ always_ff @(posedge clk) begin
         if (addr < 4'h4) begin
             arg[8 * addr +: 8] <= data;
         end else if (addr == 4'h4) begin
-            cmd <= data;
+            cmd <= data[6:0];
         end
     end
 
     if (cs & addr == 4'h5 && sd_clk) begin
-        data_count <= data_count + 1;
+        data_count <= data_count + 9'b1;
     end
 
     if (state.macro == RXCMD) begin
@@ -183,7 +183,7 @@ always_comb begin
                 if (state.d_bit_count == 8'h0) begin
                     next_state.count = state.count + 9'b1;
                 end
-                next_state.d_bit_count = state.d_bit_count - 8'h1;
+                next_state.d_bit_count = state.d_bit_count - 3'h1;
             end else begin
                 next_data_flag = '1;
                 next_state.macro = RXDCRC;
@@ -198,6 +198,11 @@ always_comb begin
                 next_state.macro = IDLE;
                 next_state.count = '0;
             end
+        end
+
+        default: begin
+                next_state.macro = IDLE;
+                next_state.count = '0;
         end
     endcase
 end
@@ -220,6 +225,8 @@ always_comb begin
         end
 
         RXCMD:;
+
+        default:;
     endcase
 end
 

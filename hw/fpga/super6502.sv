@@ -29,7 +29,7 @@ module super6502(
     input                   [7:0] SW,
     output  logic           [7:0] LED,
 
-    inout   logic [15: 0]   ARDUINO_IO,
+    inout   logic [15: 2]   ARDUINO_IO,
 
     ///////// SDRAM /////////
     output             DRAM_CLK,
