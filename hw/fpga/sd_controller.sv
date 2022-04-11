@@ -12,13 +12,30 @@ module sd_controller(
     output logic o_sd_cmd,
 
     input i_sd_data,
-    output logic o_sd_data
+    output logic o_sd_data,
+
+    output logic [7:0] data_out
 );
 
 logic [31:0] arg;
 logic [5:0] cmd;
 
 logic [47:0] rxcmd_buf;
+logic [31:0] rx_val;
+
+assign rx_val = rxcmd_buf[39:8];
+
+always_comb begin
+    data_out = 'x;
+
+    if (addr < 4'h4) begin
+        data_out = rx_val[8 * addr +: 8];
+    end else if (addr == 4'h4) begin
+        data_out = read_flag;
+    end
+end
+
+logic read_flag, next_read_flag;
 
 typedef enum bit [2:0] {IDLE, LOAD, CRC, TXCMD, RXCMD} macro_t;
 struct packed {
@@ -30,14 +47,23 @@ always_ff @(posedge clk) begin
     if (rst) begin
         state.macro <= IDLE;
         state.count <= '0;
+        read_flag <= '0;
     end else begin
         if (state.macro == TXCMD || state.macro == CRC) begin
             if (sd_clk) begin
                 state <= next_state;
             end
+        end else if (state.macro == RXCMD) begin
+            if (~sd_clk) begin
+                state <= next_state;
+            end
         end else begin
             state <= next_state;
         end
+    end
+
+    if (sd_clk) begin
+        read_flag <= next_read_flag;
     end
 
     if (cs & ~rw) begin
@@ -71,6 +97,7 @@ crc7 u_crc7(
 
 always_comb begin
     next_state = state;
+    next_read_flag = read_flag;
 
     case (state.macro)
         IDLE: begin
@@ -80,6 +107,10 @@ always_comb begin
 
             if (addr == 4'h4 & cs & ~rw) begin     // transmit if cpu writes to cmd
                 next_state.macro = LOAD;
+            end
+
+            if (addr == 4'h4 & cs & rw) begin
+                next_read_flag = '0;
             end
         end
 
@@ -104,6 +135,7 @@ always_comb begin
             if (state.count < 47) begin
                 next_state.count = state.count + 6'b1;
             end else begin
+                next_read_flag = '1;
                 next_state.macro = IDLE;
                 next_state.count = '0;
             end
