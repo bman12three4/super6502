@@ -87,6 +87,16 @@ int main() {
 	sd_card_resp(&resp);
 	cprintf("CMD17: %lx\n", resp);
 
+
+	while(sw_read());
+
+	sd_card_wait_for_data();
+
+	cprintf("Read data: \n");
+	for (i = 0; i < 512; i++){
+		cprintf("%c", sd_card_read_byte());
+	}
+
 	while (1) {
 
 		sw = sw_read();

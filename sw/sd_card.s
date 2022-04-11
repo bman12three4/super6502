@@ -4,6 +4,8 @@
 
 .export _sd_card_command
 .export _sd_card_resp
+.export _sd_card_read_byte
+.export _sd_card_wait_for_data
 
 .autoimport on
 
@@ -33,6 +35,7 @@ _sd_card_resp:
         sta ptr1        ; store pointer
         stx ptr1+1
 @1:     lda SD_CMD      ; wait for status flag
+        and #$01
         beq @1
         lda SD_ARG
         ldy #$0
@@ -47,4 +50,17 @@ _sd_card_resp:
         iny
         sta (ptr1),y
         ply
+        rts
+
+_sd_card_read_byte:
+        lda SD_DATA
+        ldx #$00
+        rts
+
+_sd_card_wait_for_data:
+        pha
+@1:     lda SD_CMD      ; wait for status flag
+        and #$02
+        beq @1
+        pla
         rts
