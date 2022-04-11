@@ -4,15 +4,17 @@
 #include "board_io.h"
 #include "uart.h"
 #include "mapper.h"
+#include "sd_card.h"
 
 int main() {
-    int i;
-    uint8_t sw;
-    char s[16];
-    s[15] = 0;
+	int i;
+	uint8_t sw;
+	uint32_t resp;
+	char s[16];
+	s[15] = 0;
 
-    clrscr();
-    cprintf("Hello, world!\n");
+	clrscr();
+	cprintf("Hello, world!\n");
 
 	for (i = 0; i < 16; i++){
 		cprintf("Mapping %1xxxx to %2xxxx\n", i, i);
@@ -46,18 +48,67 @@ int main() {
 	cprintf("Reading from 0x4000: %x\n", *(unsigned int*)(0x4000));
 	cprintf("Reading from 0x5000: %x\n", *(unsigned int*)(0x5000));
 
-    while (1) {
+	// This will read a 512 block from the sd card.
+	// The RCA is hard coded for the one that I have on hand as responses
+	// are not implemented yet.
+	sd_card_command(0, 0);
 
-        sw = sw_read();
-        led_set(sw);
+	sd_card_command(0x000001aa, 8);
+	sd_card_resp(&resp);
+	cprintf("CMD8: %lx\n", resp);
 
-        cscanf("%15s", s);
-        cprintf("\n");
-        for (i = 0; i < 16; i++)
-            cprintf("s[%d]=%c ", i, s[i]);
-        cprintf("\n");
-        cprintf("Read string: %s\n", s);
-    }
+	sd_card_command(0, 55);
+	sd_card_command(0x40180000, 41);
+	sd_card_resp(&resp);
+	cprintf("CMD41: %lx\n", resp);
 
-    return 0;
+	sd_card_command(0, 55);
+	sd_card_command(0x40180000, 41);
+	sd_card_resp(&resp);
+	cprintf("CMD41: %lx\n", resp);
+
+	sd_card_command(0, 2);
+	sd_card_resp(&resp);
+	cprintf("CMD2: %lx\n", resp);
+
+	sd_card_command(0, 3);
+	sd_card_resp(&resp);
+	cprintf("CMD3: %lx\n", resp);
+
+	sd_card_command(0x59b40000, 7);
+	sd_card_resp(&resp);
+	cprintf("CMD7: %lx\n", resp);
+
+	sd_card_command(0x59b41000, 13);
+	sd_card_resp(&resp);
+	cprintf("CMD13: %lx\n", resp);
+
+	sd_card_command(0, 17);
+	sd_card_resp(&resp);
+	cprintf("CMD17: %lx\n", resp);
+
+
+	while(sw_read());
+
+	sd_card_wait_for_data();
+
+	cprintf("Read data: \n");
+	for (i = 0; i < 512; i++){
+		cprintf("%c", sd_card_read_byte());
+	}
+
+	while (1) {
+
+		sw = sw_read();
+		led_set(sw);
+
+		cscanf("%15s", s);
+		cprintf("\n");
+		for (i = 0; i < 16; i++)
+			cprintf("s[%d]=%c ", i, s[i]);
+		cprintf("\n");
+		cprintf("Read string: %s\n", s);
+	}
+
+	return 0;
 }

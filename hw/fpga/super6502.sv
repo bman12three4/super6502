@@ -26,8 +26,10 @@ module super6502(
     input   logic           UART_RXD,
     output  logic           UART_TXD,
 
-    input [7:0] SW,
-    output [7:0] LED,
+    input                   [7:0] SW,
+    output  logic           [7:0] LED,
+
+    inout   logic [15: 2]   ARDUINO_IO,
 
     ///////// SDRAM /////////
     output             DRAM_CLK,
@@ -54,6 +56,16 @@ assign cpu_data_in = cpu_data;
 logic [7:0] cpu_data_out;
 assign cpu_data = cpu_rwb ? cpu_data_out : 'z;
 
+logic o_sd_cmd, i_sd_cmd;
+logic o_sd_data, i_sd_data;
+
+assign ARDUINO_IO[11] = o_sd_cmd ? 1'bz : 1'b0;
+assign ARDUINO_IO[12] = o_sd_data ? 1'bz : 1'b0;
+assign ARDUINO_IO[13] = cpu_phi2;
+assign ARDUINO_IO[6] = 1'b1;
+
+assign i_sd_cmd = ARDUINO_IO[11];
+assign i_sd_data = ARDUINO_IO[12];
 
 logic [7:0] rom_data_out;
 logic [7:0] sdram_data_out;
@@ -61,6 +73,7 @@ logic [7:0] uart_data_out;
 logic [7:0] irq_data_out;
 logic [7:0] board_io_data_out;
 logic [7:0] mm_data_out;
+logic [7:0] sd_data_out;
 
 logic sdram_cs;
 logic rom_cs;
@@ -70,10 +83,11 @@ logic irq_cs;
 logic board_io_cs;
 logic mm_cs1;
 logic mm_cs2;
+logic sd_cs;
 
 cpu_clk cpu_clk(
-	.inclk0(clk_50),
-	.c0(clk)
+    .inclk0(clk_50),
+    .c0(clk)
 );
 
 always @(posedge clk) begin
@@ -93,16 +107,16 @@ logic [23:0] mm_addr;
 assign mm_addr = {mm_MO, cpu_addr[11:0]};
 
 memory_mapper memory_mapper(
-	.clk(clk),
+    .clk(clk),
     .rst(rst),
-	.rw(cpu_rwb),
-	.cs(mm_cs1),
-	.MM_cs(mm_cs2),
-	.RS(cpu_addr[3:0]),
-	.MA(cpu_addr[15:12]),
-	.data_in(cpu_data_in),
-	.data_out(mm_data_out),
-	.MO(mm_MO)
+    .rw(cpu_rwb),
+    .cs(mm_cs1),
+    .MM_cs(mm_cs2),
+    .RS(cpu_addr[3:0]),
+    .MA(cpu_addr[15:12]),
+    .data_in(cpu_data_in),
+    .data_out(mm_data_out),
+    .MO(mm_MO)
 );
 
 addr_decode decode(
@@ -113,8 +127,9 @@ addr_decode decode(
     .uart_cs(uart_cs),
     .irq_cs(irq_cs),
     .board_io_cs(board_io_cs),
-	.mm_cs1(mm_cs1),
-	.mm_cs2(mm_cs2)
+    .mm_cs1(mm_cs1),
+    .mm_cs2(mm_cs2),
+    .sd_cs(sd_cs)
 );
 
 
@@ -129,8 +144,10 @@ always_comb begin
         cpu_data_out = irq_data_out;
     else if (board_io_cs)
         cpu_data_out = board_io_data_out;
-	else if (mm_cs1)
-		cpu_data_out = mm_data_out;
+    else if (mm_cs1)
+        cpu_data_out = mm_data_out;
+    else if (sd_cs)
+        cpu_data_out = sd_data_out;
     else
         cpu_data_out = 'x;
 end
@@ -202,6 +219,24 @@ uart uart(
     .TXD(UART_TXD),
     .irq(uart_irq),
     .data_out(uart_data_out)
+);
+
+sd_controller sd_controller(
+    .clk(clk),
+    .sd_clk(cpu_phi2),
+    .rst(rst),
+    .addr(cpu_addr[2:0]),
+    .data(cpu_data_in),
+    .cs(sd_cs),
+    .rw(cpu_rwb),
+
+    .i_sd_cmd(i_sd_cmd),
+    .o_sd_cmd(o_sd_cmd),
+
+    .i_sd_data(i_sd_data),
+    .o_sd_data(o_sd_data),
+
+    .data_out(sd_data_out)
 );
 
 always_ff @(posedge clk_50) begin

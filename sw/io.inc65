@@ -11,4 +11,8 @@ SW          = LED
 MM_CTRL		= $7ff7
 MM_DATA		= $7fe0
 
+SD_ARG      = $7ff8
+SD_CMD      = $7ffc
+SD_DATA     = $7ffd
+
 IRQ_STATUS  = $7fff

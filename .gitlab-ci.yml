@@ -45,3 +45,17 @@ test_mm:
     script:
       - cd hw/fpga/simulation/modelsim/
       - vsim -do "do mm_testbench.do"
+
+test_crc7:
+    stage: test
+    image: bslathi19/modelsim_18.1:lite
+    script:
+      - cd hw/fpga/simulation/modelsim/
+      - vsim -do "do crc7_testbench.do"
+
+test_sd_cmd:
+    stage: test
+    image: bslathi19/modelsim_18.1:lite
+    script:
+      - cd hw/fpga/simulation/modelsim/
+      - vsim -do "sd_cmd_testbench.do"
