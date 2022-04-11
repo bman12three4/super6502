@@ -57,7 +57,7 @@ initial begin : TEST_VECTORS
             else
                 $error("Bad CS! addr=%4x should have mm_cs1!", addr);
         end
-        if (i >= 24'h007ff8 && i < 24'h007ffd) begin
+        if (i >= 24'h007ff8 && i < 24'h007ffe) begin
             assert(sd_cs == '1)
             else
             $error("Bad CS! addr=%4x should have sd_cs!", addr);

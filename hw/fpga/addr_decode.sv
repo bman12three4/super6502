@@ -18,7 +18,7 @@ assign hex_cs = addr >= 24'h007ff0 && addr < 24'h007ff4;
 assign uart_cs = addr >= 24'h007ff4 && addr < 24'h007ff6;
 assign board_io_cs = addr == 24'h007ff6;
 assign mm_cs2 = addr == 24'h007ff7;
-assign sd_cs = addr >= 24'h007ff8 && addr < 24'h007ffd;
+assign sd_cs = addr >= 24'h007ff8 && addr < 24'h007ffe;
 assign irq_cs  = addr == 24'h007fff;
 
 endmodule
