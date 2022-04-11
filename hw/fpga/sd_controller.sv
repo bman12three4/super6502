@@ -23,6 +23,12 @@ logic [5:0] cmd;
 logic [47:0] rxcmd_buf;
 logic [31:0] rx_val;
 
+logic [7:0] rxdata_buf [512];
+logic [9:0] data_count;
+
+logic [15:0] data_crc;
+
+
 assign rx_val = rxcmd_buf[39:8];
 
 always_comb begin
@@ -31,29 +37,36 @@ always_comb begin
     if (addr < 4'h4) begin
         data_out = rx_val[8 * addr +: 8];
     end else if (addr == 4'h4) begin
-        data_out = read_flag;
+        data_out = {data_flag, read_flag};
+    end else if (addr == 4'h5) begin
+        data_out = rxdata_buf[data_count];
     end
 end
 
 logic read_flag, next_read_flag;
+logic data_flag, next_data_flag;
 
-typedef enum bit [2:0] {IDLE, LOAD, CRC, TXCMD, RXCMD} macro_t;
+typedef enum bit [2:0] {IDLE, LOAD, CRC, TXCMD, RXCMD, TXDATA, RXDATA, RXDCRC} macro_t;
 struct packed {
     macro_t macro;
-    logic [5:0] count;
+    logic [8:0] count;
+    logic [2:0] d_bit_count;
 } state, next_state;
 
 always_ff @(posedge clk) begin
     if (rst) begin
         state.macro <= IDLE;
         state.count <= '0;
+        state.d_bit_count <= '1;
         read_flag <= '0;
+        data_flag <= '0;
+        data_count <= '0;
     end else begin
         if (state.macro == TXCMD || state.macro == CRC) begin
             if (sd_clk) begin
                 state <= next_state;
             end
-        end else if (state.macro == RXCMD) begin
+        end else if (state.macro == RXCMD || state.macro == RXDATA || state.macro == RXDCRC) begin
             if (~sd_clk) begin
                 state <= next_state;
             end
@@ -64,6 +77,7 @@ always_ff @(posedge clk) begin
 
     if (sd_clk) begin
         read_flag <= next_read_flag;
+        data_flag <= next_data_flag;
     end
 
     if (cs & ~rw) begin
@@ -73,9 +87,23 @@ always_ff @(posedge clk) begin
             cmd <= data;
         end
     end
+
+    if (cs & addr == 4'h5 && sd_clk) begin
+        data_count <= data_count + 1;
+    end
+
     if (state.macro == RXCMD) begin
         rxcmd_buf[6'd46-state.count] <= i_sd_cmd;   //we probabily missed bit 47
     end
+
+    if (state.macro == RXDATA && ~sd_clk) begin
+        rxdata_buf[state.count][state.d_bit_count] <= i_sd_data;
+    end
+
+    if (state.macro == RXDCRC && ~sd_clk) begin
+        data_crc[4'd15-state.count] <= i_sd_data;
+    end
+
 end
 
 logic [6:0] crc;
@@ -98,11 +126,16 @@ crc7 u_crc7(
 always_comb begin
     next_state = state;
     next_read_flag = read_flag;
+    next_data_flag = data_flag;
 
     case (state.macro)
         IDLE: begin
             if (~i_sd_cmd) begin        // receive data if sd pulls cmd low
                 next_state.macro = RXCMD;
+            end
+
+            if (~i_sd_data) begin
+                next_state.macro = RXDATA;
             end
 
             if (addr == 4'h4 & cs & ~rw) begin     // transmit if cpu writes to cmd
@@ -111,6 +144,10 @@ always_comb begin
 
             if (addr == 4'h4 & cs & rw) begin
                 next_read_flag = '0;
+            end
+
+            if (addr == 4'h5 & cs) begin
+                next_data_flag = '0;
             end
         end
 
@@ -136,6 +173,28 @@ always_comb begin
                 next_state.count = state.count + 6'b1;
             end else begin
                 next_read_flag = '1;
+                next_state.macro = IDLE;
+                next_state.count = '0;
+            end
+        end
+
+        RXDATA: begin
+            if (state.count < 511 || (state.count == 511 && state.d_bit_count > 0)) begin
+                if (state.d_bit_count == 8'h0) begin
+                    next_state.count = state.count + 9'b1;
+                end
+                next_state.d_bit_count = state.d_bit_count - 8'h1;
+            end else begin
+                next_data_flag = '1;
+                next_state.macro = RXDCRC;
+                next_state.count = '0;
+            end
+        end
+
+        RXDCRC: begin
+            if (state.count < 16) begin
+                next_state.count = state.count + 9'b1;
+            end else begin
                 next_state.macro = IDLE;
                 next_state.count = '0;
             end
