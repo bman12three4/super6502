@@ -6,6 +6,28 @@
 #include "mapper.h"
 #include "sd_card.h"
 
+uint8_t buf[512];
+
+void sd_readblock(uint8_t addr) {
+	uint32_t resp;
+	int i;
+
+	sd_card_command(addr, 17);
+	sd_card_resp(&resp);
+	cprintf("CMD17: %lx\n", resp);
+
+	sd_card_wait_for_data();
+
+	cprintf("Read data: \n");
+	for (i = 0; i < 512; i++){
+		buf[i] = sd_card_read_byte();
+	}
+
+	for (i = 0; i < 512; i++){
+		cprintf("%c", buf[i]);
+	}
+}
+
 int main() {
 	int i;
 	uint8_t sw;
@@ -83,19 +105,11 @@ int main() {
 	sd_card_resp(&resp);
 	cprintf("CMD13: %lx\n", resp);
 
-	sd_card_command(0, 17);
-	sd_card_resp(&resp);
-	cprintf("CMD17: %lx\n", resp);
+	sd_readblock(0);
+	sd_readblock(1);
+	sd_readblock(2);
+	sd_readblock(3);
 
-
-	while(sw_read());
-
-	sd_card_wait_for_data();
-
-	cprintf("Read data: \n");
-	for (i = 0; i < 512; i++){
-		cprintf("%c", sd_card_read_byte());
-	}
 
 	while (1) {
 
