@@ -136,6 +136,7 @@ always_comb begin
             end
 
             if (~i_sd_data) begin
+                next_state.d_bit_count = '1;
                 next_state.macro = RXDATA;
             end
 
