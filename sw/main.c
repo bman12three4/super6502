@@ -5,6 +5,7 @@
 #include "uart.h"
 #include "mapper.h"
 #include "sd_card.h"
+#include "fat.h"
 
 uint8_t buf[512];
 
@@ -24,14 +25,19 @@ void sd_readblock(uint8_t addr) {
 	}
 
 	for (i = 0; i < 512; i++){
-		cprintf("%c", buf[i]);
+		if (i % 16 == 0)
+			cprintf("\n %2x: ", i);
+		cprintf("%2x ", buf[i]);
 	}
+
+	cprintf("\n");
 }
 
 int main() {
 	int i;
 	uint8_t sw;
 	uint32_t resp;
+	ebpb_t* epbp;
 	char s[16];
 	s[15] = 0;
 
@@ -106,10 +112,39 @@ int main() {
 	cprintf("CMD13: %lx\n", resp);
 
 	sd_readblock(0);
-	sd_readblock(1);
-	sd_readblock(2);
-	sd_readblock(3);
 
+	epbp = (ebpb_t*)&buf[11];
+
+	cprintf("Bytes per sector: %d\n", epbp->bpb3.bpb2.bytes_per_sector);
+	cprintf("Sectors per cluster: %d\n", epbp->bpb3.bpb2.sectors_per_cluster);
+	cprintf("Reserved Sectors: %d\n", epbp->bpb3.bpb2.reserved_sectors);
+	cprintf("Fat Count: %d\n", epbp->bpb3.bpb2.fat_count);
+	cprintf("Max Dir Entries: %d\n", epbp->bpb3.bpb2.max_dir_entries);
+	cprintf("Total Sector Count: %d\n", epbp->bpb3.bpb2.total_sector_count);
+	cprintf("Media Descriptor: 0x%x\n", epbp->bpb3.bpb2.media_descriptor);
+	cprintf("Sectors per Fat: %d\n", epbp->bpb3.bpb2.sectors_per_fat);
+	cprintf("\n");
+
+	cprintf("Sectors per track: %d\n", epbp->bpb3.sectors_per_track);
+	cprintf("Head Count: %d\n", epbp->bpb3.head_count);
+	cprintf("Hidden Sector Count: %d\n", epbp->bpb3.hidden_sector_count);
+	cprintf("Logical Sector Count: %d\n", epbp->bpb3.logical_sector_count);
+	cprintf("Sectors per Fat: %d\n", epbp->bpb3.sectors_per_fat);
+	cprintf("Extended Flags: 0x%x\n", epbp->bpb3.extended_flags);
+	cprintf("Version: %d\n", epbp->bpb3.version);
+	cprintf("Root Cluster: 0x%x\n", epbp->bpb3.root_cluster);
+	cprintf("System Information: 0x%x\n", epbp->bpb3.system_information);
+	cprintf("Backup Boot Sector: 0x%x\n", epbp->bpb3.backup_boot_sector);
+	cprintf("\n");
+
+	cprintf("Drive Number: %d\n", epbp->drive_num);
+	cprintf("Extended Signature: 0x%x\n", epbp->extended_signature);
+	cprintf("Volume ID: 0x%lx\n", epbp->volume_id);
+	cprintf("Partition Label: %.11s\n", &epbp->partition_label);
+	cprintf("Partition Label: %.8s\n", &epbp->filesystem_type);
+	cprintf("\n");
+
+	cprintf("Boot Signature: %x %x\n", buf[510], buf[511]);
 
 	while (1) {
 
