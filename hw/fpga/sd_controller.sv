@@ -24,7 +24,7 @@ logic [47:0] rxcmd_buf;
 logic [31:0] rx_val;
 
 logic [7:0] rxdata_buf [512];
-logic [9:0] data_count;
+logic [8:0] data_count;
 
 logic [15:0] data_crc;
 
@@ -89,7 +89,7 @@ always_ff @(posedge clk) begin
     end
 
     if (cs & addr == 4'h5 && sd_clk) begin
-        data_count <= data_count + 9'b1;
+        data_count <= data_count + 8'b1;
     end
 
     if (state.macro == RXCMD) begin
@@ -102,6 +102,7 @@ always_ff @(posedge clk) begin
 
     if (state.macro == RXDCRC && ~sd_clk) begin
         data_crc[4'd15-state.count] <= i_sd_data;
+        data_count <= '0;
     end
 
 end
@@ -135,6 +136,7 @@ always_comb begin
             end
 
             if (~i_sd_data) begin
+                next_state.d_bit_count = '1;
                 next_state.macro = RXDATA;
             end
 
