@@ -39,4 +39,39 @@ typedef struct {
     uint8_t filesystem_type[8];
 } ebpb_t;
 
+typedef struct {
+    uint32_t sig;
+    uint8_t reserved[480];
+    uint32_t sig2;
+    uint32_t free_data_clusters;
+    uint32_t last_allocated_data_cluster;
+    uint32_t reserved2;
+    uint32_t sig3;
+} fs_info_sector_t;
+
+typedef struct {
+    uint8_t sequence_number;
+    uint16_t filename0[5];
+    uint8_t attributes;
+    uint8_t type;
+    uint8_t checksum;
+    uint16_t filename1[6];
+    uint16_t reserved;
+    uint16_t filename[2];
+} vfat_dentry_t;
+
+typedef struct {
+    uint8_t filename[8];
+    uint8_t extension[3];
+    uint8_t attributes;
+    uint8_t reserved;
+    uint8_t create_time_10ms;
+    uint32_t create_date;
+    uint16_t access_date;
+    uint16_t first_cluster_h;
+    uint32_t modify_cluster;
+    uint16_t first_cluster_l;
+    uint32_t file_size;
+} dos_dentry_t;
+
 #endif
