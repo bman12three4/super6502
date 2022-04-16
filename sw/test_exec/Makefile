@@ -1,7 +1,7 @@
-CC=~/Software/cc65/bin/cl65
-CFLAGS=-v -T -t none -I. --cpu "65C02"
+CC=cl65
+CFLAGS=-T -t none -I. --cpu "65C02"
 test: CFLAGS=-T -t sim65c02 -I.
-LDFLAGS=-v -C link.ld -m $(NAME).map
+LDFLAGS=-C link.ld -m $(NAME).map
 SIM=sim65
 SIMARGS=-v -c -x 1000000
 
