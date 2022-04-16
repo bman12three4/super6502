@@ -78,6 +78,7 @@ int main() {
 	uint32_t cluster;
 
 	o65_header_t* header;
+	o65_opt_t* o65_opt;
 
 
 	uint16_t reserved_count;
@@ -219,6 +220,32 @@ int main() {
 		cprintf("zbase: %x\n", header->zbase);
 		cprintf("zlen: %x\n", header->zlen);
 		cprintf("stack: %x\n", header->stack);
+		cprintf("\n");
+
+		o65_opt = (o65_opt_t*)(buf + sizeof(o65_header_t));
+		while (o65_opt->olen)
+		{
+			cprintf("Option Length: %d\n", o65_opt->olen);
+			cprintf("Option Type: %x ", o65_opt->type);
+			switch (o65_opt->type) {
+				case O65_OPT_FILENAME: cprintf("Filename\n"); break;
+				case O65_OPT_OS: cprintf("OS\n"); break;
+				case O65_OPT_ASSEMBLER: cprintf("Assembler\n"); break;
+				case O65_OPT_AUTHOR: cprintf("Author\n"); break;
+				case O65_OPT_DATE: cprintf("Creation Date\n"); break;
+				default: cprintf("Invalid\n"); break;
+			}
+
+			if (o65_opt->type != O65_OPT_OS) {
+				for (i = 0; i < o65_opt->olen - 2; i++) {
+					cprintf("%c", o65_opt->data[i]);
+				}
+			} else {
+				cprintf("%x", o65_opt->data[0]);
+			}
+			cprintf("\n\n");
+			o65_opt = (o65_opt_t*)((uint8_t*)o65_opt + o65_opt->olen);
+		}
 	}
 
 
