@@ -10,7 +10,6 @@ char lastchar;
 
 void handle_irq() {
     uint8_t status;
-    char c;
 
     status = irq_get_status();
 
