@@ -58,7 +58,7 @@ typedef struct {
     uint8_t olen;
     uint8_t type;
     uint8_t data[1];    //This is actually variable length
-} o65_opt;
+} o65_opt_t;
 
 #endif
 
