@@ -6,6 +6,7 @@
 #include "mapper.h"
 #include "sd_card.h"
 #include "fat.h"
+#include "o65.h"
 
 uint8_t buf[512];
 
@@ -75,6 +76,8 @@ int main() {
 	vfat_dentry_t* vfat_dentry;
 	dos_dentry_t* dos_dentry;
 	uint32_t cluster;
+
+	o65_header_t* header;
 
 
 	uint16_t reserved_count;
@@ -192,14 +195,32 @@ int main() {
 
 	cprintf("DOS name: %.8s.%.3s\n", &dos_dentry->filename, &dos_dentry->extension);
 	
-	cluster = (dos_dentry->first_cluster_h << 16) + dos_dentry->first_cluster_l;
+	cluster = ((uint32_t)dos_dentry->first_cluster_h << 16) + dos_dentry->first_cluster_l;
 	cprintf("Cluster: %ld\n", cluster);
 
 	cprintf("File location: %lx\n", data_region_start + (cluster - 2) * 8);
 
 	sd_readblock(data_region_start + (cluster - 2) * 8);
 
-	cprintf("File contents: %s\n", buf);
+	header = (o65_header_t*)buf;
+
+	if (header->c64_marker == O65_NON_C64 &&
+			header->magic[0] == O65_MAGIC_0 && 
+			header->magic[1] == O65_MAGIC_1 && 
+			header->magic[2] == O65_MAGIC_2) {
+		cprintf("Found a valid o65 file!\n\n");
+
+		cprintf("tbase: %x\n", header->tbase);
+		cprintf("tlen: %x\n", header->tlen);
+		cprintf("dbase: %x\n", header->dbase);
+		cprintf("dlen: %x\n", header->dlen);
+		cprintf("bbase: %x\n", header->bbase);
+		cprintf("blen: %x\n", header->blen);
+		cprintf("zbase: %x\n", header->zbase);
+		cprintf("zlen: %x\n", header->zlen);
+		cprintf("stack: %x\n", header->stack);
+	}
+
 
 	cprintf("Done!\n");
 
