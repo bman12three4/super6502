@@ -1,0 +1,289 @@
+mkdir -p lists/./
+~/Software/cc65/bin/cl65 -T -t none -I. --cpu "65C02" -l lists/main.c.list -c main.c -o main.o
+~/Software/cc65/bin/cl65 -T -t none -I. --cpu "65C02" -C link.ld -m test.map  main.o -o test.o65
+Writing a bunch of data!
+1 0 6f 36 35 
+
+Writing size value 1025
+Writing size value 0
+Writing size value 1000
+Writing size value 0
+Writing size value 1025
+Writing size value 0
+Writing size value 0
+Writing size value 0
+Writing size value 0
+Writing a bunch of data!
+74 65 73 74 2e 6f 36 35 0 
+
+Writing a bunch of data!
+6c 64 36 35 20 56 32 2e 31 39 20 2d 20 47 69 74 20 30 38 35 31 34 37 34 37 35 0 
+
+Writing a bunch of data!
+46 72 69 20 41 70 72 20 31 35 20 31 36 3a 30 34 3a 30 31 20 32 30 32 32 0 
+
+Writing a bunch of data!
+5 0 
+
+WRITING TEXT SEGWrite seg count: 4, dowrite: 1
+Writing a bunch of data!
+a9 
+
+Writing a bunch of data!
+a2 
+
+Writing a bunch of data!
+85 
+
+Writing a bunch of data!
+86 
+
+Writing a bunch of data!
+20 
+
+Writing a bunch of data!
+20 
+
+Writing a bunch of data!
+20 
+
+Writing a bunch of data!
+48 
+
+Writing a bunch of data!
+20 
+
+Writing a bunch of data!
+68 
+
+Writing a bunch of data!
+60 
+
+Writing a bunch of data!
+a0 
+
+Writing a bunch of data!
+f0 
+
+Writing a bunch of data!
+7 
+
+Writing a bunch of data!
+a9 
+
+Writing a bunch of data!
+a2 
+
+Writing a bunch of data!
+4c 
+
+Writing a bunch of data!
+60 
+
+Writing a bunch of data!
+a2 cc 
+
+Writing a bunch of data!
+a9 dd 
+
+Writing a bunch of data!
+4c 
+
+Writing a bunch of data!
+60 
+
+Writing a bunch of data!
+a0 
+
+Writing a bunch of data!
+f0 
+
+Writing a bunch of data!
+7 
+
+Writing a bunch of data!
+a9 
+
+Writing a bunch of data!
+a2 
+
+Writing a bunch of data!
+4c 
+
+Writing a bunch of data!
+60 
+
+Writing a bunch of data!
+a9 
+
+Writing a bunch of data!
+85 
+
+Writing a bunch of data!
+a9 
+
+Writing a bunch of data!
+85 
+
+Writing a bunch of data!
+a9 0 
+
+Writing a bunch of data!
+a8 
+
+Writing a bunch of data!
+a2 
+
+Writing a bunch of data!
+f0 
+
+Writing a bunch of data!
+a 
+
+Writing a bunch of data!
+91 
+
+Writing a bunch of data!
+c8 
+
+Writing a bunch of data!
+d0 
+
+Writing a bunch of data!
+fb 
+
+Writing a bunch of data!
+e6 
+
+Writing a bunch of data!
+ca 
+
+Writing a bunch of data!
+d0 
+
+Writing a bunch of data!
+f6 
+
+Writing a bunch of data!
+c0 
+
+Writing a bunch of data!
+f0 
+
+Writing a bunch of data!
+5 
+
+Writing a bunch of data!
+91 
+
+Writing a bunch of data!
+c8 
+
+Writing a bunch of data!
+d0 
+
+Writing a bunch of data!
+f7 
+
+Writing a bunch of data!
+60 
+
+Text count: 4
+Text Size: 90
+WRITING DATA SEGWrite seg count: 1, dowrite: 1
+Writing a bunch of data!
+8d 
+
+Writing a bunch of data!
+8e 
+
+Writing a bunch of data!
+8d 
+
+Writing a bunch of data!
+8e 
+
+Writing a bunch of data!
+88 
+
+Writing a bunch of data!
+b9 ff ff 
+
+Writing a bunch of data!
+8d 
+
+Writing a bunch of data!
+88 
+
+Writing a bunch of data!
+b9 ff ff 
+
+Writing a bunch of data!
+8d 
+
+Writing a bunch of data!
+8c 
+
+Writing a bunch of data!
+20 ff ff 
+
+Writing a bunch of data!
+a0 ff 
+
+Writing a bunch of data!
+d0 
+
+Writing a bunch of data!
+e8 
+
+Writing a bunch of data!
+60 
+
+Data count: 1
+Data Size: 37
+Write seg count: 1, dowrite: 0
+Writing zp seg (this should just be a few)Write seg count: 1, dowrite: 0
+WRITING IMPORTSWriting size value 0
+ExtSymCount: 0
+WRITING TEXT RELOCATION
+
+
+Writing a bunch of data!
+6 25 2 25 2 82 3 82 3 82 4 82 9 22 2 42 3c 2 83 8 82 8 22 2 42 3c 2 83 4 24 2 25 2 44 0 2 25 9 25 5 25 9 25 0 
+
+Writing a bunch of data!
+2 83 3 83 3 83 3 83 7 83 7 83 3 83 0 
+
+Writing size value 1
+Writing a bunch of data!
+5f 6d 61 69 6e 0 
+
+Writing size value 1048
+Writing a bunch of data!
+1 0 6f 36 35 
+
+Writing size value 1025
+Writing size value 5a
+Writing size value 1000
+Writing size value 25
+Writing size value 1025
+Writing size value 0
+Writing size value 0
+Writing size value 1a
+Writing size value 0
+Writing a bunch of data!
+74 65 73 74 2e 6f 36 35 0 
+
+Writing a bunch of data!
+6c 64 36 35 20 56 32 2e 31 39 20 2d 20 47 69 74 20 30 38 35 31 34 37 34 37 35 0 
+
+Writing a bunch of data!
+46 72 69 20 41 70 72 20 31 35 20 31 36 3a 30 34 3a 30 31 20 32 30 32 32 0 
+
+Writing a bunch of data!
+5 0 
+
+Text Base: 1025
+Text Size: 5a
+Data Base: 1000
+Data Size: 25

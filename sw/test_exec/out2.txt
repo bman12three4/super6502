@@ -1,0 +1,488 @@
+mkdir -p lists/./
+~/Software/cc65/bin/cl65 -v -T -t none -I. --cpu "65C02" -l lists/main.c.list -c main.c -o main.o
+0 errors and 0 warnings generated.
+Opened output file 'main.s'
+Wrote output to 'main.s'
+Closed output file 'main.s'
+~/Software/cc65/bin/cl65 -v -T -t none -I. --cpu "65C02" -v -C link.ld -m test.map  main.o -o test.o65
+Module 'main.o': Found segment 'CODE', size = 8, alignment = 1, type = 2
+Module 'main.o': Found segment 'RODATA', size = 0, alignment = 1, type = 2
+Module 'main.o': Found segment 'BSS', size = 0, alignment = 1, type = 2
+Module 'main.o': Found segment 'DATA', size = 0, alignment = 1, type = 2
+Module 'main.o': Found segment 'ZEROPAGE', size = 0, alignment = 1, type = 1
+Module 'main.o': Found segment 'NULL', size = 0, alignment = 1, type = 2
+Module 'condes.o': Found segment 'CODE', size = 12, alignment = 1, type = 2
+Module 'condes.o': Found segment 'RODATA', size = 0, alignment = 1, type = 2
+Module 'condes.o': Found segment 'BSS', size = 0, alignment = 1, type = 2
+Module 'condes.o': Found segment 'DATA', size = 37, alignment = 1, type = 2
+Module 'condes.o': Found segment 'ZEROPAGE', size = 0, alignment = 1, type = 1
+Module 'condes.o': Found segment 'NULL', size = 0, alignment = 1, type = 2
+Module 'condes.o': Found segment 'ONCE', size = 12, alignment = 1, type = 2
+Module 'crt0.o': Found segment 'CODE', size = 0, alignment = 1, type = 2
+Module 'crt0.o': Found segment 'RODATA', size = 0, alignment = 1, type = 2
+Module 'crt0.o': Found segment 'BSS', size = 0, alignment = 1, type = 2
+Module 'crt0.o': Found segment 'DATA', size = 0, alignment = 1, type = 2
+Module 'crt0.o': Found segment 'ZEROPAGE', size = 0, alignment = 1, type = 1
+Module 'crt0.o': Found segment 'NULL', size = 0, alignment = 1, type = 2
+Module 'crt0.o': Found segment 'STARTUP', size = 23, alignment = 1, type = 2
+Module 'zerobss.o': Found segment 'CODE', size = 35, alignment = 1, type = 2
+Module 'zerobss.o': Found segment 'RODATA', size = 0, alignment = 1, type = 2
+Module 'zerobss.o': Found segment 'BSS', size = 0, alignment = 1, type = 2
+Module 'zerobss.o': Found segment 'DATA', size = 0, alignment = 1, type = 2
+Module 'zerobss.o': Found segment 'ZEROPAGE', size = 0, alignment = 1, type = 1
+Module 'zerobss.o': Found segment 'NULL', size = 0, alignment = 1, type = 2
+Module 'zeropage.o': Found segment 'CODE', size = 0, alignment = 1, type = 2
+Module 'zeropage.o': Found segment 'RODATA', size = 0, alignment = 1, type = 2
+Module 'zeropage.o': Found segment 'BSS', size = 0, alignment = 1, type = 2
+Module 'zeropage.o': Found segment 'DATA', size = 0, alignment = 1, type = 2
+Module 'zeropage.o': Found segment 'ZEROPAGE', size = 26, alignment = 1, type = 1
+Module 'zeropage.o': Found segment 'NULL', size = 0, alignment = 1, type = 2
+Opened 'test.o65'...
+Writing size value 1025
+Writing size value 0
+Writing size value 1000
+Writing size value 0
+Writing size value 1025
+Writing size value 0
+Writing size value 0
+Writing size value 0
+Writing size value 0
+WRITING TEXT SEG    Writing 'STARTUP'
+      Section from "crt0.o"
+        Filling 0x0 bytes with 0x00
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x2 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x2 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x2 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x2 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+      Section from "[linker generated]"
+        Filling 0x0 bytes with 0x00
+      Section from "[linker generated]"
+        Filling 0x0 bytes with 0x00
+    Writing 'ONCE'
+      Section from "condes.o"
+        Filling 0x0 bytes with 0x00
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x2 bytes
+        Fragment with 0x1 bytes
+    Writing 'CODE'
+      Section from "main.o"
+        Filling 0x0 bytes with 0x00
+        Fragment with 0x2 bytes
+        Fragment with 0x2 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x2 bytes
+        Fragment with 0x1 bytes
+      Section from "condes.o"
+        Filling 0x0 bytes with 0x00
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x2 bytes
+        Fragment with 0x1 bytes
+      Section from "crt0.o"
+        Filling 0x0 bytes with 0x00
+      Section from "zerobss.o"
+        Filling 0x0 bytes with 0x00
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x2 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+      Section from "zeropage.o"
+        Filling 0x0 bytes with 0x00
+    Writing 'RODATA'
+      Section from "main.o"
+        Filling 0x0 bytes with 0x00
+      Section from "condes.o"
+        Filling 0x0 bytes with 0x00
+      Section from "crt0.o"
+        Filling 0x0 bytes with 0x00
+      Section from "zerobss.o"
+        Filling 0x0 bytes with 0x00
+      Section from "zeropage.o"
+        Filling 0x0 bytes with 0x00
+Text count: 4
+Text Size: 90
+WRITING DATA SEG    Writing 'DATA'
+      Section from "main.o"
+        Filling 0x0 bytes with 0x00
+      Section from "condes.o"
+        Filling 0x0 bytes with 0x00
+        Fragment with 0x1 bytes
+        Fragment with 0x2 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x2 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x2 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x2 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x3 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x2 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x3 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x2 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x2 bytes
+        Fragment with 0x3 bytes
+        Fragment with 0x2 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+        Fragment with 0x1 bytes
+      Section from "crt0.o"
+        Filling 0x0 bytes with 0x00
+      Section from "zerobss.o"
+        Filling 0x0 bytes with 0x00
+      Section from "zeropage.o"
+        Filling 0x0 bytes with 0x00
+Data count: 1
+Data Size: 37
+    Writing 'BSS'
+Writing zp seg (this should just be a few)    Writing 'ZEROPAGE'
+WRITING IMPORTSWriting size value 0
+ExtSymCount: 0
+WRITING TEXT RELOCATION
+
+
+Writing size value 1
+Writing size value 1048
+Writing size value 1025
+Writing size value 5a
+Writing size value 1000
+Writing size value 25
+Writing size value 1025
+Writing size value 0
+Writing size value 0
+Writing size value 1a
+Writing size value 0
+Text Base: 1025
+Text Size: 5a
+Data Base: 1000
+Data Size: 25
+Segment: CODE (55)
+  Section:
+    Literal (2 bytes):
+    A2 CC
+    Literal (2 bytes):
+    A9 DD
+    Literal (1 bytes):
+    4C
+    Expression (2 bytes):
+     SEC $0007 +
+    Literal (1 bytes):
+    60
+  Section:
+    Literal (1 bytes):
+    A0
+    Expression (1 bytes):
+     SYM()  $0002 * BYTE0
+    Literal (1 bytes):
+    F0
+    Literal (1 bytes):
+    07
+    Literal (1 bytes):
+    A9
+    Expression (1 bytes):
+     SYM()  BYTE0
+    Literal (1 bytes):
+    A2
+    Expression (1 bytes):
+     SYM()  BYTE1
+    Literal (1 bytes):
+    4C
+    Expression (2 bytes):
+     SEC
+    Literal (1 bytes):
+    60
+  Section:
+  Section:
+    Literal (1 bytes):
+    A9
+    Expression (1 bytes):
+     SYM()  BYTE0
+    Literal (1 bytes):
+    85
+    Expression (1 bytes):
+     SYM() 
+    Literal (1 bytes):
+    A9
+    Expression (1 bytes):
+     SYM()  BYTE1
+    Literal (1 bytes):
+    85
+    Expression (1 bytes):
+     SYM()  $0001 +
+    Literal (2 bytes):
+    A9 00
+    Literal (1 bytes):
+    A8
+    Literal (1 bytes):
+    A2
+    Expression (1 bytes):
+     SYM()  BYTE1
+    Literal (1 bytes):
+    F0
+    Literal (1 bytes):
+    0A
+    Literal (1 bytes):
+    91
+    Expression (1 bytes):
+     SYM() 
+    Literal (1 bytes):
+    C8
+    Literal (1 bytes):
+    D0
+    Literal (1 bytes):
+    FB
+    Literal (1 bytes):
+    E6
+    Expression (1 bytes):
+     SYM()  $0001 +
+    Literal (1 bytes):
+    CA
+    Literal (1 bytes):
+    D0
+    Literal (1 bytes):
+    F6
+    Literal (1 bytes):
+    C0
+    Expression (1 bytes):
+     SYM()  BYTE0
+    Literal (1 bytes):
+    F0
+    Literal (1 bytes):
+    05
+    Literal (1 bytes):
+    91
+    Expression (1 bytes):
+     SYM() 
+    Literal (1 bytes):
+    C8
+    Literal (1 bytes):
+    D0
+    Literal (1 bytes):
+    F7
+    Literal (1 bytes):
+    60
+  Section:
+Segment: RODATA (0)
+  Section:
+  Section:
+  Section:
+  Section:
+  Section:
+Segment: BSS (0)
+  Section:
+  Section:
+  Section:
+  Section:
+  Section:
+Segment: DATA (37)
+  Section:
+  Section:
+    Literal (1 bytes):
+    8D
+    Expression (2 bytes):
+     SEC $000D + $0001 +
+    Literal (1 bytes):
+    8E
+    Expression (2 bytes):
+     SEC $000D + $0002 +
+    Literal (1 bytes):
+    8D
+    Expression (2 bytes):
+     SEC $0014 + $0001 +
+    Literal (1 bytes):
+    8E
+    Expression (2 bytes):
+     SEC $0014 + $0002 +
+    Literal (1 bytes):
+    88
+    Literal (3 bytes):
+    B9 FF FF
+    Literal (1 bytes):
+    8D
+    Expression (2 bytes):
+     SEC $001D + $0002 +
+    Literal (1 bytes):
+    88
+    Literal (3 bytes):
+    B9 FF FF
+    Literal (1 bytes):
+    8D
+    Expression (2 bytes):
+     SEC $001D + $0001 +
+    Literal (1 bytes):
+    8C
+    Expression (2 bytes):
+     SEC $0020 + $0001 +
+    Literal (3 bytes):
+    20 FF FF
+    Literal (2 bytes):
+    A0 FF
+    Literal (1 bytes):
+    D0
+    Literal (1 bytes):
+    E8
+    Literal (1 bytes):
+    60
+  Section:
+  Section:
+  Section:
+Segment: ZEROPAGE (26)
+  Section:
+  Section:
+  Section:
+  Section:
+  Section:
+    Empty space (2 bytes)
+    Empty space (2 bytes)
+    Empty space (4 bytes)
+    Empty space (2 bytes)
+    Empty space (2 bytes)
+    Empty space (2 bytes)
+    Empty space (2 bytes)
+    Empty space (1 bytes)
+    Empty space (1 bytes)
+    Empty space (1 bytes)
+    Empty space (1 bytes)
+    Empty space (6 bytes)
+Segment: NULL (0)
+  Section:
+  Section:
+  Section:
+  Section:
+  Section:
+Segment: ONCE (12)
+  Section:
+    Literal (1 bytes):
+    A0
+    Expression (1 bytes):
+     SYM()  $0002 * BYTE0
+    Literal (1 bytes):
+    F0
+    Literal (1 bytes):
+    07
+    Literal (1 bytes):
+    A9
+    Expression (1 bytes):
+     SYM()  BYTE0
+    Literal (1 bytes):
+    A2
+    Expression (1 bytes):
+     SYM()  BYTE1
+    Literal (1 bytes):
+    4C
+    Expression (2 bytes):
+     SEC
+    Literal (1 bytes):
+    60
+Segment: STARTUP (23)
+  Section:
+    Literal (1 bytes):
+    A9
+    Expression (1 bytes):
+     SYM()  BYTE0
+    Literal (1 bytes):
+    A2
+    Expression (1 bytes):
+     SYM()  BYTE1
+    Literal (1 bytes):
+    85
+    Expression (1 bytes):
+     SYM() 
+    Literal (1 bytes):
+    86
+    Expression (1 bytes):
+     SYM()  $0001 +
+    Literal (1 bytes):
+    20
+    Expression (2 bytes):
+     SYM() 
+    Literal (1 bytes):
+    20
+    Expression (2 bytes):
+     SYM() 
+    Literal (1 bytes):
+    20
+    Expression (2 bytes):
+     SYM() 
+    Literal (1 bytes):
+    48
+    Literal (1 bytes):
+    20
+    Expression (2 bytes):
+     SYM() 
+    Literal (1 bytes):
+    68
+    Literal (1 bytes):
+    60
+  Section:
+  Section:
+CONDES(0): 0 symbols
+CONDES(1): 0 symbols
+CONDES(2): 0 symbols
+CONDES(3): 0 symbols
+CONDES(4): 0 symbols
+CONDES(5): 0 symbols
+CONDES(6): 0 symbols
