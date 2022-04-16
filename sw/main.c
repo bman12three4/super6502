@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <conio.h>
+#include <string.h>
 
 #include "board_io.h"
 #include "uart.h"
@@ -79,7 +80,15 @@ int main() {
 
 	o65_header_t* header;
 	o65_opt_t* o65_opt;
+	uint8_t* seg_ptr;
 
+	uint16_t code_base;
+	uint16_t data_base;
+	uint16_t code_len;
+	uint16_t data_len;
+
+	uint8_t (*exec)(void);
+	uint8_t ret;
 
 	uint16_t reserved_count;
 	uint32_t sectors_per_fat;
@@ -222,6 +231,12 @@ int main() {
 		cprintf("stack: %x\n", header->stack);
 		cprintf("\n");
 
+		code_base = header->tbase;
+		data_base = header->dbase;
+		code_len = header->tlen;
+		data_len = header->dlen;
+
+
 		o65_opt = (o65_opt_t*)(buf + sizeof(o65_header_t));
 		while (o65_opt->olen)
 		{
@@ -246,6 +261,48 @@ int main() {
 			cprintf("\n\n");
 			o65_opt = (o65_opt_t*)((uint8_t*)o65_opt + o65_opt->olen);
 		}
+
+		seg_ptr = (uint8_t*)o65_opt + 1;
+
+		cprintf("Code: \n");
+		for (i = 0; i < code_len; i++) {
+			cprintf("%x ", seg_ptr[i]);
+		}
+		cprintf("\n\n");
+
+		memcpy((uint8_t*)code_base, seg_ptr, code_len);
+
+		seg_ptr+=code_len;
+
+		cprintf("Data: \n");
+		for (i = 0; i < data_len; i++) {
+			cprintf("%x ", seg_ptr[i]);
+		}
+		cprintf("\n\n");
+
+		memcpy((uint8_t*)data_base, seg_ptr, data_len);
+
+		cprintf("Memory Copied!\n");
+		cprintf("Code: \n");
+		for (i = 0; i < code_len; i++) {
+			cprintf("%x ", ((uint8_t*)code_base)[i]);
+		}
+		cprintf("\n\n");
+		cprintf("Data: \n");
+		for (i = 0; i < data_len; i++) {
+			cprintf("%x ", ((uint8_t*)data_base)[i]);
+		}
+		cprintf("\n\n");
+
+		exec = (int(*)(void))code_base;
+
+		ret = 0;
+
+		ret = (*exec)();
+
+		cprintf("ret: %x\n", ret);
+
+
 	}
 
 
