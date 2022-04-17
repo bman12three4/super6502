@@ -63,5 +63,3 @@ typedef struct {
 void o65_print_option(o65_opt_t* opt);
 
 #endif
-
-
