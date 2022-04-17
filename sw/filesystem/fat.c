@@ -1,8 +1,8 @@
 #include <conio.h>
 #include <string.h>
 
-#include "filesystem/fat.h"
-#include "sd_card.h"
+#include "fat.h"
+#include "devices/sd_card.h"
 
 uint8_t fat_buf[512];
 

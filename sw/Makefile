@@ -16,6 +16,7 @@ TESTS=tests
 
 SRCS=$(wildcard *.s) $(wildcard *.c)
 SRCS+=$(wildcard filesystem/*.s) $(wildcard filesystem/*.c)
+SRCS+=$(wildcard devices/*.s) $(wildcard devices/*.c)
 OBJS+=$(patsubst %.s,%.o,$(filter %s,$(SRCS)))
 OBJS+=$(patsubst %.c,%.o,$(filter %c,$(SRCS)))
 

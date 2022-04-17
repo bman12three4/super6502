@@ -2,10 +2,10 @@
 #include <conio.h>
 #include <string.h>
 
-#include "board_io.h"
-#include "uart.h"
-#include "mapper.h"
-#include "sd_card.h"
+#include "devices/board_io.h"
+#include "devices/uart.h"
+#include "devices/mapper.h"
+#include "devices/sd_card.h"
 #include "filesystem/fat.h"
 #include "exec.h"
 

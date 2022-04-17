@@ -2,8 +2,8 @@
 #include <stdint.h>
 #include <conio.h>
 
-#include "interrupt.h"
-#include "uart.h"
+#include "devices/interrupt.h"
+#include "devices/uart.h"
 
 char lastchar;
 
