@@ -1,11 +1,13 @@
 #include <stdint.h>
 #include <conio.h>
+#include <string.h>
 
 #include "board_io.h"
 #include "uart.h"
 #include "mapper.h"
 #include "sd_card.h"
 #include "fat.h"
+#include "o65.h"
 
 uint8_t buf[512];
 
@@ -76,6 +78,17 @@ int main() {
 	dos_dentry_t* dos_dentry;
 	uint32_t cluster;
 
+	o65_header_t* header;
+	o65_opt_t* o65_opt;
+	uint8_t* seg_ptr;
+
+	uint8_t* code_base;
+	uint8_t* data_base;
+	uint16_t code_len;
+	uint16_t data_len;
+
+	uint8_t (*exec)(void);
+	uint8_t ret;
 
 	uint16_t reserved_count;
 	uint32_t sectors_per_fat;
@@ -192,14 +205,106 @@ int main() {
 
 	cprintf("DOS name: %.8s.%.3s\n", &dos_dentry->filename, &dos_dentry->extension);
 	
-	cluster = (dos_dentry->first_cluster_h << 16) + dos_dentry->first_cluster_l;
+	cluster = ((uint32_t)dos_dentry->first_cluster_h << 16) + dos_dentry->first_cluster_l;
 	cprintf("Cluster: %ld\n", cluster);
 
 	cprintf("File location: %lx\n", data_region_start + (cluster - 2) * 8);
 
 	sd_readblock(data_region_start + (cluster - 2) * 8);
 
-	cprintf("File contents: %s\n", buf);
+	header = (o65_header_t*)buf;
+
+	if (header->c64_marker == O65_NON_C64 &&
+			header->magic[0] == O65_MAGIC_0 && 
+			header->magic[1] == O65_MAGIC_1 && 
+			header->magic[2] == O65_MAGIC_2) {
+		cprintf("Found a valid o65 file!\n\n");
+
+		cprintf("tbase: %x\n", header->tbase);
+		cprintf("tlen: %x\n", header->tlen);
+		cprintf("dbase: %x\n", header->dbase);
+		cprintf("dlen: %x\n", header->dlen);
+		cprintf("bbase: %x\n", header->bbase);
+		cprintf("blen: %x\n", header->blen);
+		cprintf("zbase: %x\n", header->zbase);
+		cprintf("zlen: %x\n", header->zlen);
+		cprintf("stack: %x\n", header->stack);
+		cprintf("\n");
+
+		code_base = (uint8_t*)header->tbase;
+		data_base = (uint8_t*)header->dbase;
+		code_len = header->tlen;
+		data_len = header->dlen;
+
+
+		o65_opt = (o65_opt_t*)(buf + sizeof(o65_header_t));
+		while (o65_opt->olen)
+		{
+			cprintf("Option Length: %d\n", o65_opt->olen);
+			cprintf("Option Type: %x ", o65_opt->type);
+			switch (o65_opt->type) {
+				case O65_OPT_FILENAME: cprintf("Filename\n"); break;
+				case O65_OPT_OS: cprintf("OS\n"); break;
+				case O65_OPT_ASSEMBLER: cprintf("Assembler\n"); break;
+				case O65_OPT_AUTHOR: cprintf("Author\n"); break;
+				case O65_OPT_DATE: cprintf("Creation Date\n"); break;
+				default: cprintf("Invalid\n"); break;
+			}
+
+			if (o65_opt->type != O65_OPT_OS) {
+				for (i = 0; i < o65_opt->olen - 2; i++) {
+					cprintf("%c", o65_opt->data[i]);
+				}
+			} else {
+				cprintf("%x", o65_opt->data[0]);
+			}
+			cprintf("\n\n");
+			o65_opt = (o65_opt_t*)((uint8_t*)o65_opt + o65_opt->olen);
+		}
+
+		seg_ptr = (uint8_t*)o65_opt + 1;
+
+		cprintf("Code: \n");
+		for (i = 0; i < code_len; i++) {
+			cprintf("%x ", seg_ptr[i]);
+		}
+		cprintf("\n\n");
+
+		memcpy((uint8_t*)code_base, seg_ptr, code_len);
+
+		seg_ptr+=code_len;
+
+		cprintf("Data: \n");
+		for (i = 0; i < data_len; i++) {
+			cprintf("%x ", seg_ptr[i]);
+		}
+		cprintf("\n\n");
+
+		memcpy((uint8_t*)data_base, seg_ptr, data_len);
+
+		cprintf("Memory Copied!\n");
+		cprintf("Code: \n");
+		for (i = 0; i < code_len; i++) {
+			cprintf("%x ", code_base[i]);
+		}
+		cprintf("\n\n");
+		cprintf("Data: \n");
+		for (i = 0; i < data_len; i++) {
+			cprintf("%x ", data_base[i]);
+		}
+		cprintf("\n\n");
+
+		exec = (uint8_t (*)(void))code_base;
+
+		ret = 0;
+
+		ret = (*exec)();
+
+		cprintf("ret: %x\n", ret);
+
+
+	}
+
 
 	cprintf("Done!\n");
 
