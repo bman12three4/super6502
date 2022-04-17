@@ -15,7 +15,7 @@ LISTS=lists
 TESTS=tests
 
 SRCS=$(wildcard *.s) $(wildcard *.c)
-SRCS+=$(wildcard usb/*.c)
+SRCS+=$(wildcard filesystem/*.s) $(wildcard filesystem/*.c)
 OBJS+=$(patsubst %.s,%.o,$(filter %s,$(SRCS)))
 OBJS+=$(patsubst %.c,%.o,$(filter %c,$(SRCS)))
 

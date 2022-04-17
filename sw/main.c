@@ -6,8 +6,7 @@
 #include "uart.h"
 #include "mapper.h"
 #include "sd_card.h"
-#include "fat.h"
-#include "o65.h"
+#include "filesystem/fat.h"
 #include "exec.h"
 
 uint8_t buf[512];
