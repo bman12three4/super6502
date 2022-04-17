@@ -82,8 +82,8 @@ int main() {
 	o65_opt_t* o65_opt;
 	uint8_t* seg_ptr;
 
-	uint16_t code_base;
-	uint16_t data_base;
+	uint8_t* code_base;
+	uint8_t* data_base;
 	uint16_t code_len;
 	uint16_t data_len;
 
@@ -231,8 +231,8 @@ int main() {
 		cprintf("stack: %x\n", header->stack);
 		cprintf("\n");
 
-		code_base = header->tbase;
-		data_base = header->dbase;
+		code_base = (uint8_t*)header->tbase;
+		data_base = (uint8_t*)header->dbase;
 		code_len = header->tlen;
 		data_len = header->dlen;
 
@@ -285,16 +285,16 @@ int main() {
 		cprintf("Memory Copied!\n");
 		cprintf("Code: \n");
 		for (i = 0; i < code_len; i++) {
-			cprintf("%x ", ((uint8_t*)code_base)[i]);
+			cprintf("%x ", code_base[i]);
 		}
 		cprintf("\n\n");
 		cprintf("Data: \n");
 		for (i = 0; i < data_len; i++) {
-			cprintf("%x ", ((uint8_t*)data_base)[i]);
+			cprintf("%x ", data_base[i]);
 		}
 		cprintf("\n\n");
 
-		exec = (int(*)(void))code_base;
+		exec = (uint8_t (*)(void))code_base;
 
 		ret = 0;
 
