@@ -15,8 +15,7 @@ LISTS=lists
 TESTS=tests
 
 SRCS=$(wildcard *.s) $(wildcard *.c)
-SRCS+=$(wildcard filesystem/*.s) $(wildcard filesystem/*.c)
-SRCS+=$(wildcard devices/*.s) $(wildcard devices/*.c)
+SRCS+=$(filter-out $(wildcard tests/*), $(wildcard **/*.s)) $(filter-out $(wildcard tests/*), $(wildcard **/*.c))
 OBJS+=$(patsubst %.s,%.o,$(filter %s,$(SRCS)))
 OBJS+=$(patsubst %.c,%.o,$(filter %c,$(SRCS)))
 
@@ -47,6 +46,7 @@ $(BIN): $(OBJS)
 	$(CC) $(CFLAGS) -l $(LISTS)/$<.list -c $< -o $@
 
 $(LISTS):
+	$(info $$SRCS is [${SRCS}])
 	mkdir -p $(addprefix $(LISTS)/,$(sort $(dir $(SRCS))))
 	mkdir $(LISTS)/$(sort $(dir $(TEST_SRCS)))
 
