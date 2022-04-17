@@ -46,7 +46,6 @@ $(BIN): $(OBJS)
 	$(CC) $(CFLAGS) -l $(LISTS)/$<.list -c $< -o $@
 
 $(LISTS):
-	$(info $$SRCS is [${SRCS}])
 	mkdir -p $(addprefix $(LISTS)/,$(sort $(dir $(SRCS))))
 	mkdir $(LISTS)/$(sort $(dir $(TEST_SRCS)))
 
