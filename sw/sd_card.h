@@ -3,6 +3,12 @@
 
 #include <stdint.h>
 
+void sd_init();
+uint16_t sd_get_rca();
+uint16_t sd_select_card(uint16_t rca);
+uint16_t sd_get_status(uint16_t rca);
+void sd_readblock(uint32_t addr, void* buf);
+
 void sd_card_command(uint32_t arg, uint8_t cmd);
 
 void sd_card_resp(uint32_t* resp);
