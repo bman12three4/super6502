@@ -5,6 +5,15 @@
 
 extern uint8_t fat_buf[];
 
+#define FAT_MAX_FILE_NAME 255
+#define FAT_CLUSTERS_PER_SECTOR 128
+
+#define FAT_CLUSTERMASK 0x0fffffff
+#define FAT_EOC_CLUSTERMASK 0x0ffffff8
+
+#define FAT_LAST_LFN_MASK (1 << 6)
+#define FAT_LFN_ENTRY_MASK 0x1f
+
 typedef struct {
     uint16_t bytes_per_sector;
     uint8_t sectors_per_cluster;
@@ -87,7 +96,7 @@ typedef struct {
     uint8_t checksum;
     uint16_t filename1[6];
     uint16_t reserved;
-    uint16_t filename[2];
+    uint16_t filename2[2];
 } vfat_dentry_t;
 
 typedef struct {
@@ -104,8 +113,10 @@ typedef struct {
     uint32_t file_size;
 } dos_dentry_t;
 
-void fat_print_pbp_info(ebpb_t* epbp);
+void fat_print_pbp_info(full_bpb_t* bpb);
 void fat_init();
 void fat_read(char* filename, void* buf);
+
+uint16_t fat_parse_path_to_cluster(char* filename);
 
 #endif
