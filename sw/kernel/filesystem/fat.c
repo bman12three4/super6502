@@ -45,6 +45,8 @@ void fat_print_pbp_info(full_bpb_t* bpb){
 }
 
 void fat_init(){
+	int i;
+
     sd_readblock(0, fat_buf);
 
     memcpy(&bpb, &fat_buf[11], sizeof(full_bpb_t));
@@ -57,6 +59,15 @@ void fat_init(){
 	data_region_start = bpb.reserved_sectors + bpb.fat_count*bpb.sectors_per_fat_32;
 
 	sd_readblock(bpb.reserved_sectors, fat_buf);
+
+	//uncomment to view start of FAT
+
+	/*
+	for (i = 0; i < FAT_CLUSTERS_PER_SECTOR; i++) {
+		cprintf("%lx ", ((uint32_t*)fat_buf)[i]);
+	}
+	cprintf("\n\n");
+	*/
 
 	fat_end_of_chain = ((uint32_t*)fat_buf)[1] & FAT_EOC_CLUSTERMASK;
 	cprintf("End of chain indicator: %lx\n", fat_end_of_chain);
@@ -83,13 +94,13 @@ void fat_read(char* filename, void* buf) {
 }
 
 //the dentry is a double pointer because we need to increment it.
-void fat_parse_vfat_filenamename(vfat_dentry_t** vfat_dentry, char* name) {
+void fat_parse_vfat_filenamename(vfat_dentry_t** vfat_dentry, char* name, uint32_t cluster) {
 	uint8_t i;
+	uint8_t overflows;
 	uint8_t done;
 	char* shift_name;
 	uint8_t sequence_number = (*vfat_dentry)->sequence_number;
-
-	// so basically we want to add 13*(sequence number-1) to name
+	overflows = 0;
 
 	for (;;){
 		shift_name = name + 13*((sequence_number & FAT_LFN_ENTRY_MASK) - 1);
@@ -126,9 +137,18 @@ void fat_parse_vfat_filenamename(vfat_dentry_t** vfat_dentry, char* name) {
 		if ((sequence_number & FAT_LFN_ENTRY_MASK) == 1) {
 			break;
 		} else {
-			(*vfat_dentry)++;
-			while((*vfat_dentry)->sequence_number == 0xe5)
+			do {
 				(*vfat_dentry)++;
+				if ((uint8_t*)*vfat_dentry >= fat_buf + sizeof(fat_buf)) {
+					overflows++;
+					if (overflows == bpb.sectors_per_cluster) {
+						cprintf("Too many overflows, go back to fat!\n");		//TODO this
+						return;
+					}
+					sd_readblock(data_region_start + (cluster - 2) * 8 + overflows, fat_buf);
+					*vfat_dentry = (vfat_dentry_t*)fat_buf;
+				}
+			} while((*vfat_dentry)->sequence_number == 0xe5);
 			sequence_number = (*vfat_dentry)->sequence_number;
 		}
 	}
@@ -153,7 +173,7 @@ uint32_t fat_find_cluster_num(char* name, uint32_t cluster) {
 	vfat_name[0] = '\0';
 
 	while(vfat_dentry->sequence_number) {
-		fat_parse_vfat_filenamename(&vfat_dentry, vfat_name);
+		fat_parse_vfat_filenamename(&vfat_dentry, vfat_name, cluster);
 		cprintf("Parsed filename: %s\n", vfat_name);
 
 		if (!strcmp(vfat_name, name)) {				//TODO this is probably unsafe, use strncmp
@@ -185,8 +205,10 @@ uint16_t fat_parse_path_to_cluster(char* filename) {
 	//basically start at the root folder and search through it
 	int i;
 	int len;
+	uint8_t dirs = 0;
 
 	char* spaced_filename;
+	char* fragment;
 
 	uint32_t cluster = 2;	//root chain is chain 2
 
@@ -202,14 +224,23 @@ uint16_t fat_parse_path_to_cluster(char* filename) {
 	for (i = 0; i <= len; i++) {
 		if (filename[i] == '/') {
 			spaced_filename[i] = '\0';
+			dirs++;
 		} else {
 			spaced_filename[i] = filename[i];
 		}
 	}
 
-	cprintf("Fragment: %s\n", spaced_filename);
+	fragment = spaced_filename;
 
-	fat_find_cluster_num(spaced_filename, cluster);
+	cprintf("Dirs: %d\n", dirs);
+
+	for (i = 0; i <= dirs; i++) {
+		cprintf("Fragment: %s\n", fragment);
+		cluster = fat_find_cluster_num(fragment, cluster);
+		fragment = spaced_filename + strlen(fragment) + 1;
+	}
 
 	free(spaced_filename);
+
+	return cluster;
 }
