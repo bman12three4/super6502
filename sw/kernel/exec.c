@@ -2,8 +2,8 @@
 #include <conio.h>
 #include <string.h>
 
-#include "fat.h"
-#include "o65.h"
+#include "filesystem/fat.h"
+#include "filesystem/o65.h"
 
 void exec(char* filename) {
 	o65_header_t* header;

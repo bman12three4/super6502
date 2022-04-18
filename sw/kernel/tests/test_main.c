@@ -1,8 +1,8 @@
 #include <stdio.h>
 
-#include "board_io.h"
-#include "uart.h"
-#include "interrupt.h"
+#include "devices/board_io.h"
+#include "devices/uart.h"
+#include "devices/interrupt.h"
 
 int main(void)
 {

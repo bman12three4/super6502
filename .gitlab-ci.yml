@@ -2,11 +2,11 @@ default:
   tags:
     - docker
 
-build-sw:
+build-kernel:
   stage: build
   image: a2geek/cc65-pipeline
   script:
-    - cd sw/
+    - cd sw/kernel
     - make
 
 
@@ -36,7 +36,7 @@ test-sw:
   stage: test
   image: a2geek/cc65-pipeline
   script:
-    - cd sw/
+    - cd sw/kernel
     - make test
 
 test_mm:

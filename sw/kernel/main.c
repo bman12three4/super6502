@@ -1,13 +1,13 @@
 #include <stdint.h>
 #include <conio.h>
 #include <string.h>
+#include <stdlib.h>
 
-#include "board_io.h"
-#include "uart.h"
-#include "mapper.h"
-#include "sd_card.h"
-#include "fat.h"
-#include "o65.h"
+#include "devices/board_io.h"
+#include "devices/uart.h"
+#include "devices/mapper.h"
+#include "devices/sd_card.h"
+#include "filesystem/fat.h"
 #include "exec.h"
 
 uint8_t buf[512];
@@ -15,6 +15,7 @@ uint8_t buf[512];
 int main() {
 	int i;
 	uint16_t rca;
+	char* filename;
 
 	clrscr();
 	cprintf("Hello, world!\n");
@@ -35,7 +36,17 @@ int main() {
 	sd_select_card(rca);
 
 	fat_init();
-	exec("/test.o65");
+
+	filename = (char*)malloc(FAT_MAX_FILE_NAME);
+
+	for(;;) {
+		cprintf("Filename: ");
+		cscanf("%s", filename);
+		cprintf("\n");
+		fat_parse_path_to_cluster(filename);
+	}
+
+	//exec("/test.o65");
 
 	cprintf("Done!\n");
 
