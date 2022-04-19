@@ -7,17 +7,30 @@ SIMARGS=-v -c -x 1000000
 
 NAME=bootloader
 
+TEST_BIN=test.bin
 BIN=$(NAME).bin
 HEX=$(NAME).hex
 
 LISTS=lists
+TESTS=tests
 
 SRCS=$(wildcard *.s) $(wildcard *.c)
 SRCS+=$(filter-out $(wildcard tests/*), $(wildcard **/*.s)) $(filter-out $(wildcard tests/*), $(wildcard **/*.c))
 OBJS+=$(patsubst %.s,%.o,$(filter %s,$(SRCS)))
 OBJS+=$(patsubst %.c,%.o,$(filter %c,$(SRCS)))
 
+TEST_SRCS=$(wildcard $(TESTS)/*.s) $(wildcard $(TESTS)/*.c)
+TEST_OBJS+=$(patsubst %.s,%.o,$(filter %s,$(TEST_SRCS)))
+TEST_OBJS+=$(patsubst %.c,%.o,$(filter %c,$(TEST_SRCS)))
+TEST_OBJS+=$(filter-out boot.o,$(filter-out main.o,$(filter-out vectors.o,$(OBJS))))
+
 all: $(HEX)
+
+test: $(TEST_BIN)
+	$(SIM) $(SIMARGS) $(TEST_BIN)
+
+$(TEST_BIN): $(OBJS) $(TEST_OBJS)
+	$(CC) $(CFLAGS) $(TEST_OBJS) -o $@	
 
 $(HEX): $(BIN)
 	objcopy --input-target=binary --output-target=ihex $(BIN) $(HEX)
@@ -34,8 +47,10 @@ $(BIN): $(OBJS)
 
 $(LISTS):
 	mkdir -p $(addprefix $(LISTS)/,$(sort $(dir $(SRCS))))
+	mkdir $(LISTS)/$(sort $(dir $(TEST_SRCS)))
 
 .PHONY: clean
 clean:
 	rm -rf $(OBJS) $(BIN) $(HEX) $(LISTS) $(NAME).map
+	rm -rf $(TEST_OBJS) $(TEST_BIN)
 

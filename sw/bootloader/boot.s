@@ -1,26 +1,54 @@
-; We need to to read the boot sector from the
-; SD card, verify the last 2 bytes, then jump to the
-; beginning of it.
+; ---------------------------------------------------------------------------
+; crt0.s
+; ---------------------------------------------------------------------------
+;
+; Startup code for cc65 (Single Board Computer version)
 
-.include "zeropage.inc"
+.export   _init, _exit
+.import   _main
 
-.import _load_bootsect
+.export   __STARTUP__ : absolute = 1        ; Mark as startup
+.import   __SDRAM_START__, __SDRAM_SIZE__       ; Linker generated
 
-.export _init, _boot
+.import    copydata, zerobss, initlib, donelib
 
-.segment "STARTUP"
+.include  "zeropage.inc"
 
-_init:  jmp _boot
+; ---------------------------------------------------------------------------
+; Place the startup code in a special segment
 
-.segment "CODE"
+.segment  "STARTUP"
 
-_boot:  ldx #$ff
-        txs
-        cld
+; ---------------------------------------------------------------------------
+; A little light 6502 housekeeping
 
-        jsr _load_bootsect
-        jmp $1000
+_init:    LDX     #$FF                 ; Initialize stack pointer to $01FF
+          TXS
+          CLD                          ; Clear decimal mode
 
-.segment "SIGN"
-.byte $55
-.byte $aa
+; ---------------------------------------------------------------------------
+; Set cc65 argument stack pointer
+
+          LDA     #<(__SDRAM_START__ + __SDRAM_SIZE__)
+          STA     sp
+          LDA     #>(__SDRAM_START__ + __SDRAM_SIZE__)
+          STA     sp+1
+
+; ---------------------------------------------------------------------------
+; Initialize memory storage
+
+          JSR     zerobss              ; Clear BSS segment
+          JSR     copydata             ; Initialize DATA segment
+          JSR     initlib              ; Run constructors
+
+; ---------------------------------------------------------------------------
+; Call main()
+          cli
+          JSR     _main
+          jmp     ($fffc)
+
+; ---------------------------------------------------------------------------
+; Back from main (this is also the _exit entry):  force a software break
+
+_exit:    JSR     donelib              ; Run destructors
+          BRK
