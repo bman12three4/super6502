@@ -2,15 +2,20 @@ default:
   tags:
     - docker
 
+stages:
+  - build_sw
+  - build_hw
+  - test
+
 build-kernel:
-  stage: build
+  stage: build_sw
   image: a2geek/cc65-pipeline
   script:
     - cd sw/kernel
     - make
 
 build-bootloader:
-  stage: build
+  stage: build_sw
   image: a2geek/cc65-pipeline
   script:
     - cd sw/bootloader
@@ -23,7 +28,7 @@ build-bootloader:
 
 
 build-fpga:
-  stage: build
+  stage: build_hw
   dependencies:
     - build-bootloader
   image: bslathi19/modelsim_18.1:lite
