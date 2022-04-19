@@ -5,6 +5,8 @@ LDFLAGS=-C link.ld -m $(NAME).map
 SIM=sim65
 SIMARGS=-v -c -x 1000000
 
+FSDIR=../fsdir
+
 NAME=kernel
 
 TEST_BIN=test.bin
@@ -25,6 +27,7 @@ TEST_OBJS+=$(patsubst %.c,%.o,$(filter %c,$(TEST_SRCS)))
 TEST_OBJS+=$(filter-out boot.o,$(filter-out main.o,$(filter-out vectors.o,$(OBJS))))
 
 all: $(BIN)
+	cp $(BIN) $(FSDIR)
 
 test: $(TEST_BIN)
 	$(SIM) $(SIMARGS) $(TEST_BIN)
@@ -53,4 +56,5 @@ $(LISTS):
 clean:
 	rm -rf $(OBJS) $(BIN) $(HEX) $(LISTS) $(NAME).map
 	rm -rf $(TEST_OBJS) $(TEST_BIN)
+	rm -rf $(FSDIR)/$(BIN)
 
