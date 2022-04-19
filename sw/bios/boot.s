@@ -1,11 +1,8 @@
-; We need to to read the boot sector from the
-; SD card, verify the last 2 bytes, then jump to the
-; beginning of it.
-
 .include "zeropage.inc"
 
 .segment "STARTUP"
 
+.export _init
 .import _load_bootsect
 
 _init:  ldx #$ff

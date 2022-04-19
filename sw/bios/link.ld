@@ -14,5 +14,6 @@ SEGMENTS {
     ONCE:     load = ROM, type = ro,  optional = yes;
     CODE:     load = ROM, type = ro;
     RODATA:   load = ROM, type = ro;
+    VECTORS:  load = ROM, type = ro,  start    = $FFFA;
 }
 
