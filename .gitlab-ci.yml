@@ -18,6 +18,7 @@ build-bootloader:
   artifacts:
     paths:
       - sw/bootloader/bootloader.hex
+    expire_in: 1 week
 
 
 
