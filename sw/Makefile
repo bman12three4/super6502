@@ -1,9 +1,22 @@
-TOPTARGETS := all clean
+.PHONY: all install bios bootloader kernel clean
 
-SUBDIRS := $(wildcard */.)
+all: bios bootloader kernel
 
-$(TOPTARGETS): $(SUBDIRS)
-$(SUBDIRS):
-	$(MAKE) -C $@ $(MAKECMDGOALS)
+install: all
+	sh script/format_disk.sh
+	sh script/copy_files.sh
 
-.PHONY: $(TOPTARGETS) $(SUBDIRS)
+bios:
+	@$(MAKE) -C bios
+
+bootloader:
+	@$(MAKE) -C bootloader
+
+kernel:
+	@$(MAKE) -C kernel
+
+
+clean:
+	@$(MAKE) -C bios  --no-print-directory $@
+	@$(MAKE) -C bootloader  --no-print-directory $@
+	@$(MAKE) -C kernel  --no-print-directory $@
