@@ -17,14 +17,14 @@ build-bootloader:
     - make
   artifacts:
     paths:
-      - bootloader.hex
+      - sw/bootloader/bootloader.hex
 
 
 
 build-fpga:
   stage: build
   dependencies:
-    - build-kernel
+    - build-bootloader
   image: bslathi19/modelsim_18.1:lite
   script:
     - cd hw/fpga/
