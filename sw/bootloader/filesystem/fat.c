@@ -13,37 +13,6 @@ static full_bpb_t bpb;
 
 static uint32_t data_region_start;
 
-void fat_print_pbp_info(full_bpb_t* bpb){
-	cprintf("Bytes per sector: %d\n", bpb->bytes_per_sector);
-	cprintf("Sectors per cluster: %d\n", bpb->sectors_per_cluster);
-	cprintf("Reserved Sectors: %d\n", bpb->reserved_sectors);
-	cprintf("Fat Count: %d\n", bpb->fat_count);
-	cprintf("Max Dir Entries: %d\n", bpb->max_dir_entries);
-	cprintf("Total Sector Count: %d\n", bpb->total_sector_count);
-	cprintf("Media Descriptor: 0x%x\n", bpb->media_descriptor);
-	cprintf("Sectors per Fat: %d\n", bpb->sectors_per_fat_16);
-	cprintf("\n");
-
-	cprintf("Sectors per track: %d\n", bpb->sectors_per_track);
-	cprintf("Head Count: %d\n", bpb->head_count);
-	cprintf("Hidden Sector Count: %ld\n", bpb->hidden_sector_count);
-	cprintf("Logical Sector Count: %ld\n", bpb->logical_sector_count);
-	cprintf("Sectors per Fat: %ld\n", bpb->sectors_per_fat_32);
-	cprintf("Extended Flags: 0x%x\n", bpb->extended_flags);
-	cprintf("Version: %d\n", bpb->version);
-	cprintf("Root Cluster: 0x%lx\n", bpb->root_cluster);
-	cprintf("System Information: 0x%x\n", bpb->system_information);
-	cprintf("Backup Boot Sector: 0x%x\n", bpb->backup_boot_sector);
-	cprintf("\n");
-
-	cprintf("Drive Number: %d\n", bpb->drive_num);
-	cprintf("Extended Signature: 0x%x\n", bpb->extended_signature);
-	cprintf("Volume ID: 0x%lx\n", bpb->volume_id);
-	cprintf("Partition Label: %.11s\n", &bpb->partition_label);
-	cprintf("Partition Label: %.8s\n", &bpb->filesystem_type);
-	cprintf("\n");
-}
-
 void fat_init(){
 	int i;
 
@@ -53,8 +22,6 @@ void fat_init(){
 
 	sd_readblock(1, fat_buf);
 	sd_readblock(32, fat_buf);
-
-	fat_print_pbp_info(&bpb);
 
 	data_region_start = bpb.reserved_sectors + bpb.fat_count*bpb.sectors_per_fat_32;
 
@@ -73,25 +40,6 @@ void fat_init(){
 	cprintf("End of chain indicator: %lx\n", fat_end_of_chain);
 }
 
-void fat_read(char* filename, void* buf) {
-	vfat_dentry_t* vfat_dentry;
-	dos_dentry_t* dos_dentry;
-	uint32_t cluster;
-
-	(void)filename;	//just ignore filename
-
-    sd_readblock(data_region_start, buf);
-
-	vfat_dentry = (vfat_dentry_t*)buf;
-	while(vfat_dentry->sequence_number == 0xe5)
-		vfat_dentry++;
-
-	dos_dentry = (dos_dentry_t*)(vfat_dentry + 1);
-
-	cluster = ((uint32_t)dos_dentry->first_cluster_h << 16) + dos_dentry->first_cluster_l;
-
-	sd_readblock(data_region_start + (cluster - 2) * 8, buf);
-}
 
 // make sure you have enough space.
 void fat_read_cluster(uint16_t cluster, uint8_t* buf) {

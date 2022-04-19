@@ -45,7 +45,7 @@ void fat_print_pbp_info(full_bpb_t* bpb){
 }
 
 void fat_init(){
-	int i;
+	//int i;
 
     sd_readblock(0, fat_buf);
 

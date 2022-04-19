@@ -113,9 +113,7 @@ typedef struct {
     uint32_t file_size;
 } dos_dentry_t;
 
-void fat_print_pbp_info(full_bpb_t* bpb);
 void fat_init();
-void fat_read(char* filename, void* buf);
 
 uint16_t fat_parse_path_to_cluster(char* filename);
 void fat_read_cluster(uint16_t cluster, uint8_t* buf);

@@ -8,7 +8,6 @@
 #include "devices/mapper.h"
 #include "devices/sd_card.h"
 #include "filesystem/fat.h"
-#include "exec.h"
 
 #define KERNEL_LOAD_ADDR 0xD000
 
