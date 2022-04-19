@@ -8,10 +8,15 @@ build-kernel:
   script:
     - cd sw/kernel
     - make
+  artifacts:
+    paths:
+      - sw/bootloader/bootloader.hex
 
 
 build-fpga:
   stage: build
+  dependencies:
+    - build-kernel
   image: bslathi19/modelsim_18.1:lite
   script:
     - cd hw/fpga/
