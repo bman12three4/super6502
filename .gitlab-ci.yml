@@ -8,9 +8,17 @@ build-kernel:
   script:
     - cd sw/kernel
     - make
+
+build-bootloader:
+  stage: build
+  image: a2geek/cc65-pipeline
+  script:
+    - cd sw/bootloader
+    - make
   artifacts:
     paths:
-      - sw/bootloader/bootloader.hex
+      - bootloader.hex
+
 
 
 build-fpga:
