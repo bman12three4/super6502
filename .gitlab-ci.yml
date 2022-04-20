@@ -2,6 +2,9 @@ default:
   tags:
     - docker
 
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
 stages:
   - build_toolchain
   - build_sw
