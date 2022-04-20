@@ -29,9 +29,10 @@ _init:    LDX     #$FF                 ; Initialize stack pointer to $01FF
 ; ---------------------------------------------------------------------------
 ; Set cc65 argument stack pointer
 
-          LDA     #<(__SDRAM_START__ + __SDRAM_SIZE__)
+          ;LDA     #<(__SDRAM_START__ + __SDRAM_SIZE__)
+          lda     #<($200 + $7cf0)
           STA     sp
-          LDA     #>(__SDRAM_START__ + __SDRAM_SIZE__)
+          LDA     #>($200 + $7cf0)
           STA     sp+1
 
 ; ---------------------------------------------------------------------------

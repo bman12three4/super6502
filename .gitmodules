@@ -1,0 +1,3 @@
+[submodule "sw/cc65"]
+	path = sw/cc65
+	url = https://git.byronlathi.com/bslathi19/cc65

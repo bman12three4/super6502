@@ -52,7 +52,7 @@ void exec(char* filename) {
 
 		ret = 0;
 
-		ret = (*exec)();
+		//ret = (*exec)();
 
 		cprintf("ret: %x\n", ret);
 

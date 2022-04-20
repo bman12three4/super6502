@@ -3,20 +3,32 @@ default:
     - docker
 
 stages:
+  - build_toolchain
   - build_sw
   - build_hw
   - test
 
+build-cc65:
+  stage: build_toolchain
+  image: gcc
+  script:
+   - cd sw
+   - make toolchain
+
 build-kernel:
   stage: build_sw
-  image: a2geek/cc65-pipeline
+  image: gcc
   script:
     - cd sw/kernel
     - make
+  artifacts:
+    paths:
+      - sw/cc65/bin
+      - sw/cc65/lib
 
 build-bootloader:
   stage: build_sw
-  image: a2geek/cc65-pipeline
+  image: gcc
   script:
     - cd sw/bootloader
     - make
@@ -53,7 +65,7 @@ test_bb_spi:
 
 test-sw:
   stage: test
-  image: a2geek/cc65-pipeline
+  image: gcc
   script:
     - cd sw/kernel
     - make test
