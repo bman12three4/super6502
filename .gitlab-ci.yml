@@ -17,6 +17,10 @@ build-cc65:
   script:
    - cd sw
    - make toolchain
+  artifacts:
+    paths:
+      - sw/cc65/bin
+      - sw/cc65/lib
 
 build-kernel:
   stage: build_sw
@@ -24,10 +28,6 @@ build-kernel:
   script:
     - cd sw/kernel
     - make
-  artifacts:
-    paths:
-      - sw/cc65/bin
-      - sw/cc65/lib
 
 build-bootloader:
   stage: build_sw
