@@ -2,7 +2,7 @@ CC=../cc65/bin/cl65
 CFLAGS=-T -t super6502 -I. --cpu "65C02"
 test: CFLAGS=-T -t sim65c02 -I.
 LDFLAGS=-C link.ld -m $(NAME).map
-SIM=sim65
+SIM=../cc65/bin/sim65
 SIMARGS=-v -c -x 1000000
 
 FSDIR=../fsdir
