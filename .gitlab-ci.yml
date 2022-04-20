@@ -2,16 +2,50 @@ default:
   tags:
     - docker
 
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+stages:
+  - build_toolchain
+  - build_sw
+  - build_hw
+  - test
+
+build-cc65:
+  stage: build_toolchain
+  image: gcc
+  script:
+   - cd sw
+   - make toolchain
+  artifacts:
+    paths:
+      - sw/cc65/bin
+      - sw/cc65/lib
+
 build-kernel:
-  stage: build
-  image: a2geek/cc65-pipeline
+  stage: build_sw
+  image: gcc
   script:
     - cd sw/kernel
     - make
 
+build-bootloader:
+  stage: build_sw
+  image: gcc
+  script:
+    - cd sw/bootloader
+    - make
+  artifacts:
+    paths:
+      - sw/bootloader/bootloader.hex
+    expire_in: 1 week
+
+
 
 build-fpga:
-  stage: build
+  stage: build_hw
+  dependencies:
+    - build-bootloader
   image: bslathi19/modelsim_18.1:lite
   script:
     - cd hw/fpga/
@@ -34,7 +68,7 @@ test_bb_spi:
 
 test-sw:
   stage: test
-  image: a2geek/cc65-pipeline
+  image: gcc
   script:
     - cd sw/kernel
     - make test

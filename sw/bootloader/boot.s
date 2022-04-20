@@ -29,10 +29,9 @@ _init:    LDX     #$FF                 ; Initialize stack pointer to $01FF
 ; ---------------------------------------------------------------------------
 ; Set cc65 argument stack pointer
 
-          ;LDA     #<(__SDRAM_START__ + __SDRAM_SIZE__)
-          lda     #<($200 + $7cf0)
+          LDA     #<(__SDRAM_START__ + __SDRAM_SIZE__)
           STA     sp
-          LDA     #>($200 + $7cf0)
+          LDA     #>(__SDRAM_START__ + __SDRAM_SIZE__)
           STA     sp+1
 
 ; ---------------------------------------------------------------------------
@@ -46,6 +45,7 @@ _init:    LDX     #$FF                 ; Initialize stack pointer to $01FF
 ; Call main()
           cli
           JSR     _main
+          jmp     ($fffc)
 
 ; ---------------------------------------------------------------------------
 ; Back from main (this is also the _exit entry):  force a software break

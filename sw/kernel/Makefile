@@ -1,11 +1,13 @@
-CC=cl65
-CFLAGS=-T -t none -I. --cpu "65C02"
+CC=../cc65/bin/cl65
+CFLAGS=-T -t super6502 -I. --cpu "65C02"
 test: CFLAGS=-T -t sim65c02 -I.
 LDFLAGS=-C link.ld -m $(NAME).map
-SIM=sim65
+SIM=../cc65/bin/sim65
 SIMARGS=-v -c -x 1000000
 
-NAME=bootrom
+FSDIR=../fsdir
+
+NAME=kernel
 
 TEST_BIN=test.bin
 BIN=$(NAME).bin
@@ -24,7 +26,8 @@ TEST_OBJS+=$(patsubst %.s,%.o,$(filter %s,$(TEST_SRCS)))
 TEST_OBJS+=$(patsubst %.c,%.o,$(filter %c,$(TEST_SRCS)))
 TEST_OBJS+=$(filter-out boot.o,$(filter-out main.o,$(filter-out vectors.o,$(OBJS))))
 
-all: $(HEX)
+all: $(BIN)
+	cp $(BIN) $(FSDIR)
 
 test: $(TEST_BIN)
 	$(SIM) $(SIMARGS) $(TEST_BIN)
@@ -53,4 +56,5 @@ $(LISTS):
 clean:
 	rm -rf $(OBJS) $(BIN) $(HEX) $(LISTS) $(NAME).map
 	rm -rf $(TEST_OBJS) $(TEST_BIN)
+	rm -rf $(FSDIR)/$(BIN)
 

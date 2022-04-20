@@ -13,20 +13,11 @@
 uint8_t buf[512];
 
 int main() {
-	int i;
 	uint16_t rca;
 	char* filename;
 
 	clrscr();
-	cprintf("Hello, world!\n");
-
-	for (i = 0; i < 16; i++){
-		//cprintf("Mapping %1xxxx to %2xxxx\n", i, i);
-		mapper_write(i, i);
-	}
-
-	cprintf("Enabling Mapper\n");
-	mapper_enable(1);
+	cprintf("Hello, world! Modified\n");
 
 	sd_init();
 

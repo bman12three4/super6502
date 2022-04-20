@@ -2,16 +2,12 @@ MEMORY
 {
   ZP:  start = $0,    size = $100,  type = rw, define = yes;
   SDRAM: start = $200, size = $7cf0, type = rw, define = yes;
-  ROM: start = $D000, size = $3000, type = rw, define = yes;
-}
-
-FILES {
-    %O: format = bin;
+  ROM: start = $8000, size = $8000, file = %O;
 }
 
 SEGMENTS {
     ZEROPAGE: load = ZP,  type = zp,  define   = yes;
-    DATA:     load = SDRAM, type = rw,  define   = yes;
+    DATA:     load = ROM, type = rw,  define   = yes, run = SDRAM;
     BSS:      load = SDRAM, type = bss, define   = yes;
     HEAP:     load = SDRAM, type = bss, optional = yes;
     STARTUP:  load = ROM, type = ro;
