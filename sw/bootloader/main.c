@@ -8,6 +8,7 @@
 #include "devices/mapper.h"
 #include "devices/sd_card.h"
 #include "filesystem/fat.h"
+#include "exec.h"
 
 #define KERNEL_LOAD_ADDR 0xD000
 
@@ -16,9 +17,6 @@ uint8_t buf[512];
 int main() {
 	int i;
 	uint16_t rca;
-	char* filename;
-	uint32_t cluster;
-	uint8_t* kernel_load;
 
 	clrscr();
 	cprintf("boot\n");
@@ -31,7 +29,7 @@ int main() {
 	cprintf("Enabling Mapper\n");
 	mapper_enable(1);
 
-	mapper_write(0x10, 0xd);
+	mapper_write(0x10, 0xd);		//how to make these not hard coded?
 	mapper_write(0x11, 0xe);
 	mapper_write(0x12, 0xf);
 
@@ -44,15 +42,7 @@ int main() {
 
 	fat_init();
 
-	filename = (char*)malloc(FAT_MAX_FILE_NAME);
-
-	cluster = fat_parse_path_to_cluster("/kernel.bin");
-	for (kernel_load = (uint8_t*)KERNEL_LOAD_ADDR; cluster < FAT_CLUSTERMASK; kernel_load+=(8*512)) {
-		cprintf("cluster: %lx\n", cluster);
-		cprintf("Writing to %p\n", kernel_load);
-		fat_read_cluster(cluster, kernel_load);
-		cluster = fat_get_chain_value(cluster);
-	}
+	exec("/kernel.o65");
 
 	cprintf("Done!\n");
 

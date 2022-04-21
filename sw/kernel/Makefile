@@ -10,7 +10,7 @@ FSDIR=../fsdir
 NAME=kernel
 
 TEST_BIN=test.bin
-BIN=$(NAME).bin
+BIN=$(NAME).o65
 HEX=$(NAME).hex
 
 LISTS=lists

@@ -9,23 +9,27 @@ uint8_t fat_buf[512];
 
 static uint32_t fat_end_of_chain;
 
-static full_bpb_t bpb;
+full_bpb_t fat_bpb;
 
 static uint32_t data_region_start;
+static uint16_t bytes_per_cluster;
+
+static uint16_t rb_last_cluster_offs;
+static uint16_t rb_last_sector;
 
 void fat_init(){
-	int i;
+	//int i;
 
     sd_readblock(0, fat_buf);
 
-    memcpy(&bpb, &fat_buf[11], sizeof(full_bpb_t));
+    memcpy(&fat_bpb, &fat_buf[11], sizeof(full_bpb_t));
 
 	sd_readblock(1, fat_buf);
 	sd_readblock(32, fat_buf);
 
-	data_region_start = bpb.reserved_sectors + bpb.fat_count*bpb.sectors_per_fat_32;
+	data_region_start = fat_bpb.reserved_sectors + fat_bpb.fat_count*fat_bpb.sectors_per_fat_32;
 
-	sd_readblock(bpb.reserved_sectors, fat_buf);
+	sd_readblock(fat_bpb.reserved_sectors, fat_buf);
 
 	//uncomment to view start of FAT
 
@@ -36,7 +40,11 @@ void fat_init(){
 	cprintf("\n\n");
 	*/
 
+	rb_last_sector = -1;
+	rb_last_cluster_offs = -1;
+
 	fat_end_of_chain = ((uint32_t*)fat_buf)[1] & FAT_EOC_CLUSTERMASK;
+	bytes_per_cluster = fat_bpb.bytes_per_sector * fat_bpb.sectors_per_cluster;
 	cprintf("End of chain indicator: %lx\n", fat_end_of_chain);
 }
 
@@ -45,13 +53,108 @@ void fat_init(){
 void fat_read_cluster(uint16_t cluster, uint8_t* buf) {
 	uint8_t i;
 
-	for (i = 0; i < bpb.sectors_per_cluster; i++) {
-		sd_readblock(data_region_start + i + (cluster - 2) * 8, buf+i*bpb.bytes_per_sector);
+	for (i = 0; i < fat_bpb.sectors_per_cluster; i++) {
+		sd_readblock(data_region_start + i + (cluster - 2) * 8, buf+i*fat_bpb.bytes_per_sector);
 	}
 }
 
+void fat_read_sector(uint16_t cluster, uint8_t sector, uint8_t* buf) {
+	sd_readblock(data_region_start + sector + (cluster - 2) * 8, buf);
+}
+
+void fat_read_bytes(uint8_t* dest, uint16_t cluster, uint16_t offs, uint16_t len) {
+	// first we need to find the cluster that the actual data is stored in
+	// to do this we need to loop through the clusters until we reach the one that
+	// the offset is in.
+
+	int i;
+	uint16_t cluster_offs = offs / bytes_per_cluster;
+	uint16_t sector = (offs % bytes_per_cluster) / fat_bpb.bytes_per_sector;
+	uint16_t byte_offs = (offs % bytes_per_cluster) % fat_bpb.bytes_per_sector;
+
+	uint16_t bytes_read = 0;
+
+	//cprintf("Dest: %p\n", dest);
+	//cprintf("len: %d\n", len);
+
+	//Find the first cluster:
+	if (cluster_offs != rb_last_cluster_offs || sector != rb_last_sector || byte_offs + len > 512) {
+		rb_last_cluster_offs = cluster_offs;
+		rb_last_sector = sector;
+	} else {
+		//cprintf("Using cached data!\n");
+		memcpy(dest, &fat_buf[byte_offs], len);
+		return;
+	}
+
+	for (i = 0; i < cluster_offs; i++) {
+		cluster = fat_get_chain_value(cluster);
+	}
+	//cprintf("Cluster: %x\n", cluster);
+	//cprintf("Sector: %x\n", sector);
+
+
+	if (len > fat_bpb.bytes_per_sector-byte_offs) {
+		cprintf("Copying %d bytes starting at %d\n", fat_bpb.bytes_per_sector-byte_offs, byte_offs);
+		fat_read_sector(cluster, sector, fat_buf);
+		memcpy(dest, &fat_buf[byte_offs], fat_bpb.bytes_per_sector-byte_offs);
+		bytes_read += fat_bpb.bytes_per_sector-byte_offs;
+	} else {
+		cprintf("Copying %d bytes starting at %x\n", len, byte_offs);
+		fat_read_sector(cluster, sector, fat_buf);
+
+		/*
+		for (i = 0; i < 512; i++) {
+			if (!(i % 16)) cprintf("\n%02x: ", i);
+			cprintf("%02x ", fat_buf[i]);
+		}
+		*/
+
+		memcpy(dest, &fat_buf[byte_offs], len);
+		bytes_read += len;
+		return;
+	}
+
+	cprintf("Read %d total\n", bytes_read);
+
+	// get the aligned sectors
+
+	while (len-bytes_read > fat_bpb.bytes_per_sector) {
+		sector++;
+		if (sector == 8) {
+			//cprintf("Need go to to next cluster!\n");
+			sector = 0;
+			cluster = fat_get_chain_value(cluster);
+		}
+		//cprintf("Cluster: %d\n", cluster);
+		//cprintf("Sector: %d\n", sector);
+
+		fat_read_sector(cluster, sector, fat_buf);
+		memcpy(dest + bytes_read, fat_buf, fat_bpb.bytes_per_sector);
+		bytes_read += fat_bpb.bytes_per_sector;
+
+		cprintf("Read %d total\n", bytes_read);
+	}
+
+	// get the last unaligned sector
+
+	sector++;
+	if (sector == 8) {
+		cprintf("Need go to to next cluster!\n");
+		sector = 0;
+		cluster = fat_get_chain_value(cluster);
+	}
+	fat_read_sector(cluster, sector, fat_buf);
+	cprintf("Writing to %p\n", dest + bytes_read);
+	memcpy(dest + bytes_read, fat_buf, len-bytes_read);
+	bytes_read += len-bytes_read;
+
+	cprintf("Read %d total\n", bytes_read);
+
+}
+
 uint32_t fat_get_chain_value(uint16_t cluster) {
-	sd_readblock(bpb.reserved_sectors, fat_buf);
+	sd_readblock(fat_bpb.reserved_sectors, fat_buf);
 	return ((uint32_t*)fat_buf)[cluster];
 }
 
@@ -103,7 +206,7 @@ void fat_parse_vfat_filenamename(vfat_dentry_t** vfat_dentry, char* name, uint32
 				(*vfat_dentry)++;
 				if ((uint8_t*)*vfat_dentry >= fat_buf + sizeof(fat_buf)) {
 					overflows++;
-					if (overflows == bpb.sectors_per_cluster) {
+					if (overflows == fat_bpb.sectors_per_cluster) {
 						cprintf("Too many overflows, go back to fat!\n");		//TODO this
 						return;
 					}

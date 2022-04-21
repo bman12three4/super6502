@@ -6,8 +6,14 @@ MEMORY
 }
 
 FILES {
-    %O: format = bin;
+    %O: format = o65;
 }
+
+FORMATS {
+        o65: os = 5, version = 0, type = small,
+             export = _nmi_int, export = _init, export = _irq_int;
+
+    }
 
 SEGMENTS {
     ZEROPAGE: load = ZP,  type = zp,  define   = yes;

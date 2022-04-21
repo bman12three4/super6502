@@ -117,6 +117,8 @@ void fat_init();
 
 uint16_t fat_parse_path_to_cluster(char* filename);
 void fat_read_cluster(uint16_t cluster, uint8_t* buf);
+void fat_read_sector(uint16_t cluster, uint8_t sector, uint8_t* buf);
+void fat_read_bytes(uint8_t* dest, uint16_t cluster, uint16_t offs, uint16_t len);
 uint32_t fat_get_chain_value(uint16_t cluster);
 
 #endif

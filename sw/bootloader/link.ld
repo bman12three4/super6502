@@ -1,7 +1,7 @@
 MEMORY
 {
   ZP:  start = $0,    size = $100,  type = rw, define = yes;
-  SDRAM: start = $200, size = $7cf0, type = rw, define = yes;
+  SDRAM: start = $1200, size = $6cf0, type = rw, define = yes;
   ROM: start = $8000, size = $8000, file = %O;
 }
 
