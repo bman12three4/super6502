@@ -1,4 +1,4 @@
-CC=cl65
+CC=../cc65/bin/cl65
 CFLAGS=-T -t super6502 -I. --cpu "65C02"
 test: CFLAGS=-T -t sim65c02 -I.
 LDFLAGS=-C link.ld -m $(NAME).map
@@ -24,6 +24,7 @@ $(HEX): $(BIN)
 
 $(BIN): $(OBJS)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $@
+	cp $(BIN) ../fsdir
 
 %.o: %.c $(LISTS)
 	$(CC) $(CFLAGS) -l $(LISTS)/$<.list -c $< -o $@

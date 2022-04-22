@@ -1,3 +1,6 @@
+#include <stdio.h>
+
 int main() {
-    return 0x41;
+    printf("Hello from userland!\n");
+    return 0xcc;
 }

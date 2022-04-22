@@ -9,56 +9,29 @@ uint8_t fat_buf[512];
 
 static uint32_t fat_end_of_chain;
 
-static full_bpb_t bpb;
+static full_bpb_t fat_bpb;
 
 static uint32_t data_region_start;
+static uint16_t bytes_per_cluster;
 
-void fat_print_pbp_info(full_bpb_t* bpb){
-	cprintf("Bytes per sector: %d\n", bpb->bytes_per_sector);
-	cprintf("Sectors per cluster: %d\n", bpb->sectors_per_cluster);
-	cprintf("Reserved Sectors: %d\n", bpb->reserved_sectors);
-	cprintf("Fat Count: %d\n", bpb->fat_count);
-	cprintf("Max Dir Entries: %d\n", bpb->max_dir_entries);
-	cprintf("Total Sector Count: %d\n", bpb->total_sector_count);
-	cprintf("Media Descriptor: 0x%x\n", bpb->media_descriptor);
-	cprintf("Sectors per Fat: %d\n", bpb->sectors_per_fat_16);
-	cprintf("\n");
+static uint16_t rb_last_cluster_offs;
+static uint16_t rb_last_sector;
 
-	cprintf("Sectors per track: %d\n", bpb->sectors_per_track);
-	cprintf("Head Count: %d\n", bpb->head_count);
-	cprintf("Hidden Sector Count: %ld\n", bpb->hidden_sector_count);
-	cprintf("Logical Sector Count: %ld\n", bpb->logical_sector_count);
-	cprintf("Sectors per Fat: %ld\n", bpb->sectors_per_fat_32);
-	cprintf("Extended Flags: 0x%x\n", bpb->extended_flags);
-	cprintf("Version: %d\n", bpb->version);
-	cprintf("Root Cluster: 0x%lx\n", bpb->root_cluster);
-	cprintf("System Information: 0x%x\n", bpb->system_information);
-	cprintf("Backup Boot Sector: 0x%x\n", bpb->backup_boot_sector);
-	cprintf("\n");
-
-	cprintf("Drive Number: %d\n", bpb->drive_num);
-	cprintf("Extended Signature: 0x%x\n", bpb->extended_signature);
-	cprintf("Volume ID: 0x%lx\n", bpb->volume_id);
-	cprintf("Partition Label: %.11s\n", &bpb->partition_label);
-	cprintf("Partition Label: %.8s\n", &bpb->filesystem_type);
-	cprintf("\n");
-}
 
 void fat_init(){
 	//int i;
 
     sd_readblock(0, fat_buf);
 
-    memcpy(&bpb, &fat_buf[11], sizeof(full_bpb_t));
+    memcpy(&fat_bpb, &fat_buf[11], sizeof(full_bpb_t));
 
 	sd_readblock(1, fat_buf);
 	sd_readblock(32, fat_buf);
 
-	fat_print_pbp_info(&bpb);
 
-	data_region_start = bpb.reserved_sectors + bpb.fat_count*bpb.sectors_per_fat_32;
+	data_region_start = fat_bpb.reserved_sectors + fat_bpb.fat_count*fat_bpb.sectors_per_fat_32;
 
-	sd_readblock(bpb.reserved_sectors, fat_buf);
+	sd_readblock(fat_bpb.reserved_sectors, fat_buf);
 
 	//uncomment to view start of FAT
 
@@ -69,29 +42,121 @@ void fat_init(){
 	cprintf("\n\n");
 	*/
 
+	bytes_per_cluster = fat_bpb.bytes_per_sector * fat_bpb.sectors_per_cluster;
 	fat_end_of_chain = ((uint32_t*)fat_buf)[1] & FAT_EOC_CLUSTERMASK;
 	cprintf("End of chain indicator: %lx\n", fat_end_of_chain);
 }
 
-void fat_read(char* filename, void* buf) {
-	vfat_dentry_t* vfat_dentry;
-	dos_dentry_t* dos_dentry;
-	uint32_t cluster;
 
-	(void)filename;	//just ignore filename
+// make sure you have enough space.
+void fat_read_cluster(uint16_t cluster, uint8_t* buf) {
+	uint8_t i;
 
-    sd_readblock(data_region_start, buf);
-
-	vfat_dentry = (vfat_dentry_t*)buf;
-	while(vfat_dentry->sequence_number == 0xe5)
-		vfat_dentry++;
-
-	dos_dentry = (dos_dentry_t*)(vfat_dentry + 1);
-
-	cluster = ((uint32_t)dos_dentry->first_cluster_h << 16) + dos_dentry->first_cluster_l;
-
-	sd_readblock(data_region_start + (cluster - 2) * 8, buf);
+	for (i = 0; i < fat_bpb.sectors_per_cluster; i++) {
+		sd_readblock(data_region_start + i + (cluster - 2) * 8, buf+i*fat_bpb.bytes_per_sector);
+	}
 }
+
+void fat_read_sector(uint16_t cluster, uint8_t sector, uint8_t* buf) {
+	sd_readblock(data_region_start + sector + (cluster - 2) * 8, buf);
+}
+
+void fat_read_bytes(uint8_t* dest, uint16_t cluster, uint16_t offs, uint16_t len) {
+	// first we need to find the cluster that the actual data is stored in
+	// to do this we need to loop through the clusters until we reach the one that
+	// the offset is in.
+
+	int i;
+	uint16_t cluster_offs = offs / bytes_per_cluster;
+	uint16_t sector = (offs % bytes_per_cluster) / fat_bpb.bytes_per_sector;
+	uint16_t byte_offs = (offs % bytes_per_cluster) % fat_bpb.bytes_per_sector;
+
+	uint16_t bytes_read = 0;
+
+	//cprintf("Dest: %p\n", dest);
+	//cprintf("len: %d\n", len);
+
+	//Find the first cluster:
+	if (cluster_offs != rb_last_cluster_offs || sector != rb_last_sector || byte_offs + len > 512) {
+		rb_last_cluster_offs = cluster_offs;
+		rb_last_sector = sector;
+	} else {
+		//cprintf("Using cached data!\n");
+		memcpy(dest, &fat_buf[byte_offs], len);
+		return;
+	}
+
+	for (i = 0; i < cluster_offs; i++) {
+		cluster = fat_get_chain_value(cluster);
+	}
+	//cprintf("Cluster: %x\n", cluster);
+	//cprintf("Sector: %x\n", sector);
+
+
+	if (len > fat_bpb.bytes_per_sector-byte_offs) {
+		cprintf("Copying %d bytes starting at %d\n", fat_bpb.bytes_per_sector-byte_offs, byte_offs);
+		fat_read_sector(cluster, sector, fat_buf);
+		memcpy(dest, &fat_buf[byte_offs], fat_bpb.bytes_per_sector-byte_offs);
+		bytes_read += fat_bpb.bytes_per_sector-byte_offs;
+	} else {
+		cprintf("Copying %d bytes starting at %x\n", len, byte_offs);
+		fat_read_sector(cluster, sector, fat_buf);
+
+		/*
+		for (i = 0; i < 512; i++) {
+			if (!(i % 16)) cprintf("\n%02x: ", i);
+			cprintf("%02x ", fat_buf[i]);
+		}
+		*/
+
+		memcpy(dest, &fat_buf[byte_offs], len);
+		bytes_read += len;
+		return;
+	}
+
+	cprintf("Read %d total\n", bytes_read);
+
+	// get the aligned sectors
+
+	while (len-bytes_read > fat_bpb.bytes_per_sector) {
+		sector++;
+		if (sector == 8) {
+			//cprintf("Need go to to next cluster!\n");
+			sector = 0;
+			cluster = fat_get_chain_value(cluster);
+		}
+		//cprintf("Cluster: %d\n", cluster);
+		//cprintf("Sector: %d\n", sector);
+
+		fat_read_sector(cluster, sector, fat_buf);
+		memcpy(dest + bytes_read, fat_buf, fat_bpb.bytes_per_sector);
+		bytes_read += fat_bpb.bytes_per_sector;
+
+		cprintf("Read %d total\n", bytes_read);
+	}
+
+	// get the last unaligned sector
+
+	sector++;
+	if (sector == 8) {
+		cprintf("Need go to to next cluster!\n");
+		sector = 0;
+		cluster = fat_get_chain_value(cluster);
+	}
+	fat_read_sector(cluster, sector, fat_buf);
+	cprintf("Writing to %p\n", dest + bytes_read);
+	memcpy(dest + bytes_read, fat_buf, len-bytes_read);
+	bytes_read += len-bytes_read;
+
+	cprintf("Read %d total\n", bytes_read);
+
+}
+
+uint32_t fat_get_chain_value(uint16_t cluster) {
+	sd_readblock(fat_bpb.reserved_sectors, fat_buf);
+	return ((uint32_t*)fat_buf)[cluster];
+}
+
 
 //the dentry is a double pointer because we need to increment it.
 void fat_parse_vfat_filenamename(vfat_dentry_t** vfat_dentry, char* name, uint32_t cluster) {
@@ -141,7 +206,7 @@ void fat_parse_vfat_filenamename(vfat_dentry_t** vfat_dentry, char* name, uint32
 				(*vfat_dentry)++;
 				if ((uint8_t*)*vfat_dentry >= fat_buf + sizeof(fat_buf)) {
 					overflows++;
-					if (overflows == bpb.sectors_per_cluster) {
+					if (overflows == fat_bpb.sectors_per_cluster) {
 						cprintf("Too many overflows, go back to fat!\n");		//TODO this
 						return;
 					}

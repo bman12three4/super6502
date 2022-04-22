@@ -6,7 +6,7 @@
 ;
 ; Checks for a BRK instruction and returns from all valid interrupts.
 
-.import   _handle_irq
+.import   _handle_irq, _handle_syscall
 
 .export   _irq_int, _nmi_int
 .export   _irq_get_status, _irq_set_status
@@ -45,8 +45,10 @@ irq:       PLA                    ; Restore accumulator contents
 ; ---------------------------------------------------------------------------
 ; BRK detected, stop
 
-break:     JMP break              ; If BRK is detected, something very bad
-                                  ;   has happened, so stop running
+break:     PLA
+           PLX
+           jsr _handle_syscall    ; If BRK is detected, a syscall was requested
+           rti
 
 _irq_get_status:
            lda IRQ_STATUS

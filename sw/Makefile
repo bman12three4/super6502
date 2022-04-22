@@ -1,6 +1,6 @@
-.PHONY: all install bootloader kernel clean
+.PHONY: all install bootloader kernel clean test_exec
 
-all: toolchain bootloader kernel
+all: toolchain bootloader kernel test_exec
 
 install: all
 	sh script/format_disk.sh
@@ -14,6 +14,9 @@ bootloader:
 
 kernel:
 	@$(MAKE) -C kernel
+
+test_exec:
+	@$(MAKE) -C test_exec
 
 
 clean:

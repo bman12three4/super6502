@@ -39,5 +39,5 @@ SYMBOLS {
 
 FORMATS {
         o65: os = 5, version = 0, type = small,
-             export = _main;
+             export = _start;
     }

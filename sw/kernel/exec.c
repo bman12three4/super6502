@@ -9,6 +9,13 @@ void exec(char* filename) {
 	o65_header_t* header;
 	o65_opt_t* o65_opt;
 	uint8_t* seg_ptr;
+	uint16_t cluster;
+	uint16_t offs;
+	uint8_t reloc_data;
+	uint16_t num_undef_ref;
+
+	int i;
+
 
 	uint8_t* code_base;
 	uint8_t* data_base;
@@ -18,7 +25,9 @@ void exec(char* filename) {
 	uint8_t (*exec)(void);
 	uint8_t ret;
 
-    fat_read(filename, fat_buf);
+
+	cluster = fat_parse_path_to_cluster(filename);
+	fat_read_sector(cluster, 0, fat_buf);
 
 	header = (o65_header_t*)fat_buf;
 
@@ -42,17 +51,77 @@ void exec(char* filename) {
 
 		seg_ptr = (uint8_t*)o65_opt + 1;
 
-		memcpy((uint8_t*)code_base, seg_ptr, code_len);
+		offs = (uint16_t)seg_ptr-(uint16_t)fat_buf;
 
-		seg_ptr+=code_len;
+		fat_read_bytes(code_base, cluster, offs, code_len);
 
-		memcpy((uint8_t*)data_base, seg_ptr, data_len);
+		offs += code_len;
+		fat_read_bytes(data_base, cluster, offs, data_len);
 
-		exec = (uint8_t (*)(void))code_base;
+		offs += data_len;
+		fat_read_bytes((uint8_t*)&num_undef_ref, cluster, offs, 2);
+
+		if (num_undef_ref) {
+			cprintf("Error!\n");
+			for(;;);
+		}
+
+
+		cprintf("\n\n");
+		// so we assume that there are no undefined references and keep moving on
+		offs += 2;
+
+		//text and data reloc
+		for (i = 0; i < 2; i++){
+			while(1) {
+				//cprintf(".");
+				// now we need to zoom past the relocation table.
+				// The first byte(s) is the offset
+				fat_read_bytes(&reloc_data, cluster, offs++, 1);
+				if (reloc_data == 0xff) {
+					continue;
+				} else if (reloc_data == 0) {
+					cprintf("Found the end!\n");
+					break;
+				} else {
+					//cprintf("Reloc offs: %x\n", reloc_data);
+				}
+				fat_read_bytes(&reloc_data, cluster, offs++, 1);
+				//cprintf("Type + Segment: %x\n", reloc_data);
+
+				//cprintf("Type: %x\n", reloc_data >> 4);
+				switch (reloc_data >> 4) {
+					case O65_RELOC_TYPE_HIGH:
+						offs++;
+					case O65_RELOC_TYPE_LOW:
+					case O65_RELOC_TYPE_WORD:
+						break;
+					default:
+						cprintf("Unhandled type\n");
+						for (;;);
+				}
+			}
+		}
+
+		fat_read_bytes((uint8_t*)&num_undef_ref, cluster, offs, 2);
+		//cprintf("Number of exported globals: %d\n", num_undef_ref);
+
+		offs += 2;
+		i = 1;
+		while ((int8_t)i) {
+			fat_read_bytes((uint8_t*)&i, cluster, offs++, 1);
+			cprintf("%c", (uint8_t)i);
+		}
+
+		fat_read_bytes((uint8_t*)&i, cluster, offs++, 1);
+		cprintf("\nSegment: %x\n", (uint8_t)i);
+
+		fat_read_bytes((uint8_t*)&exec, cluster, offs, 2);
+		cprintf("Address: %p\n", exec);
 
 		ret = 0;
 
-		//ret = (*exec)();
+		ret = (*exec)();
 
 		cprintf("ret: %x\n", ret);
 

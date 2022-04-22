@@ -28,16 +28,7 @@ int main() {
 
 	fat_init();
 
-	filename = (char*)malloc(FAT_MAX_FILE_NAME);
-
-	for(;;) {
-		cprintf("Filename: ");
-		cscanf("%s", filename);
-		cprintf("\n");
-		fat_parse_path_to_cluster(filename);
-	}
-
-	//exec("/test.o65");
+	exec("/test.o65");
 
 	cprintf("Done!\n");
 

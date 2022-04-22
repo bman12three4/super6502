@@ -20,6 +20,20 @@
 #define O65_OS_OPENCBM 4
 #define O65_OS_SUPER6502 5
 
+#define O65_RELOC_TYPE_WORD     0x8
+#define O65_RELOC_TYPE_HIGH     0x4
+#define O65_RELOC_TYPE_LOW      0x2
+#define O65_RELOC_TYPE_SEGADR   0xc
+#define O65_RELOC_TYPE_SEG      0xa
+
+#define O65_RELOC_ID_UNDEF     0
+#define O65_RELOC_ID_ABS       1
+#define O65_RELOC_ID_TEXT      2
+#define O65_RELOC_ID_DATA      3
+#define O65_RELOC_ID_BSS       4
+#define O65_RELOC_ID_ZERO      5
+
+
 typedef union {
     struct {
         int cpu : 1;
