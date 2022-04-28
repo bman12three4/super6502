@@ -28,6 +28,8 @@ logic [8:0] data_count;
 
 logic [15:0] data_crc;
 
+logic read_flag, next_read_flag;
+logic data_flag, next_data_flag;
 
 assign rx_val = rxcmd_buf[39:8];
 
@@ -42,9 +44,6 @@ always_comb begin
         data_out = rxdata_buf[data_count];
     end
 end
-
-logic read_flag, next_read_flag;
-logic data_flag, next_data_flag;
 
 typedef enum bit [2:0] {IDLE, LOAD, CRC, TXCMD, RXCMD, TXDATA, RXDATA, RXDCRC} macro_t;
 struct packed {
