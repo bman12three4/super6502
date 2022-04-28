@@ -73,6 +73,9 @@ _sd_init:
         lda #$00                ; cmd = 0
         jsr _sd_card_command
 
+		nop
+		nop
+
         lda #$aa
         sta tmp1
         inc tmp2                ; arg = 000001aa
@@ -87,6 +90,10 @@ _sd_init:
         stz tmp2                ; arg = 00000000
         lda #$37                ; cmd = 55
         jsr _sd_card_command
+
+		lda #<_resp 
+        ldx #>_resp
+        jsr _sd_card_resp       ; resp
 
         lda #$18
         sta tmp3
@@ -103,6 +110,10 @@ _sd_init:
         stz tmp4
         lda #$02                ; arg = 0
         jsr _sd_card_command    ; cmd = 2
+
+        lda #$25
+@1:	dec A
+        bne @1
 
         lda #<_resp 
         ldx #>_resp
@@ -207,5 +218,6 @@ _sd_readblock:
 @end:   jsr incsp4              ; addr was on stack
         rts
 
+.bss
 _resp:  .res 4
         
