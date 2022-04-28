@@ -1,10 +1,14 @@
 .FEATURE string_escapes
 
-.importzp sp, ptr1, ptr2, tmp1, tmp2
+.importzp ptr1, regbank
 
 .export _o65_print_option
 
 .autoimport on
+
+; debug only!
+;_cprintf = _printf
+;_cputc = _putchar
 
 .rodata
 
@@ -48,14 +52,30 @@ types_table:
 .code
 
 _o65_print_option:
-        sta ptr1                    ; ptr1 = &opt
-        stx ptr1+1
+        sta ptr1
+        stx ptr1+1                  ; temporary
+
+        lda regbank
+        pha
+        lda regbank+1
+        pha
+        lda regbank+2
+        pha
+        lda regbank+3
+        pha                         ; push regbank on stack
+
+        lda ptr1
+        sta regbank
+        lda ptr1+1
+        stx regbank+1               ; regbank[0:1] is &opt
 
         lda #<(s_opt_length)
         ldx #>(s_opt_length)
         jsr pushax
-        lda (ptr1)
-        sta tmp1                    ; len in tmp1
+        ldy #$0
+        lda (regbank),y
+
+        sta regbank+2               ; len in regbank[2]
         jsr pusha0
         ldy #$04
         jsr _cprintf                ; cprintf("Option Length: %d\n", opt->olen)
@@ -64,15 +84,17 @@ _o65_print_option:
         ldx #>(s_opt_type)
         jsr pushax
         ldy #$1
-        lda (ptr1),y
-        sta tmp2                    ; type in tmp2
+        lda (regbank),y
+        sta regbank+3               ; type in regbank[3]
         jsr pusha0
         ldy #$4
         jsr _cprintf                ; cprintf("Option Type: %x\n", opt->type)
 
-        ldy tmp2                    ; get type again
-        cpy #$04
-        bpl @badtype
+        lda regbank+3               ; get type again
+        cmp #$05
+        bcs @badtype
+        asl
+        tay
         lda types_table,y
         ldx types_table+1,y
         bra @printtype
@@ -84,47 +106,55 @@ _o65_print_option:
         ldy #$2
         jsr _cprintf                ; print type
 
-        ldy #$2
-        lda (ptr1),y
-        sta ptr2
-        iny
-        lda (ptr1),y
-        sta ptr2+1                  ; opt->data in ptr2
+        inc regbank                 ; (overflow??)
+        inc regbank                 ; opt->data in regbank
 
-        lda tmp2
+        lda regbank+3
         cmp #$1                     ; compare to OS
         beq @print_os
 
         ldy #$00
-        dec tmp2
-        dec tmp2                    ; compare to len-2
+        phy
+        dec regbank+2
+        dec regbank+2               ; compare to len-2
 @charloop:
         lda #<(s_format_char)
         ldx #>(s_format_char)
         jsr pushax                  ; "%c"
-        lda (ptr2),y
-        jsr pusha                   ; opt->data[i]
+        ply
+        lda (regbank),y
         phy
-        ldy #$3
+        jsr pusha0                   ; opt->data[i]
+        ldy #$4
         jsr _cprintf
         ply
         iny
-        cpy tmp2
-        bcc @charloop
+        cpy regbank+2
+        phy
+        bmi @charloop
+        ply
         bra @end
 
 @print_os:
         lda #<(s_format_hex)
         ldx #>(s_format_hex)        ; "%x"
         jsr pushax
-        lda (ptr2)
+        lda (regbank)
         jsr pusha0                  ; opt->data[0]
+        ldy #$4
         jsr _cprintf
 
-@end:
-        lda #$0a
+@end:   lda #$0a
         jsr _cputc
         jsr _cputc
 
+        pla
+        sta regbank+3
+        pla
+        sta regbank+2
+        pla
+        sta regbank+1
+        pla
+        sta regbank
 
-    rts
+        rts
