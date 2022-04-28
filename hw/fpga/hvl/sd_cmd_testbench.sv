@@ -21,6 +21,8 @@ logic o_sd_data;
 
 logic cpu_phi2;
 
+logic [7:0] data_out;
+
 always @(posedge clk) begin
     cpu_phi2 <= cpu_phi2 === '0;
 end
@@ -51,6 +53,8 @@ task verify_cmd(logic [5:0] cmd, logic [31:0] arg, logic [47:0] verify);
     write_reg(2, arg[23:16]);
     write_reg(3, arg[31:24]);
     write_reg(4, cmd);
+
+    #1;
 
     $display("arg: %x", dut.arg);
     $display("dut.cmd: %x", dut.cmd);
