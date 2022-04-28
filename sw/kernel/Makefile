@@ -1,6 +1,6 @@
 CC=../cc65/bin/cl65
 CFLAGS=-T -t super6502 -I. --cpu "65C02"
-test: CFLAGS=-T -t sim65c02 -I.
+test: CFLAGS=-T -t sim65c02 -I. -DTEST
 LDFLAGS=-C link.ld -m $(NAME).map
 SIM=../cc65/bin/sim65
 SIMARGS=-v -c -x 1000000
@@ -25,6 +25,8 @@ TEST_SRCS=$(wildcard $(TESTS)/*.s) $(wildcard $(TESTS)/*.c)
 TEST_OBJS+=$(patsubst %.s,%.o,$(filter %s,$(TEST_SRCS)))
 TEST_OBJS+=$(patsubst %.c,%.o,$(filter %c,$(TEST_SRCS)))
 TEST_OBJS+=$(filter-out boot.o,$(filter-out main.o,$(filter-out vectors.o,$(OBJS))))
+
+.PHONY: all test
 
 all: $(BIN)
 	cp $(BIN) $(FSDIR)
