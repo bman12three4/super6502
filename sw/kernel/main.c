@@ -19,9 +19,7 @@ int main() {
 	clrscr();
 	cprintf("Hello, world! Modified\n");
 
-	sd_init();
-
-	rca = sd_get_rca();
+	rca = sd_init();
 	cprintf("rca: %x\n", rca);
 
 	sd_select_card(rca);
