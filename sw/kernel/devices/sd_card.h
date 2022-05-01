@@ -3,8 +3,7 @@
 
 #include <stdint.h>
 
-void sd_init();
-uint16_t sd_get_rca();
+uint16_t sd_init();
 uint16_t sd_select_card(uint16_t rca);
 uint16_t sd_get_status(uint16_t rca);
 void sd_readblock(uint32_t addr, void* buf);

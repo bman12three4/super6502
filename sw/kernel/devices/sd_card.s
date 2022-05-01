@@ -1,12 +1,11 @@
 .include "io.inc65"
 
-.importzp sp, sreg, ptr1, tmp1, tmp2, tmp3, tmp4
+.importzp sp, sreg, ptr1, ptr2, tmp1, tmp2, tmp3, tmp4
 
 .export _sd_card_command
 .export _sd_card_resp
 .export _sd_card_wait_for_data
 .export _sd_init
-.export _sd_get_rca
 .export _sd_select_card
 .export _sd_readblock
 
@@ -37,6 +36,15 @@ _sd_card_resp:
         phy
         sta ptr1        ; store pointer
         stx ptr1+1
+        lda #$0
+        ldy #$0
+        sta (ptr1),y
+        iny
+        sta (ptr1),y
+        iny
+        sta (ptr1),y
+        iny
+        sta (ptr1),y
 @1:     lda SD_CMD      ; wait for status flag
         and #$01
         beq @1
@@ -55,6 +63,48 @@ _sd_card_resp:
         ply
         rts
 
+; int sd_card_resp_timeout(uint32_t* resp);
+_sd_card_resp_timeout:
+        phy
+        sta ptr1        ; store pointer
+        stx ptr1+1
+        lda #$0
+        ldy #$0
+        sta (ptr1),y
+        iny
+        sta (ptr1),y
+        iny
+        sta (ptr1),y
+        iny
+        sta (ptr1),y
+        ldy #$9
+@1:     dey
+        beq @timeout
+        lda SD_CMD      ; wait for status flag
+        and #$01
+        beq @1
+        lda SD_ARG
+        ldy #$0
+        sta (ptr1),y
+        lda SD_ARG+1
+        iny
+        sta (ptr1),y
+        lda SD_ARG+2
+        iny
+        sta (ptr1),y
+        lda SD_ARG+3
+        iny
+        sta (ptr1),y
+        ply
+        lda #$00
+        ldx #$00
+        rts
+@timeout:
+        ply
+        lda #$ff
+        ldx #$ff
+        rts
+
 _sd_card_wait_for_data:
         pha
 @1:     lda SD_CMD      ; wait for status flag
@@ -66,6 +116,7 @@ _sd_card_wait_for_data:
 ; void sd_init();
 ;
 _sd_init:
+@cmd0:
         stz tmp1
         stz tmp2
         stz tmp3
@@ -73,9 +124,15 @@ _sd_init:
         lda #$00                ; cmd = 0
         jsr _sd_card_command
 
-		nop
-		nop
-
+        nop                     ; no resp, so need to wait for cmd to finish
+        nop
+        nop
+        nop
+        nop
+        nop
+        nop
+        nop
+@cmd8:
         lda #$aa
         sta tmp1
         inc tmp2                ; arg = 000001aa
@@ -84,14 +141,20 @@ _sd_init:
 
         lda #<_resp 
         ldx #>_resp
-        jsr _sd_card_resp       ; resp
+        jsr _sd_card_resp_timeout
 
+        lda _resp
+        beq @cmd8
+
+@acmd41:
         stz tmp1
         stz tmp2                ; arg = 00000000
+        stz tmp3
+        stz tmp4
         lda #$37                ; cmd = 55
         jsr _sd_card_command
 
-		lda #<_resp 
+        lda #<_resp 
         ldx #>_resp
         jsr _sd_card_resp       ; resp
 
@@ -106,24 +169,22 @@ _sd_init:
         ldx #>_resp
         jsr _sd_card_resp       ; resp
 
+        lda _resp+3
+        beq @acmd41
+
         stz tmp3
         stz tmp4
         lda #$02                ; arg = 0
         jsr _sd_card_command    ; cmd = 2
-
-        lda #$25
-@1:	dec A
+        
+        lda #$25                ; don't trust read flag, this is a long response
+@1:     dec A
         bne @1
 
         lda #<_resp 
         ldx #>_resp
         jsr _sd_card_resp       ; resp
 
-        rts
-
-; uint16_t sd_get_rca();
-;
-_sd_get_rca:
         stz tmp1
         stz tmp2
         stz tmp3
@@ -184,17 +245,21 @@ _sd_get_status:
 ; void sd_readblock(uint32_t addr, void* buf)
 ;
 _sd_readblock:
-        sta ptr1                ; ptr1 = &buf      
-        stx ptr1+1
+        sta ptr2                ; ptr2 = &buf      
+        stx ptr2+1
 
+        ldy #$3
+        lda (sp),y
+        sta tmp4
+        dey
+        lda (sp),y
+        sta tmp3
+        dey
+        lda (sp),y
+        sta tmp2
         lda (sp)
         sta tmp1
-        lda (sp+1)
-        sta tmp2
-        lda (sp+2)
-        sta tmp3
-        lda (sp+3)
-        sta tmp4                ; arg = addr
+
         lda #$11                ; cmd = 17
         jsr _sd_card_command
 
@@ -207,12 +272,13 @@ _sd_readblock:
         ldy #$00
         sty tmp1                
 @loop:  lda SD_DATA             ; loop 256 times
-        sta (ptr1),y
+        sta (ptr2),y
         iny
         bne @loop
         lda tmp1
         bne @end                ; stop after second loop
-        inc ptr1+1              ; inc high byte of ptr (+256)
+        inc ptr2+1              ; inc high byte of ptr (+256)
+        inc tmp1
         bra @loop               ; y is already zer0
 
 @end:   jsr incsp4              ; addr was on stack
