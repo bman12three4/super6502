@@ -1,3 +1,6 @@
 [submodule "sw/cc65"]
 	path = sw/cc65
 	url = https://git.byronlathi.com/bslathi19/cc65
+[submodule "hw/kicad_library"]
+	path = hw/kicad_library
+	url = https://git.byronlathi.com/bslathi19/kicad_library
