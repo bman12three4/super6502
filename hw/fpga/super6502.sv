@@ -62,7 +62,7 @@ logic o_sd_data, i_sd_data;
 assign ARDUINO_IO[11] = o_sd_cmd ? 1'bz : 1'b0;
 assign ARDUINO_IO[12] = o_sd_data ? 1'bz : 1'b0;
 assign ARDUINO_IO[13] = cpu_phi2;
-assign ARDUINO_IO[6] = 1'b1;
+assign ARDUINO_IO[6] = 1'bz;
 
 assign i_sd_cmd = ARDUINO_IO[11];
 assign i_sd_data = ARDUINO_IO[12];
