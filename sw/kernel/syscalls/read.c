@@ -4,7 +4,6 @@
 
 void read() {
     cprintf("Read syscall.\n");
-    asm("rti");
 }
 
 #endif TEST

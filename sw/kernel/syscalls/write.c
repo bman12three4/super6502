@@ -4,7 +4,6 @@
 
 void write() {
     cprintf("Write syscall.\n");
-    asm("rti");
 }
 
 #endif

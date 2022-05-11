@@ -4,6 +4,7 @@
 
 #include "filesystem/fat.h"
 #include "filesystem/o65.h"
+#include "syscalls/process.h"
 
 void exec(char* filename) {
 	o65_header_t* header;
