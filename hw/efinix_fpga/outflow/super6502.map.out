@@ -1,0 +1,113 @@
+[EFX-0000 INFO] Efinix FPGA Synthesis.
+[EFX-0000 INFO] Version: 2021.2.323.4.6
+[EFX-0000 INFO] Compiled: May 12 2022.
+[EFX-0000 INFO] 
+[EFX-0000 INFO] Copyright (C) 2013 - 2021 Efinix Inc. All rights reserved.
+
+INFO: Read project database "/home/byron/Projects/super6502/hw/efinix_fpga/super6502.xml"
+INFO: ***** Beginning Analysis ... *****
+INFO: default VHDL library search path is now "/home/byron/Software/efinity/2021.2/sim_models/vhdl/packages/vhdl_2008" (VHDL-1504)
+-- Analyzing Verilog file '/home/byron/Software/efinity/2021.2/sim_models/maplib/efinix_maplib.v' (VERI-1482)
+-- Analyzing Verilog file '/home/byron/Projects/super6502/hw/efinix_fpga/super6502.sv' (VERI-1482)
+-- Analyzing Verilog file '/home/byron/Projects/super6502/hw/efinix_fpga/crc7.sv' (VERI-1482)
+-- Analyzing Verilog file '/home/byron/Projects/super6502/hw/efinix_fpga/memory_mapper.sv' (VERI-1482)
+-- Analyzing Verilog file '/home/byron/Projects/super6502/hw/efinix_fpga/uart.sv' (VERI-1482)
+-- Analyzing Verilog file '/home/byron/Projects/super6502/hw/efinix_fpga/HexDriver.sv' (VERI-1482)
+-- Analyzing Verilog file '/home/byron/Projects/super6502/hw/efinix_fpga/addr_decode.sv' (VERI-1482)
+-- Analyzing Verilog file '/home/byron/Projects/super6502/hw/efinix_fpga/board_io.sv' (VERI-1482)
+-- Analyzing Verilog file '/home/byron/Projects/super6502/hw/efinix_fpga/SevenSeg.sv' (VERI-1482)
+-- Analyzing Verilog file '/home/byron/Projects/super6502/hw/efinix_fpga/sd_controller.sv' (VERI-1482)
+-- Analyzing Verilog file '/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv' (VERI-1482)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(21): INFO: undeclared symbol 'w_areset', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(22): INFO: undeclared symbol 'w_sysclk', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(27): INFO: undeclared symbol 'r_we_1P', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(28): INFO: undeclared symbol 'r_re_1P', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(29): INFO: undeclared symbol 'r_last_1P', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(30): INFO: undeclared symbol 'r_addr_1P', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(31): INFO: undeclared symbol 'r_din_1P', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(32): INFO: undeclared symbol 'w_dout', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(33): INFO: undeclared symbol 'w_sdr_state', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(34): INFO: undeclared symbol 'w_sdr_init_done', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(35): INFO: undeclared symbol 'w_wr_ack', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(36): INFO: undeclared symbol 'w_rd_ack', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(38): INFO: undeclared symbol 'w_rd_valid', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(40): INFO: undeclared symbol 'w_sdr_CKE', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(41): INFO: undeclared symbol 'w_sdr_n_CS', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(42): INFO: undeclared symbol 'w_sdr_n_RAS', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(43): INFO: undeclared symbol 'w_sdr_n_CAS', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(44): INFO: undeclared symbol 'w_sdr_n_WE', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(45): INFO: undeclared symbol 'w_sdr_BA', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(46): INFO: undeclared symbol 'w_sdr_ADDR', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(47): INFO: undeclared symbol 'w_sdr_DATA', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(48): INFO: undeclared symbol 'w_sdr_DATA_oe', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(50): INFO: undeclared symbol 'w_sdr_DQM', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(52): INFO: undeclared symbol 'w_dbg_dly_cnt_b', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(53): INFO: undeclared symbol 'w_dbg_tRCD_done', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(54): INFO: undeclared symbol 'w_dbg_tRTW_done', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(55): INFO: undeclared symbol 'w_dbg_ref_req', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(56): INFO: undeclared symbol 'w_dbg_wr_ack', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(57): INFO: undeclared symbol 'w_dbg_rd_ack', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(58): INFO: undeclared symbol 'w_dbg_n_CS', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(59): INFO: undeclared symbol 'w_dbg_n_RAS', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(60): INFO: undeclared symbol 'w_dbg_n_CAS', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(61): INFO: undeclared symbol 'w_dbg_n_WE', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(62): INFO: undeclared symbol 'w_dbg_BA', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(63): INFO: undeclared symbol 'w_dbg_ADDR', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(64): INFO: undeclared symbol 'w_dbg_DATA_out', assumed default net type 'wire' (VERI-2561)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(65): INFO: undeclared symbol 'w_dbg_DATA_in', assumed default net type 'wire' (VERI-2561)
+-- Analyzing Verilog file '/home/byron/Projects/super6502/hw/efinix_fpga/ip/sdram/sdram.v' (VERI-1482)
+/home/byron/Projects/super6502/hw/efinix_fpga/super6502.sv(155): ERROR: cannot find port 'rst' on this module (VERI-1010)
+/home/byron/Projects/super6502/hw/efinix_fpga/super6502.sv(156): ERROR: cannot find port 'clk_50' on this module (VERI-1010)
+/home/byron/Projects/super6502/hw/efinix_fpga/super6502.sv(157): ERROR: cannot find port 'cpu_clk' on this module (VERI-1010)
+/home/byron/Projects/super6502/hw/efinix_fpga/super6502.sv(158): ERROR: cannot find port 'addr' on this module (VERI-1010)
+/home/byron/Projects/super6502/hw/efinix_fpga/super6502.sv(159): ERROR: cannot find port 'sdram_cs' on this module (VERI-1010)
+/home/byron/Projects/super6502/hw/efinix_fpga/super6502.sv(160): ERROR: cannot find port 'rwb' on this module (VERI-1010)
+/home/byron/Projects/super6502/hw/efinix_fpga/super6502.sv(161): ERROR: cannot find port 'data_in' on this module (VERI-1010)
+/home/byron/Projects/super6502/hw/efinix_fpga/super6502.sv(162): ERROR: cannot find port 'data_out' on this module (VERI-1010)
+/home/byron/Projects/super6502/hw/efinix_fpga/super6502.sv(165): ERROR: cannot find port 'DRAM_CLK' on this module (VERI-1010)
+/home/byron/Projects/super6502/hw/efinix_fpga/super6502.sv(166): ERROR: cannot find port 'DRAM_ADDR' on this module (VERI-1010)
+/home/byron/Projects/super6502/hw/efinix_fpga/super6502.sv(167): ERROR: cannot find port 'DRAM_BA' on this module (VERI-1010)
+/home/byron/Projects/super6502/hw/efinix_fpga/super6502.sv(168): ERROR: cannot find port 'DRAM_CAS_N' on this module (VERI-1010)
+/home/byron/Projects/super6502/hw/efinix_fpga/super6502.sv(169): ERROR: cannot find port 'DRAM_CKE' on this module (VERI-1010)
+/home/byron/Projects/super6502/hw/efinix_fpga/super6502.sv(170): ERROR: cannot find port 'DRAM_CS_N' on this module (VERI-1010)
+/home/byron/Projects/super6502/hw/efinix_fpga/super6502.sv(171): ERROR: cannot find port 'DRAM_DQ' on this module (VERI-1010)
+/home/byron/Projects/super6502/hw/efinix_fpga/super6502.sv(172): ERROR: cannot find port 'DRAM_UDQM' on this module (VERI-1010)
+/home/byron/Projects/super6502/hw/efinix_fpga/super6502.sv(173): ERROR: cannot find port 'DRAM_LDQM' on this module (VERI-1010)
+/home/byron/Projects/super6502/hw/efinix_fpga/super6502.sv(174): ERROR: cannot find port 'DRAM_RAS_N' on this module (VERI-1010)
+/home/byron/Projects/super6502/hw/efinix_fpga/super6502.sv(175): ERROR: cannot find port 'DRAM_WE_N' on this module (VERI-1010)
+[EFX-0021 ERROR] Verific elaboration of module 'super6502' failed.
+INFO: Analysis took 0.0226114 seconds.
+INFO: 	Analysis took 0.02 seconds (approximately) in total CPU time.
+INFO: Analysis virtual memory usage: begin = 186.592 MB, end = 187.592 MB, delta = 1 MB
+INFO: Analysis resident set memory usage: begin = 73.968 MB, end = 77.944 MB, delta = 3.976 MB
+INFO: 	Analysis peak resident set memory usage = 634.104 MB
+INFO: ***** Ending Analysis ... *****
+INFO: ***** Beginning Elaboration ... *****
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(1): INFO: 'sdram_adapter' is declared here (VERI-1310)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(1): INFO: 'sdram_adapter' is declared here (VERI-1310)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(1): INFO: 'sdram_adapter' is declared here (VERI-1310)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(1): INFO: 'sdram_adapter' is declared here (VERI-1310)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(1): INFO: 'sdram_adapter' is declared here (VERI-1310)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(1): INFO: 'sdram_adapter' is declared here (VERI-1310)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(1): INFO: 'sdram_adapter' is declared here (VERI-1310)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(1): INFO: 'sdram_adapter' is declared here (VERI-1310)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(1): INFO: 'sdram_adapter' is declared here (VERI-1310)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(1): INFO: 'sdram_adapter' is declared here (VERI-1310)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(1): INFO: 'sdram_adapter' is declared here (VERI-1310)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(1): INFO: 'sdram_adapter' is declared here (VERI-1310)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(1): INFO: 'sdram_adapter' is declared here (VERI-1310)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(1): INFO: 'sdram_adapter' is declared here (VERI-1310)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(1): INFO: 'sdram_adapter' is declared here (VERI-1310)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(1): INFO: 'sdram_adapter' is declared here (VERI-1310)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(1): INFO: 'sdram_adapter' is declared here (VERI-1310)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(1): INFO: 'sdram_adapter' is declared here (VERI-1310)
+/home/byron/Projects/super6502/hw/efinix_fpga/sdram_adapter.sv(1): INFO: 'sdram_adapter' is declared here (VERI-1310)
+/home/byron/Projects/super6502/hw/efinix_fpga/super6502.sv(176): WARNING: port 'i_sysclk' is not connected on this instance (VERI-2435)
+/home/byron/Projects/super6502/hw/efinix_fpga/super6502.sv(176): WARNING: port 'o_pll_reset' remains unconnected for this instance (VERI-1927)
+/home/byron/Projects/super6502/hw/efinix_fpga/super6502.sv(204): WARNING: port 'addr' is not connected on this instance (VERI-2435)
+INFO: Elaboration took 0.00132981 seconds.
+INFO: 	Elaboration took 0 seconds (approximately) in total CPU time.
+INFO: Elaboration virtual memory usage: begin = 187.592 MB, end = 187.592 MB, delta = 0 MB
+INFO: Elaboration resident set memory usage: begin = 77.944 MB, end = 77.944 MB, delta = 0 MB
+INFO: 	Elaboration peak resident set memory usage = 634.104 MB
+INFO: ***** Ending Elaboration ... *****
