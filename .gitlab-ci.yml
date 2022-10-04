@@ -43,6 +43,8 @@ build-bootloader:
 
 
 build-fpga:
+  rules:
+    - when: manual
   stage: build_hw
   dependencies:
     - build-bootloader
@@ -54,6 +56,8 @@ build-fpga:
 
 test_addr_decode:
     stage: test
+    rules:
+    - when: manual
     image: bslathi19/modelsim_18.1:lite
     script:
       - cd hw/fpga/simulation/modelsim/
@@ -61,6 +65,8 @@ test_addr_decode:
 
 test_bb_spi:
     stage: test
+    rules:
+    - when: manual
     image: bslathi19/modelsim_18.1:lite
     script:
       - cd hw/fpga/simulation/modelsim/
@@ -75,6 +81,8 @@ test-sw:
 
 test_mm:
     stage: test
+    rules:
+    - when: manual
     image: bslathi19/modelsim_18.1:lite
     script:
       - cd hw/fpga/simulation/modelsim/
@@ -82,6 +90,8 @@ test_mm:
 
 test_crc7:
     stage: test
+    rules:
+    - when: manual
     image: bslathi19/modelsim_18.1:lite
     script:
       - cd hw/fpga/simulation/modelsim/
@@ -89,6 +99,8 @@ test_crc7:
 
 test_sd_cmd:
     stage: test
+    rules:
+    - when: manual
     image: bslathi19/modelsim_18.1:lite
     script:
       - cd hw/fpga/simulation/modelsim/
