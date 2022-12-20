@@ -1,0 +1,8 @@
+work_*
+.lock
+outflow
+*.vdb
+*.log*
+*.vcd
+*.gtkw
+
