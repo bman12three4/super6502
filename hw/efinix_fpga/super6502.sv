@@ -2,19 +2,19 @@ module super6502
 (
   input [7:0] cpu_data_in,
   input cpu_sync,
+  input cpu_rwb,
   input pll_in,
   input button_reset,
   input pll_cpu_locked,
   input clk_50,
   input clk_2,
-  output logic [15:0] cpu_addr,
+  input logic [15:0] cpu_addr,
   output logic [7:0] cpu_data_out,
   output logic [7:0] cpu_data_oe,
   output logic cpu_irqb,
   output logic cpu_nmib,
   output logic cpu_rdy,
   output logic cpu_resb,
-  output logic cpu_rwb,
   output logic pll_cpu_reset
 );
 

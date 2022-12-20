@@ -3,12 +3,12 @@
         {
             "name": "la0",
             "type": "la",
-            "uuid": "d64eaf74d37c4eb79fa6271eeceeb4bc",
+            "uuid": "d0d972d74e3f4c45a9c473ba07318a8e",
             "trigin_en": false,
             "trigout_en": false,
             "auto_inserted": true,
             "capture_control": false,
-            "data_depth": 32,
+            "data_depth": 2048,
             "input_pipeline": 1,
             "probes": [
                 {
@@ -23,6 +23,21 @@
                 },
                 {
                     "name": "button_reset",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "cpu_data_in",
+                    "width": 8,
+                    "probe_type": 1
+                },
+                {
+                    "name": "cpu_rwb",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "cpu_sync",
                     "width": 1,
                     "probe_type": 1
                 }
@@ -244,6 +259,56 @@
                         "name": "la0_probe2",
                         "net": "button_reset",
                         "path": []
+                    },
+                    {
+                        "name": "la0_probe3[0]",
+                        "net": "cpu_data_in[0]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe3[1]",
+                        "net": "cpu_data_in[1]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe3[2]",
+                        "net": "cpu_data_in[2]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe3[3]",
+                        "net": "cpu_data_in[3]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe3[4]",
+                        "net": "cpu_data_in[4]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe3[5]",
+                        "net": "cpu_data_in[5]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe3[6]",
+                        "net": "cpu_data_in[6]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe3[7]",
+                        "net": "cpu_data_in[7]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe4",
+                        "net": "cpu_rwb",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5",
+                        "net": "cpu_sync",
+                        "path": []
                     }
                 ]
             }
@@ -257,7 +322,7 @@
     ],
     "session": {
         "wizard": {
-            "data_depth": 32,
+            "data_depth": 2048,
             "capture_control": false,
             "selected_nets": [
                 {
@@ -280,6 +345,32 @@
                 },
                 {
                     "name": "button_reset",
+                    "width": 1,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": []
+                },
+                {
+                    "name": "cpu_data_in",
+                    "width": 8,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [],
+                    "net_idx_left": 7,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "cpu_rwb",
+                    "width": 1,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": []
+                },
+                {
+                    "name": "cpu_sync",
                     "width": 1,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
