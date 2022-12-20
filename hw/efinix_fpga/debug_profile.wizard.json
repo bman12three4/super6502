@@ -3,12 +3,12 @@
         {
             "name": "la0",
             "type": "la",
-            "uuid": "2ec8ec3d274747939b82c28997a2ef1d",
+            "uuid": "244dbd2d34ea40fba571b257d0a2bb75",
             "trigin_en": false,
             "trigout_en": false,
             "auto_inserted": true,
             "capture_control": false,
-            "data_depth": 128,
+            "data_depth": 1024,
             "input_pipeline": 1,
             "probes": [
                 {
@@ -422,7 +422,7 @@
     ],
     "session": {
         "wizard": {
-            "data_depth": 128,
+            "data_depth": 1024,
             "capture_control": false,
             "selected_nets": [
                 {

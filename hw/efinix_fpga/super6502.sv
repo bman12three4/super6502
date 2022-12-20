@@ -16,7 +16,7 @@ module super6502
   output logic cpu_rdy,
   output logic cpu_resb,
   output logic pll_cpu_reset,
-  output logic cpu_phi2
+  output logic cpu_phi2,
 );
 
 assign pll_cpu_reset = '1;
@@ -26,9 +26,7 @@ assign cpu_rdy = '1;
 assign cpu_irqb = '1;
 assign cpu_nmib = '1;
 
-always @(posedge clk_2) begin
-    cpu_phi2 <= ~cpu_phi2;
-end
+assign cpu_phi2 = clk_2;
 
 always @(posedge clk_2) begin
     if (button_reset == '0) begin
