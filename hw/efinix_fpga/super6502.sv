@@ -15,15 +15,20 @@ module super6502
   output logic cpu_nmib,
   output logic cpu_rdy,
   output logic cpu_resb,
-  output logic pll_cpu_reset
+  output logic pll_cpu_reset,
+  output logic cpu_phi2
 );
 
 assign pll_cpu_reset = '1;
 
-assign cpu_data_oe = '0;
+assign cpu_data_oe = {8{cpu_rwb}};
 assign cpu_rdy = '1;
 assign cpu_irqb = '1;
 assign cpu_nmib = '1;
+
+always @(posedge clk_2) begin
+    cpu_phi2 <= ~cpu_phi2;
+end
 
 always @(posedge clk_2) begin
     if (button_reset == '0) begin
@@ -35,5 +40,16 @@ always @(posedge clk_2) begin
         end
     end
 end
+
+efx_single_port_ram boot_rom(
+	.clk(clk_2),		        // clock input for one clock mode
+	.addr(cpu_addr[7:0]), 		// address input
+    .wclke('0),		// Write clock-enable input
+    .byteen('0),		// Byteen input 
+    .we('0), 		// Write-enable input
+  
+    .re(cpu_rwb), 		        // Read-enable input
+    .rdata(cpu_data_out) 		// Read data output
+);
 
 endmodule

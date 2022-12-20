@@ -3,12 +3,12 @@
         {
             "name": "la0",
             "type": "la",
-            "uuid": "d0d972d74e3f4c45a9c473ba07318a8e",
+            "uuid": "2ec8ec3d274747939b82c28997a2ef1d",
             "trigin_en": false,
             "trigout_en": false,
             "auto_inserted": true,
             "capture_control": false,
-            "data_depth": 2048,
+            "data_depth": 128,
             "input_pipeline": 1,
             "probes": [
                 {
@@ -38,6 +38,21 @@
                 },
                 {
                     "name": "cpu_sync",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "cpu_data_out",
+                    "width": 8,
+                    "probe_type": 1
+                },
+                {
+                    "name": "cpu_data_oe",
+                    "width": 8,
+                    "probe_type": 1
+                },
+                {
+                    "name": "cpu_phi2",
                     "width": 1,
                     "probe_type": 1
                 }
@@ -309,6 +324,91 @@
                         "name": "la0_probe5",
                         "net": "cpu_sync",
                         "path": []
+                    },
+                    {
+                        "name": "la0_probe6[0]",
+                        "net": "cpu_data_out[0]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe6[1]",
+                        "net": "cpu_data_out[1]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe6[2]",
+                        "net": "cpu_data_out[2]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe6[3]",
+                        "net": "cpu_data_out[3]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe6[4]",
+                        "net": "cpu_data_out[4]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe6[5]",
+                        "net": "cpu_data_out[5]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe6[6]",
+                        "net": "cpu_data_out[6]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe6[7]",
+                        "net": "cpu_data_out[7]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe7[0]",
+                        "net": "cpu_data_oe[0]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe7[1]",
+                        "net": "cpu_data_oe[1]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe7[2]",
+                        "net": "cpu_data_oe[2]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe7[3]",
+                        "net": "cpu_data_oe[3]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe7[4]",
+                        "net": "cpu_data_oe[4]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe7[5]",
+                        "net": "cpu_data_oe[5]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe7[6]",
+                        "net": "cpu_data_oe[6]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe7[7]",
+                        "net": "cpu_data_oe[7]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe8",
+                        "net": "cpu_phi2",
+                        "path": []
                     }
                 ]
             }
@@ -322,7 +422,7 @@
     ],
     "session": {
         "wizard": {
-            "data_depth": 2048,
+            "data_depth": 128,
             "capture_control": false,
             "selected_nets": [
                 {
@@ -371,6 +471,34 @@
                 },
                 {
                     "name": "cpu_sync",
+                    "width": 1,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": []
+                },
+                {
+                    "name": "cpu_data_out",
+                    "width": 8,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [],
+                    "net_idx_left": 7,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "cpu_data_oe",
+                    "width": 8,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [],
+                    "net_idx_left": 7,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "cpu_phi2",
                     "width": 1,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
