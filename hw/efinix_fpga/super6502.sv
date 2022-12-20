@@ -16,7 +16,7 @@ module super6502
   output logic cpu_rdy,
   output logic cpu_resb,
   output logic pll_cpu_reset,
-  output logic cpu_phi2,
+  output logic cpu_phi2
 );
 
 assign pll_cpu_reset = '1;
