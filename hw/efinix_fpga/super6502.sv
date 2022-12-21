@@ -16,7 +16,9 @@ module super6502
   output logic cpu_rdy,
   output logic cpu_resb,
   output logic pll_cpu_reset,
-  output logic cpu_phi2
+  output logic cpu_phi2,
+  
+  output logic [7:0] leds
 );
 
 assign pll_cpu_reset = '1;
@@ -39,15 +41,47 @@ always @(posedge clk_2) begin
     end
 end
 
+
+logic w_rom_cs;
+logic w_leds_cs;
+
+addr_decode u_addr_decode(
+    .i_addr(cpu_addr),
+    .o_rom_cs(w_rom_cs),
+    .o_leds_cs(w_leds_cs)
+);
+
+logic [7:0] w_rom_data_out;
+logic [7:0] w_leds_data_out;
+
+always_comb begin
+    if (w_rom_cs)
+        cpu_data_out = w_rom_data_out;
+    else if (w_leds_cs)
+        cpu_data_out=  w_leds_data_out;
+    else
+        cpu_data_out = 'x;
+end
+
+
 efx_single_port_ram boot_rom(
 	.clk(clk_2),		        // clock input for one clock mode
 	.addr(cpu_addr[7:0]), 		// address input
-    .wclke('0),		// Write clock-enable input
-    .byteen('0),		// Byteen input 
-    .we('0), 		// Write-enable input
+    .wclke('0),		            // Write clock-enable input
+    .byteen('0),		        // Byteen input 
+    .we('0), 		            // Write-enable input
   
-    .re(cpu_rwb), 		        // Read-enable input
-    .rdata(cpu_data_out) 		// Read data output
+    .re(cpu_rwb & w_rom_cs),    // Read-enable input
+    .rdata(w_rom_data_out) 		// Read data output
+);
+
+leds u_leds(
+    .clk(clk_2),
+    .i_data(cpu_data_in),
+    .o_data(w_leds_data_out),
+    .cs(w_leds_cs),
+    .rwb(cpu_rwb),
+    .o_leds(leds)
 );
 
 endmodule

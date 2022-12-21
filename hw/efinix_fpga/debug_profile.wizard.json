@@ -3,7 +3,7 @@
         {
             "name": "la0",
             "type": "la",
-            "uuid": "244dbd2d34ea40fba571b257d0a2bb75",
+            "uuid": "7ac38c47d15d4906b7e4dfa4b8e0f620",
             "trigin_en": false,
             "trigout_en": false,
             "auto_inserted": true,
@@ -19,42 +19,52 @@
                 {
                     "name": "cpu_addr",
                     "width": 16,
-                    "probe_type": 1
+                    "probe_type": 2
                 },
                 {
                     "name": "button_reset",
                     "width": 1,
-                    "probe_type": 1
+                    "probe_type": 2
                 },
                 {
                     "name": "cpu_data_in",
                     "width": 8,
-                    "probe_type": 1
+                    "probe_type": 2
                 },
                 {
                     "name": "cpu_rwb",
                     "width": 1,
-                    "probe_type": 1
+                    "probe_type": 2
                 },
                 {
                     "name": "cpu_sync",
                     "width": 1,
-                    "probe_type": 1
+                    "probe_type": 2
                 },
                 {
                     "name": "cpu_data_out",
                     "width": 8,
-                    "probe_type": 1
+                    "probe_type": 2
                 },
                 {
                     "name": "cpu_data_oe",
                     "width": 8,
-                    "probe_type": 1
+                    "probe_type": 2
                 },
                 {
                     "name": "cpu_phi2",
                     "width": 1,
-                    "probe_type": 1
+                    "probe_type": 2
+                },
+                {
+                    "name": "w_rom_cs",
+                    "width": 1,
+                    "probe_type": 2
+                },
+                {
+                    "name": "boot_rom/re",
+                    "width": 1,
+                    "probe_type": 2
                 }
             ]
         }
@@ -409,6 +419,18 @@
                         "name": "la0_probe8",
                         "net": "cpu_phi2",
                         "path": []
+                    },
+                    {
+                        "name": "la0_probe9",
+                        "net": "w_rom_cs",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe10",
+                        "net": "re",
+                        "path": [
+                            "boot_rom"
+                        ]
                     }
                 ]
             }
@@ -437,7 +459,7 @@
                     "name": "cpu_addr",
                     "width": 16,
                     "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
+                    "selected_probe_type": "DATA ONLY",
                     "child": [],
                     "path": [],
                     "net_idx_left": 15,
@@ -447,7 +469,7 @@
                     "name": "button_reset",
                     "width": 1,
                     "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
+                    "selected_probe_type": "DATA ONLY",
                     "child": [],
                     "path": []
                 },
@@ -455,7 +477,7 @@
                     "name": "cpu_data_in",
                     "width": 8,
                     "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
+                    "selected_probe_type": "DATA ONLY",
                     "child": [],
                     "path": [],
                     "net_idx_left": 7,
@@ -465,7 +487,7 @@
                     "name": "cpu_rwb",
                     "width": 1,
                     "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
+                    "selected_probe_type": "DATA ONLY",
                     "child": [],
                     "path": []
                 },
@@ -473,7 +495,7 @@
                     "name": "cpu_sync",
                     "width": 1,
                     "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
+                    "selected_probe_type": "DATA ONLY",
                     "child": [],
                     "path": []
                 },
@@ -481,7 +503,7 @@
                     "name": "cpu_data_out",
                     "width": 8,
                     "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
+                    "selected_probe_type": "DATA ONLY",
                     "child": [],
                     "path": [],
                     "net_idx_left": 7,
@@ -491,7 +513,7 @@
                     "name": "cpu_data_oe",
                     "width": 8,
                     "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
+                    "selected_probe_type": "DATA ONLY",
                     "child": [],
                     "path": [],
                     "net_idx_left": 7,
@@ -501,9 +523,27 @@
                     "name": "cpu_phi2",
                     "width": 1,
                     "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
+                    "selected_probe_type": "DATA ONLY",
                     "child": [],
                     "path": []
+                },
+                {
+                    "name": "w_rom_cs",
+                    "width": 1,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA ONLY",
+                    "child": [],
+                    "path": []
+                },
+                {
+                    "name": "re",
+                    "width": 1,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA ONLY",
+                    "child": [],
+                    "path": [
+                        "boot_rom"
+                    ]
                 }
             ],
             "top_module": "super6502",
