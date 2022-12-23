@@ -158,8 +158,8 @@ always_comb begin
                 // dm is not needed for reads?
                 if (w_rd_ack) next_state = READ_WAIT;
             end else begin      //write
-                //w_data_i = i_data << (8*i_addr[1:0]);
-                w_data_i = {4{i_data}}; //does anything get through?
+                w_data_i = i_data << (8*i_addr[1:0]);
+                //w_data_i = {4{i_data}}; //does anything get through?
                 w_dm = ~(4'b1 << i_addr[1:0]);
                 if (~i_cpuclk) begin
                     w_write = '1;
@@ -233,7 +233,7 @@ sdram_controller u_sdram_controller(
     .i_last(w_last),        //Set to high to indicate the last transfer of a burst write or read.
     .i_addr(addr_mux_out),        //SDRAM physical address B R C. For half rate, only even addresses.
     .i_din(r_write_data),   //Data to write to SDRAM. Twice normal width when running at half speed (hence the even addresses)
-    .i_dm('0),              //dm (r_dm)
+    .i_dm(r_dm),              //dm (r_dm)
     .o_dout(w_data_o),      //Data read from SDRAM, doubled as above.
     .o_sdr_init_done(o_sdr_init_done),     //Indicates that the SDRAM initialization is done.
     .o_wr_ack(w_wr_ack),    //Write acknowledge, handshake with we

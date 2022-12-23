@@ -3,7 +3,7 @@
         {
             "name": "la0",
             "type": "la",
-            "uuid": "a6d39fd9db2a421d876dee0a583f9477",
+            "uuid": "8cea6e28b02944ca91af2e477caa5f7b",
             "trigin_en": false,
             "trigout_en": false,
             "auto_inserted": true,
@@ -11,6 +11,31 @@
             "data_depth": 2048,
             "input_pipeline": 1,
             "probes": [
+                {
+                    "name": "cpu_addr",
+                    "width": 16,
+                    "probe_type": 1
+                },
+                {
+                    "name": "cpu_data_in",
+                    "width": 8,
+                    "probe_type": 1
+                },
+                {
+                    "name": "cpu_rwb",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "cpu_sync",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_sdram_adapter/addr_mux_out",
+                    "width": 24,
+                    "probe_type": 1
+                },
                 {
                     "name": "u_sdram_adapter/counter",
                     "width": 2,
@@ -32,6 +57,11 @@
                     "probe_type": 1
                 },
                 {
+                    "name": "u_sdram_adapter/i_cpuclk",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
                     "name": "u_sdram_adapter/i_cs",
                     "width": 1,
                     "probe_type": 1
@@ -39,6 +69,11 @@
                 {
                     "name": "u_sdram_adapter/i_data",
                     "width": 8,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_sdram_adapter/i_rwb",
+                    "width": 1,
                     "probe_type": 1
                 },
                 {
@@ -57,73 +92,23 @@
                     "probe_type": 1
                 },
                 {
-                    "name": "u_sdram_adapter/o_dbg_ADDR",
-                    "width": 26,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_sdram_adapter/o_dbg_BA",
-                    "width": 4,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_sdram_adapter/o_dbg_DATA_in",
-                    "width": 32,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_sdram_adapter/o_dbg_DATA_out",
-                    "width": 32,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_sdram_adapter/o_dbg_n_CAS",
-                    "width": 2,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_sdram_adapter/o_dbg_n_CS",
-                    "width": 2,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_sdram_adapter/o_dbg_n_RAS",
-                    "width": 2,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_sdram_adapter/o_dbg_n_WE",
-                    "width": 2,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_sdram_adapter/o_dbg_rd_ack",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_sdram_adapter/o_dbg_ref_req",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_sdram_adapter/o_dbg_tRTW_done",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_sdram_adapter/o_dbg_wr_ack",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_sdram_adapter/o_sdr_init_done",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
                     "name": "u_sdram_adapter/o_sdr_state",
                     "width": 4,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_sdram_adapter/r_addr",
+                    "width": 24,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_sdram_adapter/r_dm",
+                    "width": 4,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_sdram_adapter/r_write_data",
+                    "width": 32,
                     "probe_type": 1
                 },
                 {
@@ -149,6 +134,11 @@
                 {
                     "name": "u_sdram_adapter/w_data_valid",
                     "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_sdram_adapter/w_dm",
+                    "width": 4,
                     "probe_type": 1
                 },
                 {
@@ -184,41 +174,6 @@
                 {
                     "name": "u_sdram_adapter/_data",
                     "width": 8,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_sdram_adapter/i_cpuclk",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_sdram_adapter/i_rwb",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_sdram_adapter/r_write_data",
-                    "width": 32,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_sdram_adapter/w_dm",
-                    "width": 4,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_sdram_adapter/r_dm",
-                    "width": 4,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_sdram_adapter/r_addr",
-                    "width": 24,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_sdram_adapter/addr_mux_out",
-                    "width": 24,
                     "probe_type": 1
                 }
             ]
@@ -352,2541 +307,1922 @@
                     },
                     {
                         "name": "la0_probe0[0]",
-                        "net": "counter[0]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
+                        "net": "cpu_addr[0]",
+                        "path": []
                     },
                     {
                         "name": "la0_probe0[1]",
-                        "net": "counter[1]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
+                        "net": "cpu_addr[1]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe0[2]",
+                        "net": "cpu_addr[2]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe0[3]",
+                        "net": "cpu_addr[3]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe0[4]",
+                        "net": "cpu_addr[4]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe0[5]",
+                        "net": "cpu_addr[5]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe0[6]",
+                        "net": "cpu_addr[6]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe0[7]",
+                        "net": "cpu_addr[7]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe0[8]",
+                        "net": "cpu_addr[8]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe0[9]",
+                        "net": "cpu_addr[9]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe0[10]",
+                        "net": "cpu_addr[10]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe0[11]",
+                        "net": "cpu_addr[11]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe0[12]",
+                        "net": "cpu_addr[12]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe0[13]",
+                        "net": "cpu_addr[13]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe0[14]",
+                        "net": "cpu_addr[14]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe0[15]",
+                        "net": "cpu_addr[15]",
+                        "path": []
                     },
                     {
                         "name": "la0_probe1[0]",
-                        "net": "data[0]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
+                        "net": "cpu_data_in[0]",
+                        "path": []
                     },
                     {
                         "name": "la0_probe1[1]",
-                        "net": "data[1]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
+                        "net": "cpu_data_in[1]",
+                        "path": []
                     },
                     {
                         "name": "la0_probe1[2]",
-                        "net": "data[2]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
+                        "net": "cpu_data_in[2]",
+                        "path": []
                     },
                     {
                         "name": "la0_probe1[3]",
-                        "net": "data[3]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
+                        "net": "cpu_data_in[3]",
+                        "path": []
                     },
                     {
                         "name": "la0_probe1[4]",
-                        "net": "data[4]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
+                        "net": "cpu_data_in[4]",
+                        "path": []
                     },
                     {
                         "name": "la0_probe1[5]",
-                        "net": "data[5]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
+                        "net": "cpu_data_in[5]",
+                        "path": []
                     },
                     {
                         "name": "la0_probe1[6]",
-                        "net": "data[6]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
+                        "net": "cpu_data_in[6]",
+                        "path": []
                     },
                     {
                         "name": "la0_probe1[7]",
-                        "net": "data[7]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
+                        "net": "cpu_data_in[7]",
+                        "path": []
                     },
                     {
-                        "name": "la0_probe2[0]",
-                        "net": "i_addr[0]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[1]",
-                        "net": "i_addr[1]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[2]",
-                        "net": "i_addr[2]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[3]",
-                        "net": "i_addr[3]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[4]",
-                        "net": "i_addr[4]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[5]",
-                        "net": "i_addr[5]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[6]",
-                        "net": "i_addr[6]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[7]",
-                        "net": "i_addr[7]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[8]",
-                        "net": "i_addr[8]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[9]",
-                        "net": "i_addr[9]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[10]",
-                        "net": "i_addr[10]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[11]",
-                        "net": "i_addr[11]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[12]",
-                        "net": "i_addr[12]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[13]",
-                        "net": "i_addr[13]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[14]",
-                        "net": "i_addr[14]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[15]",
-                        "net": "i_addr[15]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[16]",
-                        "net": "i_addr[16]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[17]",
-                        "net": "i_addr[17]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[18]",
-                        "net": "i_addr[18]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[19]",
-                        "net": "i_addr[19]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[20]",
-                        "net": "i_addr[20]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[21]",
-                        "net": "i_addr[21]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[22]",
-                        "net": "i_addr[22]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[23]",
-                        "net": "i_addr[23]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[24]",
-                        "net": "i_addr[24]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
+                        "name": "la0_probe2",
+                        "net": "cpu_rwb",
+                        "path": []
                     },
                     {
                         "name": "la0_probe3",
-                        "net": "i_arst",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
+                        "net": "cpu_sync",
+                        "path": []
                     },
                     {
-                        "name": "la0_probe4",
-                        "net": "i_cs",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe5[0]",
-                        "net": "i_data[0]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe5[1]",
-                        "net": "i_data[1]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe5[2]",
-                        "net": "i_data[2]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe5[3]",
-                        "net": "i_data[3]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe5[4]",
-                        "net": "i_data[4]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe5[5]",
-                        "net": "i_data[5]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe5[6]",
-                        "net": "i_data[6]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe5[7]",
-                        "net": "i_data[7]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe6[0]",
-                        "net": "next_counter[0]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe6[1]",
-                        "net": "next_counter[1]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe7[0]",
-                        "net": "next_state[0]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe7[1]",
-                        "net": "next_state[1]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe8[0]",
-                        "net": "o_data[0]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe8[1]",
-                        "net": "o_data[1]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe8[2]",
-                        "net": "o_data[2]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe8[3]",
-                        "net": "o_data[3]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe8[4]",
-                        "net": "o_data[4]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe8[5]",
-                        "net": "o_data[5]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe8[6]",
-                        "net": "o_data[6]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe8[7]",
-                        "net": "o_data[7]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[0]",
-                        "net": "o_dbg_ADDR[0]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[1]",
-                        "net": "o_dbg_ADDR[1]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[2]",
-                        "net": "o_dbg_ADDR[2]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[3]",
-                        "net": "o_dbg_ADDR[3]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[4]",
-                        "net": "o_dbg_ADDR[4]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[5]",
-                        "net": "o_dbg_ADDR[5]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[6]",
-                        "net": "o_dbg_ADDR[6]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[7]",
-                        "net": "o_dbg_ADDR[7]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[8]",
-                        "net": "o_dbg_ADDR[8]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[9]",
-                        "net": "o_dbg_ADDR[9]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[10]",
-                        "net": "o_dbg_ADDR[10]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[11]",
-                        "net": "o_dbg_ADDR[11]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[12]",
-                        "net": "o_dbg_ADDR[12]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[13]",
-                        "net": "o_dbg_ADDR[13]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[14]",
-                        "net": "o_dbg_ADDR[14]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[15]",
-                        "net": "o_dbg_ADDR[15]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[16]",
-                        "net": "o_dbg_ADDR[16]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[17]",
-                        "net": "o_dbg_ADDR[17]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[18]",
-                        "net": "o_dbg_ADDR[18]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[19]",
-                        "net": "o_dbg_ADDR[19]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[20]",
-                        "net": "o_dbg_ADDR[20]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[21]",
-                        "net": "o_dbg_ADDR[21]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[22]",
-                        "net": "o_dbg_ADDR[22]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[23]",
-                        "net": "o_dbg_ADDR[23]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[24]",
-                        "net": "o_dbg_ADDR[24]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[25]",
-                        "net": "o_dbg_ADDR[25]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe10[0]",
-                        "net": "o_dbg_BA[0]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe10[1]",
-                        "net": "o_dbg_BA[1]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe10[2]",
-                        "net": "o_dbg_BA[2]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe10[3]",
-                        "net": "o_dbg_BA[3]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[0]",
-                        "net": "o_dbg_DATA_in[0]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[1]",
-                        "net": "o_dbg_DATA_in[1]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[2]",
-                        "net": "o_dbg_DATA_in[2]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[3]",
-                        "net": "o_dbg_DATA_in[3]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[4]",
-                        "net": "o_dbg_DATA_in[4]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[5]",
-                        "net": "o_dbg_DATA_in[5]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[6]",
-                        "net": "o_dbg_DATA_in[6]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[7]",
-                        "net": "o_dbg_DATA_in[7]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[8]",
-                        "net": "o_dbg_DATA_in[8]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[9]",
-                        "net": "o_dbg_DATA_in[9]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[10]",
-                        "net": "o_dbg_DATA_in[10]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[11]",
-                        "net": "o_dbg_DATA_in[11]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[12]",
-                        "net": "o_dbg_DATA_in[12]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[13]",
-                        "net": "o_dbg_DATA_in[13]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[14]",
-                        "net": "o_dbg_DATA_in[14]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[15]",
-                        "net": "o_dbg_DATA_in[15]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[16]",
-                        "net": "o_dbg_DATA_in[16]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[17]",
-                        "net": "o_dbg_DATA_in[17]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[18]",
-                        "net": "o_dbg_DATA_in[18]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[19]",
-                        "net": "o_dbg_DATA_in[19]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[20]",
-                        "net": "o_dbg_DATA_in[20]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[21]",
-                        "net": "o_dbg_DATA_in[21]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[22]",
-                        "net": "o_dbg_DATA_in[22]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[23]",
-                        "net": "o_dbg_DATA_in[23]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[24]",
-                        "net": "o_dbg_DATA_in[24]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[25]",
-                        "net": "o_dbg_DATA_in[25]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[26]",
-                        "net": "o_dbg_DATA_in[26]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[27]",
-                        "net": "o_dbg_DATA_in[27]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[28]",
-                        "net": "o_dbg_DATA_in[28]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[29]",
-                        "net": "o_dbg_DATA_in[29]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[30]",
-                        "net": "o_dbg_DATA_in[30]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11[31]",
-                        "net": "o_dbg_DATA_in[31]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[0]",
-                        "net": "o_dbg_DATA_out[0]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[1]",
-                        "net": "o_dbg_DATA_out[1]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[2]",
-                        "net": "o_dbg_DATA_out[2]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[3]",
-                        "net": "o_dbg_DATA_out[3]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[4]",
-                        "net": "o_dbg_DATA_out[4]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[5]",
-                        "net": "o_dbg_DATA_out[5]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[6]",
-                        "net": "o_dbg_DATA_out[6]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[7]",
-                        "net": "o_dbg_DATA_out[7]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[8]",
-                        "net": "o_dbg_DATA_out[8]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[9]",
-                        "net": "o_dbg_DATA_out[9]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[10]",
-                        "net": "o_dbg_DATA_out[10]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[11]",
-                        "net": "o_dbg_DATA_out[11]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[12]",
-                        "net": "o_dbg_DATA_out[12]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[13]",
-                        "net": "o_dbg_DATA_out[13]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[14]",
-                        "net": "o_dbg_DATA_out[14]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[15]",
-                        "net": "o_dbg_DATA_out[15]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[16]",
-                        "net": "o_dbg_DATA_out[16]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[17]",
-                        "net": "o_dbg_DATA_out[17]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[18]",
-                        "net": "o_dbg_DATA_out[18]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[19]",
-                        "net": "o_dbg_DATA_out[19]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[20]",
-                        "net": "o_dbg_DATA_out[20]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[21]",
-                        "net": "o_dbg_DATA_out[21]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[22]",
-                        "net": "o_dbg_DATA_out[22]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[23]",
-                        "net": "o_dbg_DATA_out[23]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[24]",
-                        "net": "o_dbg_DATA_out[24]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[25]",
-                        "net": "o_dbg_DATA_out[25]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[26]",
-                        "net": "o_dbg_DATA_out[26]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[27]",
-                        "net": "o_dbg_DATA_out[27]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[28]",
-                        "net": "o_dbg_DATA_out[28]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[29]",
-                        "net": "o_dbg_DATA_out[29]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[30]",
-                        "net": "o_dbg_DATA_out[30]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12[31]",
-                        "net": "o_dbg_DATA_out[31]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe13[0]",
-                        "net": "o_dbg_n_CAS[0]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe13[1]",
-                        "net": "o_dbg_n_CAS[1]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe14[0]",
-                        "net": "o_dbg_n_CS[0]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe14[1]",
-                        "net": "o_dbg_n_CS[1]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe15[0]",
-                        "net": "o_dbg_n_RAS[0]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe15[1]",
-                        "net": "o_dbg_n_RAS[1]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe16[0]",
-                        "net": "o_dbg_n_WE[0]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe16[1]",
-                        "net": "o_dbg_n_WE[1]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe17",
-                        "net": "o_dbg_rd_ack",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe18",
-                        "net": "o_dbg_ref_req",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe19",
-                        "net": "o_dbg_tRTW_done",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe20",
-                        "net": "o_dbg_wr_ack",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe21",
-                        "net": "o_sdr_init_done",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe22[0]",
-                        "net": "o_sdr_state[0]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe22[1]",
-                        "net": "o_sdr_state[1]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe22[2]",
-                        "net": "o_sdr_state[2]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe22[3]",
-                        "net": "o_sdr_state[3]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe23[0]",
-                        "net": "state[0]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe23[1]",
-                        "net": "state[1]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe24[0]",
-                        "net": "w_addr[0]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe24[1]",
-                        "net": "w_addr[1]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe24[2]",
-                        "net": "w_addr[2]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe24[3]",
-                        "net": "w_addr[3]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe24[4]",
-                        "net": "w_addr[4]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe24[5]",
-                        "net": "w_addr[5]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe24[6]",
-                        "net": "w_addr[6]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe24[7]",
-                        "net": "w_addr[7]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe24[8]",
-                        "net": "w_addr[8]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe24[9]",
-                        "net": "w_addr[9]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe24[10]",
-                        "net": "w_addr[10]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe24[11]",
-                        "net": "w_addr[11]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe24[12]",
-                        "net": "w_addr[12]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe24[13]",
-                        "net": "w_addr[13]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe24[14]",
-                        "net": "w_addr[14]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe24[15]",
-                        "net": "w_addr[15]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe24[16]",
-                        "net": "w_addr[16]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe24[17]",
-                        "net": "w_addr[17]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe24[18]",
-                        "net": "w_addr[18]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe24[19]",
-                        "net": "w_addr[19]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe24[20]",
-                        "net": "w_addr[20]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe24[21]",
-                        "net": "w_addr[21]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe24[22]",
-                        "net": "w_addr[22]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe24[23]",
-                        "net": "w_addr[23]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[0]",
-                        "net": "w_data_i[0]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[1]",
-                        "net": "w_data_i[1]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[2]",
-                        "net": "w_data_i[2]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[3]",
-                        "net": "w_data_i[3]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[4]",
-                        "net": "w_data_i[4]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[5]",
-                        "net": "w_data_i[5]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[6]",
-                        "net": "w_data_i[6]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[7]",
-                        "net": "w_data_i[7]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[8]",
-                        "net": "w_data_i[8]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[9]",
-                        "net": "w_data_i[9]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[10]",
-                        "net": "w_data_i[10]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[11]",
-                        "net": "w_data_i[11]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[12]",
-                        "net": "w_data_i[12]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[13]",
-                        "net": "w_data_i[13]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[14]",
-                        "net": "w_data_i[14]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[15]",
-                        "net": "w_data_i[15]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[16]",
-                        "net": "w_data_i[16]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[17]",
-                        "net": "w_data_i[17]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[18]",
-                        "net": "w_data_i[18]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[19]",
-                        "net": "w_data_i[19]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[20]",
-                        "net": "w_data_i[20]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[21]",
-                        "net": "w_data_i[21]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[22]",
-                        "net": "w_data_i[22]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[23]",
-                        "net": "w_data_i[23]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[24]",
-                        "net": "w_data_i[24]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[25]",
-                        "net": "w_data_i[25]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[26]",
-                        "net": "w_data_i[26]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[27]",
-                        "net": "w_data_i[27]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[28]",
-                        "net": "w_data_i[28]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[29]",
-                        "net": "w_data_i[29]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[30]",
-                        "net": "w_data_i[30]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe25[31]",
-                        "net": "w_data_i[31]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[0]",
-                        "net": "w_data_o[0]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[1]",
-                        "net": "w_data_o[1]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[2]",
-                        "net": "w_data_o[2]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[3]",
-                        "net": "w_data_o[3]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[4]",
-                        "net": "w_data_o[4]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[5]",
-                        "net": "w_data_o[5]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[6]",
-                        "net": "w_data_o[6]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[7]",
-                        "net": "w_data_o[7]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[8]",
-                        "net": "w_data_o[8]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[9]",
-                        "net": "w_data_o[9]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[10]",
-                        "net": "w_data_o[10]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[11]",
-                        "net": "w_data_o[11]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[12]",
-                        "net": "w_data_o[12]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[13]",
-                        "net": "w_data_o[13]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[14]",
-                        "net": "w_data_o[14]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[15]",
-                        "net": "w_data_o[15]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[16]",
-                        "net": "w_data_o[16]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[17]",
-                        "net": "w_data_o[17]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[18]",
-                        "net": "w_data_o[18]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[19]",
-                        "net": "w_data_o[19]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[20]",
-                        "net": "w_data_o[20]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[21]",
-                        "net": "w_data_o[21]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[22]",
-                        "net": "w_data_o[22]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[23]",
-                        "net": "w_data_o[23]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[24]",
-                        "net": "w_data_o[24]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[25]",
-                        "net": "w_data_o[25]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[26]",
-                        "net": "w_data_o[26]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[27]",
-                        "net": "w_data_o[27]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[28]",
-                        "net": "w_data_o[28]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[29]",
-                        "net": "w_data_o[29]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[30]",
-                        "net": "w_data_o[30]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe26[31]",
-                        "net": "w_data_o[31]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe27",
-                        "net": "w_data_valid",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe28",
-                        "net": "w_last",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe29",
-                        "net": "w_rd_ack",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe30",
-                        "net": "w_rd_valid",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe31",
-                        "net": "w_read",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe32",
-                        "net": "w_write",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe33",
-                        "net": "w_wr_ack",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe34[0]",
-                        "net": "_data[0]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe34[1]",
-                        "net": "_data[1]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe34[2]",
-                        "net": "_data[2]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe34[3]",
-                        "net": "_data[3]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe34[4]",
-                        "net": "_data[4]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe34[5]",
-                        "net": "_data[5]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe34[6]",
-                        "net": "_data[6]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe34[7]",
-                        "net": "_data[7]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe35",
-                        "net": "i_cpuclk",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe36",
-                        "net": "i_rwb",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[0]",
-                        "net": "r_write_data[0]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[1]",
-                        "net": "r_write_data[1]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[2]",
-                        "net": "r_write_data[2]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[3]",
-                        "net": "r_write_data[3]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[4]",
-                        "net": "r_write_data[4]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[5]",
-                        "net": "r_write_data[5]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[6]",
-                        "net": "r_write_data[6]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[7]",
-                        "net": "r_write_data[7]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[8]",
-                        "net": "r_write_data[8]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[9]",
-                        "net": "r_write_data[9]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[10]",
-                        "net": "r_write_data[10]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[11]",
-                        "net": "r_write_data[11]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[12]",
-                        "net": "r_write_data[12]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[13]",
-                        "net": "r_write_data[13]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[14]",
-                        "net": "r_write_data[14]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[15]",
-                        "net": "r_write_data[15]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[16]",
-                        "net": "r_write_data[16]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[17]",
-                        "net": "r_write_data[17]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[18]",
-                        "net": "r_write_data[18]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[19]",
-                        "net": "r_write_data[19]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[20]",
-                        "net": "r_write_data[20]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[21]",
-                        "net": "r_write_data[21]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[22]",
-                        "net": "r_write_data[22]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[23]",
-                        "net": "r_write_data[23]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[24]",
-                        "net": "r_write_data[24]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[25]",
-                        "net": "r_write_data[25]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[26]",
-                        "net": "r_write_data[26]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[27]",
-                        "net": "r_write_data[27]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[28]",
-                        "net": "r_write_data[28]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[29]",
-                        "net": "r_write_data[29]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[30]",
-                        "net": "r_write_data[30]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe37[31]",
-                        "net": "r_write_data[31]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe38[0]",
-                        "net": "w_dm[0]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe38[1]",
-                        "net": "w_dm[1]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe38[2]",
-                        "net": "w_dm[2]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe38[3]",
-                        "net": "w_dm[3]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe39[0]",
-                        "net": "r_dm[0]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe39[1]",
-                        "net": "r_dm[1]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe39[2]",
-                        "net": "r_dm[2]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe39[3]",
-                        "net": "r_dm[3]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe40[0]",
-                        "net": "r_addr[0]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe40[1]",
-                        "net": "r_addr[1]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe40[2]",
-                        "net": "r_addr[2]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe40[3]",
-                        "net": "r_addr[3]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe40[4]",
-                        "net": "r_addr[4]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe40[5]",
-                        "net": "r_addr[5]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe40[6]",
-                        "net": "r_addr[6]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe40[7]",
-                        "net": "r_addr[7]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe40[8]",
-                        "net": "r_addr[8]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe40[9]",
-                        "net": "r_addr[9]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe40[10]",
-                        "net": "r_addr[10]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe40[11]",
-                        "net": "r_addr[11]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe40[12]",
-                        "net": "r_addr[12]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe40[13]",
-                        "net": "r_addr[13]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe40[14]",
-                        "net": "r_addr[14]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe40[15]",
-                        "net": "r_addr[15]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe40[16]",
-                        "net": "r_addr[16]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe40[17]",
-                        "net": "r_addr[17]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe40[18]",
-                        "net": "r_addr[18]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe40[19]",
-                        "net": "r_addr[19]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe40[20]",
-                        "net": "r_addr[20]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe40[21]",
-                        "net": "r_addr[21]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe40[22]",
-                        "net": "r_addr[22]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe40[23]",
-                        "net": "r_addr[23]",
-                        "path": [
-                            "u_sdram_adapter"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe41[0]",
+                        "name": "la0_probe4[0]",
                         "net": "addr_mux_out[0]",
                         "path": [
                             "u_sdram_adapter"
                         ]
                     },
                     {
-                        "name": "la0_probe41[1]",
+                        "name": "la0_probe4[1]",
                         "net": "addr_mux_out[1]",
                         "path": [
                             "u_sdram_adapter"
                         ]
                     },
                     {
-                        "name": "la0_probe41[2]",
+                        "name": "la0_probe4[2]",
                         "net": "addr_mux_out[2]",
                         "path": [
                             "u_sdram_adapter"
                         ]
                     },
                     {
-                        "name": "la0_probe41[3]",
+                        "name": "la0_probe4[3]",
                         "net": "addr_mux_out[3]",
                         "path": [
                             "u_sdram_adapter"
                         ]
                     },
                     {
-                        "name": "la0_probe41[4]",
+                        "name": "la0_probe4[4]",
                         "net": "addr_mux_out[4]",
                         "path": [
                             "u_sdram_adapter"
                         ]
                     },
                     {
-                        "name": "la0_probe41[5]",
+                        "name": "la0_probe4[5]",
                         "net": "addr_mux_out[5]",
                         "path": [
                             "u_sdram_adapter"
                         ]
                     },
                     {
-                        "name": "la0_probe41[6]",
+                        "name": "la0_probe4[6]",
                         "net": "addr_mux_out[6]",
                         "path": [
                             "u_sdram_adapter"
                         ]
                     },
                     {
-                        "name": "la0_probe41[7]",
+                        "name": "la0_probe4[7]",
                         "net": "addr_mux_out[7]",
                         "path": [
                             "u_sdram_adapter"
                         ]
                     },
                     {
-                        "name": "la0_probe41[8]",
+                        "name": "la0_probe4[8]",
                         "net": "addr_mux_out[8]",
                         "path": [
                             "u_sdram_adapter"
                         ]
                     },
                     {
-                        "name": "la0_probe41[9]",
+                        "name": "la0_probe4[9]",
                         "net": "addr_mux_out[9]",
                         "path": [
                             "u_sdram_adapter"
                         ]
                     },
                     {
-                        "name": "la0_probe41[10]",
+                        "name": "la0_probe4[10]",
                         "net": "addr_mux_out[10]",
                         "path": [
                             "u_sdram_adapter"
                         ]
                     },
                     {
-                        "name": "la0_probe41[11]",
+                        "name": "la0_probe4[11]",
                         "net": "addr_mux_out[11]",
                         "path": [
                             "u_sdram_adapter"
                         ]
                     },
                     {
-                        "name": "la0_probe41[12]",
+                        "name": "la0_probe4[12]",
                         "net": "addr_mux_out[12]",
                         "path": [
                             "u_sdram_adapter"
                         ]
                     },
                     {
-                        "name": "la0_probe41[13]",
+                        "name": "la0_probe4[13]",
                         "net": "addr_mux_out[13]",
                         "path": [
                             "u_sdram_adapter"
                         ]
                     },
                     {
-                        "name": "la0_probe41[14]",
+                        "name": "la0_probe4[14]",
                         "net": "addr_mux_out[14]",
                         "path": [
                             "u_sdram_adapter"
                         ]
                     },
                     {
-                        "name": "la0_probe41[15]",
+                        "name": "la0_probe4[15]",
                         "net": "addr_mux_out[15]",
                         "path": [
                             "u_sdram_adapter"
                         ]
                     },
                     {
-                        "name": "la0_probe41[16]",
+                        "name": "la0_probe4[16]",
                         "net": "addr_mux_out[16]",
                         "path": [
                             "u_sdram_adapter"
                         ]
                     },
                     {
-                        "name": "la0_probe41[17]",
+                        "name": "la0_probe4[17]",
                         "net": "addr_mux_out[17]",
                         "path": [
                             "u_sdram_adapter"
                         ]
                     },
                     {
-                        "name": "la0_probe41[18]",
+                        "name": "la0_probe4[18]",
                         "net": "addr_mux_out[18]",
                         "path": [
                             "u_sdram_adapter"
                         ]
                     },
                     {
-                        "name": "la0_probe41[19]",
+                        "name": "la0_probe4[19]",
                         "net": "addr_mux_out[19]",
                         "path": [
                             "u_sdram_adapter"
                         ]
                     },
                     {
-                        "name": "la0_probe41[20]",
+                        "name": "la0_probe4[20]",
                         "net": "addr_mux_out[20]",
                         "path": [
                             "u_sdram_adapter"
                         ]
                     },
                     {
-                        "name": "la0_probe41[21]",
+                        "name": "la0_probe4[21]",
                         "net": "addr_mux_out[21]",
                         "path": [
                             "u_sdram_adapter"
                         ]
                     },
                     {
-                        "name": "la0_probe41[22]",
+                        "name": "la0_probe4[22]",
                         "net": "addr_mux_out[22]",
                         "path": [
                             "u_sdram_adapter"
                         ]
                     },
                     {
-                        "name": "la0_probe41[23]",
+                        "name": "la0_probe4[23]",
                         "net": "addr_mux_out[23]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe5[0]",
+                        "net": "counter[0]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe5[1]",
+                        "net": "counter[1]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[0]",
+                        "net": "data[0]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[1]",
+                        "net": "data[1]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[2]",
+                        "net": "data[2]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[3]",
+                        "net": "data[3]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[4]",
+                        "net": "data[4]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[5]",
+                        "net": "data[5]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[6]",
+                        "net": "data[6]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[7]",
+                        "net": "data[7]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[0]",
+                        "net": "i_addr[0]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[1]",
+                        "net": "i_addr[1]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[2]",
+                        "net": "i_addr[2]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[3]",
+                        "net": "i_addr[3]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[4]",
+                        "net": "i_addr[4]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[5]",
+                        "net": "i_addr[5]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[6]",
+                        "net": "i_addr[6]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[7]",
+                        "net": "i_addr[7]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[8]",
+                        "net": "i_addr[8]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[9]",
+                        "net": "i_addr[9]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[10]",
+                        "net": "i_addr[10]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[11]",
+                        "net": "i_addr[11]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[12]",
+                        "net": "i_addr[12]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[13]",
+                        "net": "i_addr[13]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[14]",
+                        "net": "i_addr[14]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[15]",
+                        "net": "i_addr[15]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[16]",
+                        "net": "i_addr[16]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[17]",
+                        "net": "i_addr[17]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[18]",
+                        "net": "i_addr[18]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[19]",
+                        "net": "i_addr[19]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[20]",
+                        "net": "i_addr[20]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[21]",
+                        "net": "i_addr[21]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[22]",
+                        "net": "i_addr[22]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[23]",
+                        "net": "i_addr[23]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[24]",
+                        "net": "i_addr[24]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe8",
+                        "net": "i_arst",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9",
+                        "net": "i_cpuclk",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe10",
+                        "net": "i_cs",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe11[0]",
+                        "net": "i_data[0]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe11[1]",
+                        "net": "i_data[1]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe11[2]",
+                        "net": "i_data[2]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe11[3]",
+                        "net": "i_data[3]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe11[4]",
+                        "net": "i_data[4]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe11[5]",
+                        "net": "i_data[5]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe11[6]",
+                        "net": "i_data[6]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe11[7]",
+                        "net": "i_data[7]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe12",
+                        "net": "i_rwb",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[0]",
+                        "net": "next_counter[0]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[1]",
+                        "net": "next_counter[1]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe14[0]",
+                        "net": "next_state[0]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe14[1]",
+                        "net": "next_state[1]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[0]",
+                        "net": "o_data[0]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[1]",
+                        "net": "o_data[1]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[2]",
+                        "net": "o_data[2]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[3]",
+                        "net": "o_data[3]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[4]",
+                        "net": "o_data[4]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[5]",
+                        "net": "o_data[5]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[6]",
+                        "net": "o_data[6]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[7]",
+                        "net": "o_data[7]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[0]",
+                        "net": "o_sdr_state[0]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[1]",
+                        "net": "o_sdr_state[1]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[2]",
+                        "net": "o_sdr_state[2]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[3]",
+                        "net": "o_sdr_state[3]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe17[0]",
+                        "net": "r_addr[0]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe17[1]",
+                        "net": "r_addr[1]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe17[2]",
+                        "net": "r_addr[2]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe17[3]",
+                        "net": "r_addr[3]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe17[4]",
+                        "net": "r_addr[4]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe17[5]",
+                        "net": "r_addr[5]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe17[6]",
+                        "net": "r_addr[6]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe17[7]",
+                        "net": "r_addr[7]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe17[8]",
+                        "net": "r_addr[8]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe17[9]",
+                        "net": "r_addr[9]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe17[10]",
+                        "net": "r_addr[10]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe17[11]",
+                        "net": "r_addr[11]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe17[12]",
+                        "net": "r_addr[12]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe17[13]",
+                        "net": "r_addr[13]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe17[14]",
+                        "net": "r_addr[14]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe17[15]",
+                        "net": "r_addr[15]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe17[16]",
+                        "net": "r_addr[16]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe17[17]",
+                        "net": "r_addr[17]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe17[18]",
+                        "net": "r_addr[18]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe17[19]",
+                        "net": "r_addr[19]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe17[20]",
+                        "net": "r_addr[20]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe17[21]",
+                        "net": "r_addr[21]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe17[22]",
+                        "net": "r_addr[22]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe17[23]",
+                        "net": "r_addr[23]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe18[0]",
+                        "net": "r_dm[0]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe18[1]",
+                        "net": "r_dm[1]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe18[2]",
+                        "net": "r_dm[2]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe18[3]",
+                        "net": "r_dm[3]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[0]",
+                        "net": "r_write_data[0]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[1]",
+                        "net": "r_write_data[1]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[2]",
+                        "net": "r_write_data[2]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[3]",
+                        "net": "r_write_data[3]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[4]",
+                        "net": "r_write_data[4]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[5]",
+                        "net": "r_write_data[5]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[6]",
+                        "net": "r_write_data[6]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[7]",
+                        "net": "r_write_data[7]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[8]",
+                        "net": "r_write_data[8]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[9]",
+                        "net": "r_write_data[9]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[10]",
+                        "net": "r_write_data[10]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[11]",
+                        "net": "r_write_data[11]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[12]",
+                        "net": "r_write_data[12]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[13]",
+                        "net": "r_write_data[13]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[14]",
+                        "net": "r_write_data[14]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[15]",
+                        "net": "r_write_data[15]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[16]",
+                        "net": "r_write_data[16]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[17]",
+                        "net": "r_write_data[17]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[18]",
+                        "net": "r_write_data[18]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[19]",
+                        "net": "r_write_data[19]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[20]",
+                        "net": "r_write_data[20]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[21]",
+                        "net": "r_write_data[21]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[22]",
+                        "net": "r_write_data[22]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[23]",
+                        "net": "r_write_data[23]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[24]",
+                        "net": "r_write_data[24]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[25]",
+                        "net": "r_write_data[25]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[26]",
+                        "net": "r_write_data[26]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[27]",
+                        "net": "r_write_data[27]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[28]",
+                        "net": "r_write_data[28]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[29]",
+                        "net": "r_write_data[29]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[30]",
+                        "net": "r_write_data[30]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[31]",
+                        "net": "r_write_data[31]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe20[0]",
+                        "net": "state[0]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe20[1]",
+                        "net": "state[1]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe21[0]",
+                        "net": "w_addr[0]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe21[1]",
+                        "net": "w_addr[1]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe21[2]",
+                        "net": "w_addr[2]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe21[3]",
+                        "net": "w_addr[3]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe21[4]",
+                        "net": "w_addr[4]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe21[5]",
+                        "net": "w_addr[5]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe21[6]",
+                        "net": "w_addr[6]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe21[7]",
+                        "net": "w_addr[7]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe21[8]",
+                        "net": "w_addr[8]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe21[9]",
+                        "net": "w_addr[9]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe21[10]",
+                        "net": "w_addr[10]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe21[11]",
+                        "net": "w_addr[11]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe21[12]",
+                        "net": "w_addr[12]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe21[13]",
+                        "net": "w_addr[13]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe21[14]",
+                        "net": "w_addr[14]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe21[15]",
+                        "net": "w_addr[15]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe21[16]",
+                        "net": "w_addr[16]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe21[17]",
+                        "net": "w_addr[17]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe21[18]",
+                        "net": "w_addr[18]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe21[19]",
+                        "net": "w_addr[19]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe21[20]",
+                        "net": "w_addr[20]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe21[21]",
+                        "net": "w_addr[21]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe21[22]",
+                        "net": "w_addr[22]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe21[23]",
+                        "net": "w_addr[23]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[0]",
+                        "net": "w_data_i[0]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[1]",
+                        "net": "w_data_i[1]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[2]",
+                        "net": "w_data_i[2]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[3]",
+                        "net": "w_data_i[3]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[4]",
+                        "net": "w_data_i[4]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[5]",
+                        "net": "w_data_i[5]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[6]",
+                        "net": "w_data_i[6]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[7]",
+                        "net": "w_data_i[7]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[8]",
+                        "net": "w_data_i[8]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[9]",
+                        "net": "w_data_i[9]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[10]",
+                        "net": "w_data_i[10]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[11]",
+                        "net": "w_data_i[11]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[12]",
+                        "net": "w_data_i[12]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[13]",
+                        "net": "w_data_i[13]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[14]",
+                        "net": "w_data_i[14]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[15]",
+                        "net": "w_data_i[15]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[16]",
+                        "net": "w_data_i[16]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[17]",
+                        "net": "w_data_i[17]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[18]",
+                        "net": "w_data_i[18]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[19]",
+                        "net": "w_data_i[19]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[20]",
+                        "net": "w_data_i[20]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[21]",
+                        "net": "w_data_i[21]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[22]",
+                        "net": "w_data_i[22]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[23]",
+                        "net": "w_data_i[23]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[24]",
+                        "net": "w_data_i[24]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[25]",
+                        "net": "w_data_i[25]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[26]",
+                        "net": "w_data_i[26]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[27]",
+                        "net": "w_data_i[27]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[28]",
+                        "net": "w_data_i[28]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[29]",
+                        "net": "w_data_i[29]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[30]",
+                        "net": "w_data_i[30]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[31]",
+                        "net": "w_data_i[31]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[0]",
+                        "net": "w_data_o[0]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[1]",
+                        "net": "w_data_o[1]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[2]",
+                        "net": "w_data_o[2]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[3]",
+                        "net": "w_data_o[3]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[4]",
+                        "net": "w_data_o[4]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[5]",
+                        "net": "w_data_o[5]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[6]",
+                        "net": "w_data_o[6]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[7]",
+                        "net": "w_data_o[7]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[8]",
+                        "net": "w_data_o[8]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[9]",
+                        "net": "w_data_o[9]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[10]",
+                        "net": "w_data_o[10]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[11]",
+                        "net": "w_data_o[11]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[12]",
+                        "net": "w_data_o[12]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[13]",
+                        "net": "w_data_o[13]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[14]",
+                        "net": "w_data_o[14]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[15]",
+                        "net": "w_data_o[15]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[16]",
+                        "net": "w_data_o[16]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[17]",
+                        "net": "w_data_o[17]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[18]",
+                        "net": "w_data_o[18]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[19]",
+                        "net": "w_data_o[19]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[20]",
+                        "net": "w_data_o[20]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[21]",
+                        "net": "w_data_o[21]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[22]",
+                        "net": "w_data_o[22]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[23]",
+                        "net": "w_data_o[23]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[24]",
+                        "net": "w_data_o[24]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[25]",
+                        "net": "w_data_o[25]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[26]",
+                        "net": "w_data_o[26]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[27]",
+                        "net": "w_data_o[27]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[28]",
+                        "net": "w_data_o[28]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[29]",
+                        "net": "w_data_o[29]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[30]",
+                        "net": "w_data_o[30]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23[31]",
+                        "net": "w_data_o[31]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe24",
+                        "net": "w_data_valid",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe25[0]",
+                        "net": "w_dm[0]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe25[1]",
+                        "net": "w_dm[1]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe25[2]",
+                        "net": "w_dm[2]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe25[3]",
+                        "net": "w_dm[3]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe26",
+                        "net": "w_last",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe27",
+                        "net": "w_rd_ack",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe28",
+                        "net": "w_rd_valid",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe29",
+                        "net": "w_read",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe30",
+                        "net": "w_write",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe31",
+                        "net": "w_wr_ack",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe32[0]",
+                        "net": "_data[0]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe32[1]",
+                        "net": "_data[1]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe32[2]",
+                        "net": "_data[2]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe32[3]",
+                        "net": "_data[3]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe32[4]",
+                        "net": "_data[4]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe32[5]",
+                        "net": "_data[5]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe32[6]",
+                        "net": "_data[6]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe32[7]",
+                        "net": "_data[7]",
                         "path": [
                             "u_sdram_adapter"
                         ]
@@ -2906,6 +2242,54 @@
             "data_depth": 2048,
             "capture_control": false,
             "selected_nets": [
+                {
+                    "name": "cpu_addr",
+                    "width": 16,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [],
+                    "net_idx_left": 15,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "cpu_data_in",
+                    "width": 8,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [],
+                    "net_idx_left": 7,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "cpu_rwb",
+                    "width": 1,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": []
+                },
+                {
+                    "name": "cpu_sync",
+                    "width": 1,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": []
+                },
+                {
+                    "name": "addr_mux_out",
+                    "width": 24,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_sdram_adapter"
+                    ],
+                    "net_idx_left": 23,
+                    "net_idx_right": 0
+                },
                 {
                     "name": "counter",
                     "width": 2,
@@ -2953,6 +2337,16 @@
                     ]
                 },
                 {
+                    "name": "i_cpuclk",
+                    "width": 1,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_sdram_adapter"
+                    ]
+                },
+                {
                     "name": "i_cs",
                     "width": 1,
                     "clk_domain": "i_sysclk",
@@ -2973,6 +2367,16 @@
                     ],
                     "net_idx_left": 7,
                     "net_idx_right": 0
+                },
+                {
+                    "name": "i_rwb",
+                    "width": 1,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_sdram_adapter"
+                    ]
                 },
                 {
                     "name": "next_counter",
@@ -3011,152 +2415,6 @@
                     "net_idx_right": 0
                 },
                 {
-                    "name": "o_dbg_ADDR",
-                    "width": 26,
-                    "clk_domain": "i_sysclk",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_sdram_adapter"
-                    ],
-                    "net_idx_left": 25,
-                    "net_idx_right": 0
-                },
-                {
-                    "name": "o_dbg_BA",
-                    "width": 4,
-                    "clk_domain": "i_sysclk",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_sdram_adapter"
-                    ],
-                    "net_idx_left": 3,
-                    "net_idx_right": 0
-                },
-                {
-                    "name": "o_dbg_DATA_in",
-                    "width": 32,
-                    "clk_domain": "i_sysclk",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_sdram_adapter"
-                    ],
-                    "net_idx_left": 31,
-                    "net_idx_right": 0
-                },
-                {
-                    "name": "o_dbg_DATA_out",
-                    "width": 32,
-                    "clk_domain": "i_sysclk",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_sdram_adapter"
-                    ],
-                    "net_idx_left": 31,
-                    "net_idx_right": 0
-                },
-                {
-                    "name": "o_dbg_n_CAS",
-                    "width": 2,
-                    "clk_domain": "i_sysclk",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_sdram_adapter"
-                    ],
-                    "net_idx_left": 1,
-                    "net_idx_right": 0
-                },
-                {
-                    "name": "o_dbg_n_CS",
-                    "width": 2,
-                    "clk_domain": "i_sysclk",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_sdram_adapter"
-                    ],
-                    "net_idx_left": 1,
-                    "net_idx_right": 0
-                },
-                {
-                    "name": "o_dbg_n_RAS",
-                    "width": 2,
-                    "clk_domain": "i_sysclk",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_sdram_adapter"
-                    ],
-                    "net_idx_left": 1,
-                    "net_idx_right": 0
-                },
-                {
-                    "name": "o_dbg_n_WE",
-                    "width": 2,
-                    "clk_domain": "i_sysclk",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_sdram_adapter"
-                    ],
-                    "net_idx_left": 1,
-                    "net_idx_right": 0
-                },
-                {
-                    "name": "o_dbg_rd_ack",
-                    "width": 1,
-                    "clk_domain": "i_sysclk",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_sdram_adapter"
-                    ]
-                },
-                {
-                    "name": "o_dbg_ref_req",
-                    "width": 1,
-                    "clk_domain": "i_sysclk",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_sdram_adapter"
-                    ]
-                },
-                {
-                    "name": "o_dbg_tRTW_done",
-                    "width": 1,
-                    "clk_domain": "i_sysclk",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_sdram_adapter"
-                    ]
-                },
-                {
-                    "name": "o_dbg_wr_ack",
-                    "width": 1,
-                    "clk_domain": "i_sysclk",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_sdram_adapter"
-                    ]
-                },
-                {
-                    "name": "o_sdr_init_done",
-                    "width": 1,
-                    "clk_domain": "i_sysclk",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_sdram_adapter"
-                    ]
-                },
-                {
                     "name": "o_sdr_state",
                     "width": 4,
                     "clk_domain": "i_sysclk",
@@ -3166,6 +2424,42 @@
                         "u_sdram_adapter"
                     ],
                     "net_idx_left": 3,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "r_addr",
+                    "width": 24,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_sdram_adapter"
+                    ],
+                    "net_idx_left": 23,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "r_dm",
+                    "width": 4,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_sdram_adapter"
+                    ],
+                    "net_idx_left": 3,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "r_write_data",
+                    "width": 32,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_sdram_adapter"
+                    ],
+                    "net_idx_left": 31,
                     "net_idx_right": 0
                 },
                 {
@@ -3225,6 +2519,18 @@
                     "path": [
                         "u_sdram_adapter"
                     ]
+                },
+                {
+                    "name": "w_dm",
+                    "width": 4,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_sdram_adapter"
+                    ],
+                    "net_idx_left": 3,
+                    "net_idx_right": 0
                 },
                 {
                     "name": "w_last",
@@ -3296,86 +2602,6 @@
                         "u_sdram_adapter"
                     ],
                     "net_idx_left": 7,
-                    "net_idx_right": 0
-                },
-                {
-                    "name": "i_cpuclk",
-                    "width": 1,
-                    "clk_domain": "i_sysclk",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_sdram_adapter"
-                    ]
-                },
-                {
-                    "name": "i_rwb",
-                    "width": 1,
-                    "clk_domain": "i_sysclk",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_sdram_adapter"
-                    ]
-                },
-                {
-                    "name": "r_write_data",
-                    "width": 32,
-                    "clk_domain": "i_sysclk",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_sdram_adapter"
-                    ],
-                    "net_idx_left": 31,
-                    "net_idx_right": 0
-                },
-                {
-                    "name": "w_dm",
-                    "width": 4,
-                    "clk_domain": "i_sysclk",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_sdram_adapter"
-                    ],
-                    "net_idx_left": 3,
-                    "net_idx_right": 0
-                },
-                {
-                    "name": "r_dm",
-                    "width": 4,
-                    "clk_domain": "i_sysclk",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_sdram_adapter"
-                    ],
-                    "net_idx_left": 3,
-                    "net_idx_right": 0
-                },
-                {
-                    "name": "r_addr",
-                    "width": 24,
-                    "clk_domain": "i_sysclk",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_sdram_adapter"
-                    ],
-                    "net_idx_left": 23,
-                    "net_idx_right": 0
-                },
-                {
-                    "name": "addr_mux_out",
-                    "width": 24,
-                    "clk_domain": "i_sysclk",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_sdram_adapter"
-                    ],
-                    "net_idx_left": 23,
                     "net_idx_right": 0
                 }
             ],
