@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<efx:project name="super6502" description="" last_change_date="Tue December 20 2022 19:24:38" location="/home/byron/Projects/super6502/hw/efinix_fpga" sw_version="2022.1.226" last_run_state="pass" last_run_tool="efx_pgm" last_run_flow="bitstream" config_result_in_sync="true" design_ood="sync" place_ood="sync" route_ood="sync" xmlns:efx="http://www.efinixinc.com/enf_proj" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.efinixinc.com/enf_proj enf_proj.xsd">
+<efx:project name="super6502" description="" last_change_date="Thu December 22 2022 20:21:20" location="/home/byron/Projects/super6502/hw/efinix_fpga" sw_version="2022.1.226" last_run_state="pass" last_run_tool="efx_pgm" last_run_flow="bitstream" config_result_in_sync="true" design_ood="sync" place_ood="sync" route_ood="sync" xmlns:efx="http://www.efinixinc.com/enf_proj" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.efinixinc.com/enf_proj enf_proj.xsd">
     <efx:device_info>
         <efx:family name="Trion"/>
         <efx:device name="T20F256"/>
         <efx:timing_model name="C4"/>
     </efx:device_info>
     <efx:design_info def_veri_version="sv_09" def_vhdl_version="vhdl_2008">
-        <efx:top_module name=""/>
+        <efx:top_module name="super6502"/>
         <efx:design_file name="super6502.sv" version="default" library="default"/>
         <efx:design_file name="ip/bram/bram_primitive.v" version="verilog_2k" library="default"/>
         <efx:design_file name="ip/bram/bram_decompose.vh" version="verilog_2k" library="default"/>
@@ -15,6 +15,7 @@
         <efx:design_file name="ip/bram/bram_wrapper_mwm.v" version="verilog_2k" library="default"/>
         <efx:design_file name="leds.sv" version="default" library="default"/>
         <efx:design_file name="addr_decode.sv" version="default" library="default"/>
+        <efx:design_file name="sdram_adapter.sv" version="default" library="default"/>
         <efx:top_vhdl_arch name=""/>
     </efx:design_info>
     <efx:constraint_info>
@@ -23,7 +24,11 @@
     </efx:constraint_info>
     <efx:sim_info/>
     <efx:misc_info/>
-    <efx:ip_info/>
+    <efx:ip_info>
+        <efx:ip instance_name="sdram_controller" path="ip/sdram_controller/settings.json">
+            <efx:ip_src_file name="sdram_controller.v"/>
+        </efx:ip>
+    </efx:ip_info>
     <efx:synthesis tool_name="efx_map">
         <efx:param name="work_dir" value="work_syn" value_type="e_string"/>
         <efx:param name="write_efx_verilog" value="on" value_type="e_bool"/>
@@ -47,6 +52,7 @@
         <efx:param name="allow-const-ram-index" value="0" value_type="e_option"/>
         <efx:param name="hdl-compile-unit" value="1" value_type="e_option"/>
         <efx:param name="create-onehot-fsms" value="0" value_type="e_option"/>
+        <efx:param name="include" value="ip/sdram_controller" value_type="e_string"/>
     </efx:synthesis>
     <efx:place_and_route tool_name="efx_pnr">
         <efx:param name="work_dir" value="work_pnr" value_type="e_string"/>
@@ -79,7 +85,7 @@
     </efx:bitstream_generation>
     <efx:debugger>
         <efx:param name="work_dir" value="work_dbg" value_type="e_string"/>
-        <efx:param name="auto_instantiation" value="off" value_type="e_bool"/>
+        <efx:param name="auto_instantiation" value="on" value_type="e_bool"/>
         <efx:param name="profile" value="debug_profile.wizard.json" value_type="e_string"/>
     </efx:debugger>
 </efx:project>
