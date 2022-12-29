@@ -1,4 +1,4 @@
-TARGETS=stacktest runram
+TARGETS=stacktest runram timer
 
 all: $(TARGETS)
 
@@ -7,6 +7,6 @@ $(TARGETS):
 	xxd -ps $@ | fold -w 2 > $@.hex
 
 clean:
-	rm $(TARGETS)
+	rm -f $(TARGETS)
 	rm *.hex
 	rm *.list
