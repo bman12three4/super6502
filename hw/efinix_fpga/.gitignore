@@ -5,4 +5,5 @@ outflow
 *.log*
 *.vcd
 *.gtkw
+*.vvp
 
