@@ -1,0 +1,9 @@
+### Missing 3D models - created on 2022-12-30 17:37
+### Printed by checking_3D_models plugin
+Board file: /home/byron/Projects/super6502/hw/385_adapter/385_adapter.kicad_pcb
+3D missing models written to:
+/home/byron/Projects/super6502/hw/385_adapter/385_adapter_missing3Dmodels.txt
+-------
+-------
+NUM of 3D missing models:0
+checked extensions ['.stp', '.step', '.stpZ']
