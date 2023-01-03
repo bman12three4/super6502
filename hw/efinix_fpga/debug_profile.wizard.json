@@ -3,7 +3,7 @@
         {
             "name": "la0",
             "type": "la",
-            "uuid": "eca5777d2e5a40ed85ba29fd5435f87f",
+            "uuid": "281a52604f2c437c9bde96b89d672260",
             "trigin_en": false,
             "trigout_en": false,
             "auto_inserted": true,
@@ -28,6 +28,36 @@
                 },
                 {
                     "name": "cpu_sync",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_timer/count_en",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "cpu_data_out",
+                    "width": 8,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_timer/timer_latch",
+                    "width": 16,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_timer/pulsecount",
+                    "width": 16,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_timer/timer_counter",
+                    "width": 16,
+                    "probe_type": 1
+                },
+                {
+                    "name": "cpu_irqb",
                     "width": 1,
                     "probe_type": 1
                 }
@@ -289,6 +319,394 @@
                         "name": "la0_probe3",
                         "net": "cpu_sync",
                         "path": []
+                    },
+                    {
+                        "name": "la0_probe4",
+                        "net": "count_en",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe5[0]",
+                        "net": "cpu_data_out[0]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[1]",
+                        "net": "cpu_data_out[1]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[2]",
+                        "net": "cpu_data_out[2]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[3]",
+                        "net": "cpu_data_out[3]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[4]",
+                        "net": "cpu_data_out[4]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[5]",
+                        "net": "cpu_data_out[5]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[6]",
+                        "net": "cpu_data_out[6]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[7]",
+                        "net": "cpu_data_out[7]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe6[0]",
+                        "net": "timer_latch[0]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[1]",
+                        "net": "timer_latch[1]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[2]",
+                        "net": "timer_latch[2]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[3]",
+                        "net": "timer_latch[3]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[4]",
+                        "net": "timer_latch[4]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[5]",
+                        "net": "timer_latch[5]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[6]",
+                        "net": "timer_latch[6]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[7]",
+                        "net": "timer_latch[7]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[8]",
+                        "net": "timer_latch[8]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[9]",
+                        "net": "timer_latch[9]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[10]",
+                        "net": "timer_latch[10]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[11]",
+                        "net": "timer_latch[11]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[12]",
+                        "net": "timer_latch[12]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[13]",
+                        "net": "timer_latch[13]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[14]",
+                        "net": "timer_latch[14]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[15]",
+                        "net": "timer_latch[15]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[0]",
+                        "net": "pulsecount[0]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[1]",
+                        "net": "pulsecount[1]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[2]",
+                        "net": "pulsecount[2]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[3]",
+                        "net": "pulsecount[3]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[4]",
+                        "net": "pulsecount[4]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[5]",
+                        "net": "pulsecount[5]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[6]",
+                        "net": "pulsecount[6]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[7]",
+                        "net": "pulsecount[7]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[8]",
+                        "net": "pulsecount[8]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[9]",
+                        "net": "pulsecount[9]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[10]",
+                        "net": "pulsecount[10]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[11]",
+                        "net": "pulsecount[11]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[12]",
+                        "net": "pulsecount[12]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[13]",
+                        "net": "pulsecount[13]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[14]",
+                        "net": "pulsecount[14]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[15]",
+                        "net": "pulsecount[15]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe8[0]",
+                        "net": "timer_counter[0]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe8[1]",
+                        "net": "timer_counter[1]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe8[2]",
+                        "net": "timer_counter[2]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe8[3]",
+                        "net": "timer_counter[3]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe8[4]",
+                        "net": "timer_counter[4]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe8[5]",
+                        "net": "timer_counter[5]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe8[6]",
+                        "net": "timer_counter[6]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe8[7]",
+                        "net": "timer_counter[7]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe8[8]",
+                        "net": "timer_counter[8]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe8[9]",
+                        "net": "timer_counter[9]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe8[10]",
+                        "net": "timer_counter[10]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe8[11]",
+                        "net": "timer_counter[11]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe8[12]",
+                        "net": "timer_counter[12]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe8[13]",
+                        "net": "timer_counter[13]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe8[14]",
+                        "net": "timer_counter[14]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe8[15]",
+                        "net": "timer_counter[15]",
+                        "path": [
+                            "u_timer"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9",
+                        "net": "cpu_irqb",
+                        "path": []
                     }
                 ]
             }
@@ -335,6 +753,70 @@
                 },
                 {
                     "name": "cpu_sync",
+                    "width": 1,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": []
+                },
+                {
+                    "name": "count_en",
+                    "width": 1,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_timer"
+                    ]
+                },
+                {
+                    "name": "cpu_data_out",
+                    "width": 8,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [],
+                    "net_idx_left": 7,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "timer_latch",
+                    "width": 16,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_timer"
+                    ],
+                    "net_idx_left": 15,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "pulsecount",
+                    "width": 16,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_timer"
+                    ],
+                    "net_idx_left": 15,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "timer_counter",
+                    "width": 16,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_timer"
+                    ],
+                    "net_idx_left": 15,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "cpu_irqb",
                     "width": 1,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",

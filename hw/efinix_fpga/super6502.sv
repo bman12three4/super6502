@@ -114,7 +114,7 @@ leds u_leds(
     .o_leds(leds)
 );
 
-logic w_timer_irq;
+logic w_timer_irqb;
 
 timer u_timer(
     .clk(clk_2),
@@ -123,8 +123,8 @@ timer u_timer(
     .o_data(w_timer_data_out),
     .cs(w_timer_cs),
     .rwb(cpu_rwb),
-    .addr(cpu_addr[2:0]),
-    .irq(w_timer_irq)
+    .addr(cpu_addr[1:0]),
+    .irqb(w_timer_irqb)
 );
 
 sdram_adapter u_sdram_adapter(
@@ -164,7 +164,7 @@ interrupt_controller u_interrupt_controller(
     .cs(w_irq_cs),
     .rwb(cpu_rwb),
     .irqb_master(cpu_irqb),
-    .irqb0(w_timer_irq),
+    .irqb0(w_timer_irqb),
     .irqb1('1),
     .irqb2('1),
     .irqb3('1),

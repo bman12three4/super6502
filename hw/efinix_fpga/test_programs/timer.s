@@ -2,13 +2,21 @@
 
 LEDS = $efff
 TIMER_BASE = $eff8
-TIMER_DIVISOR = 5
-
+TIMER_DIVISOR = 2
+TIMER_CL = 0
+TIMER_LL = 0
+TIMER_CH = 1
+TIMER_LH = 1
+TIMER_STATUS = 3
 TIMER_OLD = $10
 
 main:
-    lda #$ff
+    lda #$01
     sta TIMER_BASE+TIMER_DIVISOR
+    lda #$00
+    sta TIMER_BASE+TIMER_LH
+    lda #$0F
+    sta TIMER_BASE+TIMER_LL
     lda TIMER_BASE
     sta TIMER_OLD
     stz LEDS

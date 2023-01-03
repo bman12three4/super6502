@@ -10,7 +10,7 @@ module addr_decode
 
 assign o_rom_cs = i_addr >= 16'hf000 && i_addr <= 16'hffff;
 assign o_leds_cs = i_addr == 16'hefff;
-assign o_timer_cs = i_addr >= 16'heff8 && i_addr <= 16'heffe;
+assign o_timer_cs = i_addr >= 16'heff8 && i_addr <= 16'heffb;
 assign o_sdram_cs = i_addr < 16'h8000;
 
 endmodule
