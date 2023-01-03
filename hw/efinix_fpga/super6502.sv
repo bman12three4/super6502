@@ -44,7 +44,6 @@ assign o_pll_reset = '1;
 
 assign cpu_data_oe = {8{cpu_rwb}};
 assign cpu_rdy = '1;
-assign cpu_irqb = '1;
 assign cpu_nmib = '1;
 
 assign cpu_phi2 = clk_2;
@@ -115,6 +114,8 @@ leds u_leds(
     .o_leds(leds)
 );
 
+logic w_timer_irq;
+
 timer u_timer(
     .clk(clk_2),
     .reset(~cpu_resb),
@@ -122,7 +123,8 @@ timer u_timer(
     .o_data(w_timer_data_out),
     .cs(w_timer_cs),
     .rwb(cpu_rwb),
-    .addr(cpu_addr[2:0])
+    .addr(cpu_addr[2:0]),
+    .irq(w_timer_irq)
 );
 
 sdram_adapter u_sdram_adapter(
@@ -152,6 +154,24 @@ sdram_adapter u_sdram_adapter(
     .o_sdr_DATA_oe(o_sdr_DATA_oe),
     .i_sdr_DATA(i_sdr_DATA),
     .o_sdr_DQM(o_sdr_DQM)
+);
+
+interrupt_controller u_interrupt_controller(
+    .clk(clk_2),
+    .reset(~cpu_resb),
+    .i_data(cpu_data_in),
+    .o_data(w_irq_data_out),
+    .cs(w_irq_cs),
+    .rwb(cpu_rwb),
+    .irqb_master(cpu_irqb),
+    .irqb0(w_timer_irq),
+    .irqb1('1),
+    .irqb2('1),
+    .irqb3('1),
+    .irqb4('1),
+    .irqb5('1),
+    .irqb6('1),
+    .irqb7('1)
 );
 
 
