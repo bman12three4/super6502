@@ -66,18 +66,21 @@ logic w_rom_cs;
 logic w_leds_cs;
 logic w_sdram_cs;
 logic w_timer_cs;
+logic w_multiplier_cs;
 
 addr_decode u_addr_decode(
     .i_addr(cpu_addr),
     .o_rom_cs(w_rom_cs),
     .o_leds_cs(w_leds_cs),
     .o_timer_cs(w_timer_cs),
+    .o_multiplier_cs(w_multiplier_cs),
     .o_sdram_cs(w_sdram_cs)
 );
 
 logic [7:0] w_rom_data_out;
 logic [7:0] w_leds_data_out;
 logic [7:0] w_timer_data_out;
+logic [7:0] w_multiplier_data_out;
 logic [7:0] w_sdram_data_out;
 
 always_comb begin
@@ -87,6 +90,8 @@ always_comb begin
         cpu_data_out = w_leds_data_out;
     else if (w_timer_cs)
         cpu_data_out = w_timer_data_out;
+    else if (w_multiplier_cs)
+        cpu_data_out = w_multiplier_data_out;
     else if (w_sdram_cs)
         cpu_data_out = w_sdram_data_out;
     else
@@ -125,6 +130,16 @@ timer u_timer(
     .rwb(cpu_rwb),
     .addr(cpu_addr[1:0]),
     .irqb(w_timer_irqb)
+);
+
+multiplier u_multiplier(
+    .clk(clk_2),
+    .reset(~cpu_resb),
+    .i_data(cpu_data_in),
+    .o_data(w_multiplier_data_out),
+    .cs(w_multiplier_cs),
+    .rwb(cpu_rwb),
+    .addr(cpu_addr[2:0])
 );
 
 sdram_adapter u_sdram_adapter(
