@@ -1,4 +1,4 @@
-TARGETS=stacktest runram timer timer_irq multiplier
+TARGETS=stacktest runram timer timer_irq multiplier divider
 SRC=$(wildcard *.s)
 DIR=../ip/bram
 

@@ -67,6 +67,7 @@ logic w_leds_cs;
 logic w_sdram_cs;
 logic w_timer_cs;
 logic w_multiplier_cs;
+logic w_divider_cs;
 
 addr_decode u_addr_decode(
     .i_addr(cpu_addr),
@@ -74,6 +75,7 @@ addr_decode u_addr_decode(
     .o_leds_cs(w_leds_cs),
     .o_timer_cs(w_timer_cs),
     .o_multiplier_cs(w_multiplier_cs),
+    .o_divider_cs(w_divider_cs),
     .o_sdram_cs(w_sdram_cs)
 );
 
@@ -81,6 +83,7 @@ logic [7:0] w_rom_data_out;
 logic [7:0] w_leds_data_out;
 logic [7:0] w_timer_data_out;
 logic [7:0] w_multiplier_data_out;
+logic [7:0] w_divider_data_out;
 logic [7:0] w_sdram_data_out;
 
 always_comb begin
@@ -92,6 +95,8 @@ always_comb begin
         cpu_data_out = w_timer_data_out;
     else if (w_multiplier_cs)
         cpu_data_out = w_multiplier_data_out;
+    else if (w_divider_cs)
+        cpu_data_out = w_divider_data_out;
     else if (w_sdram_cs)
         cpu_data_out = w_sdram_data_out;
     else
@@ -138,6 +143,16 @@ multiplier u_multiplier(
     .i_data(cpu_data_in),
     .o_data(w_multiplier_data_out),
     .cs(w_multiplier_cs),
+    .rwb(cpu_rwb),
+    .addr(cpu_addr[2:0])
+);
+
+divider_wrapper u_divider(
+    .clk(clk_2),
+    .reset(~cpu_resb),
+    .i_data(cpu_data_in),
+    .o_data(w_divider_data_out),
+    .cs(w_divider_cs),
     .rwb(cpu_rwb),
     .addr(cpu_addr[2:0])
 );

@@ -1,0 +1,33 @@
+{
+    "args": [
+        "-o",
+        "divider",
+        "--base_path",
+        "/home/byron/Projects/super6502/hw/efinix_fpga/ip",
+        "--vlnv",
+        {
+            "vendor": "efinixinc.com",
+            "library": "arithmetic",
+            "name": "efx_divider",
+            "version": "2.2"
+        }
+    ],
+    "conf": {
+        "NREPRESENTATION": "0",
+        "WIDTHN": "16",
+        "WIDTHD": "16",
+        "DREPRESENTATION": "0",
+        "PIPELINE": "0",
+        "LATENCY": "0"
+    },
+    "output": {
+        "external_source_source": [
+            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/divider/divider.v",
+            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/divider/divider_define.vh",
+            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/divider/divider_tmpl.vhd",
+            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/divider/divider_tmpl.v"
+        ]
+    },
+    "sw_version": "2022.2.322",
+    "generated_date": "2023-01-05T22:36:48.178317"
+}
