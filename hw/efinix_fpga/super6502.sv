@@ -149,6 +149,7 @@ multiplier u_multiplier(
 
 divider_wrapper u_divider(
     .clk(clk_2),
+    .divclk(clk_50),
     .reset(~cpu_resb),
     .i_data(cpu_data_in),
     .o_data(w_divider_data_out),

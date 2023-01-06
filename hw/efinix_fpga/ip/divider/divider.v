@@ -43,7 +43,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-`define IP_UUID _1d82aa757d4b4554a855552eadc85243
+`define IP_UUID _e54826097db04c8995c0c56653e54765
 `define IP_NAME_CONCAT(a,b) a``b
 `define IP_MODULE_NAME(name) `IP_NAME_CONCAT(name,`IP_UUID)
 module divider (
@@ -62,7 +62,7 @@ output rfd
 .WIDTHD (16),
 .DREPRESENTATION ("UNSIGNED"),
 .PIPELINE (0),
-.LATENCY (0)
+.LATENCY (16)
 ) u_divider(
 .numer ( numer ),
 .denom ( denom ),

@@ -48,4 +48,4 @@ localparam WIDTHN = 16;
 localparam WIDTHD = 16;
 localparam DREPRESENTATION = "UNSIGNED";
 localparam PIPELINE = 0;
-localparam LATENCY = 0;
+localparam LATENCY = 16;

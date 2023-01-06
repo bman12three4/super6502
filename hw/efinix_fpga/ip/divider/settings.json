@@ -18,7 +18,7 @@
         "WIDTHD": "16",
         "DREPRESENTATION": "0",
         "PIPELINE": "0",
-        "LATENCY": "0"
+        "LATENCY": "16"
     },
     "output": {
         "external_source_source": [
@@ -29,5 +29,5 @@
         ]
     },
     "sw_version": "2022.2.322",
-    "generated_date": "2023-01-05T22:36:48.178317"
+    "generated_date": "2023-01-05T23:44:10.084005"
 }
