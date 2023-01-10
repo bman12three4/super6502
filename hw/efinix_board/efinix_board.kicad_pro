@@ -384,8 +384,6 @@
           "/Power/SW1V2",
           "/Power/SW3V3",
           "GND",
-          "Net-(C2-Pad1)",
-          "Net-(L1-Pad2)",
           "VCCQ"
         ],
         "pcb_color": "rgba(0, 0, 0, 0.000)",
@@ -466,6 +464,10 @@
     [
       "c77fe4eb-8f23-4f78-be9b-3f61160b1ef8",
       "sdram"
+    ],
+    [
+      "e900ed5d-98f6-483b-b296-7f8a7c9df9c0",
+      "cpu"
     ]
   ],
   "text_variables": {}
