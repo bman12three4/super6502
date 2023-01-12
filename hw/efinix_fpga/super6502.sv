@@ -35,7 +35,10 @@ module super6502
     input	logic [15:0] i_sdr_DATA,
     output	logic [15:0] o_sdr_DATA,
     output	logic [15:0] o_sdr_DATA_oe,
-    output	logic [1:0] o_sdr_DQM
+    output	logic [1:0] o_sdr_DQM,
+
+    input uart_rx,
+    output uart_tx
 
 );
 
@@ -68,6 +71,7 @@ logic w_sdram_cs;
 logic w_timer_cs;
 logic w_multiplier_cs;
 logic w_divider_cs;
+logic w_uart_cs;
 
 addr_decode u_addr_decode(
     .i_addr(cpu_addr),
@@ -76,6 +80,7 @@ addr_decode u_addr_decode(
     .o_timer_cs(w_timer_cs),
     .o_multiplier_cs(w_multiplier_cs),
     .o_divider_cs(w_divider_cs),
+    .o_uart_cs(w_uart_cs),
     .o_sdram_cs(w_sdram_cs)
 );
 
@@ -84,6 +89,7 @@ logic [7:0] w_leds_data_out;
 logic [7:0] w_timer_data_out;
 logic [7:0] w_multiplier_data_out;
 logic [7:0] w_divider_data_out;
+logic [7:0] w_uart_data_out;
 logic [7:0] w_sdram_data_out;
 
 always_comb begin
@@ -97,6 +103,8 @@ always_comb begin
         cpu_data_out = w_multiplier_data_out;
     else if (w_divider_cs)
         cpu_data_out = w_divider_data_out;
+    else if (w_uart_cs)
+        cpu_data_out = w_uart_data_out;
     else if (w_sdram_cs)
         cpu_data_out = w_sdram_data_out;
     else
@@ -156,6 +164,22 @@ divider_wrapper u_divider(
     .cs(w_divider_cs),
     .rwb(cpu_rwb),
     .addr(cpu_addr[2:0])
+);
+
+logic w_uart_irqb;
+
+uart_wrapper u_uart(
+    .clk(clk_2),
+    .clk_50(clk_50),
+    .reset(~cpu_resb),
+    .i_data(cpu_data_in),
+    .o_data(w_uart_data_out),
+    .cs(w_uart_cs),
+    .rwb(cpu_rwb),
+    .addr(cpu_addr[0]),
+    .rx_i(uart_rx),
+    .tx_o(uart_tx),
+    .irqb(w_uart_irqb)
 );
 
 sdram_adapter u_sdram_adapter(

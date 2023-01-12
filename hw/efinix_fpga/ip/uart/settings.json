@@ -1,0 +1,34 @@
+{
+    "args": [
+        "-o",
+        "uart",
+        "--base_path",
+        "/home/byron/Projects/super6502/hw/efinix_fpga/ip",
+        "--vlnv",
+        {
+            "vendor": "efinixinc.com",
+            "library": "serial_interface",
+            "name": "efx_uart",
+            "version": "2.0"
+        }
+    ],
+    "conf": {
+        "BYTE": "1",
+        "CLOCK_FREQ": "50000000",
+        "BAUD": "115200",
+        "ENABLE_PARITY": "0",
+        "FIX_BAUDRATE": "1",
+        "PARITY_MODE": "0",
+        "BOOTUP_CHECK": "0"
+    },
+    "output": {
+        "external_source_source": [
+            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/uart.v",
+            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/uart_define.vh",
+            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/uart_tmpl.vhd",
+            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/uart_tmpl.v"
+        ]
+    },
+    "sw_version": "2022.2.322",
+    "generated_date": "2023-01-12T01:01:22.177819"
+}
