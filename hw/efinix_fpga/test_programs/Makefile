@@ -1,11 +1,11 @@
-TARGETS=stacktest runram timer timer_irq multiplier divider
+TARGETS=stacktest runram timer timer_irq multiplier divider uart
 SRC=$(wildcard *.s)
 DIR=../ip/bram
 
 all: $(TARGETS)
 
 $(TARGETS): $(SRC)
-	cl65 --cpu 65c02 -C link.ld -l $@.list $@.s
+	cl65 --cpu 65c02 -t none -C link.ld -l $@.list $@.s
 	xxd -ps $@ | fold -w 2 > $@.hex
 
 install:

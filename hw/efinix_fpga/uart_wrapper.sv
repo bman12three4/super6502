@@ -14,7 +14,7 @@ module uart_wrapper(
     output logic irqb
 );
 
-logic status, control;
+logic [7:0] status, control;
 
 logic tx_busy, rx_busy;
 
@@ -44,23 +44,29 @@ uart u_uart(
 
 enum bit [1:0] {READY, WAIT, TRANSMIT} state, next_state;
 
-always_ff @(negedge clk) begin
+always_ff @(posedge clk_50) begin
     if (reset) begin
         state = READY;
         irqb <= '1;
     end else begin
         state <= next_state;
     end
+end
 
-    case (addr)
-        1'b0: begin
-            tx_data <= i_data;
-        end 
+always_ff @(negedge clk) begin
+    status[0] <= status[0] | rx_data_valid;
 
-        1'b1: begin
-            control <= i_data;
-        end
-    endcase
+    if (cs & ~rwb) begin
+        case (addr)
+            1'b0: begin
+                tx_data <= i_data;
+            end 
+
+            1'b1: begin
+                control <= i_data;
+            end
+        endcase
+    end
 
 end
 
@@ -83,13 +89,14 @@ always_comb begin
 
     case (state)
         READY: begin
-            if (~rwb && addr == 1'b0) begin //write to transmit
+            if (cs & ~rwb && addr == 1'b0) begin //write to transmit
                 tx_en = 1'b1;
                 next_state = WAIT;
             end
         end
 
         WAIT: begin
+            tx_en = 1'b1;
             if (tx_busy) begin
                 next_state = TRANSMIT;
             end

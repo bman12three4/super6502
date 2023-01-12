@@ -3,7 +3,7 @@
         {
             "name": "la0",
             "type": "la",
-            "uuid": "bf7f2937618246c9b4a5564ab6e8e6af",
+            "uuid": "c67ec8d558d3431ca6ca818984576c7b",
             "trigin_en": false,
             "trigout_en": false,
             "auto_inserted": true,
@@ -12,117 +12,7 @@
             "input_pipeline": 1,
             "probes": [
                 {
-                    "name": "u_uart/tx_o",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/tx_en",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/tx_data",
-                    "width": 8,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/tx_busy",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/status",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/state",
-                    "width": 2,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/rx_parity_error",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/rx_i",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/rx_error",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/rx_data_valid",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/rx_data",
-                    "width": 8,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/rx_busy",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/rwb",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/reset",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/o_data",
-                    "width": 8,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/next_state",
-                    "width": 2,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/i_data",
-                    "width": 8,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/irqb",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/cs",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/control",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/clk_50",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/clk",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/baud_x16_ce",
+                    "name": "u_uart/addr",
                     "width": 1,
                     "probe_type": 1
                 },
@@ -132,7 +22,117 @@
                     "probe_type": 1
                 },
                 {
-                    "name": "u_uart/addr",
+                    "name": "u_uart/baud_x16_ce",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_uart/clk",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_uart/clk_50",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_uart/control",
+                    "width": 8,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_uart/cs",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_uart/irqb",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_uart/i_data",
+                    "width": 8,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_uart/next_state",
+                    "width": 2,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_uart/o_data",
+                    "width": 8,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_uart/reset",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_uart/rwb",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_uart/rx_busy",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_uart/rx_data",
+                    "width": 8,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_uart/rx_data_valid",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_uart/rx_error",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_uart/rx_i",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_uart/rx_parity_error",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_uart/state",
+                    "width": 2,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_uart/status",
+                    "width": 8,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_uart/tx_busy",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_uart/tx_data",
+                    "width": 8,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_uart/tx_en",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_uart/tx_o",
                     "width": 1,
                     "probe_type": 1
                 }
@@ -267,189 +267,238 @@
                     },
                     {
                         "name": "la0_probe0",
-                        "net": "tx_o",
+                        "net": "addr",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe1",
-                        "net": "tx_en",
+                        "net": "baud_rate",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
-                        "name": "la0_probe2[0]",
-                        "net": "tx_data[0]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[1]",
-                        "net": "tx_data[1]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[2]",
-                        "net": "tx_data[2]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[3]",
-                        "net": "tx_data[3]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[4]",
-                        "net": "tx_data[4]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[5]",
-                        "net": "tx_data[5]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[6]",
-                        "net": "tx_data[6]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe2[7]",
-                        "net": "tx_data[7]",
+                        "name": "la0_probe2",
+                        "net": "baud_x16_ce",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe3",
-                        "net": "tx_busy",
+                        "net": "clk",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe4",
-                        "net": "status",
+                        "net": "clk_50",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe5[0]",
-                        "net": "state[0]",
+                        "net": "control[0]",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe5[1]",
-                        "net": "state[1]",
+                        "net": "control[1]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe5[2]",
+                        "net": "control[2]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe5[3]",
+                        "net": "control[3]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe5[4]",
+                        "net": "control[4]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe5[5]",
+                        "net": "control[5]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe5[6]",
+                        "net": "control[6]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe5[7]",
+                        "net": "control[7]",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe6",
-                        "net": "rx_parity_error",
+                        "net": "cs",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe7",
-                        "net": "rx_i",
+                        "net": "irqb",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
-                        "name": "la0_probe8",
-                        "net": "rx_error",
+                        "name": "la0_probe8[0]",
+                        "net": "i_data[0]",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
-                        "name": "la0_probe9",
-                        "net": "rx_data_valid",
+                        "name": "la0_probe8[1]",
+                        "net": "i_data[1]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe8[2]",
+                        "net": "i_data[2]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe8[3]",
+                        "net": "i_data[3]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe8[4]",
+                        "net": "i_data[4]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe8[5]",
+                        "net": "i_data[5]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe8[6]",
+                        "net": "i_data[6]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe8[7]",
+                        "net": "i_data[7]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[0]",
+                        "net": "next_state[0]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[1]",
+                        "net": "next_state[1]",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe10[0]",
-                        "net": "rx_data[0]",
+                        "net": "o_data[0]",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe10[1]",
-                        "net": "rx_data[1]",
+                        "net": "o_data[1]",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe10[2]",
-                        "net": "rx_data[2]",
+                        "net": "o_data[2]",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe10[3]",
-                        "net": "rx_data[3]",
+                        "net": "o_data[3]",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe10[4]",
-                        "net": "rx_data[4]",
+                        "net": "o_data[4]",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe10[5]",
-                        "net": "rx_data[5]",
+                        "net": "o_data[5]",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe10[6]",
-                        "net": "rx_data[6]",
+                        "net": "o_data[6]",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe10[7]",
-                        "net": "rx_data[7]",
+                        "net": "o_data[7]",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe11",
-                        "net": "rx_busy",
+                        "net": "reset",
                         "path": [
                             "u_uart"
                         ]
@@ -463,189 +512,238 @@
                     },
                     {
                         "name": "la0_probe13",
-                        "net": "reset",
+                        "net": "rx_busy",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe14[0]",
-                        "net": "o_data[0]",
+                        "net": "rx_data[0]",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe14[1]",
-                        "net": "o_data[1]",
+                        "net": "rx_data[1]",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe14[2]",
-                        "net": "o_data[2]",
+                        "net": "rx_data[2]",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe14[3]",
-                        "net": "o_data[3]",
+                        "net": "rx_data[3]",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe14[4]",
-                        "net": "o_data[4]",
+                        "net": "rx_data[4]",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe14[5]",
-                        "net": "o_data[5]",
+                        "net": "rx_data[5]",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe14[6]",
-                        "net": "o_data[6]",
+                        "net": "rx_data[6]",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe14[7]",
-                        "net": "o_data[7]",
+                        "net": "rx_data[7]",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
-                        "name": "la0_probe15[0]",
-                        "net": "next_state[0]",
+                        "name": "la0_probe15",
+                        "net": "rx_data_valid",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
-                        "name": "la0_probe15[1]",
-                        "net": "next_state[1]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe16[0]",
-                        "net": "i_data[0]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe16[1]",
-                        "net": "i_data[1]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe16[2]",
-                        "net": "i_data[2]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe16[3]",
-                        "net": "i_data[3]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe16[4]",
-                        "net": "i_data[4]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe16[5]",
-                        "net": "i_data[5]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe16[6]",
-                        "net": "i_data[6]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe16[7]",
-                        "net": "i_data[7]",
+                        "name": "la0_probe16",
+                        "net": "rx_error",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe17",
-                        "net": "irqb",
+                        "net": "rx_i",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe18",
-                        "net": "cs",
+                        "net": "rx_parity_error",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
-                        "name": "la0_probe19",
-                        "net": "control",
+                        "name": "la0_probe19[0]",
+                        "net": "state[0]",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
-                        "name": "la0_probe20",
-                        "net": "clk_50",
+                        "name": "la0_probe19[1]",
+                        "net": "state[1]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe20[0]",
+                        "net": "status[0]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe20[1]",
+                        "net": "status[1]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe20[2]",
+                        "net": "status[2]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe20[3]",
+                        "net": "status[3]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe20[4]",
+                        "net": "status[4]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe20[5]",
+                        "net": "status[5]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe20[6]",
+                        "net": "status[6]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe20[7]",
+                        "net": "status[7]",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe21",
-                        "net": "clk",
+                        "net": "tx_busy",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
-                        "name": "la0_probe22",
-                        "net": "baud_x16_ce",
+                        "name": "la0_probe22[0]",
+                        "net": "tx_data[0]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[1]",
+                        "net": "tx_data[1]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[2]",
+                        "net": "tx_data[2]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[3]",
+                        "net": "tx_data[3]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[4]",
+                        "net": "tx_data[4]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[5]",
+                        "net": "tx_data[5]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[6]",
+                        "net": "tx_data[6]",
+                        "path": [
+                            "u_uart"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22[7]",
+                        "net": "tx_data[7]",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe23",
-                        "net": "baud_rate",
+                        "net": "tx_en",
                         "path": [
                             "u_uart"
                         ]
                     },
                     {
                         "name": "la0_probe24",
-                        "net": "addr",
+                        "net": "tx_o",
                         "path": [
                             "u_uart"
                         ]
@@ -666,7 +764,7 @@
             "capture_control": false,
             "selected_nets": [
                 {
-                    "name": "tx_o",
+                    "name": "addr",
                     "width": 1,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
@@ -676,7 +774,7 @@
                     ]
                 },
                 {
-                    "name": "tx_en",
+                    "name": "baud_rate",
                     "width": 1,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
@@ -686,7 +784,37 @@
                     ]
                 },
                 {
-                    "name": "tx_data",
+                    "name": "baud_x16_ce",
+                    "width": 1,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_uart"
+                    ]
+                },
+                {
+                    "name": "clk",
+                    "width": 1,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_uart"
+                    ]
+                },
+                {
+                    "name": "clk_50",
+                    "width": 1,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_uart"
+                    ]
+                },
+                {
+                    "name": "control",
                     "width": 8,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
@@ -698,7 +826,7 @@
                     "net_idx_right": 0
                 },
                 {
-                    "name": "tx_busy",
+                    "name": "cs",
                     "width": 1,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
@@ -708,7 +836,7 @@
                     ]
                 },
                 {
-                    "name": "status",
+                    "name": "irqb",
                     "width": 1,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
@@ -718,101 +846,7 @@
                     ]
                 },
                 {
-                    "name": "state",
-                    "width": 2,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ],
-                    "net_idx_left": 1,
-                    "net_idx_right": 0
-                },
-                {
-                    "name": "rx_parity_error",
-                    "width": 1,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ]
-                },
-                {
-                    "name": "rx_i",
-                    "width": 1,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ]
-                },
-                {
-                    "name": "rx_error",
-                    "width": 1,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ]
-                },
-                {
-                    "name": "rx_data_valid",
-                    "width": 1,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ]
-                },
-                {
-                    "name": "rx_data",
-                    "width": 8,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ],
-                    "net_idx_left": 7,
-                    "net_idx_right": 0
-                },
-                {
-                    "name": "rx_busy",
-                    "width": 1,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ]
-                },
-                {
-                    "name": "rwb",
-                    "width": 1,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ]
-                },
-                {
-                    "name": "reset",
-                    "width": 1,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ]
-                },
-                {
-                    "name": "o_data",
+                    "name": "i_data",
                     "width": 8,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
@@ -836,7 +870,7 @@
                     "net_idx_right": 0
                 },
                 {
-                    "name": "i_data",
+                    "name": "o_data",
                     "width": 8,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
@@ -848,7 +882,7 @@
                     "net_idx_right": 0
                 },
                 {
-                    "name": "irqb",
+                    "name": "reset",
                     "width": 1,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
@@ -858,7 +892,7 @@
                     ]
                 },
                 {
-                    "name": "cs",
+                    "name": "rwb",
                     "width": 1,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
@@ -868,7 +902,7 @@
                     ]
                 },
                 {
-                    "name": "control",
+                    "name": "rx_busy",
                     "width": 1,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
@@ -878,7 +912,19 @@
                     ]
                 },
                 {
-                    "name": "clk_50",
+                    "name": "rx_data",
+                    "width": 8,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_uart"
+                    ],
+                    "net_idx_left": 7,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "rx_data_valid",
                     "width": 1,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
@@ -888,7 +934,7 @@
                     ]
                 },
                 {
-                    "name": "clk",
+                    "name": "rx_error",
                     "width": 1,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
@@ -898,7 +944,7 @@
                     ]
                 },
                 {
-                    "name": "baud_x16_ce",
+                    "name": "rx_i",
                     "width": 1,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
@@ -908,7 +954,7 @@
                     ]
                 },
                 {
-                    "name": "baud_rate",
+                    "name": "rx_parity_error",
                     "width": 1,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
@@ -918,7 +964,63 @@
                     ]
                 },
                 {
-                    "name": "addr",
+                    "name": "state",
+                    "width": 2,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_uart"
+                    ],
+                    "net_idx_left": 1,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "status",
+                    "width": 8,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_uart"
+                    ],
+                    "net_idx_left": 7,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "tx_busy",
+                    "width": 1,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_uart"
+                    ]
+                },
+                {
+                    "name": "tx_data",
+                    "width": 8,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_uart"
+                    ],
+                    "net_idx_left": 7,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "tx_en",
+                    "width": 1,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_uart"
+                    ]
+                },
+                {
+                    "name": "tx_o",
                     "width": 1,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
