@@ -3,7 +3,7 @@
         {
             "name": "la0",
             "type": "la",
-            "uuid": "44caec2ec3a74324b8ff7cb201ab080b",
+            "uuid": "cb44f83ddf674d66b2dd550675cad77d",
             "trigin_en": false,
             "trigout_en": false,
             "auto_inserted": true,
@@ -12,127 +12,37 @@
             "input_pipeline": 1,
             "probes": [
                 {
-                    "name": "u_uart/addr",
+                    "name": "sd_data_OUT",
                     "width": 1,
                     "probe_type": 1
                 },
                 {
-                    "name": "u_uart/baud_rate",
+                    "name": "sd_cmd_IN",
                     "width": 1,
                     "probe_type": 1
                 },
                 {
-                    "name": "u_uart/baud_x16_ce",
+                    "name": "sd_data_OE",
                     "width": 1,
                     "probe_type": 1
                 },
                 {
-                    "name": "u_uart/clk",
+                    "name": "sd_data_IN",
                     "width": 1,
                     "probe_type": 1
                 },
                 {
-                    "name": "u_uart/clk_50",
+                    "name": "sd_cmd_OE",
                     "width": 1,
                     "probe_type": 1
                 },
                 {
-                    "name": "u_uart/control",
-                    "width": 8,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/cs",
+                    "name": "sd_cmd_OUT",
                     "width": 1,
                     "probe_type": 1
                 },
                 {
-                    "name": "u_uart/irqb",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/i_data",
-                    "width": 8,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/next_state",
-                    "width": 2,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/o_data",
-                    "width": 8,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/reset",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/rwb",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/rx_busy",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/rx_data",
-                    "width": 8,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/rx_data_valid",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/rx_error",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/rx_i",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/rx_parity_error",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/state",
-                    "width": 2,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/status",
-                    "width": 8,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/tx_busy",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/tx_data",
-                    "width": 8,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/tx_en",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "u_uart/tx_o",
+                    "name": "w_sdcard_cs",
                     "width": 1,
                     "probe_type": 1
                 }
@@ -267,486 +177,38 @@
                     },
                     {
                         "name": "la0_probe0",
-                        "net": "addr",
-                        "path": [
-                            "u_uart"
-                        ]
+                        "net": "sd_data_OUT",
+                        "path": []
                     },
                     {
                         "name": "la0_probe1",
-                        "net": "baud_rate",
-                        "path": [
-                            "u_uart"
-                        ]
+                        "net": "sd_cmd_IN",
+                        "path": []
                     },
                     {
                         "name": "la0_probe2",
-                        "net": "baud_x16_ce",
-                        "path": [
-                            "u_uart"
-                        ]
+                        "net": "sd_data_OE",
+                        "path": []
                     },
                     {
                         "name": "la0_probe3",
-                        "net": "clk",
-                        "path": [
-                            "u_uart"
-                        ]
+                        "net": "sd_data_IN",
+                        "path": []
                     },
                     {
                         "name": "la0_probe4",
-                        "net": "clk_50",
-                        "path": [
-                            "u_uart"
-                        ]
+                        "net": "sd_cmd_OE",
+                        "path": []
                     },
                     {
-                        "name": "la0_probe5[0]",
-                        "net": "control[0]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe5[1]",
-                        "net": "control[1]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe5[2]",
-                        "net": "control[2]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe5[3]",
-                        "net": "control[3]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe5[4]",
-                        "net": "control[4]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe5[5]",
-                        "net": "control[5]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe5[6]",
-                        "net": "control[6]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe5[7]",
-                        "net": "control[7]",
-                        "path": [
-                            "u_uart"
-                        ]
+                        "name": "la0_probe5",
+                        "net": "sd_cmd_OUT",
+                        "path": []
                     },
                     {
                         "name": "la0_probe6",
-                        "net": "cs",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe7",
-                        "net": "irqb",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe8[0]",
-                        "net": "i_data[0]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe8[1]",
-                        "net": "i_data[1]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe8[2]",
-                        "net": "i_data[2]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe8[3]",
-                        "net": "i_data[3]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe8[4]",
-                        "net": "i_data[4]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe8[5]",
-                        "net": "i_data[5]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe8[6]",
-                        "net": "i_data[6]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe8[7]",
-                        "net": "i_data[7]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[0]",
-                        "net": "next_state[0]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9[1]",
-                        "net": "next_state[1]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe10[0]",
-                        "net": "o_data[0]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe10[1]",
-                        "net": "o_data[1]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe10[2]",
-                        "net": "o_data[2]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe10[3]",
-                        "net": "o_data[3]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe10[4]",
-                        "net": "o_data[4]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe10[5]",
-                        "net": "o_data[5]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe10[6]",
-                        "net": "o_data[6]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe10[7]",
-                        "net": "o_data[7]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe11",
-                        "net": "reset",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe12",
-                        "net": "rwb",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe13",
-                        "net": "rx_busy",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe14[0]",
-                        "net": "rx_data[0]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe14[1]",
-                        "net": "rx_data[1]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe14[2]",
-                        "net": "rx_data[2]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe14[3]",
-                        "net": "rx_data[3]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe14[4]",
-                        "net": "rx_data[4]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe14[5]",
-                        "net": "rx_data[5]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe14[6]",
-                        "net": "rx_data[6]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe14[7]",
-                        "net": "rx_data[7]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe15",
-                        "net": "rx_data_valid",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe16",
-                        "net": "rx_error",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe17",
-                        "net": "rx_i",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe18",
-                        "net": "rx_parity_error",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe19[0]",
-                        "net": "state[0]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe19[1]",
-                        "net": "state[1]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe20[0]",
-                        "net": "status[0]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe20[1]",
-                        "net": "status[1]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe20[2]",
-                        "net": "status[2]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe20[3]",
-                        "net": "status[3]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe20[4]",
-                        "net": "status[4]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe20[5]",
-                        "net": "status[5]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe20[6]",
-                        "net": "status[6]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe20[7]",
-                        "net": "status[7]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe21",
-                        "net": "tx_busy",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe22[0]",
-                        "net": "tx_data[0]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe22[1]",
-                        "net": "tx_data[1]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe22[2]",
-                        "net": "tx_data[2]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe22[3]",
-                        "net": "tx_data[3]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe22[4]",
-                        "net": "tx_data[4]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe22[5]",
-                        "net": "tx_data[5]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe22[6]",
-                        "net": "tx_data[6]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe22[7]",
-                        "net": "tx_data[7]",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe23",
-                        "net": "tx_en",
-                        "path": [
-                            "u_uart"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe24",
-                        "net": "tx_o",
-                        "path": [
-                            "u_uart"
-                        ]
+                        "net": "w_sdcard_cs",
+                        "path": []
                     }
                 ]
             }
@@ -764,270 +226,60 @@
             "capture_control": false,
             "selected_nets": [
                 {
-                    "name": "addr",
+                    "name": "sd_data_OUT",
                     "width": 1,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
-                    "path": [
-                        "u_uart"
-                    ]
+                    "path": []
                 },
                 {
-                    "name": "baud_rate",
+                    "name": "sd_cmd_IN",
                     "width": 1,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
-                    "path": [
-                        "u_uart"
-                    ]
+                    "path": []
                 },
                 {
-                    "name": "baud_x16_ce",
+                    "name": "sd_data_OE",
                     "width": 1,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
-                    "path": [
-                        "u_uart"
-                    ]
+                    "path": []
                 },
                 {
-                    "name": "clk",
+                    "name": "sd_data_IN",
                     "width": 1,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
-                    "path": [
-                        "u_uart"
-                    ]
+                    "path": []
                 },
                 {
-                    "name": "clk_50",
+                    "name": "sd_cmd_OE",
                     "width": 1,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
-                    "path": [
-                        "u_uart"
-                    ]
+                    "path": []
                 },
                 {
-                    "name": "control",
-                    "width": 8,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ],
-                    "net_idx_left": 7,
-                    "net_idx_right": 0
-                },
-                {
-                    "name": "cs",
+                    "name": "sd_cmd_OUT",
                     "width": 1,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
-                    "path": [
-                        "u_uart"
-                    ]
+                    "path": []
                 },
                 {
-                    "name": "irqb",
+                    "name": "w_sdcard_cs",
                     "width": 1,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
-                    "path": [
-                        "u_uart"
-                    ]
-                },
-                {
-                    "name": "i_data",
-                    "width": 8,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ],
-                    "net_idx_left": 7,
-                    "net_idx_right": 0
-                },
-                {
-                    "name": "next_state",
-                    "width": 2,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ],
-                    "net_idx_left": 1,
-                    "net_idx_right": 0
-                },
-                {
-                    "name": "o_data",
-                    "width": 8,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ],
-                    "net_idx_left": 7,
-                    "net_idx_right": 0
-                },
-                {
-                    "name": "reset",
-                    "width": 1,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ]
-                },
-                {
-                    "name": "rwb",
-                    "width": 1,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ]
-                },
-                {
-                    "name": "rx_busy",
-                    "width": 1,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ]
-                },
-                {
-                    "name": "rx_data",
-                    "width": 8,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ],
-                    "net_idx_left": 7,
-                    "net_idx_right": 0
-                },
-                {
-                    "name": "rx_data_valid",
-                    "width": 1,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ]
-                },
-                {
-                    "name": "rx_error",
-                    "width": 1,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ]
-                },
-                {
-                    "name": "rx_i",
-                    "width": 1,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ]
-                },
-                {
-                    "name": "rx_parity_error",
-                    "width": 1,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ]
-                },
-                {
-                    "name": "state",
-                    "width": 2,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ],
-                    "net_idx_left": 1,
-                    "net_idx_right": 0
-                },
-                {
-                    "name": "status",
-                    "width": 8,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ],
-                    "net_idx_left": 7,
-                    "net_idx_right": 0
-                },
-                {
-                    "name": "tx_busy",
-                    "width": 1,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ]
-                },
-                {
-                    "name": "tx_data",
-                    "width": 8,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ],
-                    "net_idx_left": 7,
-                    "net_idx_right": 0
-                },
-                {
-                    "name": "tx_en",
-                    "width": 1,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ]
-                },
-                {
-                    "name": "tx_o",
-                    "width": 1,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "u_uart"
-                    ]
+                    "path": []
                 }
             ],
             "top_module": "super6502",

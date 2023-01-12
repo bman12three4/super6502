@@ -1,4 +1,4 @@
-TARGETS=stacktest runram timer timer_irq multiplier divider uart uart2
+TARGETS=stacktest runram timer timer_irq multiplier divider uart uart2 sdcard
 SRC=$(wildcard *.s)
 DIR=../ip/bram
 
