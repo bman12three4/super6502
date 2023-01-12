@@ -54,7 +54,12 @@ always_ff @(posedge clk_50) begin
 end
 
 always_ff @(negedge clk) begin
+    status[1] <= tx_busy | tx_en;
+
     status[0] <= status[0] | rx_data_valid;
+    if (cs & ~addr & rwb) begin
+        status[0] <= 0;
+    end
 
     if (cs & ~rwb) begin
         case (addr)
