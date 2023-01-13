@@ -1,6 +1,6 @@
 TARGETS=stacktest runram timer timer_irq multiplier divider uart uart2 sdcard
 SRC=$(wildcard *.s)
-DIR=../ip/bram
+DIR=..
 
 all: $(TARGETS)
 
@@ -10,7 +10,7 @@ $(TARGETS): $(SRC)
 
 install:
 	cp $(TARGET).hex $(DIR)/init_hex.mem
-	cd $(DIR);python3 efx_mem_init_script.py hex init_hex.mem
+#   cd $(DIR);python3 efx_mem_init_script.py hex init_hex.mem
 
 
 clean:

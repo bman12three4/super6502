@@ -3,7 +3,7 @@
         {
             "name": "la0",
             "type": "la",
-            "uuid": "0b8b4dbc24484e29a3931c7539b99820",
+            "uuid": "09ad4e780783481592141823c8a56ddb",
             "trigin_en": false,
             "trigout_en": false,
             "auto_inserted": true,
@@ -12,42 +12,77 @@
             "input_pipeline": 1,
             "probes": [
                 {
-                    "name": "sd_cmd_IN",
+                    "name": "sd_controller/i_sd_cmd",
                     "width": 1,
                     "probe_type": 1
                 },
                 {
-                    "name": "sd_cmd_OE",
+                    "name": "sd_controller/o_sd_cmd",
                     "width": 1,
                     "probe_type": 1
                 },
                 {
-                    "name": "sd_cmd_OUT",
+                    "name": "sd_controller/i_sd_data",
                     "width": 1,
                     "probe_type": 1
                 },
                 {
-                    "name": "sd_data_IN",
+                    "name": "sd_controller/o_sd_data",
                     "width": 1,
                     "probe_type": 1
                 },
                 {
-                    "name": "sd_data_OE",
+                    "name": "sd_controller/sd_clk",
                     "width": 1,
                     "probe_type": 1
                 },
                 {
-                    "name": "sd_data_OUT",
+                    "name": "sd_controller/rst",
                     "width": 1,
                     "probe_type": 1
                 },
                 {
-                    "name": "w_sdcard_cs",
+                    "name": "sd_controller/cs",
                     "width": 1,
                     "probe_type": 1
                 },
                 {
-                    "name": "sd_clk",
+                    "name": "sd_controller/rxcmd_buf",
+                    "width": 48,
+                    "probe_type": 1
+                },
+                {
+                    "name": "sd_controller/read_flag",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "sd_controller/_packet",
+                    "width": 40,
+                    "probe_type": 1
+                },
+                {
+                    "name": "sd_controller/addr",
+                    "width": 3,
+                    "probe_type": 1
+                },
+                {
+                    "name": "sd_controller/rw",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "cpu_addr",
+                    "width": 16,
+                    "probe_type": 1
+                },
+                {
+                    "name": "cpu_data_in",
+                    "width": 8,
+                    "probe_type": 1
+                },
+                {
+                    "name": "sd_controller/next_read_flag",
                     "width": 1,
                     "probe_type": 1
                 }
@@ -177,48 +212,835 @@
                     },
                     {
                         "name": "la0_clk",
-                        "net": "clk_2",
+                        "net": "clk_50",
                         "path": []
                     },
                     {
                         "name": "la0_probe0",
-                        "net": "sd_cmd_IN",
-                        "path": []
+                        "net": "i_sd_cmd",
+                        "path": [
+                            "sd_controller"
+                        ]
                     },
                     {
                         "name": "la0_probe1",
-                        "net": "sd_cmd_OE",
-                        "path": []
+                        "net": "o_sd_cmd",
+                        "path": [
+                            "sd_controller"
+                        ]
                     },
                     {
                         "name": "la0_probe2",
-                        "net": "sd_cmd_OUT",
-                        "path": []
+                        "net": "i_sd_data",
+                        "path": [
+                            "sd_controller"
+                        ]
                     },
                     {
                         "name": "la0_probe3",
-                        "net": "sd_data_IN",
-                        "path": []
+                        "net": "o_sd_data",
+                        "path": [
+                            "sd_controller"
+                        ]
                     },
                     {
                         "name": "la0_probe4",
-                        "net": "sd_data_OE",
-                        "path": []
+                        "net": "sd_clk",
+                        "path": [
+                            "sd_controller"
+                        ]
                     },
                     {
                         "name": "la0_probe5",
-                        "net": "sd_data_OUT",
-                        "path": []
+                        "net": "rst",
+                        "path": [
+                            "sd_controller"
+                        ]
                     },
                     {
                         "name": "la0_probe6",
-                        "net": "w_sdcard_cs",
+                        "net": "cs",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[0]",
+                        "net": "rxcmd_buf[0]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[1]",
+                        "net": "rxcmd_buf[1]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[2]",
+                        "net": "rxcmd_buf[2]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[3]",
+                        "net": "rxcmd_buf[3]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[4]",
+                        "net": "rxcmd_buf[4]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[5]",
+                        "net": "rxcmd_buf[5]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[6]",
+                        "net": "rxcmd_buf[6]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[7]",
+                        "net": "rxcmd_buf[7]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[8]",
+                        "net": "rxcmd_buf[8]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[9]",
+                        "net": "rxcmd_buf[9]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[10]",
+                        "net": "rxcmd_buf[10]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[11]",
+                        "net": "rxcmd_buf[11]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[12]",
+                        "net": "rxcmd_buf[12]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[13]",
+                        "net": "rxcmd_buf[13]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[14]",
+                        "net": "rxcmd_buf[14]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[15]",
+                        "net": "rxcmd_buf[15]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[16]",
+                        "net": "rxcmd_buf[16]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[17]",
+                        "net": "rxcmd_buf[17]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[18]",
+                        "net": "rxcmd_buf[18]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[19]",
+                        "net": "rxcmd_buf[19]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[20]",
+                        "net": "rxcmd_buf[20]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[21]",
+                        "net": "rxcmd_buf[21]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[22]",
+                        "net": "rxcmd_buf[22]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[23]",
+                        "net": "rxcmd_buf[23]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[24]",
+                        "net": "rxcmd_buf[24]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[25]",
+                        "net": "rxcmd_buf[25]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[26]",
+                        "net": "rxcmd_buf[26]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[27]",
+                        "net": "rxcmd_buf[27]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[28]",
+                        "net": "rxcmd_buf[28]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[29]",
+                        "net": "rxcmd_buf[29]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[30]",
+                        "net": "rxcmd_buf[30]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[31]",
+                        "net": "rxcmd_buf[31]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[32]",
+                        "net": "rxcmd_buf[32]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[33]",
+                        "net": "rxcmd_buf[33]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[34]",
+                        "net": "rxcmd_buf[34]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[35]",
+                        "net": "rxcmd_buf[35]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[36]",
+                        "net": "rxcmd_buf[36]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[37]",
+                        "net": "rxcmd_buf[37]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[38]",
+                        "net": "rxcmd_buf[38]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[39]",
+                        "net": "rxcmd_buf[39]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[40]",
+                        "net": "rxcmd_buf[40]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[41]",
+                        "net": "rxcmd_buf[41]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[42]",
+                        "net": "rxcmd_buf[42]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[43]",
+                        "net": "rxcmd_buf[43]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[44]",
+                        "net": "rxcmd_buf[44]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[45]",
+                        "net": "rxcmd_buf[45]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[46]",
+                        "net": "rxcmd_buf[46]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe7[47]",
+                        "net": "rxcmd_buf[47]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe8",
+                        "net": "read_flag",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[0]",
+                        "net": "_packet[0]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[1]",
+                        "net": "_packet[1]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[2]",
+                        "net": "_packet[2]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[3]",
+                        "net": "_packet[3]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[4]",
+                        "net": "_packet[4]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[5]",
+                        "net": "_packet[5]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[6]",
+                        "net": "_packet[6]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[7]",
+                        "net": "_packet[7]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[8]",
+                        "net": "_packet[8]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[9]",
+                        "net": "_packet[9]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[10]",
+                        "net": "_packet[10]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[11]",
+                        "net": "_packet[11]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[12]",
+                        "net": "_packet[12]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[13]",
+                        "net": "_packet[13]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[14]",
+                        "net": "_packet[14]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[15]",
+                        "net": "_packet[15]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[16]",
+                        "net": "_packet[16]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[17]",
+                        "net": "_packet[17]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[18]",
+                        "net": "_packet[18]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[19]",
+                        "net": "_packet[19]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[20]",
+                        "net": "_packet[20]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[21]",
+                        "net": "_packet[21]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[22]",
+                        "net": "_packet[22]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[23]",
+                        "net": "_packet[23]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[24]",
+                        "net": "_packet[24]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[25]",
+                        "net": "_packet[25]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[26]",
+                        "net": "_packet[26]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[27]",
+                        "net": "_packet[27]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[28]",
+                        "net": "_packet[28]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[29]",
+                        "net": "_packet[29]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[30]",
+                        "net": "_packet[30]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[31]",
+                        "net": "_packet[31]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[32]",
+                        "net": "_packet[32]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[33]",
+                        "net": "_packet[33]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[34]",
+                        "net": "_packet[34]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[35]",
+                        "net": "_packet[35]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[36]",
+                        "net": "_packet[36]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[37]",
+                        "net": "_packet[37]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[38]",
+                        "net": "_packet[38]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe9[39]",
+                        "net": "_packet[39]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe10[0]",
+                        "net": "addr[0]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe10[1]",
+                        "net": "addr[1]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe10[2]",
+                        "net": "addr[2]",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe11",
+                        "net": "rw",
+                        "path": [
+                            "sd_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe12[0]",
+                        "net": "cpu_addr[0]",
                         "path": []
                     },
                     {
-                        "name": "la0_probe7",
-                        "net": "sd_clk",
+                        "name": "la0_probe12[1]",
+                        "net": "cpu_addr[1]",
                         "path": []
+                    },
+                    {
+                        "name": "la0_probe12[2]",
+                        "net": "cpu_addr[2]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe12[3]",
+                        "net": "cpu_addr[3]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe12[4]",
+                        "net": "cpu_addr[4]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe12[5]",
+                        "net": "cpu_addr[5]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe12[6]",
+                        "net": "cpu_addr[6]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe12[7]",
+                        "net": "cpu_addr[7]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe12[8]",
+                        "net": "cpu_addr[8]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe12[9]",
+                        "net": "cpu_addr[9]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe12[10]",
+                        "net": "cpu_addr[10]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe12[11]",
+                        "net": "cpu_addr[11]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe12[12]",
+                        "net": "cpu_addr[12]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe12[13]",
+                        "net": "cpu_addr[13]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe12[14]",
+                        "net": "cpu_addr[14]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe12[15]",
+                        "net": "cpu_addr[15]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe13[0]",
+                        "net": "cpu_data_in[0]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe13[1]",
+                        "net": "cpu_data_in[1]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe13[2]",
+                        "net": "cpu_data_in[2]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe13[3]",
+                        "net": "cpu_data_in[3]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe13[4]",
+                        "net": "cpu_data_in[4]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe13[5]",
+                        "net": "cpu_data_in[5]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe13[6]",
+                        "net": "cpu_data_in[6]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe13[7]",
+                        "net": "cpu_data_in[7]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe14",
+                        "net": "next_read_flag",
+                        "path": [
+                            "sd_controller"
+                        ]
                     }
                 ]
             }
@@ -236,68 +1058,160 @@
             "capture_control": false,
             "selected_nets": [
                 {
-                    "name": "sd_cmd_IN",
+                    "name": "i_sd_cmd",
                     "width": 1,
-                    "clk_domain": "clk_2",
+                    "clk_domain": "clk_50",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
-                    "path": []
+                    "path": [
+                        "sd_controller"
+                    ]
                 },
                 {
-                    "name": "sd_cmd_OE",
+                    "name": "o_sd_cmd",
                     "width": 1,
-                    "clk_domain": "clk_2",
+                    "clk_domain": "clk_50",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
-                    "path": []
+                    "path": [
+                        "sd_controller"
+                    ]
                 },
                 {
-                    "name": "sd_cmd_OUT",
+                    "name": "i_sd_data",
                     "width": 1,
-                    "clk_domain": "clk_2",
+                    "clk_domain": "clk_50",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
-                    "path": []
+                    "path": [
+                        "sd_controller"
+                    ]
                 },
                 {
-                    "name": "sd_data_IN",
+                    "name": "o_sd_data",
                     "width": 1,
-                    "clk_domain": "clk_2",
+                    "clk_domain": "clk_50",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
-                    "path": []
-                },
-                {
-                    "name": "sd_data_OE",
-                    "width": 1,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": []
-                },
-                {
-                    "name": "sd_data_OUT",
-                    "width": 1,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": []
-                },
-                {
-                    "name": "w_sdcard_cs",
-                    "width": 1,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": []
+                    "path": [
+                        "sd_controller"
+                    ]
                 },
                 {
                     "name": "sd_clk",
                     "width": 1,
-                    "clk_domain": "clk_2",
+                    "clk_domain": "clk_50",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
-                    "path": []
+                    "path": [
+                        "sd_controller"
+                    ]
+                },
+                {
+                    "name": "rst",
+                    "width": 1,
+                    "clk_domain": "clk_50",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "sd_controller"
+                    ]
+                },
+                {
+                    "name": "cs",
+                    "width": 1,
+                    "clk_domain": "clk_50",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "sd_controller"
+                    ]
+                },
+                {
+                    "name": "rxcmd_buf",
+                    "width": 48,
+                    "clk_domain": "clk_50",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "sd_controller"
+                    ],
+                    "net_idx_left": 47,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "read_flag",
+                    "width": 1,
+                    "clk_domain": "clk_50",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "sd_controller"
+                    ]
+                },
+                {
+                    "name": "_packet",
+                    "width": 40,
+                    "clk_domain": "clk_50",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "sd_controller"
+                    ],
+                    "net_idx_left": 39,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "addr",
+                    "width": 3,
+                    "clk_domain": "clk_50",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "sd_controller"
+                    ],
+                    "net_idx_left": 2,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "rw",
+                    "width": 1,
+                    "clk_domain": "clk_50",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "sd_controller"
+                    ]
+                },
+                {
+                    "name": "cpu_addr",
+                    "width": 16,
+                    "clk_domain": "clk_50",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [],
+                    "net_idx_left": 15,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "cpu_data_in",
+                    "width": 8,
+                    "clk_domain": "clk_50",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [],
+                    "net_idx_left": 7,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "next_read_flag",
+                    "width": 1,
+                    "clk_domain": "clk_50",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "sd_controller"
+                    ]
                 }
             ],
             "top_module": "super6502",
