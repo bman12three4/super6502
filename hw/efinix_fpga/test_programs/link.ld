@@ -1,8 +1,8 @@
 MEMORY
 {
   ZP:  start = $0,    size = $100,  type = rw, define = yes;
-  SDRAM: start = $200, size = $ff00, type = rw, define = yes;
-  ROM: start = $ff00, size = $100, file = %O;
+  SDRAM: start = $200, size = $ee00, type = rw, define = yes;
+  ROM: start = $f000, size = $1000, file = %O;
 }
 
 SEGMENTS {

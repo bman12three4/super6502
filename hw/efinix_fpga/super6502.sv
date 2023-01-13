@@ -139,16 +139,10 @@ always_comb begin
         cpu_data_out = 'x;
 end
 
-
-efx_single_port_ram boot_rom(
-	.clk(clk_2),		        // clock input for one clock mode
-	.addr(cpu_addr[7:0]), 		// address input
-    .wclke('0),		            // Write clock-enable input
-    .byteen('0),		        // Byteen input 
-    .we('0), 		            // Write-enable input
-  
-    .re(cpu_rwb & w_rom_cs),    // Read-enable input
-    .rdata(w_rom_data_out) 		// Read data output
+rom #(.DATA_WIDTH(8), .ADDR_WIDTH(12)) u_rom(
+    .addr(cpu_addr[11:0]),
+    .clk(clk_2),
+    .data(w_rom_data_out)
 );
 
 leds u_leds(
