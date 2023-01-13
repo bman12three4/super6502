@@ -2,8 +2,6 @@
 
 .export _sd_card_command
 .export _sd_card_resp
-.export _sd_card_read_byte
-.export _sd_card_wait_for_data
 
 .autoimport on
 
@@ -24,6 +22,11 @@ main:
         jsr _sd_card_command
            
         nop                     ; no resp, so need to wait for cmd to finish
+        lda #$18
+@delay: dec
+        bne @delay
+
+
 @cmd8:
         lda #$aa
         sta tmp1
@@ -50,28 +53,36 @@ stztmp:
     rts
 
 ; Send sd card command.
-; command is in A register, the args are on the stack
-; I think the order is high byte first?
+; command is in A register, the args are in tmp1-4 le
 _sd_card_command:
-    pha
-
-    jsr popeax
+    pha                 ; store cmd
+    lda tmp1            ; write args
     sta SD_ARG
-    stx SD_ARG+1
-    lda sreg
+    lda tmp2
+    sta SD_ARG+1
+    lda tmp3
     sta SD_ARG+2
-    lda sreg+1
+    lda tmp4
     sta SD_ARG+3
-
-    pla
+    pla                 ; write cmd
     sta SD_CMD
     rts
+
 
 ; void sd_card_resp(uint32_t* resp);
 _sd_card_resp:
         phy
         sta ptr1        ; store pointer
         stx ptr1+1
+        lda #$0
+        ldy #$0
+        sta (ptr1),y
+        iny
+        sta (ptr1),y
+        iny
+        sta (ptr1),y
+        iny
+        sta (ptr1),y
 @1:     lda SD_CMD      ; wait for status flag
         and #$01
         beq @1
@@ -90,20 +101,7 @@ _sd_card_resp:
         ply
         rts
 
-_sd_card_read_byte:
-        lda SD_DATA
-        ldx #$00
-        rts
-
-_sd_card_wait_for_data:
-        pha
-@1:     lda SD_CMD      ; wait for status flag
-        and #$02
-        beq @1
-        pla
-        rts
-
-
+    
 ; int sd_card_resp_timeout(uint32_t* resp);
 _sd_card_resp_timeout:
         phy
@@ -118,7 +116,7 @@ _sd_card_resp_timeout:
         sta (ptr1),y
         iny
         sta (ptr1),y
-        ldy #$9
+        ldy #$12
 @1:     dey
         beq @timeout
         lda SD_CMD      ; wait for status flag

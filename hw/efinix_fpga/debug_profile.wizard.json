@@ -3,7 +3,7 @@
         {
             "name": "la0",
             "type": "la",
-            "uuid": "cb44f83ddf674d66b2dd550675cad77d",
+            "uuid": "0b8b4dbc24484e29a3931c7539b99820",
             "trigin_en": false,
             "trigout_en": false,
             "auto_inserted": true,
@@ -12,22 +12,7 @@
             "input_pipeline": 1,
             "probes": [
                 {
-                    "name": "sd_data_OUT",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
                     "name": "sd_cmd_IN",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "sd_data_OE",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "sd_data_IN",
                     "width": 1,
                     "probe_type": 1
                 },
@@ -42,7 +27,27 @@
                     "probe_type": 1
                 },
                 {
+                    "name": "sd_data_IN",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "sd_data_OE",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "sd_data_OUT",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
                     "name": "w_sdcard_cs",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "sd_clk",
                     "width": 1,
                     "probe_type": 1
                 }
@@ -177,17 +182,17 @@
                     },
                     {
                         "name": "la0_probe0",
-                        "net": "sd_data_OUT",
-                        "path": []
-                    },
-                    {
-                        "name": "la0_probe1",
                         "net": "sd_cmd_IN",
                         "path": []
                     },
                     {
+                        "name": "la0_probe1",
+                        "net": "sd_cmd_OE",
+                        "path": []
+                    },
+                    {
                         "name": "la0_probe2",
-                        "net": "sd_data_OE",
+                        "net": "sd_cmd_OUT",
                         "path": []
                     },
                     {
@@ -197,17 +202,22 @@
                     },
                     {
                         "name": "la0_probe4",
-                        "net": "sd_cmd_OE",
+                        "net": "sd_data_OE",
                         "path": []
                     },
                     {
                         "name": "la0_probe5",
-                        "net": "sd_cmd_OUT",
+                        "net": "sd_data_OUT",
                         "path": []
                     },
                     {
                         "name": "la0_probe6",
                         "net": "w_sdcard_cs",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe7",
+                        "net": "sd_clk",
                         "path": []
                     }
                 ]
@@ -226,31 +236,7 @@
             "capture_control": false,
             "selected_nets": [
                 {
-                    "name": "sd_data_OUT",
-                    "width": 1,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": []
-                },
-                {
                     "name": "sd_cmd_IN",
-                    "width": 1,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": []
-                },
-                {
-                    "name": "sd_data_OE",
-                    "width": 1,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": []
-                },
-                {
-                    "name": "sd_data_IN",
                     "width": 1,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
@@ -274,7 +260,39 @@
                     "path": []
                 },
                 {
+                    "name": "sd_data_IN",
+                    "width": 1,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": []
+                },
+                {
+                    "name": "sd_data_OE",
+                    "width": 1,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": []
+                },
+                {
+                    "name": "sd_data_OUT",
+                    "width": 1,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": []
+                },
+                {
                     "name": "w_sdcard_cs",
+                    "width": 1,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": []
+                },
+                {
+                    "name": "sd_clk",
                     "width": 1,
                     "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
