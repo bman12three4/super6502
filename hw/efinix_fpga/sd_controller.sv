@@ -75,10 +75,8 @@ always_ff @(negedge clk) begin
         end
     end
 
-    if (sd_clk) begin
-        read_flag <= next_read_flag;
-        data_flag <= next_data_flag;
-    end
+    read_flag <= next_read_flag;
+    data_flag <= next_data_flag;
 
     if (cs & ~rw) begin
         if (addr < 4'h4) begin

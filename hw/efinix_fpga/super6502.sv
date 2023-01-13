@@ -205,7 +205,7 @@ uart_wrapper u_uart(
 );
 
 logic sd_clk;
-always @(posedge clk_2) begin
+always @(negedge clk_2) begin
     sd_clk <= ~sd_clk;
 end
 
@@ -213,7 +213,7 @@ end
 sd_controller sd_controller(
     .clk(clk_2),
     .sd_clk(sd_clk),
-    .rst(rst),
+    .rst(~cpu_resb),
     .addr(cpu_addr[2:0]),
     .data(cpu_data_in),
     .cs(w_sdcard_cs),
