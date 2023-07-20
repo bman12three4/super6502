@@ -13,6 +13,8 @@ module sdram_adapter(
     output logic [7:0] o_data,  // Output data
 
     output o_sdr_init_done,
+    
+    output o_wait,
 
     output o_sdr_CKE,
     output o_sdr_n_CS,
@@ -98,6 +100,32 @@ always @(posedge i_sysclk) begin
     
     if (w_data_valid)
         o_data <= _data;
+end
+
+logic r_wait;
+logic _r_wait;
+assign o_wait = r_wait;
+
+// we need to assert rdy low until a falling edge if a reset happens
+
+always @(posedge i_sysclk or posedge i_arst) begin
+    if (i_arst == '1) begin
+        r_wait <= '0;
+        _r_wait <= '0;
+    end else begin
+        if (o_dbg_ref_req) begin
+            r_wait <= '1;
+        end else if (i_cpuclk == '1) begin
+            _r_wait <= '1;
+        end
+
+        if (i_cpuclk == '0) begin
+            if (_r_wait) begin
+                _r_wait <= '0;
+                r_wait <= '0;
+            end
+        end
+    end
 end
 
 //because of timing issues, We really need to trigger
@@ -219,6 +247,8 @@ logic [31:0] o_dbg_DATA_out;
 logic [31:0] o_dbg_DATA_in;
 logic o_sdr_init_done;
 logic [3:0] o_sdr_state;
+
+assign o_ref_req = o_dbg_ref_req;
 
 
 sdram_controller u_sdram_controller(
