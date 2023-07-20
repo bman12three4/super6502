@@ -5,7 +5,6 @@
 
 #include "devices/board_io.h"
 #include "devices/uart.h"
-#include "devices/mapper.h"
 #include "devices/sd_card.h"
 #include "filesystem/fat.h"
 
@@ -14,34 +13,21 @@
 uint8_t buf[512];
 
 int main() {
-	int i;
 	uint16_t rca;
-	char* filename;
-	uint32_t cluster;
-	uint8_t* kernel_load;
-
 	clrscr();
-	cprintf("boot\n");
-
-	for (i = 0; i < 16; i++){
-		//cprintf("Mapping %1xxxx to %2xxxx\n", i, i);
-		mapper_write(i, i);
-	}
-
-	cprintf("Enabling Mapper\n");
-	mapper_enable(1);
-
-	mapper_write(0x10, 0xd);
-	mapper_write(0x11, 0xe);
-	mapper_write(0x12, 0xf);
+	cputs("Starting sd_init\n");
+	cprintf("And testing cprintf\n");
 
 	sd_init();
+
+	cprintf("finish sd_init\n");
 
 	rca = sd_get_rca();
 	cprintf("rca: %x\n", rca);
 
 	sd_select_card(rca);
 
+	/*
 	fat_init();
 
 	filename = (char*)malloc(FAT_MAX_FILE_NAME);
@@ -54,7 +40,11 @@ int main() {
 		cluster = fat_get_chain_value(cluster);
 	}
 
+	*/
+
 	cprintf("Done!\n");
+
+	for(;;);
 
 	cprintf("Reset vector: %x\n", *((uint16_t*)0xfffc));
 

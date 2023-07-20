@@ -5,21 +5,35 @@
 
 void sd_init() {
 	uint32_t resp;
+	uint8_t attempts, i;
+
+	cputs("In sd_init\n");
+
 	sd_card_command(0, 0);
+
+	cprintf("Sent Reset\n");
 
 	sd_card_command(0x000001aa, 8);
 	sd_card_resp(&resp);
 	cprintf("CMD8: %lx\n", resp);
 
-	sd_card_command(0, 55);
-	sd_card_command(0x40180000, 41);
-	sd_card_resp(&resp);
-	cprintf("CMD41: %lx\n", resp);
+	attempts = 0;
+	do {
+		if (attempts > 100) {
+			cprintf("SD Timed out");
+			return;
+		}
+		sd_card_command(0, 55);
+		sd_card_resp(&resp);
+		sd_card_command(0x40180000, 41);
+		sd_card_resp(&resp);
+		cprintf("CMD41: %lx\n", resp);
 
-	sd_card_command(0, 55);
-	sd_card_command(0x40180000, 41);
-	sd_card_resp(&resp);
-	cprintf("CMD41: %lx\n", resp);
+		//10ms loop?
+		for (i = 0; i < 255; i++);
+
+		attempts++;
+	} while (resp != 0);
 
 	sd_card_command(0, 2);
 	sd_card_resp(&resp);

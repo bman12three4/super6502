@@ -15,7 +15,7 @@ LISTS=lists
 TESTS=tests
 
 SRCS=$(wildcard *.s) $(wildcard *.c)
-SRCS+=$(filter-out $(wildcard tests/*), $(wildcard **/*.s)) $(filter-out $(wildcard tests/*), $(wildcard **/*.c))
+SRCS+=$(filter-out $(wildcard tests/*), $(wildcard **/*.s)) $(filter-out $(wildcard tests/*) $(wildcard filesystem/*), $(wildcard **/*.c))
 OBJS+=$(patsubst %.s,%.o,$(filter %s,$(SRCS)))
 OBJS+=$(patsubst %.c,%.o,$(filter %c,$(SRCS)))
 
@@ -33,7 +33,7 @@ $(TEST_BIN): $(OBJS) $(TEST_OBJS)
 	$(CC) $(CFLAGS) $(TEST_OBJS) -o $@	
 
 $(HEX): $(BIN)
-	objcopy --input-target=binary --output-target=ihex $(BIN) $(HEX)
+	objcopy --input-target=binary --output-target=verilog $(BIN) $(HEX)
 	
 
 $(BIN): $(OBJS)

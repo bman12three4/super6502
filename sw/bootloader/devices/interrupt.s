@@ -9,7 +9,6 @@
 .import   _handle_irq
 
 .export   _irq_int, _nmi_int
-.export   _irq_get_status, _irq_set_status
 
 .include "io.inc65"
 
@@ -47,12 +46,3 @@ irq:       PLA                    ; Restore accumulator contents
 
 break:     JMP break              ; If BRK is detected, something very bad
                                   ;   has happened, so stop running
-
-_irq_get_status:
-           lda IRQ_STATUS
-           ldx #$00
-           rts
-
-_irq_set_status:
-           sta IRQ_STATUS
-           rts
