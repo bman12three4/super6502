@@ -69,8 +69,10 @@ assign pll_cpu_reset = '1;
 assign o_pll_reset = '1;
 
 assign cpu_data_oe = {8{cpu_rwb}};
-assign cpu_rdy = '1;
 assign cpu_nmib = '1;
+
+logic w_wait;
+assign cpu_rdy = ~w_wait;
 
 assign cpu_phi2 = clk_2;
 
@@ -244,6 +246,7 @@ sdram_adapter u_sdram_adapter(
     .o_data(w_sdram_data_out),
 
     .o_sdr_init_done(w_sdr_init_done),
+    .o_wait(w_wait),
 
     .o_sdr_CKE(o_sdr_CKE),
     .o_sdr_n_CS(o_sdr_n_CS),

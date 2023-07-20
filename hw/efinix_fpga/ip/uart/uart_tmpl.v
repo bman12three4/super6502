@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-// Copyright (C) 2013-2022 Efinix Inc. All rights reserved.              
+// Copyright (C) 2013-2023 Efinix Inc. All rights reserved.              
 //
 // This   document  contains  proprietary information  which   is        
 // protected by  copyright. All rights  are reserved.  This notice       
@@ -49,7 +49,7 @@ uart u_uart(
 .baud_x16_ce ( baud_x16_ce ),
 .clk ( clk ),
 .reset ( reset ),
-.tx_data ( tx_data ),
 .baud_rate ( baud_rate ),
-.tx_en ( tx_en )
+.tx_en ( tx_en ),
+.tx_data ( tx_data )
 );

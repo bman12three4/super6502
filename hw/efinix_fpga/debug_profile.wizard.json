@@ -3,51 +3,156 @@
         {
             "name": "la0",
             "type": "la",
-            "uuid": "0b8b4dbc24484e29a3931c7539b99820",
+            "uuid": "839a8cb8163a4829a5cc15adcbae907b",
             "trigin_en": false,
             "trigout_en": false,
             "auto_inserted": true,
             "capture_control": false,
-            "data_depth": 1024,
+            "data_depth": 4096,
             "input_pipeline": 1,
             "probes": [
                 {
-                    "name": "sd_cmd_IN",
+                    "name": "cpu_data_in",
+                    "width": 8,
+                    "probe_type": 1
+                },
+                {
+                    "name": "cpu_rwb",
                     "width": 1,
                     "probe_type": 1
                 },
                 {
-                    "name": "sd_cmd_OE",
+                    "name": "cpu_sync",
                     "width": 1,
                     "probe_type": 1
                 },
                 {
-                    "name": "sd_cmd_OUT",
+                    "name": "cpu_resb",
                     "width": 1,
                     "probe_type": 1
                 },
                 {
-                    "name": "sd_data_IN",
+                    "name": "cpu_addr",
+                    "width": 16,
+                    "probe_type": 1
+                },
+                {
+                    "name": "cpu_nmib",
                     "width": 1,
                     "probe_type": 1
                 },
                 {
-                    "name": "sd_data_OE",
+                    "name": "cpu_irqb",
                     "width": 1,
                     "probe_type": 1
                 },
                 {
-                    "name": "sd_data_OUT",
+                    "name": "cpu_data_out",
+                    "width": 8,
+                    "probe_type": 1
+                },
+                {
+                    "name": "cpu_phi2",
                     "width": 1,
                     "probe_type": 1
                 },
                 {
-                    "name": "w_sdcard_cs",
+                    "name": "u_sdram_adapter/o_dbg_wr_ack",
                     "width": 1,
                     "probe_type": 1
                 },
                 {
-                    "name": "sd_clk",
+                    "name": "u_sdram_adapter/next_counter",
+                    "width": 2,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_sdram_adapter/o_data",
+                    "width": 8,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_sdram_adapter/next_state",
+                    "width": 2,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_sdram_adapter/w_data_i",
+                    "width": 32,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_sdram_adapter/i_rwb",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_sdram_adapter/w_addr",
+                    "width": 24,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_sdram_adapter/w_data_o",
+                    "width": 32,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_sdram_adapter/i_cs",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_sdram_adapter/counter",
+                    "width": 2,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_sdram_adapter/state",
+                    "width": 2,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_sdram_adapter/w_last",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_sdram_adapter/w_data_valid",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_sdram_adapter/w_wr_ack",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_sdram_adapter/w_read",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_sdram_adapter/w_write",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_sdram_adapter/w_rd_ack",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_sdram_adapter/w_rd_valid",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "u_sdram_adapter/o_dbg_ref_req",
+                    "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "cpu_rdy",
                     "width": 1,
                     "probe_type": 1
                 }
@@ -177,47 +282,1007 @@
                     },
                     {
                         "name": "la0_clk",
-                        "net": "clk_2",
+                        "net": "i_sysclk",
                         "path": []
                     },
                     {
-                        "name": "la0_probe0",
-                        "net": "sd_cmd_IN",
+                        "name": "la0_probe0[0]",
+                        "net": "cpu_data_in[0]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe0[1]",
+                        "net": "cpu_data_in[1]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe0[2]",
+                        "net": "cpu_data_in[2]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe0[3]",
+                        "net": "cpu_data_in[3]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe0[4]",
+                        "net": "cpu_data_in[4]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe0[5]",
+                        "net": "cpu_data_in[5]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe0[6]",
+                        "net": "cpu_data_in[6]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe0[7]",
+                        "net": "cpu_data_in[7]",
                         "path": []
                     },
                     {
                         "name": "la0_probe1",
-                        "net": "sd_cmd_OE",
+                        "net": "cpu_rwb",
                         "path": []
                     },
                     {
                         "name": "la0_probe2",
-                        "net": "sd_cmd_OUT",
+                        "net": "cpu_sync",
                         "path": []
                     },
                     {
                         "name": "la0_probe3",
-                        "net": "sd_data_IN",
+                        "net": "cpu_resb",
                         "path": []
                     },
                     {
-                        "name": "la0_probe4",
-                        "net": "sd_data_OE",
+                        "name": "la0_probe4[0]",
+                        "net": "cpu_addr[0]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe4[1]",
+                        "net": "cpu_addr[1]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe4[2]",
+                        "net": "cpu_addr[2]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe4[3]",
+                        "net": "cpu_addr[3]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe4[4]",
+                        "net": "cpu_addr[4]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe4[5]",
+                        "net": "cpu_addr[5]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe4[6]",
+                        "net": "cpu_addr[6]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe4[7]",
+                        "net": "cpu_addr[7]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe4[8]",
+                        "net": "cpu_addr[8]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe4[9]",
+                        "net": "cpu_addr[9]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe4[10]",
+                        "net": "cpu_addr[10]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe4[11]",
+                        "net": "cpu_addr[11]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe4[12]",
+                        "net": "cpu_addr[12]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe4[13]",
+                        "net": "cpu_addr[13]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe4[14]",
+                        "net": "cpu_addr[14]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe4[15]",
+                        "net": "cpu_addr[15]",
                         "path": []
                     },
                     {
                         "name": "la0_probe5",
-                        "net": "sd_data_OUT",
+                        "net": "cpu_nmib",
                         "path": []
                     },
                     {
                         "name": "la0_probe6",
-                        "net": "w_sdcard_cs",
+                        "net": "cpu_irqb",
                         "path": []
                     },
                     {
-                        "name": "la0_probe7",
-                        "net": "sd_clk",
+                        "name": "la0_probe7[0]",
+                        "net": "cpu_data_out[0]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe7[1]",
+                        "net": "cpu_data_out[1]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe7[2]",
+                        "net": "cpu_data_out[2]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe7[3]",
+                        "net": "cpu_data_out[3]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe7[4]",
+                        "net": "cpu_data_out[4]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe7[5]",
+                        "net": "cpu_data_out[5]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe7[6]",
+                        "net": "cpu_data_out[6]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe7[7]",
+                        "net": "cpu_data_out[7]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe8",
+                        "net": "cpu_phi2",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe9",
+                        "net": "o_dbg_wr_ack",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe10[0]",
+                        "net": "next_counter[0]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe10[1]",
+                        "net": "next_counter[1]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe11[0]",
+                        "net": "o_data[0]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe11[1]",
+                        "net": "o_data[1]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe11[2]",
+                        "net": "o_data[2]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe11[3]",
+                        "net": "o_data[3]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe11[4]",
+                        "net": "o_data[4]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe11[5]",
+                        "net": "o_data[5]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe11[6]",
+                        "net": "o_data[6]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe11[7]",
+                        "net": "o_data[7]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe12[0]",
+                        "net": "next_state[0]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe12[1]",
+                        "net": "next_state[1]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[0]",
+                        "net": "w_data_i[0]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[1]",
+                        "net": "w_data_i[1]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[2]",
+                        "net": "w_data_i[2]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[3]",
+                        "net": "w_data_i[3]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[4]",
+                        "net": "w_data_i[4]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[5]",
+                        "net": "w_data_i[5]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[6]",
+                        "net": "w_data_i[6]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[7]",
+                        "net": "w_data_i[7]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[8]",
+                        "net": "w_data_i[8]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[9]",
+                        "net": "w_data_i[9]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[10]",
+                        "net": "w_data_i[10]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[11]",
+                        "net": "w_data_i[11]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[12]",
+                        "net": "w_data_i[12]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[13]",
+                        "net": "w_data_i[13]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[14]",
+                        "net": "w_data_i[14]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[15]",
+                        "net": "w_data_i[15]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[16]",
+                        "net": "w_data_i[16]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[17]",
+                        "net": "w_data_i[17]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[18]",
+                        "net": "w_data_i[18]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[19]",
+                        "net": "w_data_i[19]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[20]",
+                        "net": "w_data_i[20]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[21]",
+                        "net": "w_data_i[21]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[22]",
+                        "net": "w_data_i[22]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[23]",
+                        "net": "w_data_i[23]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[24]",
+                        "net": "w_data_i[24]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[25]",
+                        "net": "w_data_i[25]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[26]",
+                        "net": "w_data_i[26]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[27]",
+                        "net": "w_data_i[27]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[28]",
+                        "net": "w_data_i[28]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[29]",
+                        "net": "w_data_i[29]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[30]",
+                        "net": "w_data_i[30]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe13[31]",
+                        "net": "w_data_i[31]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe14",
+                        "net": "i_rwb",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[0]",
+                        "net": "w_addr[0]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[1]",
+                        "net": "w_addr[1]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[2]",
+                        "net": "w_addr[2]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[3]",
+                        "net": "w_addr[3]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[4]",
+                        "net": "w_addr[4]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[5]",
+                        "net": "w_addr[5]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[6]",
+                        "net": "w_addr[6]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[7]",
+                        "net": "w_addr[7]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[8]",
+                        "net": "w_addr[8]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[9]",
+                        "net": "w_addr[9]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[10]",
+                        "net": "w_addr[10]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[11]",
+                        "net": "w_addr[11]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[12]",
+                        "net": "w_addr[12]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[13]",
+                        "net": "w_addr[13]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[14]",
+                        "net": "w_addr[14]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[15]",
+                        "net": "w_addr[15]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[16]",
+                        "net": "w_addr[16]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[17]",
+                        "net": "w_addr[17]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[18]",
+                        "net": "w_addr[18]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[19]",
+                        "net": "w_addr[19]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[20]",
+                        "net": "w_addr[20]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[21]",
+                        "net": "w_addr[21]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[22]",
+                        "net": "w_addr[22]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe15[23]",
+                        "net": "w_addr[23]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[0]",
+                        "net": "w_data_o[0]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[1]",
+                        "net": "w_data_o[1]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[2]",
+                        "net": "w_data_o[2]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[3]",
+                        "net": "w_data_o[3]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[4]",
+                        "net": "w_data_o[4]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[5]",
+                        "net": "w_data_o[5]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[6]",
+                        "net": "w_data_o[6]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[7]",
+                        "net": "w_data_o[7]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[8]",
+                        "net": "w_data_o[8]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[9]",
+                        "net": "w_data_o[9]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[10]",
+                        "net": "w_data_o[10]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[11]",
+                        "net": "w_data_o[11]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[12]",
+                        "net": "w_data_o[12]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[13]",
+                        "net": "w_data_o[13]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[14]",
+                        "net": "w_data_o[14]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[15]",
+                        "net": "w_data_o[15]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[16]",
+                        "net": "w_data_o[16]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[17]",
+                        "net": "w_data_o[17]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[18]",
+                        "net": "w_data_o[18]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[19]",
+                        "net": "w_data_o[19]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[20]",
+                        "net": "w_data_o[20]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[21]",
+                        "net": "w_data_o[21]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[22]",
+                        "net": "w_data_o[22]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[23]",
+                        "net": "w_data_o[23]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[24]",
+                        "net": "w_data_o[24]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[25]",
+                        "net": "w_data_o[25]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[26]",
+                        "net": "w_data_o[26]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[27]",
+                        "net": "w_data_o[27]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[28]",
+                        "net": "w_data_o[28]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[29]",
+                        "net": "w_data_o[29]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[30]",
+                        "net": "w_data_o[30]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe16[31]",
+                        "net": "w_data_o[31]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe17",
+                        "net": "i_cs",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe18[0]",
+                        "net": "counter[0]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe18[1]",
+                        "net": "counter[1]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[0]",
+                        "net": "state[0]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe19[1]",
+                        "net": "state[1]",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe20",
+                        "net": "w_last",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe21",
+                        "net": "w_data_valid",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe22",
+                        "net": "w_wr_ack",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe23",
+                        "net": "w_read",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe24",
+                        "net": "w_write",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe25",
+                        "net": "w_rd_ack",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe26",
+                        "net": "w_rd_valid",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe27",
+                        "net": "o_dbg_ref_req",
+                        "path": [
+                            "u_sdram_adapter"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe28",
+                        "net": "cpu_rdy",
                         "path": []
                     }
                 ]
@@ -232,69 +1297,297 @@
     ],
     "session": {
         "wizard": {
-            "data_depth": 1024,
+            "data_depth": 4096,
             "capture_control": false,
             "selected_nets": [
                 {
-                    "name": "sd_cmd_IN",
+                    "name": "cpu_data_in",
+                    "width": 8,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [],
+                    "net_idx_left": 7,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "cpu_rwb",
                     "width": 1,
-                    "clk_domain": "clk_2",
+                    "clk_domain": "i_sysclk",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
                     "path": []
                 },
                 {
-                    "name": "sd_cmd_OE",
+                    "name": "cpu_sync",
                     "width": 1,
-                    "clk_domain": "clk_2",
+                    "clk_domain": "i_sysclk",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
                     "path": []
                 },
                 {
-                    "name": "sd_cmd_OUT",
+                    "name": "cpu_resb",
                     "width": 1,
-                    "clk_domain": "clk_2",
+                    "clk_domain": "i_sysclk",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
                     "path": []
                 },
                 {
-                    "name": "sd_data_IN",
+                    "name": "cpu_addr",
+                    "width": 16,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [],
+                    "net_idx_left": 15,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "cpu_nmib",
                     "width": 1,
-                    "clk_domain": "clk_2",
+                    "clk_domain": "i_sysclk",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
                     "path": []
                 },
                 {
-                    "name": "sd_data_OE",
+                    "name": "cpu_irqb",
                     "width": 1,
-                    "clk_domain": "clk_2",
+                    "clk_domain": "i_sysclk",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
                     "path": []
                 },
                 {
-                    "name": "sd_data_OUT",
+                    "name": "cpu_data_out",
+                    "width": 8,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [],
+                    "net_idx_left": 7,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "cpu_phi2",
                     "width": 1,
-                    "clk_domain": "clk_2",
+                    "clk_domain": "i_sysclk",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
                     "path": []
                 },
                 {
-                    "name": "w_sdcard_cs",
+                    "name": "o_dbg_wr_ack",
                     "width": 1,
-                    "clk_domain": "clk_2",
+                    "clk_domain": "i_sysclk",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
-                    "path": []
+                    "path": [
+                        "u_sdram_adapter"
+                    ]
                 },
                 {
-                    "name": "sd_clk",
+                    "name": "next_counter",
+                    "width": 2,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_sdram_adapter"
+                    ],
+                    "net_idx_left": 1,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "o_data",
+                    "width": 8,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_sdram_adapter"
+                    ],
+                    "net_idx_left": 7,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "next_state",
+                    "width": 2,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_sdram_adapter"
+                    ],
+                    "net_idx_left": 1,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "w_data_i",
+                    "width": 32,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_sdram_adapter"
+                    ],
+                    "net_idx_left": 31,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "i_rwb",
                     "width": 1,
-                    "clk_domain": "clk_2",
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_sdram_adapter"
+                    ]
+                },
+                {
+                    "name": "w_addr",
+                    "width": 24,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_sdram_adapter"
+                    ],
+                    "net_idx_left": 23,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "w_data_o",
+                    "width": 32,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_sdram_adapter"
+                    ],
+                    "net_idx_left": 31,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "i_cs",
+                    "width": 1,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_sdram_adapter"
+                    ]
+                },
+                {
+                    "name": "counter",
+                    "width": 2,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_sdram_adapter"
+                    ],
+                    "net_idx_left": 1,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "state",
+                    "width": 2,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_sdram_adapter"
+                    ],
+                    "net_idx_left": 1,
+                    "net_idx_right": 0
+                },
+                {
+                    "name": "w_last",
+                    "width": 1,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_sdram_adapter"
+                    ]
+                },
+                {
+                    "name": "w_data_valid",
+                    "width": 1,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_sdram_adapter"
+                    ]
+                },
+                {
+                    "name": "w_wr_ack",
+                    "width": 1,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_sdram_adapter"
+                    ]
+                },
+                {
+                    "name": "w_read",
+                    "width": 1,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_sdram_adapter"
+                    ]
+                },
+                {
+                    "name": "w_write",
+                    "width": 1,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_sdram_adapter"
+                    ]
+                },
+                {
+                    "name": "w_rd_ack",
+                    "width": 1,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_sdram_adapter"
+                    ]
+                },
+                {
+                    "name": "w_rd_valid",
+                    "width": 1,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_sdram_adapter"
+                    ]
+                },
+                {
+                    "name": "o_dbg_ref_req",
+                    "width": 1,
+                    "clk_domain": "i_sysclk",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "u_sdram_adapter"
+                    ]
+                },
+                {
+                    "name": "cpu_rdy",
+                    "width": 1,
+                    "clk_domain": "i_sysclk",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
                     "path": []

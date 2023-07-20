@@ -3,20 +3,20 @@
         "-o",
         "sdram_controller",
         "--base_path",
-        "/home/byron/Projects/super6502/hw/efinix_fpga/ip",
+        "/tmp/tmpc6xveluy/ip",
         "--vlnv",
         {
             "vendor": "efinixinc.com",
             "library": "memory_controller",
             "name": "efx_sdram_controller",
-            "version": "1.6"
+            "version": "5.0"
         }
     ],
     "conf": {
         "fCK_MHz": "200",
         "tIORT_u": "2",
         "CL": "3",
-        "DDIO_TYPE": "0",
+        "DDIO_TYPE": "\"SOFT\"",
         "DQ_GROUP": "2",
         "ROW_WIDTH": "13",
         "COL_WIDTH": "9",
@@ -28,17 +28,17 @@
         "tREF": "64000000",
         "tRFC": "66",
         "tRP": "20",
-        "SDRAM_MODE": "0",
+        "SDRAM_MODE": "\"Native\"",
         "DATA_RATE": "2"
     },
     "output": {
         "external_source_source": [
-            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/sdram_controller/sdram_controller_define.vh",
-            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/sdram_controller/sdram_controller_tmpl.vhd",
-            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/sdram_controller/sdram_controller_tmpl.v",
-            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/sdram_controller/sdram_controller.v"
+            "/tmp/tmpc6xveluy/ip/sdram_controller/sdram_controller_tmpl.vhd",
+            "/tmp/tmpc6xveluy/ip/sdram_controller/sdram_controller_define.vh",
+            "/tmp/tmpc6xveluy/ip/sdram_controller/sdram_controller_tmpl.v",
+            "/tmp/tmpc6xveluy/ip/sdram_controller/sdram_controller.v"
         ]
     },
-    "sw_version": "2022.2.322",
-    "generated_date": "2023-01-06T15:14:53.619359"
+    "sw_version": "2023.1.150",
+    "generated_date": "2023-07-16T16:45:19.021917"
 }
