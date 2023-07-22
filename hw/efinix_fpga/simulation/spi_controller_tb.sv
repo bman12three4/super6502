@@ -56,14 +56,47 @@ begin
     $dumpvars(0,sim);
 end
 
+logic [7:0] data;
+
 initial begin
     i_rst <= '1;
     repeat(5) @(posedge i_clk);
+    i_cs <= '0;
+    i_rwb <= '1;
+    i_addr <= '0;
     i_rst <= '0;
 
     repeat(5) @(posedge i_clk);
 
+    write_reg(3, 1);
+    write_reg(2, 8'hAA);
+    data = (1 << 7);
+    while(data & (1 << 7)) begin
+        read_reg(3, data);
+    end
+    write_reg(3, 0);
+    read_reg(1, data);
+    assert(data == 8'h55);
+
+    repeat(50) @(posedge i_clk);
+
     $finish();
+end
+
+
+logic [7:0] _spi_device_data;
+
+initial begin
+    _spi_device_data <= 8'h55;
+end
+
+always @(edge o_spi_clk) begin
+    if (o_spi_cs == '0) begin
+        if (o_spi_clk == '1)
+            i_spi_miso <= _spi_device_data[7];
+        if (o_spi_clk == '0)
+            _spi_device_data <= _spi_device_data << 1;
+    end
 end
 
 endmodule
