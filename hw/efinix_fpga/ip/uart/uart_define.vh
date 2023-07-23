@@ -49,4 +49,4 @@ localparam BAUD = 115200;
 localparam ENABLE_PARITY = 1'b0;
 localparam FIX_BAUDRATE = 1'b1;
 localparam PARITY_MODE = 1'b0;
-localparam BOOTUP_CHECK = 1'b1;
+localparam BOOTUP_CHECK = 1'b0;

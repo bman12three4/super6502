@@ -19,31 +19,16 @@
         "ENABLE_PARITY": "1'b0",
         "FIX_BAUDRATE": "1'b1",
         "PARITY_MODE": "1'b0",
-        "BOOTUP_CHECK": "1'b1"
+        "BOOTUP_CHECK": "1'b0"
     },
     "output": {
         "external_source_source": [
-            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/uart_define.vh",
             "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/uart_tmpl.v",
             "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/uart.v",
-            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/uart_tmpl.vhd"
-        ],
-        "external_example_example": [
-            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/T20F256_devkit/command_state.v",
-            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/T20F256_devkit/decoder.v",
-            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/T20F256_devkit/encoder.v",
-            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/T20F256_devkit/led_ctl.v",
-            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/T20F256_devkit/resets.v",
-            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/T20F256_devkit/uart_defines.v",
-            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/T20F256_devkit/uart_demo_top.v",
-            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/T20F256_devkit/user_register.v",
-            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/T20F256_devkit/uart_demo.peri.xml",
-            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/T20F256_devkit/uart_demo.xml",
-            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/T20F256_devkit/uart_timing_T20.sdc",
-            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/T20F256_devkit/uart.v",
-            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/T20F256_devkit/uart_define.vh"
+            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/uart_tmpl.vhd",
+            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/uart_define.vh"
         ]
     },
     "sw_version": "2023.1.150",
-    "generated_date": "2023-07-16T20:20:12.259229"
+    "generated_date": "2023-07-23T03:23:04.338270"
 }

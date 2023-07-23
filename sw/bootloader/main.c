@@ -6,6 +6,7 @@
 #include "devices/board_io.h"
 #include "devices/uart.h"
 #include "devices/sd_card.h"
+#include "devices/sd_print.h"
 #include "filesystem/fat.h"
 
 #define KERNEL_LOAD_ADDR 0xD000
@@ -13,40 +14,68 @@
 uint8_t buf[512];
 
 int main() {
-	uint16_t rca;
-	clrscr();
-	cputs("Starting sd_init\n");
-	cprintf("And testing cprintf\n");
+    // array to hold responses
+    uint8_t res[5], token;
+    uint32_t addr = 0x00000000;
+	uint16_t i;
 
-	sd_init();
+	cputs("Start\r\n");
 
-	cprintf("finish sd_init\n");
+    // initialize sd card
+    if(SD_init() != SD_SUCCESS)
+    {
+        cputs("Error init SD CARD\r\n");
+    }
+    else
+    {
+        cputs("SD Card init\r\n");
 
-	rca = sd_get_rca();
-	cprintf("rca: %x\n", rca);
+        // read sector 0
+        // cputs("\r\nReading sector: 0x");
+        // ((uint8_t)(addr >> 24));
+        // cprintf("%x", (uint8_t)(addr >> 16));
+        // cprintf("%x", (uint8_t)(addr >> 8));
+        // cprintf("%x", (uint8_t)addr);
+        // res[0] = SD_readSingleBlock(addr, buf, &token);
+        // cputs("\r\nResponse:\r\n");
+        // //SD_printR1(res[0]);
 
-	sd_select_card(rca);
+        // if no error, print buffer
+        // if((res[0] == 0x00) && (token == SD_START_TOKEN))
+        //     SD_printBuf(buf);
+        // else if error token received, print
+        // else if(!(token & 0xF0))
+        // {
+        //     cputs("Ercputsror token:\r\n");
+        //     SD_printDataErrToken(token);
+        // }
 
-	/*
-	fat_init();
+        // update address to 0x00000100
+        // addr = 0x00000100;
 
-	filename = (char*)malloc(FAT_MAX_FILE_NAME);
+        // // fill buffer with 0x55
+        // for(i = 0; i < 512; i++) buf[i] = 0x55;
 
-	cluster = fat_parse_path_to_cluster("/kernel.bin");
-	for (kernel_load = (uint8_t*)KERNEL_LOAD_ADDR; cluster < FAT_CLUSTERMASK; kernel_load+=(8*512)) {
-		cprintf("cluster: %lx\n", cluster);
-		cprintf("Writing to %p\n", kernel_load);
-		fat_read_cluster(cluster, kernel_load);
-		cluster = fat_get_chain_value(cluster);
-	}
+        // cputs("Writing 0x55 to sector: 0x");
+        // cprintf("%x", (uint8_t)(addr >> 24));
+        // cprintf("%x", (uint8_t)(addr >> 16));
+        // cprintf("%x", (uint8_t)(addr >> 8));
+        // cprintf("%x", (uint8_t)addr);
 
-	*/
+        // // write data to sector
+        // res[0] = SD_writeSingleBlock(addr, buf, &token);
 
-	cprintf("Done!\n");
+        // cputs("\r\nResponse:\r\n");
+        // //SD_printR1(res[0]);
 
-	for(;;);
+        // // if no errors writing
+        // if(res[0] == 0x00)
+        // {
+        //     if(token == SD_DATA_ACCEPTED)
+        //         cputs("Write successful\r\n");
+        // }
+    }
 
-	cprintf("Reset vector: %x\n", *((uint16_t*)0xfffc));
+    while(1) ;
 
-	return 0;
 }

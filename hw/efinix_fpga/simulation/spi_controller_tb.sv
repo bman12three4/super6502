@@ -69,7 +69,7 @@ initial begin
     repeat(5) @(posedge i_clk);
 
     write_reg(3, 1);
-    write_reg(2, 8'hAA);
+    write_reg(2, 8'hFF);
     data = (1 << 7);
     while(data & (1 << 7)) begin
         read_reg(3, data);
