@@ -3,12 +3,12 @@
         {
             "name": "la0",
             "type": "la",
-            "uuid": "68ae6f6753aa4c41b26baf6770f0d8e4",
+            "uuid": "fc5ad0b7db9846e2b64719110e7975d8",
             "trigin_en": false,
             "trigout_en": false,
             "auto_inserted": true,
             "capture_control": false,
-            "data_depth": 8192,
+            "data_depth": 16384,
             "input_pipeline": 1,
             "probes": [
                 {
@@ -37,27 +37,7 @@
                     "probe_type": 1
                 },
                 {
-                    "name": "cpu_nmib",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "cpu_irqb",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "cpu_data_out",
-                    "width": 8,
-                    "probe_type": 1
-                },
-                {
                     "name": "cpu_phi2",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "cpu_rdy",
                     "width": 1,
                     "probe_type": 1
                 },
@@ -84,16 +64,6 @@
                 {
                     "name": "spi_controller/active",
                     "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "spi_controller/r_clock_counter",
-                    "width": 9,
-                    "probe_type": 1
-                },
-                {
-                    "name": "spi_controller/r_baud_rate",
-                    "width": 8,
                     "probe_type": 1
                 }
             ]
@@ -362,206 +332,32 @@
                     },
                     {
                         "name": "la0_probe5",
-                        "net": "cpu_nmib",
-                        "path": []
-                    },
-                    {
-                        "name": "la0_probe6",
-                        "net": "cpu_irqb",
-                        "path": []
-                    },
-                    {
-                        "name": "la0_probe7[0]",
-                        "net": "cpu_data_out[0]",
-                        "path": []
-                    },
-                    {
-                        "name": "la0_probe7[1]",
-                        "net": "cpu_data_out[1]",
-                        "path": []
-                    },
-                    {
-                        "name": "la0_probe7[2]",
-                        "net": "cpu_data_out[2]",
-                        "path": []
-                    },
-                    {
-                        "name": "la0_probe7[3]",
-                        "net": "cpu_data_out[3]",
-                        "path": []
-                    },
-                    {
-                        "name": "la0_probe7[4]",
-                        "net": "cpu_data_out[4]",
-                        "path": []
-                    },
-                    {
-                        "name": "la0_probe7[5]",
-                        "net": "cpu_data_out[5]",
-                        "path": []
-                    },
-                    {
-                        "name": "la0_probe7[6]",
-                        "net": "cpu_data_out[6]",
-                        "path": []
-                    },
-                    {
-                        "name": "la0_probe7[7]",
-                        "net": "cpu_data_out[7]",
-                        "path": []
-                    },
-                    {
-                        "name": "la0_probe8",
                         "net": "cpu_phi2",
                         "path": []
                     },
                     {
-                        "name": "la0_probe9",
-                        "net": "cpu_rdy",
-                        "path": []
-                    },
-                    {
-                        "name": "la0_probe10",
+                        "name": "la0_probe6",
                         "net": "spi_clk",
                         "path": []
                     },
                     {
-                        "name": "la0_probe11",
+                        "name": "la0_probe7",
                         "net": "spi_mosi",
                         "path": []
                     },
                     {
-                        "name": "la0_probe12",
+                        "name": "la0_probe8",
                         "net": "sd_cs",
                         "path": []
                     },
                     {
-                        "name": "la0_probe13",
+                        "name": "la0_probe9",
                         "net": "spi_miso",
                         "path": []
                     },
                     {
-                        "name": "la0_probe14",
+                        "name": "la0_probe10",
                         "net": "active",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe15[0]",
-                        "net": "r_clock_counter[0]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe15[1]",
-                        "net": "r_clock_counter[1]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe15[2]",
-                        "net": "r_clock_counter[2]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe15[3]",
-                        "net": "r_clock_counter[3]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe15[4]",
-                        "net": "r_clock_counter[4]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe15[5]",
-                        "net": "r_clock_counter[5]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe15[6]",
-                        "net": "r_clock_counter[6]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe15[7]",
-                        "net": "r_clock_counter[7]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe15[8]",
-                        "net": "r_clock_counter[8]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe16[0]",
-                        "net": "r_baud_rate[0]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe16[1]",
-                        "net": "r_baud_rate[1]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe16[2]",
-                        "net": "r_baud_rate[2]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe16[3]",
-                        "net": "r_baud_rate[3]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe16[4]",
-                        "net": "r_baud_rate[4]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe16[5]",
-                        "net": "r_baud_rate[5]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe16[6]",
-                        "net": "r_baud_rate[6]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe16[7]",
-                        "net": "r_baud_rate[7]",
                         "path": [
                             "spi_controller"
                         ]
@@ -578,7 +374,7 @@
     ],
     "session": {
         "wizard": {
-            "data_depth": 8192,
+            "data_depth": 16384,
             "capture_control": false,
             "selected_nets": [
                 {
@@ -626,41 +422,7 @@
                     "net_idx_right": 0
                 },
                 {
-                    "name": "cpu_nmib",
-                    "width": 1,
-                    "clk_domain": "clk_50",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": []
-                },
-                {
-                    "name": "cpu_irqb",
-                    "width": 1,
-                    "clk_domain": "clk_50",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": []
-                },
-                {
-                    "name": "cpu_data_out",
-                    "width": 8,
-                    "clk_domain": "clk_50",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [],
-                    "net_idx_left": 7,
-                    "net_idx_right": 0
-                },
-                {
                     "name": "cpu_phi2",
-                    "width": 1,
-                    "clk_domain": "clk_50",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": []
-                },
-                {
-                    "name": "cpu_rdy",
                     "width": 1,
                     "clk_domain": "clk_50",
                     "selected_probe_type": "DATA AND TRIGGER",
@@ -708,30 +470,6 @@
                     "path": [
                         "spi_controller"
                     ]
-                },
-                {
-                    "name": "r_clock_counter",
-                    "width": 9,
-                    "clk_domain": "clk_50",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "spi_controller"
-                    ],
-                    "net_idx_left": 8,
-                    "net_idx_right": 0
-                },
-                {
-                    "name": "r_baud_rate",
-                    "width": 8,
-                    "clk_domain": "clk_50",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "spi_controller"
-                    ],
-                    "net_idx_left": 7,
-                    "net_idx_right": 0
                 }
             ],
             "top_module": "super6502",

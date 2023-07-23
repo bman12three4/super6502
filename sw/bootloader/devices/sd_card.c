@@ -94,6 +94,7 @@ void SD_powerUpSeq()
 /*******************************************************************************
  Send command to SD card
 *******************************************************************************/
+/*
 void SD_command(uint8_t cmd, uint32_t arg, uint8_t crc)
 {
     // transmit command to sd card
@@ -108,6 +109,7 @@ void SD_command(uint8_t cmd, uint32_t arg, uint8_t crc)
     // transmit crc
     spi_exchange(crc|0x01);
 }
+*/
 
 /*******************************************************************************
  Read R1 from SD card
