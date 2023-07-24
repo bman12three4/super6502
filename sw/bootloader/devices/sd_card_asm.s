@@ -3,6 +3,7 @@
 .export _SD_readRes2
 .export _SD_readRes3
 .export _SD_readBytes
+.export _res1_cmd
 
 .importzp sp, ptr1
 
@@ -52,7 +53,7 @@ tryread:
         dex
         bne     tryread
 
-end:
+end:                            ; x will be 0 here anyway
         rts
 
 .endproc
@@ -119,5 +120,36 @@ read:
         jsr     _SD_readBytes
 
 @L1:    rts
+
+.endproc
+
+; uint8_t res1_cmd(uint8_t cmd, uint32_t arg, uint8_t crc)
+
+.proc   _res1_cmd:      near
+
+        pha                     ; push crc to processor stack
+        lda     #$ff
+        jsr     _spi_exchange
+        lda     #$00            ; this gets ignored anyway
+        jsr     _spi_select
+        lda     #$ff
+        jsr     _spi_exchange
+
+        pla
+        jsr     _SD_command     ; rely on command to teardown stack
+
+        jsr     _SD_readRes1
+        tay                     ; spi doesn't touch y
+
+        lda     #$ff
+        jsr     _spi_exchange
+        lda     #$00            ; this gets ignored anyway
+        jsr     _spi_deselect
+        lda     #$ff
+        jsr     _spi_exchange
+
+        tya
+        ldx     #$00            ; Promote to integer
+        rts
 
 .endproc

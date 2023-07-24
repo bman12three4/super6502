@@ -75,4 +75,6 @@ uint8_t SD_sendOpCond();
 uint8_t SD_readSingleBlock(uint32_t addr, uint8_t *buf, uint8_t *error);
 uint8_t SD_writeSingleBlock(uint32_t addr, uint8_t *buf, uint8_t *res);
 
+uint8_t res1_cmd(uint8_t cmd, uint32_t arg, uint8_t crc);
+
 #endif

@@ -67,6 +67,7 @@ uint8_t SD_init()
     return SD_SUCCESS;
 }
 
+/*
 // Send a command with starting end ending clock pulses
 uint8_t res1_cmd(uint8_t cmd, uint32_t arg, uint8_t crc)
 {
@@ -89,6 +90,7 @@ uint8_t res1_cmd(uint8_t cmd, uint32_t arg, uint8_t crc)
 
     return res1;
 }
+*/
 
 /*******************************************************************************
  Run power up sequence
