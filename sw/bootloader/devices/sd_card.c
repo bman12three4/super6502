@@ -158,6 +158,7 @@ uint8_t SD_readRes1()
 /*******************************************************************************
  Read R2 from SD card
 *******************************************************************************/
+/*
 void SD_readRes2(uint8_t *res)
 {
     // read response 1 in R2
@@ -166,6 +167,7 @@ void SD_readRes2(uint8_t *res)
     // read final byte of response
     res[1] = spi_exchange(0xFF);
 }
+*/
 
 /*******************************************************************************
  Read R3 from SD card
@@ -200,10 +202,12 @@ void SD_readRes7(uint8_t *res)
 /*******************************************************************************
  Read specified number of bytes from SD card
 *******************************************************************************/
+/*
 void SD_readBytes(uint8_t *res, uint8_t n)
 {
     while(n--) *res++ = spi_exchange(0xFF);
 }
+*/
 
 /*******************************************************************************
  Command Idle State (CMD0)

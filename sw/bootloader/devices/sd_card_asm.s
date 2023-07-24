@@ -1,7 +1,9 @@
 .export _SD_command
 .export _SD_readRes1
+.export _SD_readRes2
+.export _SD_readBytes
 
-.importzp sp
+.importzp sp, ptr1
 
 .autoimport on
 
@@ -50,5 +52,43 @@ tryread:
 end:
         rts
 
+.endproc
+
+; void SD_readRes2(uint8_t *res)
+
+.proc   _SD_readRes2:   near
+
+        sta     ptr1            ; store res in ptr1
+        stx     ptr1 + 1
+
+        jsr     _SD_readRes1    ; get first response 1
+        sta     (ptr1)
+
+        lda     #$ff
+        jsr     _spi_exchange   ; get final byte of response
+        ldy     #$01
+        sta     (ptr1),y
+        jsr     incsp2
+        rts
+
+.endproc
+
+; void SD_readBytes(uint8_t *res, uint8_t n)
+
+.proc   _SD_readBytes:  near
+
+        tax
+        jsr     popptr1         ; store res in ptr1
+
+read:  
+        lda     #$ff            ; read data first
+        jsr     _spi_exchange
+        sta     (ptr1)
+        inc     ptr1            ; then increment res
+        bne     @L1
+        inc     ptr1 + 1
+@L1:    dex                     ; then decrement x
+        bne     read            ; and if x is zero we are done
+        rts
 
 .endproc
