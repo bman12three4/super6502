@@ -1,11 +1,14 @@
 .export _SD_command
 .export _SD_readRes1
 .export _SD_readRes2
+.export _SD_readRes3
 .export _SD_readBytes
 
 .importzp sp, ptr1
 
 .autoimport on
+
+.MACPACK generic
 
 ; void SD_command(uint8_t cmd, uint32_t arg, uint8_t crc)
 
@@ -90,5 +93,31 @@ read:
 @L1:    dex                     ; then decrement x
         bne     read            ; and if x is zero we are done
         rts
+
+.endproc
+
+; void SD_readRes3(uint8_t *res)
+
+.proc   _SD_readRes3:   near
+
+        sta     ptr1            ; store res in ptr1
+        stx     ptr1 + 1
+
+        jsr     _SD_readRes1    ; read respopnse 1 in R3
+        cmp     #$02            ; if error reading R1, return
+        bge     @L1
+
+        inc     ptr1            ; read remaining bytes
+        bne     @L2
+        inc     ptr1
+@L2:    lda     ptr1            ; push low byte
+        sta     (sp)
+        ldy     #$01
+        lda     ptr1 + 1        ; push high byte
+        sta     (sp),y
+        lda     #$04            ; R3_BYTES
+        jsr     _SD_readBytes
+
+@L1:    rts
 
 .endproc
