@@ -114,6 +114,7 @@ void SD_command(uint8_t cmd, uint32_t arg, uint8_t crc)
 /*******************************************************************************
  Read R1 from SD card
 *******************************************************************************/
+/*
 uint8_t SD_readRes1()
 {
     uint8_t i = 0, res1;
@@ -129,6 +130,7 @@ uint8_t SD_readRes1()
 
     return res1;
 }
+*/
 
 /*******************************************************************************
  Read R2 from SD card
@@ -405,20 +407,17 @@ void SD_readOCR(uint8_t *res)
     spi_exchange(0xFF);
 }
 
-/*******************************************************************************
- Send application command (CMD55)
-*******************************************************************************/
-uint8_t SD_sendApp()
+// Send a command with starting end ending clock pulses
+uint8_t res1_cmd(uint8_t cmd, uint32_t arg, uint8_t crc)
 {
     uint8_t res1;
-
     // assert chip select
     spi_exchange(0xFF);
     spi_select(0);
     spi_exchange(0xFF);
 
     // send CMD0
-    SD_command(CMD55, CMD55_ARG, CMD55_CRC);
+    SD_command(cmd, arg, crc);
 
     // read response
     res1 = SD_readRes1();
@@ -432,26 +431,17 @@ uint8_t SD_sendApp()
 }
 
 /*******************************************************************************
+ Send application command (CMD55)
+*******************************************************************************/
+uint8_t SD_sendApp()
+{
+    return res1_cmd(CMD55, CMD55_ARG, CMD55_CRC);;
+}
+
+/*******************************************************************************
  Send operating condition (ACMD41)
 *******************************************************************************/
 uint8_t SD_sendOpCond()
 {
-    uint8_t res1;
-    // assert chip select
-    spi_exchange(0xFF);
-    spi_select(0);
-    spi_exchange(0xFF);
-
-    // send CMD0
-    SD_command(ACMD41, ACMD41_ARG, ACMD41_CRC);
-
-    // read response
-    res1 = SD_readRes1();
-
-    // deassert chip select
-    spi_exchange(0xFF);
-    spi_deselect(0);
-    spi_exchange(0xFF);
-
-    return res1;
+    return res1_cmd(ACMD41, ACMD41_ARG, ACMD41_CRC);
 }
