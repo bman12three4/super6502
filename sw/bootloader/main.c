@@ -24,31 +24,31 @@ int main() {
     // initialize sd card
     if(SD_init() != SD_SUCCESS)
     {
-        cputs("Error init SD CARD\r\n");
+        cputs("Error\r\n");
     }
     else
     {
-        cputs("SD Card init\r\n");
+        cputs("Success\r\n");
 
         // read sector 0
-        // cputs("\r\nReading sector: 0x");
+        cputs("\r\nReading sector: 0x");
         // ((uint8_t)(addr >> 24));
         // cprintf("%x", (uint8_t)(addr >> 16));
         // cprintf("%x", (uint8_t)(addr >> 8));
         // cprintf("%x", (uint8_t)addr);
-        // res[0] = SD_readSingleBlock(addr, buf, &token);
-        // cputs("\r\nResponse:\r\n");
-        // //SD_printR1(res[0]);
+        res[0] = SD_readSingleBlock(addr, buf, &token);
+        cputs("\r\nResponse:\r\n");
+        //SD_printR1(res[0]);
 
         // if no error, print buffer
-        // if((res[0] == 0x00) && (token == SD_START_TOKEN))
-        //     SD_printBuf(buf);
-        // else if error token received, print
-        // else if(!(token & 0xF0))
-        // {
-        //     cputs("Ercputsror token:\r\n");
-        //     SD_printDataErrToken(token);
-        // }
+        if((res[0] == 0x00) && (token == SD_START_TOKEN))
+            SD_printBuf(buf);
+        //else if error token received, print
+        else if(!(token & 0xF0))
+        {
+            cputs("Error token:\r\n");
+            //SD_printDataErrToken(token);
+        }
 
         // update address to 0x00000100
         // addr = 0x00000100;

@@ -282,8 +282,6 @@ uint8_t SD_readSingleBlock(uint32_t addr, uint8_t *buf, uint8_t *token)
     uint16_t readAttempts;
     uint16_t i;
 
-    /*
-
     // set token to none
     *token = 0xFF;
 
@@ -325,8 +323,6 @@ uint8_t SD_readSingleBlock(uint32_t addr, uint8_t *buf, uint8_t *token)
     spi_exchange(0xFF);
     spi_deselect(0);
     spi_exchange(0xFF);
-
-    */
 
     return res1;
 }

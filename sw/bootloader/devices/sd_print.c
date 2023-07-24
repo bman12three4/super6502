@@ -3,6 +3,7 @@
 #include "sd_print.h"
 #include "sd_card.h"
 
+/*
 void SD_printR1(uint8_t res)
 {
     if(res == 0xFF)
@@ -26,7 +27,9 @@ void SD_printR1(uint8_t res)
     if(IN_IDLE(res))
         cputs("\tIn Idle State\r\n");
 }
+*/
 
+/*
 void SD_printR2(uint8_t *res)
 {
     SD_printR1(res[0]);
@@ -52,7 +55,9 @@ void SD_printR2(uint8_t *res)
     if(CARD_LOCKED(res[1]))
         cputs("\tCard Locked\r\n");
 }
+*/
 
+/*
 void SD_printR3(uint8_t *res)
 {
     SD_printR1(res[0]);
@@ -84,7 +89,9 @@ void SD_printR3(uint8_t *res)
     if(VDD_3536(res[2])) cputs("3.5-3.6");
     cputs("\r\n");
 }
+*/
 
+/*
 void SD_printR7(uint8_t *res)
 {
     SD_printR1(res[0]);
@@ -112,7 +119,9 @@ void SD_printR7(uint8_t *res)
     cprintf("%x", res[4]);
     cputs("\r\n");
 }
+*/
 
+/*
 void SD_printCSD(uint8_t *buf)
 {
     cputs("CSD:\r\n");
@@ -139,6 +148,7 @@ void SD_printCSD(uint8_t *buf)
     cprintf("%x", buf[9]);
     cputs("\r\n");
 }
+*/
 
 void SD_printBuf(uint8_t *buf)
 {
@@ -146,7 +156,7 @@ void SD_printBuf(uint8_t *buf)
     uint16_t i;
     for(i = 0; i < SD_BLOCK_LEN; i++)
     {
-        cprintf("%x", *buf++);
+        cprintf("%2x", *buf++);
         if(colCount == 19)
         {
             cputs("\r\n");
@@ -161,6 +171,7 @@ void SD_printBuf(uint8_t *buf)
     cputs("\r\n");
 }
 
+/*
 void SD_printDataErrToken(uint8_t token)
 {
     if(token & 0xF0)
@@ -174,3 +185,4 @@ void SD_printDataErrToken(uint8_t token)
     if(SD_TOKEN_ERROR(token))
         cputs("\tError\r\n");
 }
+*/
