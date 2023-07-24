@@ -2,6 +2,7 @@
 .export _SD_readRes1
 .export _SD_readRes2
 .export _SD_readRes3
+.export _SD_readRes7
 .export _SD_readBytes
 .export _SD_powerUpSeq
 .export _res1_cmd
@@ -98,8 +99,9 @@ read:
 
 .endproc
 
+; void SD_readRes7(uint8_t *res)
+        _SD_readRes7:
 ; void SD_readRes3(uint8_t *res)
-
 .proc   _SD_readRes3:   near
 
         sta     ptr1            ; store res in ptr1
@@ -113,10 +115,8 @@ read:
         bne     @L2
         inc     ptr1
 @L2:    lda     ptr1            ; push low byte
-        sta     (sp)
-        ldy     #$01
-        lda     ptr1 + 1        ; push high byte
-        sta     (sp),y
+        ldx     ptr1 + 1
+        jsr     pushax
         lda     #$04            ; R3_BYTES
         jsr     _SD_readBytes
 

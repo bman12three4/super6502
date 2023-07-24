@@ -193,6 +193,7 @@ void SD_readRes3(uint8_t *res)
 /*******************************************************************************
  Read R7 from SD card
 *******************************************************************************/
+/*
 void SD_readRes7(uint8_t *res)
 {
     // read response 1 in R7
@@ -204,6 +205,7 @@ void SD_readRes7(uint8_t *res)
     // read remaining bytes
     SD_readBytes(res + 1, R7_BYTES);
 }
+*/
 
 /*******************************************************************************
  Read specified number of bytes from SD card
