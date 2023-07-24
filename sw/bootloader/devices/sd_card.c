@@ -67,6 +67,29 @@ uint8_t SD_init()
     return SD_SUCCESS;
 }
 
+// Send a command with starting end ending clock pulses
+uint8_t res1_cmd(uint8_t cmd, uint32_t arg, uint8_t crc)
+{
+    uint8_t res1;
+    // assert chip select
+    spi_exchange(0xFF);
+    spi_select(0);
+    spi_exchange(0xFF);
+
+    // send CMD0
+    SD_command(cmd, arg, crc);
+
+    // read response
+    res1 = SD_readRes1();
+
+    // deassert chip select
+    spi_exchange(0xFF);
+    spi_deselect(0);
+    spi_exchange(0xFF);
+
+    return res1;
+}
+
 /*******************************************************************************
  Run power up sequence
 *******************************************************************************/
@@ -187,25 +210,7 @@ void SD_readBytes(uint8_t *res, uint8_t n)
 *******************************************************************************/
 uint8_t SD_goIdleState()
 {
-    uint8_t res1;
-
-    // assert chip select
-    spi_exchange(0xFF);
-    spi_select(0);
-    spi_exchange(0xFF);
-
-    // send CMD0
-    SD_command(CMD0, CMD0_ARG, CMD0_CRC);
-
-    // read response
-    res1 = SD_readRes1();
-
-    // deassert chip select
-    spi_exchange(0xFF);
-    spi_deselect(0);
-    spi_exchange(0xFF);
-
-    return res1;
+    return res1_cmd(CMD0, CMD0_ARG, CMD0_CRC);
 }
 
 /*******************************************************************************
@@ -405,29 +410,6 @@ void SD_readOCR(uint8_t *res)
     spi_exchange(0xFF);
     spi_deselect(0);
     spi_exchange(0xFF);
-}
-
-// Send a command with starting end ending clock pulses
-uint8_t res1_cmd(uint8_t cmd, uint32_t arg, uint8_t crc)
-{
-    uint8_t res1;
-    // assert chip select
-    spi_exchange(0xFF);
-    spi_select(0);
-    spi_exchange(0xFF);
-
-    // send CMD0
-    SD_command(cmd, arg, crc);
-
-    // read response
-    res1 = SD_readRes1();
-
-    // deassert chip select
-    spi_exchange(0xFF);
-    spi_deselect(0);
-    spi_exchange(0xFF);
-
-    return res1;
 }
 
 /*******************************************************************************
