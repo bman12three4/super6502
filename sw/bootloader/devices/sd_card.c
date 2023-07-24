@@ -95,6 +95,7 @@ uint8_t res1_cmd(uint8_t cmd, uint32_t arg, uint8_t crc)
 /*******************************************************************************
  Run power up sequence
 *******************************************************************************/
+/*
 void SD_powerUpSeq()
 {
     uint16_t i;
@@ -115,6 +116,7 @@ void SD_powerUpSeq()
     for(j = 0; j < SD_INIT_CYCLES; j++)
         spi_exchange(0xFF);
 }
+*/
 
 /*******************************************************************************
  Send command to SD card

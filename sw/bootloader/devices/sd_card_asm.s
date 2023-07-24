@@ -3,6 +3,7 @@
 .export _SD_readRes2
 .export _SD_readRes3
 .export _SD_readBytes
+.export _SD_powerUpSeq
 .export _res1_cmd
 
 .importzp sp, ptr1
@@ -152,4 +153,38 @@ read:
         ldx     #$00            ; Promote to integer
         rts
 
+.endproc
+
+; void SD_powerUpSeq(void)
+
+.proc   _SD_powerUpSeq: near
+
+        lda     #$00
+        jsr     _spi_deselect
+        jsr     _sd_delay
+        lda     #$ff
+        jsr     _spi_exchange
+        lda     #$00
+        jsr     _spi_deselect
+
+        ldx     #$50            ; SD_INIT_CYCLES
+@L1:    lda     #$ff
+        jsr     _spi_exchange
+        dex
+        bne @L1
+
+        rts
+
+.endproc
+
+
+; 1ms delay approx. saves no registers
+.proc   _sd_delay:      near
+        ldx     #$01            ; delay loop: A*X*10 + 4
+@L1:    lda     #$c8            ; 1ms at 2MHz
+@L2:    dec                     ; 2
+        bne     @L2             ; 3
+        dex                     ; 2
+        bne     @L1             ; 3
+        rts
 .endproc
