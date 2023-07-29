@@ -6,7 +6,8 @@ UART_STATUS = UART + 1
 LED         = $efff
 SW          = LED
 
-SD_ARG      = $efd8
-SD_CMD      = $efdc
-SD_DATA     = $efdd
-
+SPI_BAUD    = $efd8
+SPI_INPUT   = $efd9
+SPI_OUTPUT  = $efda
+SPI_CTRL    = $efdb
+SPI_STATUS  = SPI_CTRL

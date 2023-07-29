@@ -43,7 +43,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-`define IP_UUID _d1961caf8b8d4ca092806671a99095c2
+`define IP_UUID _8d7ceb45e0e64e208e634a02f6a59365
 `define IP_NAME_CONCAT(a,b) a``b
 `define IP_MODULE_NAME(name) `IP_NAME_CONCAT(name,`IP_UUID)
 module uart (
@@ -69,7 +69,7 @@ input [7:0] tx_data
 .ENABLE_PARITY (1'b0),
 .FIX_BAUDRATE (1'b1),
 .PARITY_MODE (1'b0),
-.BOOTUP_CHECK (1'b1)
+.BOOTUP_CHECK (1'b0)
 ) u_top_uart(
 .tx_o ( tx_o ),
 .rx_i ( rx_i ),

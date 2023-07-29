@@ -41,29 +41,11 @@ module super6502
     output uart_tx,
 
     output sd_cs,
-    output sd_clk,
-
-    input sd_cmd_IN,
-    output sd_cmd_OUT,
-    output sd_cmd_OE,
-
-    input sd_data_IN,
-    output sd_data_OUT,
-    output sd_data_OE
+    output spi_clk,
+    output spi_mosi,
+    
+    input spi_miso
 );
-
-assign sd_cs = '1;
-
-logic o_sd_cmd, i_sd_cmd;
-logic o_sd_data, i_sd_data;
-
-assign i_sd_cmd = sd_cmd_IN;
-assign sd_cmd_OUT = '0;
-assign sd_cmd_OE = ~o_sd_cmd;
-
-assign i_sd_data = sd_data_IN;
-assign sd_data_OUT = '0;
-assign sd_data_OE = ~o_sd_data;
 
 assign pll_cpu_reset = '1;
 assign o_pll_reset = '1;
@@ -97,7 +79,7 @@ logic w_timer_cs;
 logic w_multiplier_cs;
 logic w_divider_cs;
 logic w_uart_cs;
-logic w_sdcard_cs;
+logic w_spi_cs;
 
 addr_decode u_addr_decode(
     .i_addr(cpu_addr),
@@ -107,7 +89,7 @@ addr_decode u_addr_decode(
     .o_multiplier_cs(w_multiplier_cs),
     .o_divider_cs(w_divider_cs),
     .o_uart_cs(w_uart_cs),
-    .o_sdcard_cs(w_sdcard_cs),
+    .o_spi_cs(w_spi_cs),
     .o_sdram_cs(w_sdram_cs)
 );
 
@@ -117,7 +99,7 @@ logic [7:0] w_timer_data_out;
 logic [7:0] w_multiplier_data_out;
 logic [7:0] w_divider_data_out;
 logic [7:0] w_uart_data_out;
-logic [7:0] w_sdcard_data_out;
+logic [7:0] w_spi_data_out;
 logic [7:0] w_sdram_data_out;
 
 always_comb begin
@@ -133,8 +115,8 @@ always_comb begin
         cpu_data_out = w_divider_data_out;
     else if (w_uart_cs)
         cpu_data_out = w_uart_data_out;
-    else if (w_sdcard_cs)
-        cpu_data_out = w_sdcard_data_out;
+    else if (w_spi_cs)
+        cpu_data_out = w_spi_data_out;
     else if (w_sdram_cs)
         cpu_data_out = w_sdram_data_out;
     else
@@ -206,28 +188,19 @@ uart_wrapper u_uart(
     .irqb(w_uart_irqb)
 );
 
-logic sd_clk;
-always @(posedge clk_2) begin
-    sd_clk <= ~sd_clk;
-end
+spi_controller spi_controller(
+    .i_clk(clk_2),
+    .i_rst(~cpu_resb),
+    .i_cs(w_spi_cs),
+    .i_rwb(cpu_rwb),
+    .i_addr(cpu_addr[1:0]),
+    .i_data(cpu_data_in),
+    .o_data(w_spi_data_out),
 
-
-sd_controller sd_controller(
-    .clk(clk_2),
-    .sd_clk(sd_clk),
-    .rst(rst),
-    .addr(cpu_addr[2:0]),
-    .data(cpu_data_in),
-    .cs(w_sdcard_cs),
-    .rw(cpu_rwb),
-
-    .i_sd_cmd(i_sd_cmd),
-    .o_sd_cmd(o_sd_cmd),
-
-    .i_sd_data(i_sd_data),
-    .o_sd_data(o_sd_data),
-
-    .data_out(w_sdcard_data_out)
+    .o_spi_cs(sd_cs),
+    .o_spi_clk(spi_clk),
+    .o_spi_mosi(spi_mosi),
+    .i_spi_miso(spi_miso)
 );
 
 
