@@ -35,5 +35,4 @@ $(LISTS):
 .PHONY: clean
 clean:
 	rm -rf $(OBJS) $(BIN) $(HEX) $(LISTS) $(NAME).map
-	rm -rf $(TEST_OBJS) $(TEST_BIN)
 
