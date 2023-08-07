@@ -19,6 +19,6 @@ assign o_divider_cs = i_addr >= 16'hefe8 && i_addr <= 16'hefef;
 assign o_uart_cs = i_addr >= 16'hefe6 && i_addr <= 16'hefe7;
 assign o_spi_cs = i_addr >= 16'hefd8 && i_addr <= 16'hefdb;
 assign o_leds_cs = i_addr == 16'hefff;
-assign o_sdram_cs = i_addr < 16'h8000;
+assign o_sdram_cs = i_addr < 16'he000;
 
 endmodule

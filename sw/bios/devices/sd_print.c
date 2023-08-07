@@ -157,7 +157,7 @@ void SD_printBuf(uint8_t *buf)
     for(i = 0; i < SD_BLOCK_LEN; i++)
     {
         cprintf("%2x", *buf++);
-        if(colCount == 19)
+        if(colCount == 31)
         {
             cputs("\r\n");
             colCount = 0;

@@ -23,12 +23,12 @@
     },
     "output": {
         "external_source_source": [
-            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/uart_tmpl.v",
-            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/uart.v",
             "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/uart_tmpl.vhd",
-            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/uart_define.vh"
+            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/uart_define.vh",
+            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/uart_tmpl.v",
+            "/home/byron/Projects/super6502/hw/efinix_fpga/ip/uart/uart.v"
         ]
     },
     "sw_version": "2023.1.150",
-    "generated_date": "2023-07-23T03:23:04.338270"
+    "generated_date": "2023-08-06T21:23:16.380430"
 }

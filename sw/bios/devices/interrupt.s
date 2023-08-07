@@ -45,7 +45,10 @@ irq:       PLA                    ; Restore accumulator contents
 ; ---------------------------------------------------------------------------
 ; BRK detected, stop
 
-break:     
+break:
+        pla
+        plx
+        jmp (bios_table,x)
 
 
 bios_table:

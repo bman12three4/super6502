@@ -11,7 +11,8 @@
 
 #define KERNEL_LOAD_ADDR 0xD000
 
-uint8_t buf[512];
+//uint8_t buf[512];
+uint8_t *buf = (uint8_t*)0x8000;
 
 int main() {
     // array to hold responses
@@ -50,30 +51,7 @@ int main() {
             //SD_printDataErrToken(token);
         }
 
-        // update address to 0x00000100
-        // addr = 0x00000100;
-
-        // // fill buffer with 0x55
-        // for(i = 0; i < 512; i++) buf[i] = 0x55;
-
-        // cputs("Writing 0x55 to sector: 0x");
-        // cprintf("%x", (uint8_t)(addr >> 24));
-        // cprintf("%x", (uint8_t)(addr >> 16));
-        // cprintf("%x", (uint8_t)(addr >> 8));
-        // cprintf("%x", (uint8_t)addr);
-
-        // // write data to sector
-        // res[0] = SD_writeSingleBlock(addr, buf, &token);
-
-        // cputs("\r\nResponse:\r\n");
-        // //SD_printR1(res[0]);
-
-        // // if no errors writing
-        // if(res[0] == 0x00)
-        // {
-        //     if(token == SD_DATA_ACCEPTED)
-        //         cputs("Write successful\r\n");
-        // }
+        __asm__ ("jmp (%v)", buf);
     }
 
     while(1) ;

@@ -2,7 +2,7 @@ CC=../cc65/bin/cl65
 CFLAGS=-T -t none -I. --cpu "65C02"
 LDFLAGS=-C link.ld -m $(NAME).map
 
-NAME=bootloader
+NAME=bios
 
 BIN=$(NAME).bin
 HEX=$(NAME).hex
