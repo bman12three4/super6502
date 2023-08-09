@@ -6,8 +6,9 @@
 .export _SD_readBytes
 .export _SD_powerUpSeq
 .export _res1_cmd
+.export _SD_readSingleBlock
 
-.importzp sp, ptr1
+.importzp sp, ptr1, ptr2, ptr3, ptr4, tmp1, tmp2, tmp3
 
 .autoimport on
 
@@ -27,7 +28,7 @@
 
         dey
 arg_loop:                       ; send ARG
-        lda     (sp),y
+        lda     (sp),y          ; is this sending only 3?
         jsr     _spi_exchange      
         dey
         bpl     arg_loop
@@ -187,4 +188,116 @@ read:
         dex                     ; 2
         bne     @L1             ; 3
         rts
+.endproc
+
+; ;uint8_t SD_readSingleBlock(uint32_t addr, uint8_t *buf, uint8_t *token)
+.proc   _SD_readSingleBlock:    near
+        ; token address in a/x
+        ; buf address next on stack
+        ; sd address above that
+        
+        ; ptr2 = *token
+        sta     ptr2
+        stx     ptr2 + 1
+
+        lda     #$ff
+        sta     (ptr2)
+
+        ; ptr1 = *buf
+        jsr     popptr1
+
+        ; 4 bytes on stack are addr
+
+        ; Move addr down on the stack
+        lda     sp
+        sta     ptr3
+        lda     sp + 1
+        sta     ptr3 + 1
+
+        ; find a way to do this in a loop?
+        jsr     decsp1
+        ldy     #$0
+        lda     (ptr3),y
+        sta     (sp),y
+        iny
+        lda     (ptr3),y
+        sta     (sp),y
+        iny
+        lda     (ptr3),y
+        sta     (sp),y
+        iny
+        lda     (ptr3),y
+        sta     (sp),y
+
+        lda     #$ff
+        jsr     _spi_exchange
+        lda     #$00            ; this gets ignored anyway
+        jsr     _spi_select
+        lda     #$ff
+        jsr     _spi_exchange
+
+        ; push cmd17
+        lda     #$11
+        ldy     #$4
+        sta     (sp),y
+
+        ; crc, 0
+        lda     #$00
+        jsr     _SD_command     ; rely on command to teardown stack
+
+        jsr     _SD_readRes1
+
+        cmp     #$ff            ; if 0xFF then you failed
+        beq     end
+        sta     tmp3            ; tmp3 = read
+
+        ; y = read_attempts
+        ldy     #$0
+resp_loop:
+        lda     #$ff
+        jsr     _spi_exchange
+        sta     tmp2            ; tmp2 = read
+        lda     tmp2
+        cmp     #$ff
+        bne     got_resp
+        iny
+        bne     resp_loop
+        bra     after_read
+
+got_resp:
+        ldx     #$2
+        ldy     #$00
+load_loop:
+        lda     #$ff
+        jsr     _spi_exchange
+        sta     (ptr1)
+        inc     ptr1
+        bne     @2
+        inc     ptr1 + 1
+@2:     dey
+        bne     load_loop
+        ldy     #$00
+        dex
+        bne     load_loop
+        lda     #$ff
+        jsr     _spi_exchange
+        lda     #$ff
+        jsr     _spi_exchange
+
+after_read:
+        lda     tmp2
+        sta     (ptr2)
+        lda     tmp3
+
+end:            
+        pha
+        lda     #$ff
+        jsr     _spi_exchange
+        lda     #$00            ; this gets ignored anyway
+        jsr     _spi_deselect
+        lda     #$ff
+        jsr     _spi_exchange
+        pla
+        rts
+
 .endproc

@@ -31,24 +31,17 @@ int main() {
     {
         cputs("Success\r\n");
 
-        // read sector 0
-        cputs("\r\nReading sector: 0x");
-        // ((uint8_t)(addr >> 24));
-        // cprintf("%x", (uint8_t)(addr >> 16));
-        // cprintf("%x", (uint8_t)(addr >> 8));
-        // cprintf("%x", (uint8_t)addr);
-        res[0] = SD_readSingleBlock(addr, buf, &token);
-        cputs("\r\nResponse:\r\n");
-        //SD_printR1(res[0]);
 
+        res[0] = SD_readSingleBlock(addr, buf, &token);
         // if no error, print buffer
         if((res[0] == 0x00) && (token == SD_START_TOKEN))
             SD_printBuf(buf);
         //else if error token received, print
         else if(!(token & 0xF0))
         {
-            cputs("Error token:\r\n");
-            //SD_printDataErrToken(token);
+            cputs("Error\r\n");
+        } else {
+            cprintf("bad token: %x\r\n", token);
         }
 
         __asm__ ("jmp (%v)", buf);
