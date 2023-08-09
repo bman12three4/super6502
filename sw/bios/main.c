@@ -7,7 +7,6 @@
 #include "devices/uart.h"
 #include "devices/sd_card.h"
 #include "devices/sd_print.h"
-#include "filesystem/fat.h"
 
 #define KERNEL_LOAD_ADDR 0xD000
 

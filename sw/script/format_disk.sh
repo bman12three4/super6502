@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BOOTLOADER=../bootloader/bootloader.bin
+BOOTLOADER=../bios/bootloader.bin
 DEVICE=/dev/mmcblk0
 TMPBOOTSECT=/tmp/bootsect
 TMPMOUNT=/tmp/sd

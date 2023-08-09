@@ -11,7 +11,7 @@ LISTS=lists
 TESTS=tests
 
 SRCS=$(wildcard *.s) $(wildcard *.c)
-SRCS+=$(filter-out $(wildcard tests/*), $(wildcard **/*.s)) $(filter-out $(wildcard tests/*) $(wildcard filesystem/*), $(wildcard **/*.c))
+SRCS+=$(filter-out $(wildcard tests/*), $(wildcard **/*.s)) $(filter-out $(wildcard tests/*), $(wildcard **/*.c))
 OBJS+=$(patsubst %.s,%.o,$(filter %s,$(SRCS)))
 OBJS+=$(patsubst %.c,%.o,$(filter %c,$(SRCS)))
 

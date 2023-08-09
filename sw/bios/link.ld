@@ -2,7 +2,7 @@ MEMORY
 {
   ZP:  start = $0,    size = $100,  type = rw, define = yes;
   SDRAM: start = $200, size = $7e00, type = rw, define = yes;
-  BOOTLOADER: start = $8000, size = $1000, type = rw, define = yes;
+  BOOTLOADER: start = $8000, size = $1000, type = rw, define = yes, file = "bootloader.bin";
   ROM: start = $F000, size = $1000, file = %O;
 }
 
@@ -16,6 +16,7 @@ SEGMENTS {
     CODE:     load = ROM, type = ro;
     RODATA:   load = ROM, type = ro;
     VECTORS:  load = ROM, type = ro,  start    = $FFFA;
+    BOOTSECTOR: load = BOOTLOADER, type = rw, start = $8000;
 }
 
 FEATURES {
