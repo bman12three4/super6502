@@ -7,6 +7,8 @@ NAME=bios
 BIN=$(NAME).bin
 HEX=$(NAME).hex
 
+FPGA_IMG=../../hw/efinix_fpga/init_hex.mem
+
 LISTS=lists
 TESTS=tests
 
@@ -19,6 +21,7 @@ all: $(HEX)
 
 $(HEX): $(BIN)
 	objcopy --input-target=binary --output-target=verilog $(BIN) $(HEX)
+	diff $(HEX) $(FPGA_IMG)
 	
 
 $(BIN): $(OBJS)

@@ -28,7 +28,6 @@ FILES
 FORMATS
 {
     o65: os = super, version = 0, type = small,
-            import = LUNIXKERNEL,
             export = _init;
 }
 

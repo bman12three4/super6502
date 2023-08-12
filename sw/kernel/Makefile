@@ -7,6 +7,8 @@ NAME=kernel
 
 O65 = $(NAME).o65
 
+FSDIR=../fsdir
+
 LISTS=lists
 
 SRCS=$(wildcard *.s) $(wildcard *.c)
@@ -16,6 +18,7 @@ OBJS+=$(patsubst %.c,%.o,$(filter %c,$(SRCS)))
 
 # Make sure the kernel linked to correct address, no relocation!
 all: $(O65)
+	cp $(O65) $(FSDIR)
 
 $(O65): $(OBJS)
 	$(LD) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $@
