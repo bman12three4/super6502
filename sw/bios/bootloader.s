@@ -15,6 +15,7 @@ buf  = $8200
 addrh = $0000
 addrl = $0001
 
+
 .segment "BOOTSECTOR"
 
 _start:
@@ -51,9 +52,20 @@ _main:
         ldx #>buf
         jsr _SD_printBuf
 
+        lda #<_reserved_sect
+        ldx #>_reserved_sect
+	jsr pushax
+	lda $800E
+	ldx $800F
+	jsr pushax
+	ldy #$04
+        jsr _cprintf
+
+
 @end:   bra @end
 
-
+_reserved_sect:
+	.asciiz "Reserved Sectors: %x\r\n"
 str: .asciiz "Hello from the bootloader!\r\n"
 
 _end:

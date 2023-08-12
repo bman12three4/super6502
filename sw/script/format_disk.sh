@@ -6,7 +6,8 @@ TMPBOOTSECT=/tmp/bootsect
 TMPMOUNT=/tmp/sd
 
 V=-v
-STATUS="status=none"
+# STATUS="status=none"
+STATUS=
 
 echo "$(tput bold setaf 11)Creating Filesystem$(tput sgr 0)"
 sudo mkfs.vfat -F32 $DEVICE -n SUPER6502 $V

@@ -1,7 +1,8 @@
 MEMORY
 {
   ZP:  start = $0,    size = $100,  type = rw, define = yes;
-  SDRAM: start = $200, size = $7e00, type = rw, define = yes;
+  KERNEL: start = $1000, size = $7000, type = rw, define = yes;
+  SDRAM: start = $9000, size = $5000, type = rw, define = yes;
   BOOTLOADER: start = $8000, size = $1000, type = rw, define = yes, file = "bootloader.bin";
   ROM: start = $F000, size = $1000, file = %O;
 }
