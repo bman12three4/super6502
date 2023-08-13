@@ -71,23 +71,13 @@ _main:
         sta ptr2
         bra @1
 
-@2:     lda #$00
+@2:     ldy #11
+        lda #$00
         sta (ptr2),y
-        lda #<entry
-        ldx #>entry
-        jsr _cputs
-        lda #<name
-        ldx #>name
-        jsr pushax
-        clc
-        tya
-        adc ptr2
+        lda ptr2
         pha
         ldx ptr2 + 1
         phx
-        jsr pushax
-        ldy #$4
-        jsr _cprintf
         lda #<_boot2_str
         ldx #>_boot2_str
         jsr pushax
@@ -107,9 +97,6 @@ _main:
 @end:   bra @end
 
 str: .asciiz "boot\r\n"
-lfn: .asciiz "Found LFN\r\n"
-entry: .asciiz "Found valid entry\r\n"
-name: .asciiz "entry name: %s\r\n"
 _boot2_str: .asciiz "BOOT2   BIN"
 _fail: .asciiz "not bootloader\r\n"
 _good: .asciiz "found bootloader!\r\n"
