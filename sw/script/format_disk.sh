@@ -10,7 +10,7 @@ V=-v
 STATUS=
 
 echo "$(tput bold setaf 11)Creating Filesystem$(tput sgr 0)"
-sudo mkfs.vfat -F32 $DEVICE -n SUPER6502 $V
+sudo mkfs.vfat -I -F32 $DEVICE -n SUPER6502 $V
 echo
 
 echo "$(tput bold setaf 11)Modifying Boot Sector$(tput sgr 0)"

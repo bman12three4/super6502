@@ -34,70 +34,6 @@ _main:
         ldx #>str
         jsr _cputs
 
-        lda #<_fat_count
-        ldx #>_fat_count
-        jsr pushax
-        lda $8010
-        ldx #$0
-        jsr pushax
-        ldy #$04
-        jsr _cprintf
-
-        ; this is offset from bpb?
-
-        lda #<_fat_sectors
-        ldx #>_fat_sectors
-        jsr pushax
-        lda $8026
-        sta sreg
-        ldx $8027
-        stx sreg + 1
-        lda $8024
-        ldx $8025
-        jsr pusheax
-        ldy #$06
-        jsr _cprintf
-
-        lda #<_reserved_sect
-        ldx #>_reserved_sect
-        jsr pushax
-        lda $800E
-        pha
-        ldx $800F
-        jsr pushax
-        ldy #$04
-        jsr _cprintf
-
-        lda #<addrh
-        sta sreg
-        lda #>addrh
-        sta sreg + 1
-        pla
-        clc
-        adc #<addrl
-        ldx #>addrl
-        jsr pusheax
-        lda #<buf
-        ldx #>buf
-        jsr pushax
-        lda #<ptr1
-        ldx #>ptr1
-        jsr _SD_readSingleBlock
-        
-        lda #<buf
-        ldx #>buf
-        jsr _SD_printBuf
-
-        lda #<rd_word
-        ldx #>rd_word
-        jsr pushax
-
-        lda buf
-        ldx #$00
-        jsr pushax
-        ldy #$4
-        jsr _cprintf
-
         ; we need to read from data segment 0, that will be the first directory entry
         ; that has sector offset $00ef_e000
 
@@ -120,16 +56,63 @@ _main:
         jsr _SD_printBuf
 
 
+        lda #$20
+        sta ptr2
+        lda #$82
+        sta ptr2 + 1
+        ldy #$0b
+@1:     lda (ptr2),y
+
+        cmp #$0f
+        bne @2
+        clc
+        lda ptr2
+        adc #$20
+        sta ptr2
+        bra @1
+
+@2:     lda #$00
+        sta (ptr2),y
+        lda #<entry
+        ldx #>entry
+        jsr _cputs
+        lda #<name
+        ldx #>name
+        jsr pushax
+        clc
+        tya
+        adc ptr2
+        pha
+        ldx ptr2 + 1
+        phx
+        jsr pushax
+        ldy #$4
+        jsr _cprintf
+        lda #<_boot2_str
+        ldx #>_boot2_str
+        jsr pushax
+        plx
+        pla
+        jsr _strcmp
+        bne @fail
+        lda #<_good
+        ldx #>_good
+        jsr _cputs
+        bra @end
+
+@fail:  lda #<_fail
+        ldx #>_fail
+        jsr _cputs
+
 @end:   bra @end
 
-_reserved_sect:
-        .asciiz "Reserved Sectors: %x\r\n"
-_fat_sectors:
-        .asciiz "Sectors per fat: %lx\r\n"
-_fat_count:
-        .asciiz "Fat Count: %x\r\n"
-str: .asciiz "Hello from the bootloader!\r\n"
-rd_word: .asciiz "Read: %x\r\n"
+str: .asciiz "boot\r\n"
+lfn: .asciiz "Found LFN\r\n"
+entry: .asciiz "Found valid entry\r\n"
+name: .asciiz "entry name: %s\r\n"
+_boot2_str: .asciiz "BOOT2   BIN"
+_fail: .asciiz "not bootloader\r\n"
+_good: .asciiz "found bootloader!\r\n"
 _end:
 
 .res (440+_start-_end)

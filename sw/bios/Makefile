@@ -21,7 +21,7 @@ all: $(HEX)
 
 $(HEX): $(BIN)
 	objcopy --input-target=binary --output-target=verilog $(BIN) $(HEX)
-	diff $(HEX) $(FPGA_IMG)
+	cmp $(HEX) $(FPGA_IMG)
 	
 
 $(BIN): $(OBJS)
