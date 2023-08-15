@@ -57,26 +57,26 @@ _main:
 
 
         lda #$20
-        sta ptr2
+        sta ptr3
         lda #$82
-        sta ptr2 + 1
+        sta ptr3 + 1
         ldy #$0b
-@1:     lda (ptr2),y
+@1:     lda (ptr3),y
 
         cmp #$0f
         bne @2
         clc
-        lda ptr2
+        lda ptr3
         adc #$20
-        sta ptr2
+        sta ptr3
         bra @1
 
 @2:     ldy #11
         lda #$00
-        sta (ptr2),y
-        lda ptr2
+        sta (ptr3),y
+        lda ptr3
         pha
-        ldx ptr2 + 1
+        ldx ptr3 + 1
         phx
         lda #<_boot2_str
         ldx #>_boot2_str
@@ -88,7 +88,29 @@ _main:
         lda #<_good
         ldx #>_good
         jsr _cputs
+
+
+        lda #<_cluster
+        ldx #>_cluster
+        jsr pushax
+        ldy #$15
+        lda (ptr3),y
+        tax
+        dey
+        lda (ptr3),y
+        jsr pushax
+        ldy #$1b
+        lda (ptr3),y
+        tax
+        dey
+        lda (ptr3),y
+        jsr pushax
+        ldy #$6
+        jsr _cprintf
         bra @end
+        
+; Now we have the cluster number of the bootloader
+
 
 @fail:  lda #<_fail
         ldx #>_fail
@@ -100,6 +122,7 @@ str: .asciiz "boot\r\n"
 _boot2_str: .asciiz "BOOT2   BIN"
 _fail: .asciiz "not bootloader\r\n"
 _good: .asciiz "found bootloader!\r\n"
+_cluster: .asciiz "cluster: %lx\r\n"
 _end:
 
 .res (440+_start-_end)
