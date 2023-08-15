@@ -21,7 +21,16 @@ all: $(HEX)
 
 $(HEX): $(BIN)
 	objcopy --input-target=binary --output-target=verilog $(BIN) $(HEX)
-	cmp $(HEX) $(FPGA_IMG)
+	cmp $(HEX) $(FPGA_IMG); \
+	RETVAL=$$?; \
+    if [ $$RETVAL -eq 0 ]; then \
+            echo "SAME"; \
+    else \
+            echo "NOT SAME"; \
+			cp bios.hex ../../hw/efinix_fpga/init_hex.mem; \
+			echo "Update ROM or rebuild FPGA image!"; \
+    fi
+
 	
 
 $(BIN): $(OBJS)
