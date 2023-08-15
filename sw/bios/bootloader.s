@@ -90,26 +90,70 @@ _main:
         jsr _cputs
 
 
-        lda #<_cluster
-        ldx #>_cluster
-        jsr pushax
-        ldy #$15
-        lda (ptr3),y
-        tax
-        dey
-        lda (ptr3),y
-        jsr pushax
+
         ldy #$1b
         lda (ptr3),y
         tax
         dey
         lda (ptr3),y
+        sec
+        sbc #$02                ; don't handle carry, assume <256
+        ; now a is the cluster num minus 2. We need to multiply this by
+        ; 8 and add it to 0x77f0
+        ; multiply by 8 is asl3
+        ldx #$77
+        asl
+        asl
+        asl
+        clc
+        adc #$f0
+        bcc @3
+        inx
+@3:     pha
+        phx
+
+        lda #$00
+        sta sreg
+        lda #$00
+        sta sreg+1
+        plx
+        pla
+        phx
+        pha
+        jsr pusheax
+        lda #<buf
+        ldx #>buf
         jsr pushax
-        ldy #$6
-        jsr _cprintf
+        lda #<ptr1
+        ldx #>ptr1
+        jsr _SD_readSingleBlock
+
+        lda #$00
+        sta sreg
+        lda #$00
+        sta sreg+1
+        pla
+        plx
+        inc
+        jsr pusheax
+        lda #<buf
+        ldx #>buf
+        inx
+        inx
+        jsr pushax
+        lda #<ptr1
+        ldx #>ptr1
+        jsr _SD_readSingleBlock
+
+
+        jmp buf
+
         bra @end
         
-; Now we have the cluster number of the bootloader
+; Now we have the cluster number of the bootloader (3)
+; this means we need to read from address 00ef_e000 + ((3 -2) * 8 * 512)
+
+; 00eff000 is the address we want, which is efe000 + 4096
 
 
 @fail:  lda #<_fail
