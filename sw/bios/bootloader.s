@@ -5,11 +5,17 @@
 .feature string_escapes
 
 .MACPACK generic
+.MACPACK longbranch
 
 _console_clear          = $0
 _console_read_char      = $2
 _console_write_char     = $4
 _sd_readblock           = $6
+
+sectors_per_cluster     = $800D
+reserved_sectors        = $800E
+fat_count               = $8010
+sectors_per_fat         = $8024
 
 buf  = $8200
 addrh = $0000
@@ -34,15 +40,26 @@ _main:
         ldx #>str
         jsr _cputs
 
-        ; we need to read from data segment 0, that will be the first directory entry
-        ; that has sector offset $00ef_e000
+        lda #<_addr
+        ldx #>_addr
+        jsr pushax
 
-        lda #$00
-        sta sreg
-        lda #$00
-        sta sreg+1
-        lda #$f0
-        ldx #$77
+        lda fat_count
+        cmp #$2
+        jne @fail
+        lda sectors_per_fat
+        asl
+        pha
+        lda sectors_per_fat + 1
+        rol
+        tax
+        pla
+        adc reserved_sectors
+        bcc @a
+        inx
+@a:     jsr pushax
+        stz sreg
+        stz sreg+1
         jsr pusheax
         lda #<buf
         ldx #>buf
@@ -167,6 +184,7 @@ _boot2_str: .asciiz "BOOT2   BIN"
 _fail: .asciiz "not bootloader\r\n"
 _good: .asciiz "found bootloader!\r\n"
 _cluster: .asciiz "cluster: %lx\r\n"
+_addr: .asciiz "addr: %x\r\n"
 _end:
 
 .res (440+_start-_end)
