@@ -21,6 +21,10 @@ buf  = $8200
 addrh = $0000
 addrl = $0000
 
+.zeropage
+
+data_start: .res 2
+
 
 .segment "BOOTSECTOR"
 
@@ -40,10 +44,6 @@ _main:
         ldx #>str
         jsr _cputs
 
-        lda #<_addr
-        ldx #>_addr
-        jsr pushax
-
         lda fat_count
         cmp #$2
         jne @fail
@@ -57,7 +57,9 @@ _main:
         adc reserved_sectors
         bcc @a
         inx
-@a:     jsr pushax
+@a:     sta data_start
+        stx data_start + 1
+        jsr pushax
         stz sreg
         stz sreg+1
         jsr pusheax
@@ -67,76 +69,69 @@ _main:
         lda #<ptr1
         ldx #>ptr1
         jsr _SD_readSingleBlock
-        
+
         lda #<buf
         ldx #>buf
         jsr _SD_printBuf
 
 
-        lda #$20
+        lda #$20       ; Start at first directory entry (first is a disk label)
         sta ptr3
-        lda #$82
+        lda #>buf
         sta ptr3 + 1
-        ldy #$0b
+        ldy #$0b        ; look for attributes
 @1:     lda (ptr3),y
 
-        cmp #$0f
-        bne @2
-        clc
+        cmp #$0f        ; if attribute is 0xf, this is a lfn
+        bne @2          ; if not an lfn, then try to read filename
+        clc             ; otherwise, go to the next entry (+0x20)
         lda ptr3
         adc #$20
         sta ptr3
         bra @1
 
-@2:     ldy #11
+@2:     ldy #11         ; ignore the attributes. Write null to make a string
         lda #$00
         sta (ptr3),y
-        lda ptr3
+        lda ptr3        ; store address of the filename string on the stack
         pha
         ldx ptr3 + 1
         phx
-        lda #<_boot2_str
+        lda #<_boot2_str        ; load the string "BOOT2   BIN"
         ldx #>_boot2_str
         jsr pushax
-        plx
+        plx                     ; then push the string we read earlier
         pla
         jsr _strcmp
-        bne @fail
-        lda #<_good
+        bne @fail               ; if they are not equal then fail
+        lda #<_good             ; TODO: We should try the next entry
         ldx #>_good
-        jsr _cputs
+        jsr _cputs              ; otherwise continue on
 
 
-
-        ldy #$1b
+        ldy #$1b                ; load the high byte of the low first cluster
         lda (ptr3),y
         tax
         dey
-        lda (ptr3),y
+        lda (ptr3),y            ; load the low byte of the low first cluster
+        
         sec
-        sbc #$02                ; don't handle carry, assume <256
-        ; now a is the cluster num minus 2. We need to multiply this by
-        ; 8 and add it to 0x77f0
-        ; multiply by 8 is asl3
-        ldx #$77
-        asl
+        sbc #$02                ; don't handle carry, assume low byte is not 0 or 1
+        ldx data_start + 1      ; load x as high data start
+        asl                     ; multiply cluster num (minus 2) by 8
         asl
         asl
         clc
-        adc #$f0
-        bcc @3
+        adc data_start          ; add that to low data start
+        bcc @3                  ; handle carry
         inx
-@3:     pha
-        phx
-
-        lda #$00
-        sta sreg
-        lda #$00
-        sta sreg+1
-        plx
-        pla
+@3:     stz sreg
+        stz sreg+1
         phx
         pha
+
+
+
         jsr pusheax
         lda #<buf
         ldx #>buf
@@ -145,10 +140,8 @@ _main:
         ldx #>ptr1
         jsr _SD_readSingleBlock
 
-        lda #$00
-        sta sreg
-        lda #$00
-        sta sreg+1
+        stz sreg
+        stz sreg+1
         pla
         plx
         inc
