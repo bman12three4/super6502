@@ -53,7 +53,9 @@ _start:
         lda ptr3
         adc #$20
         sta ptr3
-        lda #<word_str
+        bcc @4
+        inc ptr3 + 1
+@4:     lda #<word_str
         ldx #>word_str
         jsr pushax
         lda ptr3
@@ -78,7 +80,11 @@ _start:
         pha
         ldx ptr3 + 1
         phx
-        ; jsr _cputs              ; print out short filenames as we read them
+        jsr _cputs              ; print out short filenames as we read them
+        lda #$0d
+        jsr _cputc
+        lda #$0a
+        jsr _cputc
         lda #<kernel_str        ; load the string "KERNEL  O65"
         ldx #>kernel_str        
         jsr pushax
