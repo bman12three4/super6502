@@ -8,6 +8,8 @@ BIN=$(NAME).bin
 HEX=$(NAME).hex
 
 FPGA_IMG=../../hw/efinix_fpga/init_hex.mem
+EFX_RUN=/home/byron/Software/efinity/2023.1/scripts/efx_run.py
+EFX_PRJ=/home/byron/Projects/super6502/hw/efinix_fpga/super6502.xml
 
 LISTS=lists
 TESTS=tests
@@ -21,6 +23,7 @@ all: $(HEX)
 
 $(HEX): $(BIN)
 	objcopy --input-target=binary --output-target=verilog $(BIN) $(HEX)
+	cp boot2.bin ../fsdir
 	cmp $(HEX) $(FPGA_IMG); \
 	RETVAL=$$?; \
     if [ $$RETVAL -eq 0 ]; then \

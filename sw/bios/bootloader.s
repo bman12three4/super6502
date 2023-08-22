@@ -1,4 +1,5 @@
 .importzp sp, ptr1, ptr2, ptr3, ptr4, tmp1, tmp2, tmp3, sreg
+.exportzp data_start
 
 .autoimport on
 
