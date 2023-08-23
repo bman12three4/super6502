@@ -96,7 +96,9 @@ _start:
         ldx #>_good
         jsr _cputs              ; otherwise continue on
 
-@3:     jmp @3
+; Now we need to load it into memory. It cannot be just loaded into memory,
+; I think if we have startup be first in the linker script it will always be
+; at the beginning? then we can just copy the text/data segments as is...
 
 ; parse root directory for kernel.o65
         ; load first data cluster (we know this is root.)

@@ -9,14 +9,14 @@ MEMORY
 }
 
 SEGMENTS {
-    ZEROPAGE:   load = ZP,      type = zp, define = yes;
+    ZEROPAGE:   load = ZP,      type = zp, define = yes; 
+    STARTUP:    load = KERNEL,  type = ro;
+    CODE:       load = KERNEL,  type = ro;
+    ONCE:       load = KERNEL,  type = ro, optional = yes;
     DATA:       load = KERNEL,  type = rw, define = yes;
     BSS:        load = KERNEL,  type = rw, define = yes;
     HEAP:       load = KERNEL,  type = rw, define = yes, optional = yes;
-    STARTUP:    load = KERNEL,  type = ro;
-    ONCE:       load = KERNEL,  type = ro, optional = yes;
-    CODE:       load = ROM,     type = ro;
-    RODATA:     load = ROM,     type = ro;
+    RODATA:     load = KERNEL,  type = ro;
     VECTORS:    load = ROM,     type = ro,  start    = $FFFA;
 }
 
