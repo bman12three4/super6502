@@ -17,7 +17,7 @@
 ; ---------------------------------------------------------------------------
 ; Place the startup code in a special segment
 
-.segment "CODE"
+.segment "STARTUP"
 
 ; ---------------------------------------------------------------------------
 ; A little light 6502 housekeeping

@@ -11,13 +11,12 @@ MEMORY
 SEGMENTS {
     ZEROPAGE:   load = ZP,      type = zp, define = yes; 
     STARTUP:    load = KERNEL,  type = ro;
-    CODE:       load = KERNEL,  type = ro;
     ONCE:       load = KERNEL,  type = ro, optional = yes;
+    CODE:       load = KERNEL,  type = ro;
+    RODATA:     load = KERNEL,  type = ro;
     DATA:       load = KERNEL,  type = rw, define = yes;
     BSS:        load = KERNEL,  type = rw, define = yes;
     HEAP:       load = KERNEL,  type = rw, define = yes, optional = yes;
-    RODATA:     load = KERNEL,  type = ro;
-    VECTORS:    load = ROM,     type = ro,  start    = $FFFA;
 }
 
 FILES
@@ -27,7 +26,7 @@ FILES
 
 FORMATS
 {
-    o65: os = super, version = 0, type = small,
+    o65: os = lunix, version = 0, type = small,
             export = _init;
 }
 

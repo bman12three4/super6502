@@ -10,13 +10,13 @@ FILES {
 
 SEGMENTS {
     ZEROPAGE: load = ZP,  type = zp,  define   = yes;
-    DATA:     load = SDRAM, type = rw,  define   = yes, run = SDRAM;
-    BSS:      load = SDRAM, type = bss, define   = yes;
-    HEAP:     load = SDRAM, type = bss, optional = yes;
     STARTUP:  load = SDRAM, type = ro;
     ONCE:     load = SDRAM, type = ro,  optional = yes;
     CODE:     load = SDRAM, type = ro;
     RODATA:   load = SDRAM, type = ro;
+    DATA:     load = SDRAM, type = rw,  define   = yes, run = SDRAM;
+    BSS:      load = SDRAM, type = bss, define   = yes;
+    HEAP:     load = SDRAM, type = bss, optional = yes;
 }
 
 FEATURES {
