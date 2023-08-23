@@ -9,6 +9,10 @@ class O65():
     options: list[(int, int, bytes)] = []
     text: bytes
     data: bytes
+    undef_ref_cnt: int
+    text_reloc: list[(int, int, int)] = []
+    data_reloc: list[(int, int, int)] = []
+    exports: list[(str, int, int)] = []
 
     def __init__(self, filename: str) -> None:
         with open(filename, "rb") as _file:
@@ -36,7 +40,50 @@ class O65():
             self.text = _file.read(self.header["tlen"])
             self.data = _file.read(self.header["dlen"])
 
+            self.undef_ref_cnt = _file.read(2)
 
+            offset = _file.read(1)
+            while offset != b'\x00':
+                offset_val = 0
+                while offset == b'\xff':
+                    offset = _file.read(1)
+                    offset_val += int.from_bytes(offset) - 1
+                offset_val += int.from_bytes(offset)
+                typebyte = int.from_bytes(_file.read(1))
+                lobyte = None
+                if typebyte & 0x40:
+                    lobyte = int.from_bytes(_file.read(1))
+                self.text_reloc.append((offset_val, typebyte, lobyte))
+                offset = _file.read(1)
+
+
+            offset = _file.read(1)
+            while offset != b'\x00':
+                offset_val = 0
+                while offset == b'\xff':
+                    offset = _file.read(1)
+                    offset_val += int.from_bytes(offset) - 1
+                offset_val += int.from_bytes(offset)
+                typebyte = int.from_bytes(_file.read(1))
+                lobyte = None
+                if typebyte & 0x40:
+                    lobyte = int.from_bytes(_file.read(1))
+                self.data_reloc.append((offset_val, typebyte, lobyte))
+                offset = _file.read(1)
+
+            export_count = int.from_bytes(_file.read(2), byteorder="little")
+            for _ in range(export_count):
+                name: bytearray = bytearray()
+                data = 0
+                while True:
+                    data = _file.read(1)
+                    if data != b"\x00":
+                        name.extend(data)
+                    else:
+                        break
+                segment = int.from_bytes(_file.read(1))
+                value = int.from_bytes(_file.read(2), byteorder="little")
+                self.exports.append((name.decode(), segment, value))
 
 
 def main() -> None:
@@ -55,5 +102,9 @@ def main() -> None:
     with open("text.bin", "wb") as textfile:
         textfile.write(o65.text)
 
+    for item in o65.exports:
+        print(f"Name: {item[0]} Addr: {item[2]:#x}")
+
 if __name__ == "__main__":
     main()
+

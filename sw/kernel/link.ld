@@ -26,7 +26,7 @@ FILES
 
 FORMATS
 {
-    o65: os = lunix, version = 0, type = small,
+    o65: os = super, version = 0, type = small,
             export = _init;
 }
 
@@ -45,3 +45,4 @@ SYMBOLS {
     __STACKSIZE__:  value = $0E00, type = weak;
     __STACKSTART__: type = weak, value = $0800;
 }
+
