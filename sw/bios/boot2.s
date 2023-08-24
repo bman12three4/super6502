@@ -9,6 +9,7 @@
 .MACPACK generic
 
 fatbuf                  = $A000
+filebuf                 = $B000
 
 .segment "BOOTLOADER"
 
@@ -96,22 +97,57 @@ _start:
         ldx #>_good
         jsr _cputs              ; otherwise continue on
 
-; Now we need to load it into memory. It cannot be just loaded into memory,
-; I think if we have startup be first in the linker script it will always be
-; at the beginning? then we can just copy the text/data segments as is...
+        lda #<word_str
+        ldx #>word_str
+        jsr pushax
 
-; parse root directory for kernel.o65
-        ; load first data cluster (we know this is root.)
-        ; If kernel is not in this then we can go read the FAT
-        ; later. Saves time if kernel is near beginning
+        ldy #$1d                ; load file size (256)
+        lda (ptr3),y
+        lsr                     ; divide by 2 to get file size (512)
+        jsr pusha0
+        ldy #$4
+        jsr _cprintf
 
-        ; bootsector should still be loaded at $8000
-        ; data start should still be valid
+        ldy #$1b                ; load high byte of low first cluster
+        lda (ptr3),y
+        tax
+        dey
+        lda (ptr3),y            ; load low byte of low first cluster
 
+        ldx data_start + 1
+        sec
+        sbc #$02
+        bcs @3
+        dex
+@3:     asl
+        asl
+        asl
+        clc
+        adc data_start
+        bcc @5
+        inx
+@5:     stz sreg                ; data start is not going to be > 2^16
+        stz sreg + 1            ; (I hope)
+        phx
+        pha
+
+        jsr pusheax
+        lda #<filebuf
+        ldx #>filebuf
+        jsr pushax
+        lda #<ptr1
+        ldx #>ptr1
+        jsr _SD_readSingleBlock
+
+        lda #<filebuf
+        ldx #>filebuf
+        jsr _SD_printBuf
+
+@end:   bra @end
 
 
 
 str: .asciiz "boot2\r\n"
 kernel_str: .asciiz "KERNEL  O65"
-_good: .asciiz "Found KERNEL"
+_good: .asciiz "Found KERNEL\r\n"
 word_str: .asciiz "Word Value: %x\r\n"
