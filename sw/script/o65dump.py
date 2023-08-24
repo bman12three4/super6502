@@ -42,34 +42,8 @@ class O65():
 
             self.undef_ref_cnt = _file.read(2)
 
-            offset = _file.read(1)
-            while offset != b'\x00':
-                offset_val = 0
-                while offset == b'\xff':
-                    offset = _file.read(1)
-                    offset_val += int.from_bytes(offset) - 1
-                offset_val += int.from_bytes(offset)
-                typebyte = int.from_bytes(_file.read(1))
-                lobyte = None
-                if typebyte & 0x40:
-                    lobyte = int.from_bytes(_file.read(1))
-                self.text_reloc.append((offset_val, typebyte, lobyte))
-                offset = _file.read(1)
-
-
-            offset = _file.read(1)
-            while offset != b'\x00':
-                offset_val = 0
-                while offset == b'\xff':
-                    offset = _file.read(1)
-                    offset_val += int.from_bytes(offset) - 1
-                offset_val += int.from_bytes(offset)
-                typebyte = int.from_bytes(_file.read(1))
-                lobyte = None
-                if typebyte & 0x40:
-                    lobyte = int.from_bytes(_file.read(1))
-                self.data_reloc.append((offset_val, typebyte, lobyte))
-                offset = _file.read(1)
+            self.text_reloc = self._parse_reloc(_file)
+            self.data_reloc = self._parse_reloc(_file)
 
             export_count = int.from_bytes(_file.read(2), byteorder="little")
             for _ in range(export_count):
@@ -84,6 +58,23 @@ class O65():
                 segment = int.from_bytes(_file.read(1))
                 value = int.from_bytes(_file.read(2), byteorder="little")
                 self.exports.append((name.decode(), segment, value))
+
+    def _parse_reloc(self, fd: io.BufferedReader) -> list[(int, int, int)]:
+        reloc: list[(int, int, int)] = []
+        offset = fd.read(1)
+        while offset != b'\x00':
+            offset_val = 0
+            while offset == b'\xff':
+                offset = fd.read(1)
+                offset_val += int.from_bytes(offset) - 1
+            offset_val += int.from_bytes(offset)
+            typebyte = int.from_bytes(fd.read(1))
+            lobyte = None
+            if typebyte & 0x40:
+                lobyte = int.from_bytes(fd.read(1))
+            reloc.append((offset_val, typebyte, lobyte))
+            offset = fd.read(1)
+        return reloc
 
 
 def main() -> None:
