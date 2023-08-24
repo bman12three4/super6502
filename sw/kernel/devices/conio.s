@@ -6,7 +6,7 @@
 .export _cputc
 .export gotoxy
 .export _clrscr
-.export _cgetc
+;.export _cgetc
 
 .autoimport	on
 
@@ -53,8 +53,8 @@ _clrscr:
         pla
         rts
 
-_cgetc:
-@2:     lda _lastchar
-        beq @2
-        stz _lastchar
-        rts
+;_cgetc:
+;@2:     lda _lastchar
+;        beq @2
+;        stz _lastchar
+;        rts

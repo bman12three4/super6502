@@ -7,6 +7,7 @@
 ; Checks for a BRK instruction and returns from all valid interrupts.
 
 .import   _handle_irq
+.import _cputc, _clrscr
 
 .export   _irq_int, _nmi_int
 
@@ -44,5 +45,56 @@ irq:       PLA                    ; Restore accumulator contents
 ; ---------------------------------------------------------------------------
 ; BRK detected, stop
 
-break:     JMP break              ; If BRK is detected, something very bad
-                                  ;   has happened, so stop running
+break:
+        pla
+        plx
+        jmp (bios_table,x)
+
+
+bios_table:
+        .addr   _console_clear
+        .addr   _console_read_char
+        .addr   _console_write_char
+
+
+_console_clear:
+        jsr _clrscr
+        rti
+
+_console_read_char:
+        ; not supported
+        rti
+
+_console_write_char:
+        jsr _cputc
+        rti
+
+
+
+; What functions do we need?
+; UART
+;   clear
+;   write character
+;   read character
+; DISK
+;   init (or should it just init on boot?)
+;   read sector into memory
+; FS
+;   init (if disk init succeeds, should it always try?)
+;   find add
+
+; I think that is all we need for now?
+; How do we call the functions?
+
+; we have to call `brk` to trigger the interrupt
+; in any of the three registers we can have arguments
+; or we could have them pushed to the stack, assuming
+; the stack is in the same location
+; Or you could pass a pointer which points to an array
+; of arguments
+
+; for things like clear, read/write character, and init you don't
+; need any arguments.
+
+; jump table index needs to be in x, but also needs to be a multiple
+; of 2.

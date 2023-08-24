@@ -8,7 +8,7 @@
 .import   _main
 
 .export   __STARTUP__ : absolute = 1        ; Mark as startup
-.import   __SDRAM_START__, __SDRAM_SIZE__       ; Linker generated
+.import   __STACKSTART__, __STACKSIZE__       ; Linker generated
 
 .import    copydata, zerobss, initlib, donelib
 
@@ -17,7 +17,7 @@
 ; ---------------------------------------------------------------------------
 ; Place the startup code in a special segment
 
-.segment  "STARTUP"
+.segment "STARTUP"
 
 ; ---------------------------------------------------------------------------
 ; A little light 6502 housekeeping
@@ -29,10 +29,9 @@ _init:    LDX     #$FF                 ; Initialize stack pointer to $01FF
 ; ---------------------------------------------------------------------------
 ; Set cc65 argument stack pointer
 
-          ;LDA     #<(__SDRAM_START__ + __SDRAM_SIZE__)
-          lda     #<($200 + $7cf0)
+          LDA     #<(__STACKSTART__ + __STACKSIZE__)
           STA     sp
-          LDA     #>($200 + $7cf0)
+          LDA     #>(__STACKSTART__ + __STACKSIZE__)
           STA     sp+1
 
 ; ---------------------------------------------------------------------------

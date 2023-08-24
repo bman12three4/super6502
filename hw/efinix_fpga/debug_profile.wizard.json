@@ -3,7 +3,7 @@
         {
             "name": "la0",
             "type": "la",
-            "uuid": "fc5ad0b7db9846e2b64719110e7975d8",
+            "uuid": "376f85320e7b4d47a35d93dea8b58f08",
             "trigin_en": false,
             "trigout_en": false,
             "auto_inserted": true,
@@ -22,47 +22,42 @@
                     "probe_type": 1
                 },
                 {
-                    "name": "cpu_sync",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "cpu_resb",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
                     "name": "cpu_addr",
                     "width": 16,
                     "probe_type": 1
                 },
                 {
-                    "name": "cpu_phi2",
+                    "name": "cpu_sync",
                     "width": 1,
                     "probe_type": 1
                 },
                 {
-                    "name": "spi_clk",
+                    "name": "cpu_rdy",
                     "width": 1,
                     "probe_type": 1
                 },
                 {
-                    "name": "spi_mosi",
+                    "name": "spi_controller/r_input_data",
+                    "width": 8,
+                    "probe_type": 1
+                },
+                {
+                    "name": "spi_controller/r_output_data",
+                    "width": 8,
+                    "probe_type": 1
+                },
+                {
+                    "name": "spi_controller/o_spi_clk",
                     "width": 1,
                     "probe_type": 1
                 },
                 {
-                    "name": "sd_cs",
+                    "name": "spi_controller/o_spi_mosi",
                     "width": 1,
                     "probe_type": 1
                 },
                 {
-                    "name": "spi_miso",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "spi_controller/active",
+                    "name": "spi_controller/i_spi_miso",
                     "width": 1,
                     "probe_type": 1
                 }
@@ -192,7 +187,7 @@
                     },
                     {
                         "name": "la0_clk",
-                        "net": "clk_50",
+                        "net": "clk_2",
                         "path": []
                     },
                     {
@@ -241,123 +236,224 @@
                         "path": []
                     },
                     {
-                        "name": "la0_probe2",
-                        "net": "cpu_sync",
-                        "path": []
-                    },
-                    {
-                        "name": "la0_probe3",
-                        "net": "cpu_resb",
-                        "path": []
-                    },
-                    {
-                        "name": "la0_probe4[0]",
+                        "name": "la0_probe2[0]",
                         "net": "cpu_addr[0]",
                         "path": []
                     },
                     {
-                        "name": "la0_probe4[1]",
+                        "name": "la0_probe2[1]",
                         "net": "cpu_addr[1]",
                         "path": []
                     },
                     {
-                        "name": "la0_probe4[2]",
+                        "name": "la0_probe2[2]",
                         "net": "cpu_addr[2]",
                         "path": []
                     },
                     {
-                        "name": "la0_probe4[3]",
+                        "name": "la0_probe2[3]",
                         "net": "cpu_addr[3]",
                         "path": []
                     },
                     {
-                        "name": "la0_probe4[4]",
+                        "name": "la0_probe2[4]",
                         "net": "cpu_addr[4]",
                         "path": []
                     },
                     {
-                        "name": "la0_probe4[5]",
+                        "name": "la0_probe2[5]",
                         "net": "cpu_addr[5]",
                         "path": []
                     },
                     {
-                        "name": "la0_probe4[6]",
+                        "name": "la0_probe2[6]",
                         "net": "cpu_addr[6]",
                         "path": []
                     },
                     {
-                        "name": "la0_probe4[7]",
+                        "name": "la0_probe2[7]",
                         "net": "cpu_addr[7]",
                         "path": []
                     },
                     {
-                        "name": "la0_probe4[8]",
+                        "name": "la0_probe2[8]",
                         "net": "cpu_addr[8]",
                         "path": []
                     },
                     {
-                        "name": "la0_probe4[9]",
+                        "name": "la0_probe2[9]",
                         "net": "cpu_addr[9]",
                         "path": []
                     },
                     {
-                        "name": "la0_probe4[10]",
+                        "name": "la0_probe2[10]",
                         "net": "cpu_addr[10]",
                         "path": []
                     },
                     {
-                        "name": "la0_probe4[11]",
+                        "name": "la0_probe2[11]",
                         "net": "cpu_addr[11]",
                         "path": []
                     },
                     {
-                        "name": "la0_probe4[12]",
+                        "name": "la0_probe2[12]",
                         "net": "cpu_addr[12]",
                         "path": []
                     },
                     {
-                        "name": "la0_probe4[13]",
+                        "name": "la0_probe2[13]",
                         "net": "cpu_addr[13]",
                         "path": []
                     },
                     {
-                        "name": "la0_probe4[14]",
+                        "name": "la0_probe2[14]",
                         "net": "cpu_addr[14]",
                         "path": []
                     },
                     {
-                        "name": "la0_probe4[15]",
+                        "name": "la0_probe2[15]",
                         "net": "cpu_addr[15]",
                         "path": []
                     },
                     {
-                        "name": "la0_probe5",
-                        "net": "cpu_phi2",
+                        "name": "la0_probe3",
+                        "net": "cpu_sync",
                         "path": []
                     },
                     {
-                        "name": "la0_probe6",
-                        "net": "spi_clk",
+                        "name": "la0_probe4",
+                        "net": "cpu_rdy",
                         "path": []
+                    },
+                    {
+                        "name": "la0_probe5[0]",
+                        "net": "r_input_data[0]",
+                        "path": [
+                            "spi_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe5[1]",
+                        "net": "r_input_data[1]",
+                        "path": [
+                            "spi_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe5[2]",
+                        "net": "r_input_data[2]",
+                        "path": [
+                            "spi_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe5[3]",
+                        "net": "r_input_data[3]",
+                        "path": [
+                            "spi_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe5[4]",
+                        "net": "r_input_data[4]",
+                        "path": [
+                            "spi_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe5[5]",
+                        "net": "r_input_data[5]",
+                        "path": [
+                            "spi_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe5[6]",
+                        "net": "r_input_data[6]",
+                        "path": [
+                            "spi_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe5[7]",
+                        "net": "r_input_data[7]",
+                        "path": [
+                            "spi_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[0]",
+                        "net": "r_output_data[0]",
+                        "path": [
+                            "spi_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[1]",
+                        "net": "r_output_data[1]",
+                        "path": [
+                            "spi_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[2]",
+                        "net": "r_output_data[2]",
+                        "path": [
+                            "spi_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[3]",
+                        "net": "r_output_data[3]",
+                        "path": [
+                            "spi_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[4]",
+                        "net": "r_output_data[4]",
+                        "path": [
+                            "spi_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[5]",
+                        "net": "r_output_data[5]",
+                        "path": [
+                            "spi_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[6]",
+                        "net": "r_output_data[6]",
+                        "path": [
+                            "spi_controller"
+                        ]
+                    },
+                    {
+                        "name": "la0_probe6[7]",
+                        "net": "r_output_data[7]",
+                        "path": [
+                            "spi_controller"
+                        ]
                     },
                     {
                         "name": "la0_probe7",
-                        "net": "spi_mosi",
-                        "path": []
+                        "net": "o_spi_clk",
+                        "path": [
+                            "spi_controller"
+                        ]
                     },
                     {
                         "name": "la0_probe8",
-                        "net": "sd_cs",
-                        "path": []
+                        "net": "o_spi_mosi",
+                        "path": [
+                            "spi_controller"
+                        ]
                     },
                     {
                         "name": "la0_probe9",
-                        "net": "spi_miso",
-                        "path": []
-                    },
-                    {
-                        "name": "la0_probe10",
-                        "net": "active",
+                        "net": "i_spi_miso",
                         "path": [
                             "spi_controller"
                         ]
@@ -380,7 +476,7 @@
                 {
                     "name": "cpu_data_in",
                     "width": 8,
-                    "clk_domain": "clk_50",
+                    "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
                     "path": [],
@@ -390,23 +486,7 @@
                 {
                     "name": "cpu_rwb",
                     "width": 1,
-                    "clk_domain": "clk_50",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": []
-                },
-                {
-                    "name": "cpu_sync",
-                    "width": 1,
-                    "clk_domain": "clk_50",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": []
-                },
-                {
-                    "name": "cpu_resb",
-                    "width": 1,
-                    "clk_domain": "clk_50",
+                    "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
                     "path": []
@@ -414,7 +494,7 @@
                 {
                     "name": "cpu_addr",
                     "width": 16,
-                    "clk_domain": "clk_50",
+                    "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
                     "path": [],
@@ -422,49 +502,69 @@
                     "net_idx_right": 0
                 },
                 {
-                    "name": "cpu_phi2",
+                    "name": "cpu_sync",
                     "width": 1,
-                    "clk_domain": "clk_50",
+                    "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
                     "path": []
                 },
                 {
-                    "name": "spi_clk",
+                    "name": "cpu_rdy",
                     "width": 1,
-                    "clk_domain": "clk_50",
+                    "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
                     "path": []
                 },
                 {
-                    "name": "spi_mosi",
-                    "width": 1,
-                    "clk_domain": "clk_50",
+                    "name": "r_input_data",
+                    "width": 8,
+                    "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
-                    "path": []
+                    "path": [
+                        "spi_controller"
+                    ],
+                    "net_idx_left": 7,
+                    "net_idx_right": 0
                 },
                 {
-                    "name": "sd_cs",
-                    "width": 1,
-                    "clk_domain": "clk_50",
+                    "name": "r_output_data",
+                    "width": 8,
+                    "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
-                    "path": []
+                    "path": [
+                        "spi_controller"
+                    ],
+                    "net_idx_left": 7,
+                    "net_idx_right": 0
                 },
                 {
-                    "name": "spi_miso",
+                    "name": "o_spi_clk",
                     "width": 1,
-                    "clk_domain": "clk_50",
+                    "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
-                    "path": []
+                    "path": [
+                        "spi_controller"
+                    ]
                 },
                 {
-                    "name": "active",
+                    "name": "o_spi_mosi",
                     "width": 1,
-                    "clk_domain": "clk_50",
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [
+                        "spi_controller"
+                    ]
+                },
+                {
+                    "name": "i_spi_miso",
+                    "width": 1,
+                    "clk_domain": "clk_2",
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
                     "path": [

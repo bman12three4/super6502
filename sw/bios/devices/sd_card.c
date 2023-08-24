@@ -276,56 +276,58 @@ void SD_sendStatus(uint8_t *res)
  token = 0x0X - Data error
  token = 0xFF - timeout
 *******************************************************************************/
-uint8_t SD_readSingleBlock(uint32_t addr, uint8_t *buf, uint8_t *token)
-{
-    uint8_t res1, read;
-    uint16_t readAttempts;
-    uint16_t i;
+// uint8_t SD_readSingleBlock(uint32_t addr, uint8_t *buf, uint8_t *token)
+// {
+//     uint8_t res1, read;
+//     uint16_t readAttempts;
+//     uint16_t i;
 
-    // set token to none
-    *token = 0xFF;
+//     // set token to none
+//     *token = 0xFF;
 
-    // assert chip select
-    spi_exchange(0xFF);
-    spi_select(0);
-    spi_exchange(0xFF);
+//     // assert chip select
+//     spi_exchange(0xFF);
+//     spi_select(0);
+//     spi_exchange(0xFF);
 
-    // send CMD17
-    SD_command(CMD17, addr, CMD17_CRC);
+//     // send CMD17
+//     SD_command(CMD17, addr, CMD17_CRC);
 
-    // read R1
-    res1 = SD_readRes1();
+//     // read R1
+//     res1 = SD_readRes1();
 
-    // if response received from card
-    if(res1 != 0xFF)
-    {
-        // wait for a response token (timeout = 100ms)
-        readAttempts = 0;
-        while(++readAttempts != SD_MAX_READ_ATTEMPTS)
-            if((read = spi_exchange(0xFF)) != 0xFF) break;
+//     // if response received from card
+//     if(res1 != 0xFF)
+//     {
+//         // wait for a response token (timeout = 100ms)
+//         readAttempts = 0;
+//         while(++readAttempts != SD_MAX_READ_ATTEMPTS)
+//             if((read = spi_exchange(0xFF)) != 0xFF) break;
 
-        // if response token is 0xFE
-        if(read == SD_START_TOKEN)
-        {
-            // read 512 byte block
-            for(i = 0; i < SD_BLOCK_LEN; i++) *buf++ = spi_exchange(0xFF);
+//         cprintf("read attempts: %d\r\n", readAttempts);
 
-            // read 16-bit CRC
-            spi_exchange(0xFF);
-            spi_exchange(0xFF);
-        }
+//         // if response token is 0xFE
+//         if(read == SD_START_TOKEN)
+//         {
+//             // read 512 byte block
+//             for(i = 0; i < SD_BLOCK_LEN; i++) *buf++ = spi_exchange(0xFF);
 
-        // set token to card response
-        *token = read;
-    }
+//             // read 16-bit CRC
+//             spi_exchange(0xFF);
+//             spi_exchange(0xFF);
+//         }
 
-    // deassert chip select
-    spi_exchange(0xFF);
-    spi_deselect(0);
-    spi_exchange(0xFF);
+//         // set token to card response
+//         *token = read;
+//     }
 
-    return res1;
-}
+//     // deassert chip select
+//     spi_exchange(0xFF);
+//     spi_deselect(0);
+//     spi_exchange(0xFF);
+
+//     return res1;
+// }
 
 #define SD_MAX_WRITE_ATTEMPTS   3907
 

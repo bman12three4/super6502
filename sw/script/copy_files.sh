@@ -1,8 +1,8 @@
 DEVICE=/dev/mmcblk0
 TMPMOUNT=/tmp/sd
-FSDIR=fsdir
+FSDIR=../fsdir
 
-V=
+V=-v
 
 echo "$(tput bold setaf 11)Mounting Device$(tput sgr 0)"
 mkdir $V -p $TMPMOUNT

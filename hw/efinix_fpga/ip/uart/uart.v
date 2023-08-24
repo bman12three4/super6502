@@ -43,7 +43,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-`define IP_UUID _8d7ceb45e0e64e208e634a02f6a59365
+`define IP_UUID _d5f4d7c01b1345bca7e33275f3464327
 `define IP_NAME_CONCAT(a,b) a``b
 `define IP_MODULE_NAME(name) `IP_NAME_CONCAT(name,`IP_UUID)
 module uart (

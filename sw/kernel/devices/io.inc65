@@ -1,18 +1,13 @@
-SEVEN_SEG   = $7ff0
-
-UART        = $7ff4
+UART        = $efe6
 UART_TXB    = UART
 UART_RXB    = UART
 UART_STATUS = UART + 1
 
-LED         = $7ff6
+LED         = $efff
 SW          = LED
 
-MM_CTRL		= $7ff7
-MM_DATA		= $7fe0
-
-SD_ARG      = $7ff8
-SD_CMD      = $7ffc
-SD_DATA     = $7ffd
-
-IRQ_STATUS  = $7fff
+SPI_BAUD    = $efd8
+SPI_INPUT   = $efd9
+SPI_OUTPUT  = $efda
+SPI_CTRL    = $efdb
+SPI_STATUS  = SPI_CTRL
