@@ -101,6 +101,11 @@ _start:
         ldx #>word_str
         jsr pushax
 
+        lda ptr3
+        pha
+        lda ptr3 + 1
+        pha
+
         ldy #$1d                ; load file size (256)
         lda (ptr3),y
         lsr                     ; divide by 2 to get file size (512)
@@ -108,26 +113,29 @@ _start:
         ldy #$4
         jsr _cprintf
 
+        pla
+        sta ptr3 + 1
+        pla
+        sta ptr3
+
         ldy #$1b                ; load high byte of low first cluster
         lda (ptr3),y
         tax
         dey
         lda (ptr3),y            ; load low byte of low first cluster
 
-        ldx data_start + 1
         sec
-        sbc #$02
-        bcs @3
-        dex
-@3:     asl
+        sbc #$02                ; don't handle carry, assume low byte is not 0 or 1
+        ldx data_start + 1      ; load x as high data start
+        asl                     ; multiply cluster num (minus 2) by 8
         asl
         asl
         clc
-        adc data_start
-        bcc @5
+        adc data_start          ; add that to low data start
+        bcc @5                  ; handle carry
         inx
-@5:     stz sreg                ; data start is not going to be > 2^16
-        stz sreg + 1            ; (I hope)
+@5:     stz sreg
+        stz sreg+1
         phx
         pha
 
