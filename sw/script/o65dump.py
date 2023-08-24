@@ -90,8 +90,8 @@ def main() -> None:
     for option in o65.options:
         print(f"Type: {option[1]}, Data: {option[2]}")
 
-    with open("text.bin", "wb") as textfile:
-        textfile.write(o65.text)
+    print(f"Text size: {len(o65.text)}")
+    print(f"Data size: {len(o65.data)}")
 
     for item in o65.exports:
         print(f"Name: {item[0]} Addr: {item[2]:#x}")
