@@ -37,6 +37,9 @@ class O65():
                 self.options.append((olen, otype, obytes))
                 olen = int.from_bytes(_file.read(1))
 
+            text_offs = _file.tell()
+            print(f"Text offset: {text_offs}")
+
             self.text = _file.read(self.header["tlen"])
             self.data = _file.read(self.header["dlen"])
 

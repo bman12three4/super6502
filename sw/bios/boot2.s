@@ -205,10 +205,12 @@ _start:
         stx dlen + 1
 
         ldy #O65_OPT_START
+        phy
 @opt_len:
         lda #<opt_str
         ldx #>opt_str
         jsr pushax
+        ply
         lda filebuf,y
         beq @opt_end
         sta olen
@@ -220,12 +222,30 @@ _start:
         sta otype
         phy
         jsr pusha0
-        ply
         ldy #$6
         jsr _cprintf
 
+        lda #<word_str
+        ldx #>word_str
+        jsr pushax
+
+        pla
+        adc olen
+        dec
+        dec
+        pha
+        bra @opt_len
+
 @opt_end:
-        ; do something
+        iny             ; account for reading size
+        phy
+        lda #<opt_done
+        ldx #>opt_done
+        jsr pushax
+        pla
+        jsr pusha0
+        ldy #$4
+        jsr _cprintf
 
 @end:   bra @end
 
@@ -237,3 +257,4 @@ _good: .asciiz "Found KERNEL\r\n"
 word_str: .asciiz "Word Value: %x\r\n"
 
 opt_str: .asciiz "Opt Len: %x, Opt Type: %x\r\n"
+opt_done: .asciiz "Options done. total option length: %x\r\n"
