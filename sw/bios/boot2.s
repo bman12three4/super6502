@@ -11,12 +11,34 @@
 fatbuf                  = $A000
 filebuf                 = $B000
 
+.zeropage
+
+tbase:  .res 2
+tlen:   .res 2
+dbase:  .res 2
+dlen:   .res 2
+
+
 .segment "BOOTLOADER"
 
 sectors_per_cluster     = $800D
 reserved_sectors        = $800E
 fat_count               = $8010
 sectors_per_fat         = $8024
+
+O65_NO_C65              = $00
+O65_MAGIC               = $02
+O65_VERSION             = $05
+O65_MODE                = $06
+O65_TBASE               = $08
+O65_TLEN                = $0a
+O65_DBASE               = $0c
+O65_DLEN                = $0e
+O65_BBASE               = $10
+O65_BLEN                = $12
+O65_ZBASE               = $14
+O65_ZLEN                = $16
+O65_STACK               = $18
 
 _start:
         lda #<str
@@ -150,6 +172,60 @@ _start:
         lda #<filebuf
         ldx #>filebuf
         jsr _SD_printBuf
+
+        lda #<word_str
+        ldx #>word_str
+        jsr pushax
+        ldy #O65_TBASE
+        lda filebuf,y
+        sta tbase
+        iny
+        ldx filebuf,y
+        stx tbase + 1
+        jsr pushax
+        ldy #$4
+        jsr _cprintf
+
+        lda #<word_str
+        ldx #>word_str
+        jsr pushax
+        ldy #O65_TLEN
+        lda filebuf,y
+        sta tlen
+        iny
+        ldx filebuf,y
+        stx tlen + 1
+        jsr pushax
+        ldy #$4
+        jsr _cprintf
+
+
+        lda #<word_str
+        ldx #>word_str
+        jsr pushax
+        ldy #O65_DBASE
+        lda filebuf,y
+        sta dbase
+        iny
+        ldx filebuf,y
+        stx dbase + 1
+        jsr pushax
+        ldy #$4
+        jsr _cprintf
+
+        lda #<word_str
+        ldx #>word_str
+        jsr pushax
+        ldy #O65_DLEN
+        lda filebuf,y
+        sta dlen
+        iny
+        ldx filebuf,y
+        stx dlen + 1
+        jsr pushax
+        ldy #$4
+        jsr _cprintf
+
 
 @end:   bra @end
 
