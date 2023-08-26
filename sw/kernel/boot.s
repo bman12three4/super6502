@@ -5,7 +5,7 @@
 ; Startup code for cc65 (Single Board Computer version)
 
 .export   _init, _exit
-.import   _main
+.import   _main, _cputc
 
 .export   __STARTUP__ : absolute = 1        ; Mark as startup
 .import   __STACKSTART__, __STACKSIZE__       ; Linker generated
@@ -22,7 +22,12 @@
 ; ---------------------------------------------------------------------------
 ; A little light 6502 housekeeping
 
-_init:    LDX     #$FF                 ; Initialize stack pointer to $01FF
+_init:    
+            lda #'A'
+            jsr _cputc
+@1:         jmp @1
+
+          LDX     #$FF                 ; Initialize stack pointer to $01FF
           TXS
           CLD                          ; Clear decimal mode
 

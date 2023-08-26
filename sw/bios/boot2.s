@@ -11,7 +11,7 @@
 fatbuf                  = $A000
 filebuf                 = $B000
 
-.zeropage
+.bss
 
 tbase:  .res 2
 tlen:   .res 2
@@ -19,6 +19,11 @@ dbase:  .res 2
 dlen:   .res 2
 olen:   .res 1
 otype:  .res 1
+
+filesiz: .res 1
+cluster: .res 2
+
+.zeropage
 
 userptr:        .res 2
 
@@ -283,8 +288,6 @@ _start:
         ldy #$4
         jsr _cprintf
 
-        ;void* __fastcall__ memcpy (void* dest, const void* src, size_t count);
-
         lda tbase
         ldx tbase + 1
         jsr pushax
@@ -299,11 +302,38 @@ _start:
         ldx #>$1000
         jsr _SD_printBuf
 
+        lda userptr + 1
+        adc tlen + 1
+        tax
+        lda userptr
+        adc tlen
+        bcc @7
+        inx
+@7:     sta userptr
+        stx userptr + 1
+        lda #<word_str
+        ldx #>word_str
+        jsr pushax
+        lda userptr
+        ldx userptr + 1
+        jsr pushax
+        ldy #$4
+        jsr _cprintf
+
+        lda dbase
+        ldx dbase + 1
+        jsr pushax
+        lda userptr
+        ldx userptr + 1
+        jsr pushax
+        lda dlen
+        ldx dlen + 1
+        jsr _memcpy
+
+        jmp $1000
+
 @end:   bra @end
 
-
-filesiz: .res 1
-cluster: .res 2
 
 str: .asciiz "boot2\r\n"
 kernel_str: .asciiz "KERNEL  O65"

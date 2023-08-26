@@ -3,7 +3,7 @@
         {
             "name": "la0",
             "type": "la",
-            "uuid": "376f85320e7b4d47a35d93dea8b58f08",
+            "uuid": "bf43fc588d24492a92af49261253b787",
             "trigin_en": false,
             "trigout_en": false,
             "auto_inserted": true,
@@ -33,31 +33,6 @@
                 },
                 {
                     "name": "cpu_rdy",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "spi_controller/r_input_data",
-                    "width": 8,
-                    "probe_type": 1
-                },
-                {
-                    "name": "spi_controller/r_output_data",
-                    "width": 8,
-                    "probe_type": 1
-                },
-                {
-                    "name": "spi_controller/o_spi_clk",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "spi_controller/o_spi_mosi",
-                    "width": 1,
-                    "probe_type": 1
-                },
-                {
-                    "name": "spi_controller/i_spi_miso",
                     "width": 1,
                     "probe_type": 1
                 }
@@ -324,139 +299,6 @@
                         "name": "la0_probe4",
                         "net": "cpu_rdy",
                         "path": []
-                    },
-                    {
-                        "name": "la0_probe5[0]",
-                        "net": "r_input_data[0]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe5[1]",
-                        "net": "r_input_data[1]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe5[2]",
-                        "net": "r_input_data[2]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe5[3]",
-                        "net": "r_input_data[3]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe5[4]",
-                        "net": "r_input_data[4]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe5[5]",
-                        "net": "r_input_data[5]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe5[6]",
-                        "net": "r_input_data[6]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe5[7]",
-                        "net": "r_input_data[7]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe6[0]",
-                        "net": "r_output_data[0]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe6[1]",
-                        "net": "r_output_data[1]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe6[2]",
-                        "net": "r_output_data[2]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe6[3]",
-                        "net": "r_output_data[3]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe6[4]",
-                        "net": "r_output_data[4]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe6[5]",
-                        "net": "r_output_data[5]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe6[6]",
-                        "net": "r_output_data[6]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe6[7]",
-                        "net": "r_output_data[7]",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe7",
-                        "net": "o_spi_clk",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe8",
-                        "net": "o_spi_mosi",
-                        "path": [
-                            "spi_controller"
-                        ]
-                    },
-                    {
-                        "name": "la0_probe9",
-                        "net": "i_spi_miso",
-                        "path": [
-                            "spi_controller"
-                        ]
                     }
                 ]
             }
@@ -516,60 +358,6 @@
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
                     "path": []
-                },
-                {
-                    "name": "r_input_data",
-                    "width": 8,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "spi_controller"
-                    ],
-                    "net_idx_left": 7,
-                    "net_idx_right": 0
-                },
-                {
-                    "name": "r_output_data",
-                    "width": 8,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "spi_controller"
-                    ],
-                    "net_idx_left": 7,
-                    "net_idx_right": 0
-                },
-                {
-                    "name": "o_spi_clk",
-                    "width": 1,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "spi_controller"
-                    ]
-                },
-                {
-                    "name": "o_spi_mosi",
-                    "width": 1,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "spi_controller"
-                    ]
-                },
-                {
-                    "name": "i_spi_miso",
-                    "width": 1,
-                    "clk_domain": "clk_2",
-                    "selected_probe_type": "DATA AND TRIGGER",
-                    "child": [],
-                    "path": [
-                        "spi_controller"
-                    ]
                 }
             ],
             "top_module": "super6502",
