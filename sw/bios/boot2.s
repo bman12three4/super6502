@@ -20,6 +20,8 @@ dlen:   .res 2
 olen:   .res 1
 otype:  .res 1
 
+userptr:        .res 2
+
 .segment "BOOTLOADER"
 
 sectors_per_cluster     = $800D
@@ -133,6 +135,7 @@ _start:
         ldy #$1d                ; load file size (256)
         lda (ptr3),y
         lsr                     ; divide by 2 to get file size (512)
+        sta filesiz
         jsr pusha0
         ldy #$4
         jsr _cprintf
@@ -158,23 +161,39 @@ _start:
         adc data_start          ; add that to low data start
         bcc @5                  ; handle carry
         inx
-@5:     stz sreg
-        stz sreg+1
-        phx
-        pha
+@5:     sta cluster
+        stx cluster + 1
 
-        jsr pusheax
         lda #<filebuf
         ldx #>filebuf
+        sta userptr
+        stx userptr + 1
+
+@read_sd:
+        lda cluster
+        ldx cluster + 1
+        stz sreg
+        stz sreg+1
+        jsr pusheax
+        lda userptr
+        ldx userptr + 1
         jsr pushax
         lda #<ptr1
         ldx #>ptr1
         jsr _SD_readSingleBlock
 
-        lda #<filebuf
-        ldx #>filebuf
+        lda userptr
+        ldx userptr + 1
         jsr _SD_printBuf
 
+        dec filesiz
+        bmi @doneload
+        inc cluster
+        inc userptr + 1
+        inc userptr + 1
+        bra @read_sd
+
+@doneload:
         ldy #O65_TBASE
         lda filebuf,y
         sta tbase
@@ -243,13 +262,48 @@ _start:
         ldx #>opt_done
         jsr pushax
         pla
+        pha
         jsr pusha0
         ldy #$4
         jsr _cprintf
 
+        pla
+        ldx #>filebuf
+        adc #<filebuf
+        bcc @6
+        inx
+@6:     sta userptr
+        stx userptr + 1
+        lda #<word_str
+        ldx #>word_str
+        jsr pushax
+        lda userptr
+        ldx userptr + 1
+        jsr pushax
+        ldy #$4
+        jsr _cprintf
+
+        ;void* __fastcall__ memcpy (void* dest, const void* src, size_t count);
+
+        lda tbase
+        ldx tbase + 1
+        jsr pushax
+        lda userptr
+        ldx userptr + 1
+        jsr pushax
+        lda tlen
+        ldx tlen + 1
+        jsr _memcpy
+
+        lda #<$1000
+        ldx #>$1000
+        jsr _SD_printBuf
+
 @end:   bra @end
 
 
+filesiz: .res 1
+cluster: .res 2
 
 str: .asciiz "boot2\r\n"
 kernel_str: .asciiz "KERNEL  O65"
