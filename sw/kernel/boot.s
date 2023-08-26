@@ -22,12 +22,7 @@
 ; ---------------------------------------------------------------------------
 ; A little light 6502 housekeeping
 
-_init:    
-            lda #'A'
-            jsr _cputc
-@1:         jmp @1
-
-          LDX     #$FF                 ; Initialize stack pointer to $01FF
+_init:    LDX     #$FF                 ; Initialize stack pointer to $01FF
           TXS
           CLD                          ; Clear decimal mode
 
@@ -42,9 +37,9 @@ _init:
 ; ---------------------------------------------------------------------------
 ; Initialize memory storage
 
-          JSR     zerobss              ; Clear BSS segment
-          JSR     copydata             ; Initialize DATA segment
-          JSR     initlib              ; Run constructors
+        ;   JSR     zerobss              ; Clear BSS segment
+        ;   JSR     copydata             ; Initialize DATA segment
+        ;   JSR     initlib              ; Run constructors
 
 ; ---------------------------------------------------------------------------
 ; Call main()
