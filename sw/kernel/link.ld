@@ -42,7 +42,7 @@ FEATURES {
 }
 
 SYMBOLS {
-    __STACKSIZE__:  value = $0E00, type = weak;
+    __STACKSIZE__:  value = $0200, type = weak;
     __STACKSTART__: type = weak, value = $0800;
 }
 
