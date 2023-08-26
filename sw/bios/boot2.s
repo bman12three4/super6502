@@ -17,7 +17,8 @@ tbase:  .res 2
 tlen:   .res 2
 dbase:  .res 2
 dlen:   .res 2
-
+olen:   .res 1
+otype:  .res 1
 
 .segment "BOOTLOADER"
 
@@ -39,6 +40,7 @@ O65_BLEN                = $12
 O65_ZBASE               = $14
 O65_ZLEN                = $16
 O65_STACK               = $18
+O65_OPT_START           = $1A
 
 _start:
         lda #<str
@@ -173,59 +175,57 @@ _start:
         ldx #>filebuf
         jsr _SD_printBuf
 
-        lda #<word_str
-        ldx #>word_str
-        jsr pushax
         ldy #O65_TBASE
         lda filebuf,y
         sta tbase
         iny
         ldx filebuf,y
         stx tbase + 1
-        jsr pushax
-        ldy #$4
-        jsr _cprintf
 
-        lda #<word_str
-        ldx #>word_str
-        jsr pushax
         ldy #O65_TLEN
         lda filebuf,y
         sta tlen
         iny
         ldx filebuf,y
         stx tlen + 1
-        jsr pushax
-        ldy #$4
-        jsr _cprintf
 
 
-        lda #<word_str
-        ldx #>word_str
-        jsr pushax
         ldy #O65_DBASE
         lda filebuf,y
         sta dbase
         iny
         ldx filebuf,y
         stx dbase + 1
-        jsr pushax
-        ldy #$4
-        jsr _cprintf
 
-        lda #<word_str
-        ldx #>word_str
-        jsr pushax
         ldy #O65_DLEN
         lda filebuf,y
         sta dlen
         iny
         ldx filebuf,y
         stx dlen + 1
+
+        ldy #O65_OPT_START
+@opt_len:
+        lda #<opt_str
+        ldx #>opt_str
         jsr pushax
-        ldy #$4
+        lda filebuf,y
+        beq @opt_end
+        sta olen
+        phy
+        jsr pusha0
+        ply
+        iny
+        lda filebuf,y
+        sta otype
+        phy
+        jsr pusha0
+        ply
+        ldy #$6
         jsr _cprintf
 
+@opt_end:
+        ; do something
 
 @end:   bra @end
 
@@ -235,3 +235,5 @@ str: .asciiz "boot2\r\n"
 kernel_str: .asciiz "KERNEL  O65"
 _good: .asciiz "Found KERNEL\r\n"
 word_str: .asciiz "Word Value: %x\r\n"
+
+opt_str: .asciiz "Opt Len: %x, Opt Type: %x\r\n"
