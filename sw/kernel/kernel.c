@@ -14,10 +14,8 @@
 int main() {
     // char* string = "this is a shorter string";
 
-    int x = 2;
-
-    cprintf("Hello, world!\r\n");
-    cprintf("Here is a value: %x", x);
+    char a = 'a';
+    cprintf("%c", a);
 
     // cprintf("Here is a long string: %s\r\n", string);
 
