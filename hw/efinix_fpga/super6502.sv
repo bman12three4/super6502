@@ -216,7 +216,7 @@ mapper u_mapper(
     .cpu_addr(cpu_addr),
     .sdram_addr(w_sdram_addr),
     .cs(w_mapper_cs),
-    .rw(cpu_rwb),
+    .rwb(cpu_rwb),
     .i_data(cpu_data_in),
     .o_data(w_mapper_data_out)
 );
