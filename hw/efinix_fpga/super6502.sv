@@ -79,6 +79,7 @@ logic w_timer_cs;
 logic w_multiplier_cs;
 logic w_divider_cs;
 logic w_uart_cs;
+logic w_mapper_cs;
 logic w_spi_cs;
 
 addr_decode u_addr_decode(
@@ -90,6 +91,7 @@ addr_decode u_addr_decode(
     .o_divider_cs(w_divider_cs),
     .o_uart_cs(w_uart_cs),
     .o_spi_cs(w_spi_cs),
+    .o_mapper_cs(w_mapper_cs),
     .o_sdram_cs(w_sdram_cs)
 );
 
@@ -100,6 +102,7 @@ logic [7:0] w_multiplier_data_out;
 logic [7:0] w_divider_data_out;
 logic [7:0] w_uart_data_out;
 logic [7:0] w_spi_data_out;
+logic [7:0] w_mapper_data_out;
 logic [7:0] w_sdram_data_out;
 
 always_comb begin
@@ -119,6 +122,8 @@ always_comb begin
         cpu_data_out = w_spi_data_out;
     else if (w_sdram_cs)
         cpu_data_out = w_sdram_data_out;
+    else if (w_mapper_cs)
+        cpu_data_out = w_mapper_data_out;
     else
         cpu_data_out = 'x;
 end
@@ -203,6 +208,19 @@ spi_controller spi_controller(
     .i_spi_miso(spi_miso)
 );
 
+logic [24:0] w_sdram_addr;
+
+mapper u_mapper(
+    .clk(clk_2),
+    .rst(~cpu_resb),
+    .cpu_addr(cpu_addr),
+    .sdram_addr(w_sdram_addr),
+    .cs(w_mapper_cs),
+    .rw(cpu_rwb),
+    .i_data(cpu_data_in),
+    .o_data(w_mapper_data_out)
+);
+
 
 sdram_adapter u_sdram_adapter(
     .i_cpuclk(clk_2),
@@ -214,7 +232,7 @@ sdram_adapter u_sdram_adapter(
     .i_cs(w_sdram_cs),
     .i_rwb(cpu_rwb),
 
-    .i_addr(cpu_addr),
+    .i_addr(w_sdram_addr),
     .i_data(cpu_data_in),
     .o_data(w_sdram_data_out),
 

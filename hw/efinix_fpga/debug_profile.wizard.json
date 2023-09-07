@@ -3,12 +3,12 @@
         {
             "name": "la0",
             "type": "la",
-            "uuid": "d9fdd9521e234ab2a085f0e0ef437289",
+            "uuid": "2d64f403f73d428c8b583d71d6829ed4",
             "trigin_en": false,
             "trigout_en": false,
             "auto_inserted": true,
             "capture_control": false,
-            "data_depth": 16384,
+            "data_depth": 8192,
             "input_pipeline": 1,
             "probes": [
                 {
@@ -34,6 +34,11 @@
                 {
                     "name": "cpu_rdy",
                     "width": 1,
+                    "probe_type": 1
+                },
+                {
+                    "name": "w_sdram_addr",
+                    "width": 25,
                     "probe_type": 1
                 }
             ]
@@ -299,6 +304,131 @@
                         "name": "la0_probe4",
                         "net": "cpu_rdy",
                         "path": []
+                    },
+                    {
+                        "name": "la0_probe5[0]",
+                        "net": "w_sdram_addr[0]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[1]",
+                        "net": "w_sdram_addr[1]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[2]",
+                        "net": "w_sdram_addr[2]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[3]",
+                        "net": "w_sdram_addr[3]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[4]",
+                        "net": "w_sdram_addr[4]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[5]",
+                        "net": "w_sdram_addr[5]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[6]",
+                        "net": "w_sdram_addr[6]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[7]",
+                        "net": "w_sdram_addr[7]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[8]",
+                        "net": "w_sdram_addr[8]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[9]",
+                        "net": "w_sdram_addr[9]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[10]",
+                        "net": "w_sdram_addr[10]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[11]",
+                        "net": "w_sdram_addr[11]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[12]",
+                        "net": "w_sdram_addr[12]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[13]",
+                        "net": "w_sdram_addr[13]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[14]",
+                        "net": "w_sdram_addr[14]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[15]",
+                        "net": "w_sdram_addr[15]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[16]",
+                        "net": "w_sdram_addr[16]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[17]",
+                        "net": "w_sdram_addr[17]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[18]",
+                        "net": "w_sdram_addr[18]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[19]",
+                        "net": "w_sdram_addr[19]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[20]",
+                        "net": "w_sdram_addr[20]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[21]",
+                        "net": "w_sdram_addr[21]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[22]",
+                        "net": "w_sdram_addr[22]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[23]",
+                        "net": "w_sdram_addr[23]",
+                        "path": []
+                    },
+                    {
+                        "name": "la0_probe5[24]",
+                        "net": "w_sdram_addr[24]",
+                        "path": []
                     }
                 ]
             }
@@ -312,7 +442,7 @@
     ],
     "session": {
         "wizard": {
-            "data_depth": 16384,
+            "data_depth": 8192,
             "capture_control": false,
             "selected_nets": [
                 {
@@ -358,6 +488,16 @@
                     "selected_probe_type": "DATA AND TRIGGER",
                     "child": [],
                     "path": []
+                },
+                {
+                    "name": "w_sdram_addr",
+                    "width": 25,
+                    "clk_domain": "clk_2",
+                    "selected_probe_type": "DATA AND TRIGGER",
+                    "child": [],
+                    "path": [],
+                    "net_idx_left": 24,
+                    "net_idx_right": 0
                 }
             ],
             "top_module": "super6502",
