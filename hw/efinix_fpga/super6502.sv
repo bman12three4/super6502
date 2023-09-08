@@ -1,4 +1,8 @@
 module super6502
+#(
+    parameter CONTROL_REG_START = 16'h0a00,
+    parameter CONTROL_REG_SIZE = 16'h0600
+)
 (
     input logic i_sysclk,       // Controller Clock (100MHz)
     input logic i_sdrclk,       // t_su and t_wd clock (200MHz)
@@ -71,6 +75,14 @@ always @(posedge clk_2) begin
     end
 end
 
+logic w_control_reg_cs;
+
+
+// 0a00 - 0xffff
+assign w_control_reg_cs = (cpu_addr >= CONTROL_REG_START && cpu_addr < CONTROL_REG_START + CONTROL_REG_SIZE);
+
+// The w_control_reg_cs is redundant but whatever
+assign o_mapper_cs = (cpu_addr >= 16'h0a00 && cpu_addr <= 25'h0a20) && w_control_reg_cs;
 
 logic w_rom_cs;
 logic w_leds_cs;
@@ -83,7 +95,8 @@ logic w_mapper_cs;
 logic w_spi_cs;
 
 addr_decode u_addr_decode(
-    .i_addr(cpu_addr),
+    .i_addr(w_sdram_addr),
+    .config_reg_sel(w_control_reg_cs),
     .o_rom_cs(w_rom_cs),
     .o_leds_cs(w_leds_cs),
     .o_timer_cs(w_timer_cs),
@@ -91,7 +104,6 @@ addr_decode u_addr_decode(
     .o_divider_cs(w_divider_cs),
     .o_uart_cs(w_uart_cs),
     .o_spi_cs(w_spi_cs),
-    .o_mapper_cs(w_mapper_cs),
     .o_sdram_cs(w_sdram_cs)
 );
 
@@ -128,8 +140,21 @@ always_comb begin
         cpu_data_out = 'x;
 end
 
+logic [24:0] w_sdram_addr;
+
+mapper u_mapper(
+    .clk(clk_2),
+    .rst(~cpu_resb),
+    .cpu_addr(cpu_addr),
+    .sdram_addr(w_sdram_addr),
+    .cs(w_mapper_cs),
+    .rwb(cpu_rwb),
+    .i_data(cpu_data_in),
+    .o_data(w_mapper_data_out)
+);
+
 rom #(.DATA_WIDTH(8), .ADDR_WIDTH(12)) u_rom(
-    .addr(cpu_addr[11:0]),
+    .addr(w_sdram_addr[11:0]),
     .clk(clk_2),
     .data(w_rom_data_out)
 );
@@ -152,7 +177,7 @@ timer u_timer(
     .o_data(w_timer_data_out),
     .cs(w_timer_cs),
     .rwb(cpu_rwb),
-    .addr(cpu_addr[1:0]),
+    .addr(w_sdram_addr[1:0]),
     .irqb(w_timer_irqb)
 );
 
@@ -163,7 +188,7 @@ multiplier u_multiplier(
     .o_data(w_multiplier_data_out),
     .cs(w_multiplier_cs),
     .rwb(cpu_rwb),
-    .addr(cpu_addr[2:0])
+    .addr(w_sdram_addr[2:0])
 );
 
 divider_wrapper u_divider(
@@ -174,7 +199,7 @@ divider_wrapper u_divider(
     .o_data(w_divider_data_out),
     .cs(w_divider_cs),
     .rwb(cpu_rwb),
-    .addr(cpu_addr[2:0])
+    .addr(w_sdram_addr[2:0])
 );
 
 logic w_uart_irqb;
@@ -187,7 +212,7 @@ uart_wrapper u_uart(
     .o_data(w_uart_data_out),
     .cs(w_uart_cs),
     .rwb(cpu_rwb),
-    .addr(cpu_addr[0]),
+    .addr(w_sdram_addr[0]),
     .rx_i(uart_rx),
     .tx_o(uart_tx),
     .irqb(w_uart_irqb)
@@ -198,7 +223,7 @@ spi_controller spi_controller(
     .i_rst(~cpu_resb),
     .i_cs(w_spi_cs),
     .i_rwb(cpu_rwb),
-    .i_addr(cpu_addr[1:0]),
+    .i_addr(w_sdram_addr[1:0]),
     .i_data(cpu_data_in),
     .o_data(w_spi_data_out),
 
@@ -206,19 +231,6 @@ spi_controller spi_controller(
     .o_spi_clk(spi_clk),
     .o_spi_mosi(spi_mosi),
     .i_spi_miso(spi_miso)
-);
-
-logic [24:0] w_sdram_addr;
-
-mapper u_mapper(
-    .clk(clk_2),
-    .rst(~cpu_resb),
-    .cpu_addr(cpu_addr),
-    .sdram_addr(w_sdram_addr),
-    .cs(w_mapper_cs),
-    .rwb(cpu_rwb),
-    .i_data(cpu_data_in),
-    .o_data(w_mapper_data_out)
 );
 
 
