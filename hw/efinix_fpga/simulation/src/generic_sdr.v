@@ -49,7 +49,7 @@
 
 module generic_sdr (Dq, Addr, Ba, Clk, Cke, Cs_n, Ras_n, Cas_n, We_n, Dqm);
 	
-`include "super6502_sdram_controller_define.vh"
+`include "include/super6502_sdram_controller_define.vh"
 
 parameter tCK              =     1000/fCK_MHz; // tCK    ns    Nominal Clock Cycle Time
 `ifdef CLK_200

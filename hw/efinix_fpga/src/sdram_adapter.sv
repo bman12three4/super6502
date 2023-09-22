@@ -245,10 +245,11 @@ logic [3:0] o_dbg_BA;
 logic [25:0] o_dbg_ADDR;
 logic [31:0] o_dbg_DATA_out;
 logic [31:0] o_dbg_DATA_in;
-logic o_sdr_init_done;
+logic sdr_init_done;
 logic [3:0] o_sdr_state;
 
 assign o_ref_req = o_dbg_ref_req;
+assign o_sdr_init_done = sdr_init_done;
 
 
 sdram_controller u_sdram_controller(
@@ -265,7 +266,7 @@ sdram_controller u_sdram_controller(
     .i_din(r_write_data),   //Data to write to SDRAM. Twice normal width when running at half speed (hence the even addresses)
     .i_dm(r_dm),              //dm (r_dm)
     .o_dout(w_data_o),      //Data read from SDRAM, doubled as above.
-    .o_sdr_init_done(o_sdr_init_done),     //Indicates that the SDRAM initialization is done.
+    .o_sdr_init_done(sdr_init_done),     //Indicates that the SDRAM initialization is done.
     .o_wr_ack(w_wr_ack),    //Write acknowledge, handshake with we
     .o_rd_ack(w_rd_ack),    //Read acknowledge, handshake with re
     .o_rd_valid(w_rd_valid),//Read valid. The data on o_dout is valid
