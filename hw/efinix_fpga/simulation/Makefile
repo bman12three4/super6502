@@ -9,9 +9,10 @@ INC=$(shell find include/ -type f)
 TOP_MODULE=sim_top
 TARGET=sim_top
 INIT_MEM=init_hex.mem
+FLAGS=-DSIM
 
 all: $(INIT_MEM)
-	iverilog -g2005-sv -s $(TOP_MODULE) -o $(TARGET) $(INC) $(SRCS)
+	iverilog -g2005-sv $(FLAGS) -s $(TOP_MODULE) -o $(TARGET) $(INC) $(SRCS)
 
 $(INIT_MEM):
 	cp ../$(INIT_MEM) .

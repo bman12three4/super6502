@@ -55,17 +55,17 @@ logic w_cpu_reset;
 logic [15:0] w_cpu_addr;
 logic [7:0] w_cpu_data_from_cpu, w_cpu_data_from_dut;
 logic cpu_rwb;
+logic w_cpu_phi2;
 
 //TODO: this
 cpu_65c02 u_cpu(
-	.clk(r_clk_2),
-	// .reset(~w_cpu_reset),
-	.reset(~button_reset),
+	.phi2(w_cpu_phi2),
+	.reset(~w_cpu_reset),
 	.AB(w_cpu_addr),
 	.RDY('1),
 	.IRQ('0),
 	.NMI('0),
-	.DI(w_cpu_data_from_dut),
+	.DI_s1(w_cpu_data_from_dut),
 	// .DO(w_cpu_data_from_cpu),
 	.WE(cpu_rwb)
 );
@@ -92,7 +92,8 @@ super6502 u_dut(
 	.cpu_addr(w_cpu_addr),
 	.cpu_data_out(w_cpu_data_from_dut),
 	// .cpu_data_in(w_cpu_data_from_cpu),
-	.cpu_rwb(~cpu_rwb)
+	.cpu_rwb(~cpu_rwb),
+	.cpu_phi2(w_cpu_phi2)
 );
 
 
