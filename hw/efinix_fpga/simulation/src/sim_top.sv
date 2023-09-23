@@ -74,26 +74,26 @@ cpu_65c02 u_cpu(
 // Having the super6502 causes an infinite loop,
 // but just the rom works. Need to whittle down
 // which block is causing it.
-rom #(.DATA_WIDTH(8), .ADDR_WIDTH(12)) u_rom(
-    .addr(w_cpu_addr[11:0]),
-    .clk(r_clk_2),
-    .data(w_cpu_data_from_dut)
-);
+// rom #(.DATA_WIDTH(8), .ADDR_WIDTH(12)) u_rom(
+//     .addr(w_cpu_addr[11:0]),
+//     .clk(r_clk_2),
+//     .data(w_cpu_data_from_dut)
+// );
 
 //TODO: also this
-// super6502 u_dut(
-// 	.i_sysclk(r_sysclk),
-// 	.i_sdrclk(r_sdrclk),
-// 	.i_tACclk(r_sdrclk),
-// 	.clk_50(r_clk_50),
-// 	.clk_2(r_clk_2),
-// 	.button_reset(button_reset),
-// 	.cpu_resb(w_cpu_reset),
-// 	.cpu_addr(w_cpu_addr),
-// 	.cpu_data_out(w_cpu_data_from_dut),
-// 	// .cpu_data_in(w_cpu_data_from_cpu),
-// 	.cpu_rwb(~cpu_rwb)
-// );
+super6502 u_dut(
+	.i_sysclk(r_sysclk),
+	.i_sdrclk(r_sdrclk),
+	.i_tACclk(r_sdrclk),
+	.clk_50(r_clk_50),
+	.clk_2(r_clk_2),
+	.button_reset(button_reset),
+	.cpu_resb(w_cpu_reset),
+	.cpu_addr(w_cpu_addr),
+	.cpu_data_out(w_cpu_data_from_dut),
+	// .cpu_data_in(w_cpu_data_from_cpu),
+	.cpu_rwb(~cpu_rwb)
+);
 
 
 endmodule

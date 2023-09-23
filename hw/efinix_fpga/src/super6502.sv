@@ -81,17 +81,6 @@ logic w_divider_cs;
 logic w_uart_cs;
 logic w_spi_cs;
 
-addr_decode u_addr_decode(
-    .i_addr(cpu_addr),
-    .o_rom_cs(w_rom_cs),
-    .o_leds_cs(w_leds_cs),
-    .o_timer_cs(w_timer_cs),
-    .o_multiplier_cs(w_multiplier_cs),
-    .o_divider_cs(w_divider_cs),
-    .o_uart_cs(w_uart_cs),
-    .o_spi_cs(w_spi_cs),
-    .o_sdram_cs(w_sdram_cs)
-);
 
 logic [7:0] w_rom_data_out;
 logic [7:0] w_leds_data_out;
@@ -103,6 +92,16 @@ logic [7:0] w_spi_data_out;
 logic [7:0] w_sdram_data_out;
 
 always_comb begin
+    w_rom_cs = cpu_addr >= 16'hf000 && cpu_addr <= 16'hffff;
+    w_timer_cs = cpu_addr >= 16'heff8 && cpu_addr <= 16'heffb;
+    w_multiplier_cs = cpu_addr >= 16'heff0 && cpu_addr <= 16'heff7;
+    w_divider_cs = cpu_addr >= 16'hefe8 && cpu_addr <= 16'hefef;
+    w_uart_cs = cpu_addr >= 16'hefe6 && cpu_addr <= 16'hefe7;
+    w_spi_cs = cpu_addr >= 16'hefd8 && cpu_addr <= 16'hefdb;
+    w_leds_cs = cpu_addr == 16'hefff;
+    w_sdram_cs = cpu_addr < 16'he000;
+
+
     if (w_rom_cs)
         cpu_data_out = w_rom_data_out;
     else if (w_leds_cs)
