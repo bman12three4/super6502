@@ -16,7 +16,7 @@ end
 
 // clk_200
 initial begin
-	r_sdrclk <= '0;
+	r_sdrclk <= '1;
 	forever begin
 		#2.5 r_sdrclk <= ~r_sdrclk;
 	end
