@@ -2,11 +2,13 @@
 
 module sim_top();
 
+`include "include/super6502_sdram_controller_define.vh"
+
 logic r_sysclk, r_sdrclk, r_clk_50, r_clk_2;
 
 // clk_100
 initial begin
-	r_sysclk <= '0;
+	r_sysclk <= '1;
 	forever begin
 		#5 r_sysclk <= ~r_sysclk;
 	end
@@ -54,7 +56,7 @@ end
 logic w_cpu_reset;
 logic [15:0] w_cpu_addr;
 logic [7:0] w_cpu_data_from_cpu, w_cpu_data_from_dut;
-logic cpu_rwb;
+logic w_cpu_we;
 logic w_cpu_phi2;
 
 //TODO: this
@@ -66,8 +68,8 @@ cpu_65c02 u_cpu(
 	.IRQ('0),
 	.NMI('0),
 	.DI_s1(w_cpu_data_from_dut),
-	// .DO(w_cpu_data_from_cpu),
-	.WE(cpu_rwb)
+	.DO(w_cpu_data_from_cpu),
+	.WE(w_cpu_we)
 );
 
 
@@ -91,10 +93,60 @@ super6502 u_dut(
 	.cpu_resb(w_cpu_reset),
 	.cpu_addr(w_cpu_addr),
 	.cpu_data_out(w_cpu_data_from_dut),
-	// .cpu_data_in(w_cpu_data_from_cpu),
-	.cpu_rwb(~cpu_rwb),
-	.cpu_phi2(w_cpu_phi2)
+	.cpu_data_in(w_cpu_data_from_cpu),
+	.cpu_rwb(~w_cpu_we),
+	.cpu_phi2(w_cpu_phi2),
+
+	.o_sdr_CKE(w_sdr_CKE),
+	.o_sdr_n_CS(w_sdr_n_CS),
+	.o_sdr_n_WE(w_sdr_n_WE),
+	.o_sdr_n_RAS(w_sdr_n_RAS),
+	.o_sdr_n_CAS(w_sdr_n_CAS),
+	.o_sdr_BA(w_sdr_BA),
+	.o_sdr_ADDR(w_sdr_ADDR),
+	.i_sdr_DATA(w_sdr_DQ),
+	.o_sdr_DATA(w_sdr_DATA),
+	.o_sdr_DATA_oe(w_sdr_DATA_oe),
+    .o_sdr_DQM(w_sdr_DQM)
 );
+
+wire	w_sdr_CKE;
+wire	w_sdr_n_CS;
+wire	w_sdr_n_WE;
+wire	w_sdr_n_RAS;
+wire	w_sdr_n_CAS;
+wire	[BA_WIDTH				-1:0]w_sdr_BA;
+wire	[ROW_WIDTH				-1:0]w_sdr_ADDR;
+wire	[DQ_GROUP	*DQ_WIDTH	-1:0]w_sdr_DATA;
+wire	[DQ_GROUP	*DQ_WIDTH	-1:0]w_sdr_DATA_oe;
+wire	[DQ_GROUP				-1:0]w_sdr_DQM;
+wire	[DQ_GROUP	*DQ_WIDTH	-1:0]w_sdr_DQ;
+
+genvar i, j;
+generate
+	for (i=0; i<DQ_GROUP*DQ_WIDTH; i=i+1)
+	begin: DQ_map
+		assign	w_sdr_DQ[i]	=	(w_sdr_DATA_oe[i])?
+									w_sdr_DATA[i]:1'bz;
+	end
+
+	for (j=0; j<DQ_GROUP; j=j+1)
+	begin : mem_inst
+        generic_sdr inst_sdr
+        (
+        	.Dq(w_sdr_DQ[((j+1)*(DQ_WIDTH))-1:((j)*DQ_WIDTH)]),
+        	.Addr(w_sdr_ADDR[ROW_WIDTH-1:0]),
+        	.Ba(w_sdr_BA[BA_WIDTH-1:0]),
+        	.Clk(~r_sdrclk),
+        	.Cke(w_sdr_CKE),
+        	.Cs_n(w_sdr_n_CS),
+        	.Ras_n(w_sdr_n_RAS),
+        	.Cas_n(w_sdr_n_CAS),
+        	.We_n(w_sdr_n_WE),
+        	.Dqm(w_sdr_DQM[j])
+        );
+    end
+endgenerate
 
 
 endmodule
