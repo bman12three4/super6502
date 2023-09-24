@@ -4,7 +4,9 @@ SRCS+=$(shell find ../src/ -type f -name "*.*v")
 
 INC=$(shell find include/ -type f)
 
-TEST_PROGRAM=../../../sw/test_code/simple_mem_test/simple_mem_test.hex
+TEST_PROGRAM_NAME=simple_mem_test
+
+TEST_PROGRAM=$(REPO_TOP)/sw/test_code/$(TEST_PROGRAM_NAME)/$(TEST_PROGRAM_NAME).hex
 
 #TODO implement something like sources.list
 
@@ -22,4 +24,4 @@ $(INIT_MEM):
 .PHONY: clean
 clean:
 	rm -rf $(TARGET)
-	rm $(INIT_MEM)
+	rm -rf $(INIT_MEM)
