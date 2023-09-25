@@ -24,7 +24,7 @@ end
 
 // clk_50
 initial begin
-	r_clk_50 <= '0;
+	r_clk_50 <= '1;
 	forever begin
 		#10 r_clk_50 <= ~r_clk_50;
 	end
@@ -32,7 +32,7 @@ end
 
 // clk_2
 initial begin
-	r_clk_2 <= '0;
+	r_clk_2 <= '1;
 	forever begin
 		#250 r_clk_2 <= ~r_clk_2;
 	end
@@ -86,7 +86,7 @@ cpu_65c02 u_cpu(
 super6502 u_dut(
 	.i_sysclk(r_sysclk),
 	.i_sdrclk(r_sdrclk),
-	.i_tACclk(r_sdrclk),
+	.i_tACclk(~r_sdrclk),
 	.clk_50(r_clk_50),
 	.clk_2(r_clk_2),
 	.button_reset(button_reset),

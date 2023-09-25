@@ -13,7 +13,7 @@ TEST_PROGRAM=$(REPO_TOP)/sw/test_code/$(TEST_PROGRAM_NAME)/$(TEST_PROGRAM_NAME).
 TOP_MODULE=sim_top
 TARGET=sim_top
 INIT_MEM=init_hex.mem
-FLAGS=-DSIM
+FLAGS=-DSIM -DRTL_SIM
 
 all: $(INIT_MEM)
 	iverilog -g2005-sv $(FLAGS) -s $(TOP_MODULE) -o $(TARGET) $(INC) $(SRCS)
