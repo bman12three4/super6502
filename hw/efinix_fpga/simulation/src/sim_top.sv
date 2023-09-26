@@ -49,7 +49,7 @@ initial begin
 	button_reset <= '0;
 	repeat(10) @(r_clk_2);
 	button_reset <= '1;
-	repeat(2000) @(r_clk_2);
+	repeat(8000) @(r_clk_2);
 	$finish();
 end
 

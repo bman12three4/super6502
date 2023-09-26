@@ -6,7 +6,7 @@ INC=$(shell find include/ -type f)
 
 TEST_PROGRAM_NAME=simple_mem_test
 
-TEST_PROGRAM=$(REPO_TOP)/sw/test_code/$(TEST_PROGRAM_NAME)/$(TEST_PROGRAM_NAME).hex
+TEST_PROGRAM?=$(REPO_TOP)/sw/test_code/$(TEST_PROGRAM_NAME)/$(TEST_PROGRAM_NAME).hex
 
 #TODO implement something like sources.list
 
