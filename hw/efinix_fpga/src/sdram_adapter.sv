@@ -104,7 +104,7 @@ end
 
 logic r_wait;
 logic _r_wait;
-assign o_wait = r_wait;
+assign o_wait = r_wait & i_cs;
 
 // we need to assert rdy low until a falling edge if a reset happens
 

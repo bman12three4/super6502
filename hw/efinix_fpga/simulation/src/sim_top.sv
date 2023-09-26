@@ -56,6 +56,7 @@ end
 logic w_cpu_reset;
 logic [15:0] w_cpu_addr;
 logic [7:0] w_cpu_data_from_cpu, w_cpu_data_from_dut;
+logic w_cpu_rdy;
 logic w_cpu_we;
 logic w_cpu_phi2;
 
@@ -64,7 +65,7 @@ cpu_65c02 u_cpu(
 	.phi2(w_cpu_phi2),
 	.reset(~w_cpu_reset),
 	.AB(w_cpu_addr),
-	.RDY('1),
+	.RDY(w_cpu_rdy),
 	.IRQ('0),
 	.NMI('0),
 	.DI_s1(w_cpu_data_from_dut),
@@ -95,6 +96,7 @@ super6502 u_dut(
 	.cpu_data_out(w_cpu_data_from_dut),
 	.cpu_data_in(w_cpu_data_from_cpu),
 	.cpu_rwb(~w_cpu_we),
+	.cpu_rdy(w_cpu_rdy),
 	.cpu_phi2(w_cpu_phi2),
 
 	.o_sdr_CKE(w_sdr_CKE),
