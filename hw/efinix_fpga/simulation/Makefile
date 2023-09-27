@@ -4,7 +4,7 @@ SRCS+=$(shell find ../src/ -type f -name "*.*v")
 
 INC=$(shell find include/ -type f)
 
-TEST_PROGRAM_NAME=simple_mem_test
+TEST_PROGRAM_NAME?=loop_test
 
 TEST_PROGRAM?=$(REPO_TOP)/sw/test_code/$(TEST_PROGRAM_NAME)/$(TEST_PROGRAM_NAME).hex
 
