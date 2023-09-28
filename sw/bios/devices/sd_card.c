@@ -20,7 +20,7 @@ uint8_t SD_init()
         cmdAttempts++;
         if(cmdAttempts == CMD0_MAX_ATTEMPTS)
         {
-            cputs("Go IDLE\r\n");
+            cputs("Go IDLE\n");
             return SD_ERROR;
         }
     }
@@ -30,7 +30,7 @@ uint8_t SD_init()
     SD_sendIfCond(res);
     if(res[0] != SD_IN_IDLE_STATE)
     {
-        cputs("IF Cond\r\n");
+        cputs("IF Cond\n");
         return SD_ERROR;
     }
 
@@ -44,7 +44,7 @@ uint8_t SD_init()
     {
         if(cmdAttempts == CMD55_MAX_ATTEMPTS)
         {
-            cputs("op_cond error\r\n");
+            cputs("op_cond error\n");
             return SD_ERROR;
         }
 
@@ -304,7 +304,7 @@ void SD_sendStatus(uint8_t *res)
 //         while(++readAttempts != SD_MAX_READ_ATTEMPTS)
 //             if((read = spi_exchange(0xFF)) != 0xFF) break;
 
-//         cprintf("read attempts: %d\r\n", readAttempts);
+//         cprintf("read attempts: %d\n", readAttempts);
 
 //         // if response token is 0xFE
 //         if(read == SD_START_TOKEN)

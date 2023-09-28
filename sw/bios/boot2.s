@@ -335,10 +335,10 @@ _start:
 @end:   bra @end
 
 
-str: .asciiz "boot2\r\n"
+str: .asciiz "boot2\n"
 kernel_str: .asciiz "KERNEL  O65"
-_good: .asciiz "Found KERNEL\r\n"
-word_str: .asciiz "Word Value: %x\r\n"
+_good: .asciiz "Found KERNEL\n"
+word_str: .asciiz "Word Value: %x\n"
 
-opt_str: .asciiz "Opt Len: %x, Opt Type: %x\r\n"
-opt_done: .asciiz "Options done. total option length: %x\r\n"
+opt_str: .asciiz "Opt Len: %x, Opt Type: %x\n"
+opt_done: .asciiz "Options done. total option length: %x\n"
