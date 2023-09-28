@@ -1,20 +1,27 @@
-TARGETS= timer interrupt_controller spi_controller
-TB=$(patsubst %, %_tb.sv, $(TARGETS))
+SRCS=$(shell find src/ -type f -name "*.*v")
+SRCS+=$(shell find ../ip/ -type f -name "*.*v" -not \( -name "*tmpl*" \))
+SRCS+=$(shell find ../src/ -type f -name "*.*v")
 
-all: $(TARGETS)
+INC=$(shell find include/ -type f)
 
-timer: timer_tb.sv
-	iverilog -g2005-sv -s sim -o $@ $@_tb.sv ../$@.sv
+TEST_PROGRAM_NAME?=loop_test
 
-spi_controller: spi_controller_tb.sv ../spi_controller.sv
-	iverilog -g2005-sv -s sim -o $@ $@_tb.sv ../$@.sv
+TEST_PROGRAM?=$(REPO_TOP)/sw/test_code/$(TEST_PROGRAM_NAME)/$(TEST_PROGRAM_NAME).hex
 
-interrupt_controller: interrupt_controller_tb.sv
-	iverilog -g2005-sv -s sim -o $@ $@_tb.sv ../$@.sv
+#TODO implement something like sources.list
+
+TOP_MODULE=sim_top
+TARGET=sim_top
+INIT_MEM=init_hex.mem
+FLAGS=-DSIM -DRTL_SIM
+
+all: $(INIT_MEM)
+	iverilog -g2005-sv $(FLAGS) -s $(TOP_MODULE) -o $(TARGET) $(INC) $(SRCS)
+
+$(INIT_MEM):
+	cp $(TEST_PROGRAM) ./init_hex.mem
 
 .PHONY: clean
-
 clean:
-	rm -f $(TARGETS)
-	rm -f *.vcd
-	rm -f *.vvp
+	rm -rf $(TARGET)
+	rm -rf $(INIT_MEM)

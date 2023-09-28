@@ -20,6 +20,8 @@
 # export PATH=$PATH:"$EFXPT_HOME/bin"
 
 source $EFX_SETUP
+export REPO_TOP=$(git rev-parse --show-toplevel)
+
 
 # python -m venv .user_venv --system-site-packages
 # . .user_venv/bin/activate

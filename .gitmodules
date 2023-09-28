@@ -1,3 +1,6 @@
 [submodule "sw/cc65"]
 	path = sw/cc65
 	url = https://git.byronlathi.com/bslathi19/cc65
+[submodule "hw/efinix_fpga/simulation/src/verilog-6502"]
+	path = hw/efinix_fpga/simulation/src/verilog-6502
+	url = https://git.byronlathi.com/bslathi19/verilog-6502

@@ -90,6 +90,7 @@ always_comb begin
         1: o_data = r_input_data;
         2:;
         3: o_data = {active, r_control[6:0]};
+        default: o_data = 'x;
     endcase
 end
 
