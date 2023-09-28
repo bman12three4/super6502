@@ -46,8 +46,9 @@ enum bit [1:0] {READY, WAIT, TRANSMIT} state, next_state;
 
 always_ff @(posedge clk_50) begin
     if (reset) begin
-        state = READY;
+        state <= READY;
         irqb <= '1;
+        status <= '0;
     end else begin
         state <= next_state;
     end
