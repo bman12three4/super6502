@@ -173,12 +173,12 @@ _main:
 
 @end:   bra @end
 
-str: .asciiz "boot\r\n"
+str: .asciiz "boot\n"
 _boot2_str: .asciiz "BOOT2   BIN"
-_fail: .asciiz "not bootloader\r\n"
-_good: .asciiz "found bootloader!\r\n"
-_cluster: .asciiz "cluster: %lx\r\n"
-_addr: .asciiz "addr: %x\r\n"
+_fail: .asciiz "not bootloader\n"
+_good: .asciiz "found bootloader!\n"
+_cluster: .asciiz "cluster: %lx\n"
+_addr: .asciiz "addr: %x\n"
 _end:
 
 .res (440+_start-_end)

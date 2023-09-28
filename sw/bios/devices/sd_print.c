@@ -13,7 +13,7 @@ void SD_printBuf(uint8_t *buf)
         cprintf("%2x", *buf++);
         if(colCount == 31)
         {
-            cputs("\r\n");
+            cputs("\n");
             colCount = 0;
         }
         else
@@ -22,5 +22,5 @@ void SD_printBuf(uint8_t *buf)
             colCount++;
         }
     }
-    cputs("\r\n");
+    cputs("\n");
 }

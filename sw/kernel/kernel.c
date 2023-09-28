@@ -16,7 +16,7 @@ int main() {
 
     cprintf("%s", string);
 
-    cprintf("Here is a long string: %s\r\n", longstring);
+    cprintf("Here is a long string: %s\n", longstring);
 
     while(1);
 
