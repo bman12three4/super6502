@@ -20,8 +20,6 @@ stages:          # List of stages for jobs, and their order of execution
   - build
 
 build-job:       # This job runs in the build stage, which runs first.
-  tags:
-    - efinity
   stage: build
   script:
     - source init_env.sh
