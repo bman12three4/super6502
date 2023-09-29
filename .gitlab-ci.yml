@@ -41,6 +41,6 @@ build-sim:
     - source init_env.sh
     - cd sw/cc65
     - make -j
-    - cd ..
+    - cd ../..
     - cd hw/efinix_fpga/simulation
     - make
