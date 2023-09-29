@@ -5,8 +5,9 @@ SRCS+=$(shell find ../src/ -type f -name "*.*v")
 INC=$(shell find include/ -type f)
 
 TEST_PROGRAM_NAME?=loop_test
-
+TEST_FOLDER?=$(REPO_TOP)/sw/test_code/$(TEST_PROGRAM_NAME)
 TEST_PROGRAM?=$(REPO_TOP)/sw/test_code/$(TEST_PROGRAM_NAME)/$(TEST_PROGRAM_NAME).hex
+
 
 #TODO implement something like sources.list
 
@@ -19,6 +20,7 @@ all: $(INIT_MEM)
 	iverilog -g2005-sv $(FLAGS) -s $(TOP_MODULE) -o $(TARGET) $(INC) $(SRCS)
 
 $(INIT_MEM):
+	$(MAKE) -C $(TEST_FOLDER)
 	cp $(TEST_PROGRAM) ./init_hex.mem
 
 .PHONY: clean
