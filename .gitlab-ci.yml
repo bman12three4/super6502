@@ -24,6 +24,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - efinity
   stage: build
   script:
+    - env
     - source init_env.sh
     - cd hw/efinix_fpga
     - make
