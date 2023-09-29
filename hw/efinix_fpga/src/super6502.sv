@@ -56,8 +56,6 @@ assign cpu_nmib = '1;
 logic w_wait;
 assign cpu_rdy = ~w_wait;
 
-logic no_semicolon
-
 assign cpu_phi2 = clk_2;
 
 logic w_sdr_init_done;
