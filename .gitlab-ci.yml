@@ -19,11 +19,22 @@
 stages:          # List of stages for jobs, and their order of execution
   - build
 
-build-job:       # This job runs in the build stage, which runs first.
+build-fpga:       # This job runs in the build stage, which runs first.
   tags:
     - efinity
+    - linux
   stage: build
   script:
     - source init_env.sh
     - cd hw/efinix_fpga
+    - make
+
+build-sim:
+  tags:
+   - iverilog
+   - linux
+  stage: build
+  script:  
+    - source init_env.sh
+    - cd hw/efinix_fpga/simulation
     - make
