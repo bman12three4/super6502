@@ -55,7 +55,7 @@ build sim:
   artifacts:
     paths:
       - hw/efinix_fpga/simulation/sim_top
-      - sw/test_code
+      - hw/efinix_fpga/simulation/init_hex.mem
   script:  
     - source init_env.sh
     - cd hw/efinix_fpga/simulation
