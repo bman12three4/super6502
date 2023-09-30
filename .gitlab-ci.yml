@@ -22,6 +22,7 @@ variables:
 stages:          # List of stages for jobs, and their order of execution
   - toolchain
   - build
+  - simulate
 
 build toolchain:
   tags:
@@ -51,6 +52,10 @@ build sim:
    - iverilog
    - linux
   stage: build
+  artifacts:
+    paths:
+      - hw/efinix_fpga/simulation/sim_top
+      - hw/efinix_fpga/simulation/init_hex.mem
   script:  
     - source init_env.sh
     - cd hw/efinix_fpga/simulation
@@ -79,3 +84,15 @@ build kernel:
     - make kernel
   dependencies:
     - build toolchain
+
+run sim:
+  tags:
+    - linux
+    - iverilog
+  stage: simulate
+  script:
+    - source init_env.sh
+    - cd hw/efinix_fpga/simulation
+    - vvp sim_top
+  dependencies:
+    - build sim
