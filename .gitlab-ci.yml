@@ -34,6 +34,7 @@ build-toolchain:
   artifacts:
     paths:
       - sw/cc65/bin
+      - sw/cc65/lib
 
 build-fpga:       # This job runs in the build stage, which runs first.
   tags:
