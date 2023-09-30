@@ -3,6 +3,8 @@
 
 # ENV=".env/$HOSTNAME"
 
+export REPO_TOP=$(git rev-parse --show-toplevel)
+
 # if [ ! -d "$ENV" ]; then
 #     mkdir -p "$ENV"
 # fi
@@ -20,7 +22,6 @@
 # export PATH=$PATH:"$EFXPT_HOME/bin"
 
 source $EFX_SETUP
-export REPO_TOP=$(git rev-parse --show-toplevel)
 
 
 # python -m venv .user_venv --system-site-packages
