@@ -59,7 +59,7 @@ build sim:
   script:  
     - source init_env.sh
     - cd hw/efinix_fpga/simulation
-    - make
+    - make sim_top
   dependencies:
     - build toolchain
 
@@ -93,6 +93,6 @@ run sim:
   script:
     - source init_env.sh
     - cd hw/efinix_fpga/simulation
-    - vvp sim_top
+    - make sim
   dependencies:
     - build sim

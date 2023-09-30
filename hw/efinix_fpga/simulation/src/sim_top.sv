@@ -49,7 +49,7 @@ initial begin
     button_reset <= '0;
     repeat(10) @(r_clk_2);
     button_reset <= '1;
-    repeat(20000) @(r_clk_2);
+    repeat(50000) @(r_clk_2);
     $finish();
 end
 
@@ -82,6 +82,18 @@ sim_uart u_sim_uart(
     .tx_o(w_dut_uart_rx)
 );
 
+logic w_sd_cs;
+logic w_spi_clk;
+logic w_spi_mosi;
+logic w_spi_miso;
+
+sd_card_emu u_sd_card_emu(
+    .clk(w_spi_clk),
+    .cs(w_sd_cs),
+    .mosi(w_spi_mosi),
+    .miso(w_spi_miso)
+);
+
 
 super6502 u_dut(
     .i_sysclk(r_sysclk),
@@ -100,6 +112,11 @@ super6502 u_dut(
 
     .uart_rx(w_dut_uart_rx),
     .uart_tx(w_dut_uart_tx),
+
+    .sd_cs(w_sd_cs),
+    .spi_clk(w_spi_clk),
+    .spi_mosi(w_spi_mosi),
+    .spi_miso(w_spi_miso),
 
     .o_sdr_CKE(w_sdr_CKE),
     .o_sdr_n_CS(w_sdr_n_CS),

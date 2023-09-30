@@ -16,7 +16,13 @@ TARGET=sim_top
 INIT_MEM=init_hex.mem
 FLAGS=-DSIM -DRTL_SIM
 
-all: $(INIT_MEM)
+all: sim
+
+.PHONY: sim
+sim: $(TARGET)
+	vvp $(TARGET) -fst
+
+$(TARGET): $(INIT_MEM) $(SRCS)
 	iverilog -g2005-sv $(FLAGS) -s $(TOP_MODULE) -o $(TARGET) $(INC) $(SRCS)
 
 $(INIT_MEM):
