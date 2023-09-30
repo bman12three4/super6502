@@ -76,6 +76,6 @@ build kernel:
   script:
     - source init_env.sh
     - cd sw/
-    - make buis
+    - make kernel
   dependencies:
     - build toolchain
