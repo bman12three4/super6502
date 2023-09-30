@@ -3,6 +3,8 @@
 
 # ENV=".env/$HOSTNAME"
 
+export REPO_TOP=$(git rev-parse --show-toplevel)
+
 # if [ ! -d "$ENV" ]; then
 #     mkdir -p "$ENV"
 # fi
@@ -19,8 +21,11 @@
 # source "$ENV/efinity/2023.1/bin/setup.sh"
 # export PATH=$PATH:"$EFXPT_HOME/bin"
 
-source $EFX_SETUP
-export REPO_TOP=$(git rev-parse --show-toplevel)
+if [ -n "$EFX_SETUP" ]; then
+    source $EFX_SETUP
+else
+    echo "EFX_SETUP not defined!"
+fi
 
 
 # python -m venv .user_venv --system-site-packages
