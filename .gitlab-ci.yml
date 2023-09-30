@@ -20,7 +20,20 @@ variables:
      GIT_SUBMODULE_STRATEGY: recursive
 
 stages:          # List of stages for jobs, and their order of execution
+  - toolchain
   - build
+
+build-toolchain:
+  tags:
+    - linux
+  stage: toolchain
+  script:
+    - source init_env.sh
+    - cd sw/cc65
+    - make -j
+  artifacts:
+    paths:
+      - sw/cc65/bin
 
 build-fpga:       # This job runs in the build stage, which runs first.
   tags:
