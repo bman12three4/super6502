@@ -56,7 +56,9 @@ uint8_t SD_init()
             res[0] = SD_sendOpCond();
         }
 
+#ifndef RTL_SIM
         for (i = 0; i < 1000; i++);
+#endif
 
         cmdAttempts++;
     }

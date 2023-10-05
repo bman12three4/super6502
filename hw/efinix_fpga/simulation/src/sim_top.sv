@@ -88,6 +88,7 @@ logic w_spi_mosi;
 logic w_spi_miso;
 
 sd_card_emu u_sd_card_emu(
+    .rst(~w_cpu_reset),
     .clk(w_spi_clk),
     .cs(w_sd_cs),
     .mosi(w_spi_mosi),
