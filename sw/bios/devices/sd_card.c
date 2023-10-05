@@ -64,7 +64,9 @@ uint8_t SD_init()
     }
     while(res[0] != SD_READY);
 
+#ifndef RTL_SIM
     for (i = 0; i < 1000; i++);
+#endif
 
     SD_readOCR(res);
 
