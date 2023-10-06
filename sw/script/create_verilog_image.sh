@@ -1,11 +1,11 @@
 
 #!/bin/bash
 
-BOOTLOADER=../bios/bootloader.bin
+BOOTLOADER=$REPO_TOP/sw/bios/bootloader.bin
 FILE=fs.fat
 
 TMPMOUNT=/tmp/lo
-FSDIR=../fsdir
+FSDIR=$REPO_TOP/sw/fsdir
 
 V=-v
 
