@@ -36,7 +36,7 @@ sudo umount $V $FILE
 rmdir $V $TMPMOUNT
 echo
 
+# Really I want the data width to be 512 bytes long, not 16...
 echo "$(tput bold setaf 11)Converting Image to Verilog$(tput sgr 0)"
-objcopy --input-target=binary --output-target=verilog $FILE $FILE.hex
+objcopy --input-target=binary --output-target=verilog --verilog-data-width=1 $FILE $FILE.hex
 echo "$(tput bold setaf 10)Done!$(tput sgr 0)"
-
