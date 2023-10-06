@@ -24,7 +24,12 @@ all: sim
 sim: $(TARGET)
 	vvp $(TARGET) -fst
 
-$(TARGET): $(SD_IMAGE) $(INIT_MEM) $(SRCS)
+.PHONY: full_sim
+full_sim: $(TARGET) $(SD_IMAGE)
+	vvp $(TARGET) -fst
+
+
+$(TARGET): $(INIT_MEM) $(SRCS)
 	iverilog -g2005-sv $(FLAGS) -s $(TOP_MODULE) -o $(TARGET) $(INC) $(SRCS)
 
 $(INIT_MEM):
