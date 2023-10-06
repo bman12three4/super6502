@@ -32,7 +32,7 @@ $(INIT_MEM):
 	cp $(TEST_PROGRAM) ./init_hex.mem
 
 # The script that makes this file uses relative paths
-$(SD_IMAGE): $(SD_IMAGE_PATH)
+$(SD_IMAGE):
 	sh $(REPO_TOP)/sw/script/create_verilog_image.sh
 	cp $(SD_IMAGE_PATH) $(SD_IMAGE)
 
