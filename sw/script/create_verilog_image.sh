@@ -1,7 +1,7 @@
 #!/bin/bash
 
 BOOTLOADER=$REPO_TOP/sw/bios/bootloader.bin
-FILE=fs.fat
+FILE=$REPO_TOP/sw/script/fs.fat
 
 TMPMOUNT=/tmp/lo
 FSDIR=$REPO_TOP/sw/fsdir
