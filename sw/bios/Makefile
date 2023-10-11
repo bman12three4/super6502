@@ -1,5 +1,5 @@
 CC=../cc65/bin/cl65
-CFLAGS=-T -t none -I. --cpu "65C02"
+CFLAGS=-T -t none -I. --cpu "65C02" -DRTL_SIM
 LDFLAGS=-C link.ld -m $(NAME).map
 
 NAME=bios

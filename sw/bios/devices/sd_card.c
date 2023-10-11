@@ -25,7 +25,9 @@ uint8_t SD_init()
         }
     }
 
+#ifndef RTL_SIM
     for (i = 0; i < 1000; i++);
+#endif
 
     SD_sendIfCond(res);
     if(res[0] != SD_IN_IDLE_STATE)
@@ -54,13 +56,17 @@ uint8_t SD_init()
             res[0] = SD_sendOpCond();
         }
 
+#ifndef RTL_SIM
         for (i = 0; i < 1000; i++);
+#endif
 
         cmdAttempts++;
     }
     while(res[0] != SD_READY);
 
+#ifndef RTL_SIM
     for (i = 0; i < 1000; i++);
+#endif
 
     SD_readOCR(res);
 
