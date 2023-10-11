@@ -90,9 +90,29 @@ run sim:
     - linux
     - iverilog
   stage: simulate
+  artifacts:
+    paths:
+      - hw/efinix_fpga/simulation/sim_top.vcd
   script:
     - source init_env.sh
     - cd hw/efinix_fpga/simulation
     - make sim
   dependencies:
     - build sim
+
+full sim:
+  tags:
+    - linux
+    - iverilog
+  stage: simulate
+  artifacts:
+    paths:
+      - hw/efinix_fpga/simulation/sim_top.vcd
+  script:
+    - source init_env.sh
+    - cd hw/efinix_fpga/simulation
+    - make clean
+    - TEST_PROGRAM=$REPO_TOP/sw/bios/bios.hex TEST_FOLDER=$REPO_TOP/sw/bios make full_sim
+  dependencies:
+    - build sim
+

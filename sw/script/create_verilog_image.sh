@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 BOOTLOADER=$REPO_TOP/sw/bios/bootloader.bin
@@ -6,6 +5,8 @@ FILE=fs.fat
 
 TMPMOUNT=/tmp/lo
 FSDIR=$REPO_TOP/sw/fsdir
+
+MNT=/run/media/$USER/SUPER6502
 
 V=-v
 
@@ -22,21 +23,18 @@ echo "$(tput bold setaf 11)Modifying Boot Sector$(tput sgr 0)"
 dd if=$BOOTLOADER of=$FILE bs=1 conv=notrunc count=11 $STATUS
 dd if=$BOOTLOADER of=$FILE bs=1 conv=notrunc count=380 seek=71 skip=71 $STATUS
 
-echo "$(tput bold setaf 11)Mounting Device$(tput sgr 0)"
-mkdir $V -p $TMPMOUNT
-sudo mount $FILE $TMPMOUNT
-echo
+
+LOOP=$(udisksctl loop-setup -f $FILE | grep -o "/dev/loop\([0-9]\)\+")
+MNT=$(udisksctl mount -b $LOOP $TMPMOUNT | grep -o "\([A-Za-z/-]*/\)SUPER6502")
 
 echo "$(tput bold setaf 11)Copying Files$(tput sgr 0)"
-sudo cp $V -r $FSDIR/* $TMPMOUNT
+cp $V -r $FSDIR/* $MNT
 echo
 
-echo "$(tput bold setaf 11)Unmounting Device$(tput sgr 0)"
-sudo umount $V $FILE
-rmdir $V $TMPMOUNT
-echo
+udisksctl unmount -b $LOOP
 
-# Really I want the data width to be 512 bytes long, not 16...
+udisksctl loop-delete -b $LOOP
+
 echo "$(tput bold setaf 11)Converting Image to Verilog$(tput sgr 0)"
 objcopy --input-target=binary --output-target=verilog --verilog-data-width=1 $FILE $FILE.hex
 echo "$(tput bold setaf 10)Done!$(tput sgr 0)"
