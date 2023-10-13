@@ -4,7 +4,7 @@ module sim_top();
 
 `include "include/super6502_sdram_controller_define.vh"
 
-logic r_sysclk, r_sdrclk, r_clk_50, r_clk_2;
+logic r_sysclk, r_sdrclk, r_clk_50, r_clk_cpu;
 
 // clk_100
 initial begin
@@ -30,11 +30,11 @@ initial begin
     end
 end
 
-// clk_2
+// clk_cpu
 initial begin
-    r_clk_2 <= '1;
+    r_clk_cpu <= '1;
     forever begin
-        #250 r_clk_2 <= ~r_clk_2;
+        #250 r_clk_cpu <= ~r_clk_cpu;
     end
 end
 
@@ -47,9 +47,9 @@ logic button_reset;
 
 initial begin
     button_reset <= '0;
-    repeat(10) @(r_clk_2);
+    repeat(10) @(r_clk_cpu);
     button_reset <= '1;
-    repeat(1000000) @(r_clk_2);
+    repeat(1000000) @(r_clk_cpu);
     $finish();
 end
 
@@ -101,7 +101,7 @@ super6502 u_dut(
     .i_sdrclk(r_sdrclk),
     .i_tACclk(~r_sdrclk),
     .clk_50(r_clk_50),
-    .clk_2(r_clk_2),
+    .clk_cpu(r_clk_cpu),
     .button_reset(button_reset),
     .cpu_resb(w_cpu_reset),
     .cpu_addr(w_cpu_addr),
