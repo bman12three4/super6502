@@ -38,9 +38,9 @@ initial begin
     end
 end
 
-initial begin
-    #275000 $finish();
-end
+// initial begin
+//     #275000 $finish();
+// end
 
 initial begin
     $dumpfile("sim_top.vcd");
