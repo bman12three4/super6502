@@ -34,8 +34,12 @@ end
 initial begin
     r_clk_cpu <= '1;
     forever begin
-        #250 r_clk_cpu <= ~r_clk_cpu;
+        #125 r_clk_cpu <= ~r_clk_cpu;
     end
+end
+
+initial begin
+    #275000 $finish();
 end
 
 initial begin

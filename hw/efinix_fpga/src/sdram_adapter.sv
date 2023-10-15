@@ -70,7 +70,7 @@ assign o_sdr_DQM = w_sdr_DQM[0+:2];
 // But basically if we are in access, and cpuclk goes low, go back to wait.
 // If something actually happened, we would be in one of the read/write states.
 
-enum bit [1:0] {ACCESS, READ_WAIT, WRITE_WAIT, WAIT} state, next_state;
+enum bit [2:0] {ACCESS, PRE_READ, READ_WAIT, PRE_WRITE, WRITE_WAIT, WAIT} state, next_state;
 
 logic w_read, w_write, w_last;
 logic [23:0] w_addr, r_addr;
@@ -86,21 +86,6 @@ logic [31:0] r_write_data;
 
 logic [1:0] counter, next_counter;
 
-always @(posedge i_sysclk) begin
-    if (i_arst) begin
-        state <= WAIT;
-        counter <= '0;
-    end else begin
-        state <= next_state;
-        counter <= next_counter;
-        r_write_data <= w_data_i;
-        r_addr <= w_addr;
-        r_dm <= w_dm;
-    end
-    
-    if (w_data_valid)
-        o_data <= _data;
-end
 
 logic r_wait;
 logic _r_wait;
@@ -126,6 +111,20 @@ always @(posedge i_sysclk or posedge i_arst) begin
             end
         end
     end
+
+    if (i_arst) begin
+        state <= WAIT;
+        counter <= '0;
+    end else begin
+        state <= next_state;
+        counter <= next_counter;
+        r_write_data <= w_data_i;
+        r_addr <= w_addr;
+        r_dm <= w_dm;
+    end
+    
+    if (w_data_valid)
+        o_data <= _data;
 end
 
 //because of timing issues, We really need to trigger
@@ -178,24 +177,27 @@ always_comb begin
     ACCESS: begin
         // only do something if selected
         if (i_cs) begin
-            w_addr = {{i_addr[24:2]}, {1'b0}};;  // divide by 2, set last bit to 0
+            w_addr = {{i_addr[24:2]}, {1'b0}};  // divide by 2, set last bit to 0
             
             if (i_rwb) begin    //read
-                w_read = '1;
-                w_last = '1;
-                // dm is not needed for reads?
-                if (w_rd_ack) next_state = READ_WAIT;
+                next_state = PRE_READ;
             end else begin      //write
                 w_data_i = i_data << (8*i_addr[1:0]);
-                //w_data_i = {4{i_data}}; //does anything get through?
                 w_dm = ~(4'b1 << i_addr[1:0]);
-                if (~i_cpuclk) begin
-                    w_write = '1;
-                    w_last = '1;
-                    next_state = WRITE_WAIT;
-                end
+                next_state = PRE_WRITE;
             end
         end 
+    end
+
+    PRE_WRITE: begin
+        w_data_i = r_write_data;
+        w_dm = r_dm;
+        //w_data_i = {4{i_data}}; //does anything get through?
+        if (~i_cpuclk) begin
+            w_write = '1;
+            w_last = '1;
+            next_state = WRITE_WAIT;
+        end
     end
 
     WRITE_WAIT: begin                
@@ -206,6 +208,13 @@ always_comb begin
         w_dm = r_dm;
         w_addr = r_addr;
         if (w_wr_ack) next_state = WAIT;
+    end
+
+    PRE_READ: begin
+        w_read = '1;
+        w_last = '1;
+        // dm is not needed for reads?
+        if (w_rd_ack) next_state = READ_WAIT;
     end
     
     READ_WAIT: begin
