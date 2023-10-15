@@ -86,6 +86,7 @@ logic [31:0] r_write_data;
 
 logic [1:0] counter, next_counter;
 
+logic [7:0] o_data_next;
 
 logic r_wait;
 logic _r_wait;
@@ -122,9 +123,8 @@ always @(posedge i_sysclk or posedge i_arst) begin
         r_addr <= w_addr;
         r_dm <= w_dm;
     end
-    
-    if (w_data_valid)
-        o_data <= _data;
+
+    o_data <= o_data_next;
 end
 
 //because of timing issues, We really need to trigger
@@ -167,6 +167,12 @@ always_comb begin
     w_data_i = '0;
     w_data_valid = '0;
     _data = 0;
+
+    if (w_data_valid) begin
+        o_data_next = _data;
+    end else begin
+        o_data_next = o_data;
+    end
     
     unique case (state)
     WAIT: begin
