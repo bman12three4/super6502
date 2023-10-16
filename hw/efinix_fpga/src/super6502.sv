@@ -140,16 +140,6 @@ end
 
 logic [24:0] w_sdram_addr;
 
-mapper u_mapper(
-    .clk(clk_2),
-    .rst(~cpu_resb),
-    .cpu_addr(cpu_addr),
-    .sdram_addr(w_sdram_addr),
-    .cs(w_mapper_cs),
-    .rwb(cpu_rwb),
-    .i_data(cpu_data_in),
-    .o_data(w_mapper_data_out)
-);
 
 rom #(.DATA_WIDTH(8), .ADDR_WIDTH(12)) u_rom(
     .addr(cpu_addr[11:0]),
