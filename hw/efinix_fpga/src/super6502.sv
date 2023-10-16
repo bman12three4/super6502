@@ -1,4 +1,8 @@
 module super6502
+#(
+    parameter CONTROL_REG_START = 16'h0a00,
+    parameter CONTROL_REG_SIZE = 16'h0600
+)
 (
     input logic i_sysclk,       // Controller Clock (100MHz)
     input logic i_sdrclk,       // t_su and t_wd clock (200MHz)
@@ -71,6 +75,14 @@ always @(posedge clk_cpu) begin
     end
 end
 
+logic w_control_reg_cs;
+
+
+// 0a00 - 0xffff
+assign w_control_reg_cs = (cpu_addr >= CONTROL_REG_START && cpu_addr < CONTROL_REG_START + CONTROL_REG_SIZE);
+
+// The w_control_reg_cs is redundant but whatever
+assign o_mapper_cs = (cpu_addr >= 16'h0a00 && cpu_addr <= 25'h0a20) && w_control_reg_cs;
 
 logic w_rom_cs;
 logic w_leds_cs;
@@ -79,6 +91,7 @@ logic w_timer_cs;
 logic w_multiplier_cs;
 logic w_divider_cs;
 logic w_uart_cs;
+logic w_mapper_cs;
 logic w_spi_cs;
 
 
@@ -89,6 +102,7 @@ logic [7:0] w_multiplier_data_out;
 logic [7:0] w_divider_data_out;
 logic [7:0] w_uart_data_out;
 logic [7:0] w_spi_data_out;
+logic [7:0] w_mapper_data_out;
 logic [7:0] w_sdram_data_out;
 
 always_comb begin
@@ -118,9 +132,14 @@ always_comb begin
         cpu_data_out = w_spi_data_out;
     else if (w_sdram_cs)
         cpu_data_out = w_sdram_data_out;
+    else if (w_mapper_cs)
+        cpu_data_out = w_mapper_data_out;
     else
         cpu_data_out = 'x;
 end
+
+logic [24:0] w_sdram_addr;
+
 
 rom #(.DATA_WIDTH(8), .ADDR_WIDTH(12)) u_rom(
     .addr(cpu_addr[11:0]),
@@ -146,7 +165,7 @@ timer u_timer(
     .o_data(w_timer_data_out),
     .cs(w_timer_cs),
     .rwb(cpu_rwb),
-    .addr(cpu_addr[1:0]),
+    .addr(w_sdram_addr[1:0]),
     .irqb(w_timer_irqb)
 );
 
@@ -157,7 +176,7 @@ multiplier u_multiplier(
     .o_data(w_multiplier_data_out),
     .cs(w_multiplier_cs),
     .rwb(cpu_rwb),
-    .addr(cpu_addr[2:0])
+    .addr(w_sdram_addr[2:0])
 );
 
 divider_wrapper u_divider(
@@ -168,7 +187,7 @@ divider_wrapper u_divider(
     .o_data(w_divider_data_out),
     .cs(w_divider_cs),
     .rwb(cpu_rwb),
-    .addr(cpu_addr[2:0])
+    .addr(w_sdram_addr[2:0])
 );
 
 logic w_uart_irqb;
@@ -181,7 +200,7 @@ uart_wrapper u_uart(
     .o_data(w_uart_data_out),
     .cs(w_uart_cs),
     .rwb(cpu_rwb),
-    .addr(cpu_addr[0]),
+    .addr(w_sdram_addr[0]),
     .rx_i(uart_rx),
     .tx_o(uart_tx),
     .irqb(w_uart_irqb)
@@ -192,7 +211,7 @@ spi_controller spi_controller(
     .i_rst(~cpu_resb),
     .i_cs(w_spi_cs),
     .i_rwb(cpu_rwb),
-    .i_addr(cpu_addr[1:0]),
+    .i_addr(w_sdram_addr[1:0]),
     .i_data(cpu_data_in),
     .o_data(w_spi_data_out),
 
@@ -213,7 +232,7 @@ sdram_adapter u_sdram_adapter(
     .i_cs(w_sdram_cs),
     .i_rwb(cpu_rwb),
 
-    .i_addr(cpu_addr),
+    .i_addr(w_sdram_addr),
     .i_data(cpu_data_in),
     .o_data(w_sdram_data_out),
 
