@@ -1,6 +1,6 @@
-.PHONY: all install bootloader kernel clean
+.PHONY: all install bios kernel clean
 
-all: toolchain bootloader kernel
+all: toolchain bios kernel
 
 install: all
 	sh script/format_disk.sh
@@ -9,14 +9,14 @@ install: all
 toolchain:
 	@$(MAKE) -j4 -C cc65
 
-bootloader:
-	@$(MAKE) -C bootloader
+bios:
+	@$(MAKE) -C bios
 
 kernel:
 	@$(MAKE) -C kernel
 
 
 clean:
-	@$(MAKE) -C bootloader  --no-print-directory $@
+	@$(MAKE) -C bios  --no-print-directory $@
 	@$(MAKE) -C kernel  --no-print-directory $@
 	@$(MAKE) -C cc65  --no-print-directory $@

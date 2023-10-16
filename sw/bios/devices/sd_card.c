@@ -20,17 +20,19 @@ uint8_t SD_init()
         cmdAttempts++;
         if(cmdAttempts == CMD0_MAX_ATTEMPTS)
         {
-            cputs("Go IDLE\r\n");
+            cputs("Go IDLE\n");
             return SD_ERROR;
         }
     }
 
+#ifndef RTL_SIM
     for (i = 0; i < 1000; i++);
+#endif
 
     SD_sendIfCond(res);
     if(res[0] != SD_IN_IDLE_STATE)
     {
-        cputs("IF Cond\r\n");
+        cputs("IF Cond\n");
         return SD_ERROR;
     }
 
@@ -44,7 +46,7 @@ uint8_t SD_init()
     {
         if(cmdAttempts == CMD55_MAX_ATTEMPTS)
         {
-            cputs("op_cond error\r\n");
+            cputs("op_cond error\n");
             return SD_ERROR;
         }
 
@@ -54,13 +56,17 @@ uint8_t SD_init()
             res[0] = SD_sendOpCond();
         }
 
+#ifndef RTL_SIM
         for (i = 0; i < 1000; i++);
+#endif
 
         cmdAttempts++;
     }
     while(res[0] != SD_READY);
 
+#ifndef RTL_SIM
     for (i = 0; i < 1000; i++);
+#endif
 
     SD_readOCR(res);
 
@@ -304,7 +310,7 @@ void SD_sendStatus(uint8_t *res)
 //         while(++readAttempts != SD_MAX_READ_ATTEMPTS)
 //             if((read = spi_exchange(0xFF)) != 0xFF) break;
 
-//         cprintf("read attempts: %d\r\n", readAttempts);
+//         cprintf("read attempts: %d\n", readAttempts);
 
 //         // if response token is 0xFE
 //         if(read == SD_START_TOKEN)

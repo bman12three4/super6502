@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BOOTLOADER=../bios/bootloader.bin
+BOOTLOADER=$REPO_TOP/sw/bios/bootloader.bin
 DEVICE=/dev/mmcblk0
 TMPBOOTSECT=/tmp/bootsect
 TMPMOUNT=/tmp/sd

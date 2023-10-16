@@ -123,6 +123,8 @@ always_comb begin
             o_data = status;
         end
 
+        default: o_data = 'x;
+
     endcase
 end
 

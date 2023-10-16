@@ -1,5 +1,5 @@
 CC=../cc65/bin/cl65
-CFLAGS=-T -t none -I. --cpu "65C02"
+CFLAGS=-T -t none -I. --cpu "65C02" -DRTL_SIM
 LDFLAGS=-C link.ld -m $(NAME).map
 
 NAME=bios
@@ -7,7 +7,7 @@ NAME=bios
 BIN=$(NAME).bin
 HEX=$(NAME).hex
 
-FPGA_IMG=../../hw/efinix_fpga/init_hex.mem
+FPGA_IMG=$(REPO_TOP)/hw/efinix_fpga/init_hex.mem
 EFX_RUN=/home/byron/Software/efinity/2023.1/scripts/efx_run.py
 EFX_PRJ=/home/byron/Projects/super6502/hw/efinix_fpga/super6502.xml
 

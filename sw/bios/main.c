@@ -19,16 +19,16 @@ int main() {
     uint32_t addr = 0x00000000;
 	uint16_t i;
 
-	cputs("Start\r\n");
+	cputs("Start\n");
 
     // initialize sd card
     if(SD_init() != SD_SUCCESS)
     {
-        cputs("Error\r\n");
+        cputs("Error\n");
     }
     else
     {
-        cputs("Success\r\n");
+        cputs("Success\n");
 
 
         res[0] = SD_readSingleBlock(addr, buf, &token);
@@ -38,9 +38,9 @@ int main() {
         //else if error token received, print
         else if(!(token & 0xF0))
         {
-            cputs("Error\r\n");
+            cputs("Error\n");
         } else {
-            cprintf("bad token: %x\r\n", token);
+            cprintf("bad token: %x\n", token);
         }
 
         __asm__ ("jmp (%v)", buf);

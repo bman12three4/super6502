@@ -46,7 +46,7 @@ enum bit [1:0] {READY, WAIT, TRANSMIT} state, next_state;
 
 always_ff @(posedge clk_50) begin
     if (reset) begin
-        state = READY;
+        state <= READY;
         irqb <= '1;
     end else begin
         state <= next_state;
@@ -54,23 +54,27 @@ always_ff @(posedge clk_50) begin
 end
 
 always_ff @(negedge clk) begin
-    status[1] <= tx_busy | tx_en;
+    if (reset) begin
+        status <= '0;
+    end else begin
+        status[1] <= tx_busy | tx_en;
 
-    status[0] <= status[0] | rx_data_valid;
-    if (cs & ~addr & rwb) begin
-        status[0] <= 0;
-    end
+        status[0] <= status[0] | rx_data_valid;
+        if (cs & ~addr & rwb) begin
+            status[0] <= 0;
+        end
 
-    if (cs & ~rwb) begin
-        case (addr)
-            1'b0: begin
-                tx_data <= i_data;
-            end 
+        if (cs & ~rwb) begin
+            case (addr)
+                1'b0: begin
+                    tx_data <= i_data;
+                end
 
-            1'b1: begin
-                control <= i_data;
-            end
-        endcase
+                1'b1: begin
+                    control <= i_data;
+                end
+            endcase
+        end
     end
 
 end
@@ -79,7 +83,7 @@ always_comb begin
     case (addr)
         1'b0: begin
             o_data = rx_data;
-        end 
+        end
 
         1'b1: begin
             o_data = status;

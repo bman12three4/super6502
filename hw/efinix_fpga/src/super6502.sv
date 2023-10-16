@@ -15,7 +15,7 @@ module super6502
     input button_reset,
     input pll_cpu_locked,
     input clk_50,
-    input clk_2,
+    input clk_cpu,
     input logic [15:0] cpu_addr,
     output logic [7:0] cpu_data_out,
     output logic [7:0] cpu_data_oe,
@@ -60,11 +60,11 @@ assign cpu_nmib = '1;
 logic w_wait;
 assign cpu_rdy = ~w_wait;
 
-assign cpu_phi2 = clk_2;
+assign cpu_phi2 = clk_cpu;
 
 logic w_sdr_init_done;
 
-always @(posedge clk_2) begin
+always @(posedge clk_cpu) begin
     if (button_reset == '0) begin
         cpu_resb <= '0;
     end 
@@ -94,18 +94,6 @@ logic w_uart_cs;
 logic w_mapper_cs;
 logic w_spi_cs;
 
-addr_decode u_addr_decode(
-    .i_addr(w_sdram_addr),
-    .config_reg_sel(w_control_reg_cs),
-    .o_rom_cs(w_rom_cs),
-    .o_leds_cs(w_leds_cs),
-    .o_timer_cs(w_timer_cs),
-    .o_multiplier_cs(w_multiplier_cs),
-    .o_divider_cs(w_divider_cs),
-    .o_uart_cs(w_uart_cs),
-    .o_spi_cs(w_spi_cs),
-    .o_sdram_cs(w_sdram_cs)
-);
 
 logic [7:0] w_rom_data_out;
 logic [7:0] w_leds_data_out;
@@ -118,6 +106,16 @@ logic [7:0] w_mapper_data_out;
 logic [7:0] w_sdram_data_out;
 
 always_comb begin
+    w_rom_cs = cpu_addr >= 16'hf000 && cpu_addr <= 16'hffff;
+    w_timer_cs = cpu_addr >= 16'heff8 && cpu_addr <= 16'heffb;
+    w_multiplier_cs = cpu_addr >= 16'heff0 && cpu_addr <= 16'heff7;
+    w_divider_cs = cpu_addr >= 16'hefe8 && cpu_addr <= 16'hefef;
+    w_uart_cs = cpu_addr >= 16'hefe6 && cpu_addr <= 16'hefe7;
+    w_spi_cs = cpu_addr >= 16'hefd8 && cpu_addr <= 16'hefdb;
+    w_leds_cs = cpu_addr == 16'hefff;
+    w_sdram_cs = cpu_addr < 16'he000;
+
+
     if (w_rom_cs)
         cpu_data_out = w_rom_data_out;
     else if (w_leds_cs)
@@ -154,13 +152,13 @@ mapper u_mapper(
 );
 
 rom #(.DATA_WIDTH(8), .ADDR_WIDTH(12)) u_rom(
-    .addr(w_sdram_addr[11:0]),
-    .clk(clk_2),
+    .addr(cpu_addr[11:0]),
+    .clk(clk_cpu),
     .data(w_rom_data_out)
 );
 
 leds u_leds(
-    .clk(clk_2),
+    .clk(clk_cpu),
     .i_data(cpu_data_in),
     .o_data(w_leds_data_out),
     .cs(w_leds_cs),
@@ -171,7 +169,7 @@ leds u_leds(
 logic w_timer_irqb;
 
 timer u_timer(
-    .clk(clk_2),
+    .clk(clk_cpu),
     .reset(~cpu_resb),
     .i_data(cpu_data_in),
     .o_data(w_timer_data_out),
@@ -182,7 +180,7 @@ timer u_timer(
 );
 
 multiplier u_multiplier(
-    .clk(clk_2),
+    .clk(clk_cpu),
     .reset(~cpu_resb),
     .i_data(cpu_data_in),
     .o_data(w_multiplier_data_out),
@@ -192,7 +190,7 @@ multiplier u_multiplier(
 );
 
 divider_wrapper u_divider(
-    .clk(clk_2),
+    .clk(clk_cpu),
     .divclk(clk_50),
     .reset(~cpu_resb),
     .i_data(cpu_data_in),
@@ -205,7 +203,7 @@ divider_wrapper u_divider(
 logic w_uart_irqb;
 
 uart_wrapper u_uart(
-    .clk(clk_2),
+    .clk(clk_cpu),
     .clk_50(clk_50),
     .reset(~cpu_resb),
     .i_data(cpu_data_in),
@@ -219,7 +217,7 @@ uart_wrapper u_uart(
 );
 
 spi_controller spi_controller(
-    .i_clk(clk_2),
+    .i_clk(clk_cpu),
     .i_rst(~cpu_resb),
     .i_cs(w_spi_cs),
     .i_rwb(cpu_rwb),
@@ -235,7 +233,7 @@ spi_controller spi_controller(
 
 
 sdram_adapter u_sdram_adapter(
-    .i_cpuclk(clk_2),
+    .i_cpuclk(clk_cpu),
     .i_arst(~button_reset),
     .i_sysclk(i_sysclk),
     .i_sdrclk(i_sdrclk),
@@ -265,7 +263,7 @@ sdram_adapter u_sdram_adapter(
 );
 
 interrupt_controller u_interrupt_controller(
-    .clk(clk_2),
+    .clk(clk_cpu),
     .reset(~cpu_resb),
     .i_data(cpu_data_in),
     .o_data(w_irq_data_out),
