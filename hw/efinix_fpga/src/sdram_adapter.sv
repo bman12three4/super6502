@@ -73,7 +73,8 @@ assign o_sdr_DQM = w_sdr_DQM[0+:2];
 enum bit [2:0] {ACCESS, PRE_READ, READ_WAIT, PRE_WRITE, WRITE_WAIT, WAIT} state, next_state;
 
 logic w_read, w_write, w_last;
-logic [23:0] w_addr, r_addr;
+logic [23:0] w_read_addr, w_write_addr;
+logic [23:0] r_read_addr, r_write_addr;
 logic [31:0] w_data_i, w_data_o;
 logic [3:0] w_dm, r_dm;
 
@@ -88,9 +89,13 @@ logic [1:0] counter, next_counter;
 
 logic [7:0] o_data_next;
 
+logic [23:0] addr_mux_out;
+
+logic slow_mem;
+
 logic r_wait;
 logic _r_wait;
-assign o_wait = r_wait & i_cs;
+assign o_wait = (r_wait | slow_mem) & i_cs;
 
 // we need to assert rdy low until a falling edge if a reset happens
 
@@ -120,7 +125,8 @@ always @(posedge i_sysclk or posedge i_arst) begin
         state <= next_state;
         counter <= next_counter;
         r_write_data <= w_data_i;
-        r_addr <= w_addr;
+        r_read_addr <= w_read_addr;
+        r_write_addr <= w_write_addr;
         r_dm <= w_dm;
     end
 
@@ -156,10 +162,12 @@ end
 
 
 always_comb begin
+    slow_mem = '0;
     next_state = state;
     next_counter = counter;
     
-    w_addr = '0;
+    w_read_addr = '0;
+    w_write_addr = '0;
     w_dm = '0;
     w_read = '0;
     w_write = '0;
@@ -167,24 +175,19 @@ always_comb begin
     w_data_i = '0;
     w_data_valid = '0;
     _data = 0;
-
-    if (w_data_valid) begin
-        o_data_next = _data;
-    end else begin
-        o_data_next = o_data;
-    end
     
     unique case (state)
     WAIT: begin
-        if (i_cs & i_cpuclk)
+        if (i_cs & ~i_cpuclk)
             next_state = ACCESS;
     end
     
     ACCESS: begin
         // only do something if selected
         if (i_cs) begin
-            w_addr = {{i_addr[24:2]}, {1'b0}};  // divide by 2, set last bit to 0
-            
+            w_read_addr = {{i_addr[24:2]}, {1'b0}};  // divide by 2, set last bit to 0
+            w_write_addr = {{i_addr[24:2]}, {1'b0}};  // divide by 2, set last bit to 0
+            addr_mux_out = w_read_addr;
             if (i_rwb) begin    //read
                 next_state = PRE_READ;
             end else begin      //write
@@ -197,6 +200,8 @@ always_comb begin
 
     PRE_WRITE: begin
         w_data_i = r_write_data;
+        w_write_addr = r_write_addr;
+        addr_mux_out = w_write_addr;
         w_dm = r_dm;
         //w_data_i = {4{i_data}}; //does anything get through?
         if (~i_cpuclk) begin
@@ -208,43 +213,46 @@ always_comb begin
 
     WRITE_WAIT: begin                
         // stay in this state until write is acknowledged.
+        w_write_addr = r_write_addr;
+        addr_mux_out = w_write_addr;
         w_write = '1;
         w_last = '1;
         w_data_i = r_write_data;
         w_dm = r_dm;
-        w_addr = r_addr;
         if (w_wr_ack) next_state = WAIT;
     end
 
     PRE_READ: begin
+        w_read_addr = r_read_addr;
+        addr_mux_out = w_read_addr;
         w_read = '1;
         w_last = '1;
+        slow_mem = '1;
         // dm is not needed for reads?
         if (w_rd_ack) next_state = READ_WAIT;
     end
     
     READ_WAIT: begin
+        w_read_addr = r_read_addr;
+        addr_mux_out = w_read_addr;
+        slow_mem = '1;
         if (w_rd_valid) begin
             w_data_valid = '1;
             _data = w_data_o[8*i_addr[1:0]+:8];
         end
 
         // you must wait until the next cycle!
-        if (~i_cpuclk) begin
+        if (w_data_valid) begin
             next_state = WAIT;
         end
     end
     
     endcase
-end
 
-//this seems scuffed
-logic [23:0] addr_mux_out;
-always_comb begin
-    if (state == ACCESS) begin
-        addr_mux_out = w_addr;
+    if (w_data_valid) begin
+        o_data_next = _data;
     end else begin
-        addr_mux_out = r_addr;
+        o_data_next = o_data;
     end
 end
 
