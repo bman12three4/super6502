@@ -116,3 +116,17 @@ full sim:
   dependencies:
     - build toolchain
 
+mapper sim:
+  tags:
+    - linux
+    - iverilog
+  stage: simulate
+  artifacts:
+    paths:
+      - hw/efinix_fpga/simulation/mapper_tb.vcd
+  script:
+    - source init_env.sh
+    - cd hw/efinix_fpga/simulation
+    - make clean
+    - make mapper_tb
+    - ./mapper_tb

@@ -1,4 +1,5 @@
 SRCS=$(shell find src/ -type f -name "*.*v")
+TBS=$(shell find tbs/ -type f -name "*.*v")
 SRCS+=$(shell find ../ip/ -type f -name "*.*v" -not \( -name "*tmpl*" \))
 SRCS+=$(shell find ../src/ -type f -name "*.*v")
 
@@ -28,6 +29,9 @@ sim: $(TARGET)
 full_sim: $(TARGET) $(SD_IMAGE)
 	vvp $(TARGET) -fst
 
+mapper_tb: $(SRCS) $(TBS)
+	iverilog -g2005-sv $(FLAGS) -s $@ -o $@ $(INC) $(SRCS) $(TBS)
+
 
 $(TARGET): $(INIT_MEM) $(SRCS)
 	iverilog -g2005-sv $(FLAGS) -s $(TOP_MODULE) -o $(TARGET) $(INC) $(SRCS)
@@ -46,3 +50,5 @@ clean:
 	rm -rf $(TARGET)
 	rm -rf $(INIT_MEM)
 	rm -rf $(SD_IMAGE)
+	rm -rf mapper_tb
+	rm -rf mapper_tb.vcd
