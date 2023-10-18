@@ -63,6 +63,8 @@ int errors;
 
 int rnd_values [16];
 
+int rnd_addr;
+
 initial begin
     for (int i = 0; i < 16; i++) begin
         rnd_values[i] = $urandom();
@@ -93,6 +95,17 @@ initial begin
             $error("mm[%d] expected 0x%x got 0x%x", i, rnd_values[i][15:0], u_mapper.mm[i]);
             errors += 1;
         end
+    end
+
+    for (int i = 0; i < 16; i++) begin
+        rnd_addr = $urandom();
+        addr = i << 12 | rnd_addr[11:0];
+        #1 // Neccesary for this assertion to work
+        assert (map_addr == {rnd_values[i][12:0], rnd_addr[11:0]}) else begin
+            $error("Expected %x got %x", {rnd_values[i][12:0], rnd_addr[11:0]}, map_addr);
+        end
+
+        @(posedge r_clk_cpu);
     end
 
     if (errors != 0) begin
