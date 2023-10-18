@@ -28,7 +28,7 @@ always_ff @(negedge i_clk or posedge i_reset) begin
         end
     end
 
-    for (int i = 0; i < 31; i++) begin
+    for (int i = 0; i < 32; i++) begin
         if (we[i]) begin
             mm[i/2][(i%2)*8 +: 8] <= i_data;
         end

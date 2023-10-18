@@ -61,7 +61,14 @@ endtask
 
 int errors;
 
+int rnd_values [16];
+
 initial begin
+    for (int i = 0; i < 16; i++) begin
+        rnd_values[i] = $urandom();
+    end
+
+
     errors = 0;
     repeat (5) @(posedge r_clk_cpu);
     reset = 1;
@@ -73,14 +80,19 @@ initial begin
     reset = 0;
     repeat (5) @(posedge r_clk_cpu);
 
-    write_reg(0, 8'haa);
-    write_reg(1, 8'hbb);
+
+    for (int i = 0; i < 16; i++) begin
+        write_reg(2*i,     rnd_values[i][7:0]);
+        write_reg(2*i + 1, rnd_values[i][15:8]);
+    end
 
     repeat (5) @(posedge r_clk_cpu);
 
-    assert (u_mapper.mm[0] == 16'hbbaa) else begin
-        $error("mm[0] expected 0xbbaa got 0x%x", u_mapper.mm[0]);
-        errors += 1;
+    for (int i = 0; i < 16; i++) begin
+        assert (u_mapper.mm[i] == rnd_values[i][15:0]) else begin
+            $error("mm[%d] expected 0x%x got 0x%x", i, rnd_values[i][15:0], u_mapper.mm[i]);
+            errors += 1;
+        end
     end
 
     if (errors != 0) begin
