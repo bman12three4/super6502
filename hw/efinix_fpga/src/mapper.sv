@@ -20,7 +20,7 @@ logic [15:0] mm_sel;
 logic [15:0] selected_mm;
 
 always_comb begin
-    we = (i_we << i_cpu_addr[4:0]);
+    we = ((i_we & i_cs) << i_cpu_addr[4:0]);
 
     mm_sel = (1 << i_cpu_addr[4:1]);
     o_data = mm_sel[8*i_cpu_addr[0] +: 8];

@@ -72,6 +72,8 @@ always @(posedge clk_cpu) begin
 end
 
 
+logic w_mapper_cs;
+
 logic w_rom_cs;
 logic w_leds_cs;
 logic w_sdram_cs;
@@ -91,19 +93,34 @@ logic [7:0] w_uart_data_out;
 logic [7:0] w_spi_data_out;
 logic [7:0] w_sdram_data_out;
 
+logic [24:0] w_mapped_addr;
+
 always_comb begin
-    w_rom_cs = cpu_addr >= 16'hf000 && cpu_addr <= 16'hffff;
-    w_timer_cs = cpu_addr >= 16'heff8 && cpu_addr <= 16'heffb;
-    w_multiplier_cs = cpu_addr >= 16'heff0 && cpu_addr <= 16'heff7;
-    w_divider_cs = cpu_addr >= 16'hefe8 && cpu_addr <= 16'hefef;
-    w_uart_cs = cpu_addr >= 16'hefe6 && cpu_addr <= 16'hefe7;
-    w_spi_cs = cpu_addr >= 16'hefd8 && cpu_addr <= 16'hefdb;
-    w_leds_cs = cpu_addr == 16'hefff;
-    w_sdram_cs = cpu_addr < 16'he000;
+    w_mapper_cs = cpu_addr >= 16'h200 && cpu_addr <= 16'h21f;
+
+    w_rom_cs = w_mapped_addr >= 16'hf000 && w_mapped_addr <= 16'hffff;
+    w_timer_cs = w_mapped_addr >= 16'heff8 && w_mapped_addr <= 16'heffb;
+    w_multiplier_cs = w_mapped_addr >= 16'heff0 && w_mapped_addr <= 16'heff7;
+    w_divider_cs = w_mapped_addr >= 16'hefe8 && w_mapped_addr <= 16'hefef;
+    w_uart_cs = w_mapped_addr >= 16'hefe6 && w_mapped_addr <= 16'hefe7;
+    w_spi_cs = w_mapped_addr >= 16'hefd8 && w_mapped_addr <= 16'hefdb;
+    w_leds_cs = w_mapped_addr == 16'hefff;
+    
+    w_sdram_cs = ~(
+        w_rom_cs | 
+        w_timer_cs | 
+        w_multiplier_cs | 
+        w_divider_cs | 
+        w_uart_cs | 
+        w_spi_cs |
+        w_leds_cs  
+    );
 
 
     if (w_rom_cs)
         cpu_data_out = w_rom_data_out;
+    else if (w_mapper_cs)
+        cpu_data_out = w_mapper_data_out;
     else if (w_leds_cs)
         cpu_data_out = w_leds_data_out;
     else if (w_timer_cs)
@@ -123,7 +140,7 @@ always_comb begin
 end
 
 rom #(.DATA_WIDTH(8), .ADDR_WIDTH(12)) u_rom(
-    .addr(cpu_addr[11:0]),
+    .addr(w_mapped_addr[11:0]),
     .clk(clk_cpu),
     .data(w_rom_data_out)
 );
@@ -146,8 +163,19 @@ timer u_timer(
     .o_data(w_timer_data_out),
     .cs(w_timer_cs),
     .rwb(cpu_rwb),
-    .addr(cpu_addr[1:0]),
+    .addr(w_mapped_addr[1:0]),
     .irqb(w_timer_irqb)
+);
+
+mapper u_mapper(
+    .i_reset(~cpu_resb),
+    .i_clk(clk_cpu),
+    .i_cs(w_mapper_cs),
+    .i_we(~cpu_rwb),
+    .i_data(cpu_data_in),
+    .o_data(w_mapper_data_out),
+    .i_cpu_addr(cpu_addr),
+    .o_mapped_addr(w_mapped_addr)
 );
 
 multiplier u_multiplier(
@@ -157,7 +185,7 @@ multiplier u_multiplier(
     .o_data(w_multiplier_data_out),
     .cs(w_multiplier_cs),
     .rwb(cpu_rwb),
-    .addr(cpu_addr[2:0])
+    .addr(w_mapped_addr[2:0])
 );
 
 divider_wrapper u_divider(
@@ -168,7 +196,7 @@ divider_wrapper u_divider(
     .o_data(w_divider_data_out),
     .cs(w_divider_cs),
     .rwb(cpu_rwb),
-    .addr(cpu_addr[2:0])
+    .addr(w_mapped_addr[2:0])
 );
 
 logic w_uart_irqb;
@@ -181,7 +209,7 @@ uart_wrapper u_uart(
     .o_data(w_uart_data_out),
     .cs(w_uart_cs),
     .rwb(cpu_rwb),
-    .addr(cpu_addr[0]),
+    .addr(w_mapped_addr[0]),
     .rx_i(uart_rx),
     .tx_o(uart_tx),
     .irqb(w_uart_irqb)
@@ -192,7 +220,7 @@ spi_controller spi_controller(
     .i_rst(~cpu_resb),
     .i_cs(w_spi_cs),
     .i_rwb(cpu_rwb),
-    .i_addr(cpu_addr[1:0]),
+    .i_addr(w_mapped_addr[1:0]),
     .i_data(cpu_data_in),
     .o_data(w_spi_data_out),
 
@@ -213,7 +241,7 @@ sdram_adapter u_sdram_adapter(
     .i_cs(w_sdram_cs),
     .i_rwb(cpu_rwb),
 
-    .i_addr(cpu_addr),
+    .i_addr(w_mapped_addr),
     .i_data(cpu_data_in),
     .o_data(w_sdram_data_out),
 
