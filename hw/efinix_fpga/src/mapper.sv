@@ -10,6 +10,7 @@ module mapper(
 );
 
 logic [15:0] mm [16];
+logic [15:0] mm_next [16];
 
 logic [31:0] we;
 
@@ -27,6 +28,16 @@ always_comb begin
 
     selected_mm = mm[i_cpu_addr[15:12]];
     o_mapped_addr = {selected_mm[12:0], i_cpu_addr[11:0]};
+
+    for (int i = 0; i < 16; i++) begin
+        mm_next[i] = mm[i];
+    end
+
+    for (int i = 0; i < 32; i++) begin
+        if (we[i]) begin
+            mm_next[i/2][(i%2)*8 +: 8] = i_data;
+        end
+    end
 end
 
 always_ff @(negedge i_clk or posedge i_reset) begin
@@ -36,10 +47,8 @@ always_ff @(negedge i_clk or posedge i_reset) begin
         end
     end
 
-    for (int i = 0; i < 32; i++) begin
-        if (we[i]) begin
-            mm[i/2][(i%2)*8 +: 8] <= i_data;
-        end
+    for (int i = 0; i < 16; i++) begin
+        mm[i] <= mm_next[i];
     end
 
 
