@@ -45,10 +45,10 @@ always_ff @(negedge i_clk or posedge i_reset) begin
         for (int i = 0; i < 16; i++) begin
             mm[i] <= i;
         end
-    end
-
-    for (int i = 0; i < 16; i++) begin
-        mm[i] <= mm_next[i];
+    end else begin
+        for (int i = 0; i < 16; i++) begin
+            mm[i] <= mm_next[i];
+        end
     end
 
 
