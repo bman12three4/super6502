@@ -32,6 +32,9 @@ full_sim: $(TARGET) $(SD_IMAGE)
 mapper_tb: $(SRCS) $(TBS)
 	iverilog -g2005-sv $(FLAGS) -s $@ -o $@ $(INC) $(SRCS) $(TBS)
 
+mapper_code_tb: $(SRCS) $(TBS) $(INIT_MEM)
+	iverilog -g2005-sv $(FLAGS) -s $@ -o $@ $(INC) $(SRCS) $(TBS)
+
 
 $(TARGET): $(INIT_MEM) $(SRCS)
 	iverilog -g2005-sv $(FLAGS) -s $(TOP_MODULE) -o $(TARGET) $(INC) $(SRCS)
