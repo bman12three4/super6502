@@ -9,15 +9,15 @@ TEST_PROGRAM_NAME?=loop_test
 TEST_FOLDER?=$(REPO_TOP)/sw/test_code/$(TEST_PROGRAM_NAME)
 TEST_PROGRAM?=$(REPO_TOP)/sw/test_code/$(TEST_PROGRAM_NAME)/$(TEST_PROGRAM_NAME).hex
 
-SD_IMAGE_PATH?=$(REPO_TOP)/sw/script/fs.fat.hex
-
 #TODO implement something like sources.list
 
 TOP_MODULE=sim_top
 TARGET=sim_top
 INIT_MEM=init_hex.mem
-SD_IMAGE=sd_image.mem
+SD_IMAGE=fs.fat
 FLAGS=-DSIM -DRTL_SIM
+
+SD_IMAGE_PATH?=$(REPO_TOP)/sw/script/$(SD_IMAGE)
 
 all: sim
 
