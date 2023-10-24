@@ -71,9 +71,9 @@ _main:
         ldx #>ptr1
         jsr _SD_readSingleBlock
 
-        lda #<buf
-        ldx #>buf
-        jsr _SD_printBuf
+        ; lda #<buf
+        ; ldx #>buf
+        ; jsr _SD_printBuf
 
 
         lda #$20       ; Start at first directory entry (first is a disk label)

@@ -68,9 +68,9 @@ _start:
         ldx #>ptr1
         jsr _SD_readSingleBlock
 
-        lda #<fatbuf
-        ldx #>fatbuf
-        jsr _SD_printBuf
+        ; lda #<fatbuf
+        ; ldx #>fatbuf
+        ; jsr _SD_printBuf
 
         lda #$20       ; Start at first directory entry (first is a disk label)
         sta ptr3
@@ -187,9 +187,9 @@ _start:
         ldx #>ptr1
         jsr _SD_readSingleBlock
 
-        lda userptr
-        ldx userptr + 1
-        jsr _SD_printBuf
+        ; lda userptr
+        ; ldx userptr + 1
+        ; jsr _SD_printBuf
 
         dec filesiz
         bmi @doneload
