@@ -23,11 +23,11 @@ all: sim
 
 .PHONY: sim
 sim: $(TARGET)
-	vvp $(TARGET) -fst
+	vvp -i $(TARGET) -fst
 
 .PHONY: full_sim
 full_sim: $(TARGET) $(SD_IMAGE)
-	vvp $(TARGET) -fst
+	vvp -i $(TARGET) -fst
 
 mapper_tb: $(SRCS) $(TBS)
 	iverilog -g2005-sv $(FLAGS) -s $@ -o $@ $(INC) $(SRCS) $(TBS)
