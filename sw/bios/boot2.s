@@ -304,9 +304,9 @@ _start:
         ldx tlen + 1
         jsr _memcpy
 
-        lda #<$1000
-        ldx #>$1000
-        jsr _SD_printBuf
+        ; lda #<$1000
+        ; ldx #>$1000
+        ; jsr _SD_printBuf
 
         lda userptr + 1
         adc tlen + 1
