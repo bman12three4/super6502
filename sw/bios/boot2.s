@@ -159,9 +159,12 @@ _start:
         sec
         sbc #$02                ; don't handle carry, assume low byte is not 0 or 1
         ldx data_start + 1      ; load x as high data start
-        asl                     ; multiply cluster num (minus 2) by 8
-        asl
-        asl
+        phx
+        ldx sectors_per_cluster ; multiply cluster num (minus 2) by sectors_per_cluster
+@4:     adc tmp1
+        dex
+        bne @4
+        plx
         clc
         adc data_start          ; add that to low data start
         bcc @5                  ; handle carry
