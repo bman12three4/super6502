@@ -118,10 +118,12 @@ _main:
         
         sec
         sbc #$02                ; don't handle carry, assume low byte is not 0 or 1
+        clc
         sta tmp1
         ldx data_start + 1      ; load x as high data start
         phx
         ldx sectors_per_cluster ; multiply cluster num (minus 2) by sectors_per_cluster
+        lda #$00
 @4:     adc tmp1
         dex
         bne @4
