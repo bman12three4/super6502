@@ -7,7 +7,7 @@ NAME=kernel
 
 O65 = $(NAME).o65
 
-FSDIR=../fsdir
+FSDIR=$(REPO_TOP)/sw/fsdir
 
 LISTS=lists
 
@@ -17,8 +17,11 @@ OBJS+=$(patsubst %.s,%.o,$(filter %s,$(SRCS)))
 OBJS+=$(patsubst %.c,%.o,$(filter %c,$(SRCS)))
 
 # Make sure the kernel linked to correct address, no relocation!
-all: $(O65)
+all: $(O65) $(FSDIR)
 	cp $(O65) $(FSDIR)
+
+$(FSDIR):
+	mkdir $(FSDIR)
 
 $(O65): $(OBJS)
 	$(LD) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $@

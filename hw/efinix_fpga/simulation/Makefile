@@ -40,6 +40,8 @@ $(TARGET): $(INIT_MEM) $(SRCS)
 	iverilog -g2005-sv $(FLAGS) -s $(TOP_MODULE) -o $(TARGET) $(INC) $(SRCS)
 
 $(INIT_MEM):
+# Make kernel
+	$(MAKE) -C $(REPO_TOP)/sw/kernel
 	$(MAKE) -C $(TEST_FOLDER)
 	cp $(TEST_PROGRAM) ./init_hex.mem
 
