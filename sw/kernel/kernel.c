@@ -13,8 +13,10 @@
 
 int main() {
     char* string = "this is a shorter string";
-    cputs("Kernel");
-
+    int val = 42;
+    cputs("Kernel\n");
+    cprintf("Kernel printf\n");
+    cprintf("Val: %d\n", val);
     cprintf("%s", string);
 
     // cprintf("Here is a long string: %s\n", longstring);

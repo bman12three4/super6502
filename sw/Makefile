@@ -1,4 +1,4 @@
-.PHONY: all install bios kernel clean
+.PHONY: all install bios kernel clean distclean
 
 all: toolchain bios kernel
 
@@ -15,8 +15,9 @@ bios:
 kernel:
 	@$(MAKE) -C kernel
 
+distclean: clean
+	@$(MAKE) -C cc65  --no-print-directory $@
 
 clean:
 	@$(MAKE) -C bios  --no-print-directory $@
 	@$(MAKE) -C kernel  --no-print-directory $@
-	@$(MAKE) -C cc65  --no-print-directory $@
