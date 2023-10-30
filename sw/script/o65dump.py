@@ -88,10 +88,14 @@ def main() -> None:
     print(filename)
     o65 = O65(filename)
     for item, value in o65.header.items():
-        print(f"{item}:\t{value:x}")
+        print(f"{item}:\t{value:#x}")
     
+    total_olen = 0
     for option in o65.options:
-        print(f"Type: {option[1]}, Data: {option[2]}")
+        print(f"Length: {option[0]:#x} Type: {option[1]:#x}, Data: {option[2]}")
+        total_olen += option[0]
+
+    print(f"Total option length: {total_olen:#x}")
 
     print(f"Text size: {len(o65.text)}")
     print(f"Data size: {len(o65.data)}")

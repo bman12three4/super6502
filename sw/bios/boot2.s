@@ -263,7 +263,6 @@ _start:
         clc
         adc olen
         dec
-        dec
         pha
         bra @opt_len
 
