@@ -260,6 +260,7 @@ _start:
         jsr pushax
 
         pla
+        clc
         adc olen
         dec
         dec
@@ -278,6 +279,7 @@ _start:
         ldy #$4
         jsr _cprintf
 
+        clc
         pla
         ldx #>filebuf
         adc #<filebuf
@@ -308,6 +310,7 @@ _start:
         ; ldx #>$1000
         ; jsr _SD_printBuf
 
+        clc
         lda userptr + 1
         adc tlen + 1
         tax
