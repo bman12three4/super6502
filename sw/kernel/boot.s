@@ -38,7 +38,7 @@ _init:    LDX     #$FF                 ; Initialize stack pointer to $01FF
 ; Initialize memory storage
 
           JSR     zerobss              ; Clear BSS segment (no longer fails)
-          JSR     copydata             ; Initialize DATA segment (this also fails. but prints something)
+        ;   JSR     copydata             ; Initialize DATA segment (this also fails. but prints something)
           JSR     initlib              ; Run constructors (This one works)
 
 ; ---------------------------------------------------------------------------

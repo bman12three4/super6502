@@ -33,8 +33,12 @@ int main() {
 
         res[0] = SD_readSingleBlock(addr, buf, &token);
         // if no error, print buffer
-        if((res[0] == 0x00) && (token == SD_START_TOKEN))
+        if((res[0] == 0x00) && (token == SD_START_TOKEN)) {
+#ifndef RTL_SIM
             SD_printBuf(buf);
+#endif
+        }
+
         //else if error token received, print
         else if(!(token & 0xF0))
         {

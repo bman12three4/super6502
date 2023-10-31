@@ -2,6 +2,8 @@ CC=../cc65/bin/cl65
 CFLAGS=-T -t none -I. --cpu "65C02" -DRTL_SIM
 LDFLAGS=-C link.ld -m $(NAME).map
 
+FSDIR=$(REPO_TOP)/sw/fsdir
+
 NAME=bios
 
 BIN=$(NAME).bin
@@ -21,9 +23,9 @@ OBJS+=$(patsubst %.c,%.o,$(filter %c,$(SRCS)))
 
 all: $(HEX)
 
-$(HEX): $(BIN)
+$(HEX): $(BIN) $(FSDIR)
 	objcopy --input-target=binary --output-target=verilog $(BIN) $(HEX)
-	cp boot2.bin ../fsdir
+	cp boot2.bin $(FSDIR)
 	cmp $(HEX) $(FPGA_IMG); \
 	RETVAL=$$?; \
     if [ $$RETVAL -eq 0 ]; then \
@@ -34,6 +36,8 @@ $(HEX): $(BIN)
 			echo "Update ROM or rebuild FPGA image!"; \
     fi
 
+$(FSDIR):
+	mkdir $(FSDIR)
 	
 
 $(BIN): $(OBJS)

@@ -23,11 +23,11 @@ all: sim
 
 .PHONY: sim
 sim: $(TARGET)
-	vvp $(TARGET) -fst
+	vvp -i $(TARGET) -fst
 
 .PHONY: full_sim
 full_sim: $(TARGET) $(SD_IMAGE)
-	vvp $(TARGET) -fst
+	vvp -i $(TARGET) -fst
 
 mapper_tb: $(SRCS) $(TBS)
 	iverilog -g2005-sv $(FLAGS) -s $@ -o $@ $(INC) $(SRCS) $(TBS)
@@ -40,6 +40,8 @@ $(TARGET): $(INIT_MEM) $(SRCS)
 	iverilog -g2005-sv $(FLAGS) -s $(TOP_MODULE) -o $(TARGET) $(INC) $(SRCS)
 
 $(INIT_MEM):
+# Make kernel
+	$(MAKE) -C $(REPO_TOP)/sw/kernel
 	$(MAKE) -C $(TEST_FOLDER)
 	cp $(TEST_PROGRAM) ./init_hex.mem
 

@@ -68,9 +68,9 @@ _start:
         ldx #>ptr1
         jsr _SD_readSingleBlock
 
-        lda #<fatbuf
-        ldx #>fatbuf
-        jsr _SD_printBuf
+        ; lda #<fatbuf
+        ; ldx #>fatbuf
+        ; jsr _SD_printBuf
 
         lda #$20       ; Start at first directory entry (first is a disk label)
         sta ptr3
@@ -158,10 +158,16 @@ _start:
 
         sec
         sbc #$02                ; don't handle carry, assume low byte is not 0 or 1
+        clc
+        sta tmp1
         ldx data_start + 1      ; load x as high data start
-        asl                     ; multiply cluster num (minus 2) by 8
-        asl
-        asl
+        phx
+        ldx sectors_per_cluster ; multiply cluster num (minus 2) by sectors_per_cluster
+        lda #$00
+@8:     adc tmp1
+        dex
+        bne @8
+        plx
         clc
         adc data_start          ; add that to low data start
         bcc @5                  ; handle carry
@@ -187,9 +193,9 @@ _start:
         ldx #>ptr1
         jsr _SD_readSingleBlock
 
-        lda userptr
-        ldx userptr + 1
-        jsr _SD_printBuf
+        ; lda userptr
+        ; ldx userptr + 1
+        ; jsr _SD_printBuf
 
         dec filesiz
         bmi @doneload
@@ -254,8 +260,8 @@ _start:
         jsr pushax
 
         pla
+        clc
         adc olen
-        dec
         dec
         pha
         bra @opt_len
@@ -272,6 +278,7 @@ _start:
         ldy #$4
         jsr _cprintf
 
+        clc
         pla
         ldx #>filebuf
         adc #<filebuf
@@ -298,10 +305,11 @@ _start:
         ldx tlen + 1
         jsr _memcpy
 
-        lda #<$1000
-        ldx #>$1000
-        jsr _SD_printBuf
+        ; lda #<$1000
+        ; ldx #>$1000
+        ; jsr _SD_printBuf
 
+        clc
         lda userptr + 1
         adc tlen + 1
         tax
