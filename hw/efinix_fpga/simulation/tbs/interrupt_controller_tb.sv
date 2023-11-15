@@ -81,6 +81,9 @@ initial begin
     @(posedge r_clk_cpu)
     int_in = 0;
     repeat (5) @(posedge r_clk_cpu);
+    write_reg(0, 8'hff);
+    write_reg(1, 8'h01);
+    repeat (5) @(posedge r_clk_cpu);
     $finish();
 end
 

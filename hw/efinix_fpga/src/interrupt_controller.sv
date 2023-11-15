@@ -66,10 +66,7 @@ logic w_eoi;
 logic [255:0] r_int, r_int_next;
 
 always_comb begin
-    r_int_next = (~r_int | w_type_full_data) & int_masked;
-    if (w_eoi) begin
-        r_int_next[irq_val] = 0;
-    end
+    w_eoi = 0;
 
     if (addr == '0 && we) begin
         cmd_next = i_data;
@@ -79,6 +76,7 @@ always_comb begin
 
 
     w_type_write = '0;
+    w_enable_write = '0;
 
     if (addr == '1) begin
         unique casez (cmd)
@@ -99,28 +97,34 @@ always_comb begin
             end
 
             8'hff: begin
-                $display("Not handled");
+                // Kind of dumb, still requires a data write
+                w_eoi = i_data[0] & we;
             end
         endcase
     end
 
     int_out = |r_int;
+
+    irq_val = 8'hff;
+    for (int i = 255; i >= 0; i--) begin
+        if (r_int[i] == 1) begin
+            irq_val = i;
+        end
+    end
+
+    r_int_next = (~r_int | w_type_full_data) & int_masked | r_int;
+    if (w_eoi) begin
+        r_int_next[irq_val] = 0;
+    end
 end
 
 always_ff @(negedge clk) begin
     if (reset) begin
         r_int <= '0;
+        cmd <= '0;
     end else begin
         r_int <= r_int_next;
         cmd <= cmd_next;
-    end
-end
-
-always_comb begin
-    for (int i = 255; i == 0; i--) begin
-        if (r_int[i] == 1) begin
-            irq_val = i;
-        end
     end
 end
 
