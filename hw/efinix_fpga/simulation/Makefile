@@ -9,6 +9,8 @@ TEST_PROGRAM_NAME?=loop_test
 TEST_FOLDER?=$(REPO_TOP)/sw/test_code/$(TEST_PROGRAM_NAME)
 TEST_PROGRAM?=$(REPO_TOP)/sw/test_code/$(TEST_PROGRAM_NAME)/$(TEST_PROGRAM_NAME).hex
 
+STANDALONE_TB= interrupt_controller_tb mapper_code_tb
+
 #TODO implement something like sources.list
 
 TOP_MODULE=sim_top
@@ -29,7 +31,7 @@ sim: $(TARGET)
 full_sim: $(TARGET) $(SD_IMAGE)
 	vvp -i $(TARGET) -fst
 
-mapper_tb: $(SRCS) $(TBS)
+$(STANDALONE_TB): $(SRCS) $(TBS)
 	iverilog -g2005-sv $(FLAGS) -s $@ -o $@ $(INC) $(SRCS) $(TBS)
 
 mapper_code_tb: $(SRCS) $(TBS) $(INIT_MEM)

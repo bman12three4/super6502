@@ -12,6 +12,7 @@ module interrupt_controller
     output logic int_out
 );
 
+logic w_enable_write;
 logic [7:0] w_enable_data;
 logic [255:0] w_enable_full_data;
 
@@ -24,6 +25,7 @@ byte_sel_register #(
     .ADDR_WIDTH(32)
 ) reg_enable (
     .i_clk(clk),
+    .i_reset(reset),
     .i_write(w_enable_write),
     .i_byte_sel(w_byte_sel),
     .i_data(i_data),
@@ -31,10 +33,16 @@ byte_sel_register #(
     .o_full_data(w_enable_full_data)
 );
 
+logic we, re;
+
+assign we = cs & ~rwb;
+assign re = cs & rwb;
+
 logic [255:0] int_masked;
 assign int_masked = int_in & w_enable_full_data;
 
 
+logic w_type_write;
 logic [7:0] w_type_data;
 logic [255:0] w_type_full_data;
 
@@ -43,12 +51,15 @@ byte_sel_register #(
     .ADDR_WIDTH(32)
 ) reg_type (
     .i_clk(clk),
+    .i_reset(reset),
     .i_write(w_type_write),
     .i_byte_sel(w_byte_sel),
     .i_data(i_data),
     .o_data(w_type_data),
     .o_full_data(w_type_full_data)
 );
+
+logic [7:0] cmd, cmd_next;
 
 logic w_eoi;
 
@@ -59,10 +70,50 @@ always_comb begin
     if (w_eoi) begin
         r_int_next[irq_val] = 0;
     end
+
+    if (addr == '0 && we) begin
+        cmd_next = i_data;
+    end else begin
+        cmd_next = cmd;
+    end
+
+
+    w_type_write = '0;
+
+    if (addr == '1) begin
+        unique casez (cmd)
+            8'h0?: begin
+                $display("Case 0 not handled");
+            end
+
+            8'h1?: begin
+                w_enable_write = we;
+                w_byte_sel = cmd[3:0];
+                o_data = w_enable_data;
+            end
+
+            8'h2?: begin
+                w_type_write = we;
+                w_byte_sel = cmd[3:0];
+                o_data = w_type_data;
+            end
+
+            8'hff: begin
+                $display("Not handled");
+            end
+        endcase
+    end
+
+    int_out = |r_int;
 end
 
-always_ff @(posedge clk) begin
-    r_int <= r_int_next;
+always_ff @(negedge clk) begin
+    if (reset) begin
+        r_int <= '0;
+    end else begin
+        r_int <= r_int_next;
+        cmd <= cmd_next;
+    end
 end
 
 always_comb begin
