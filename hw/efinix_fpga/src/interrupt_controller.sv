@@ -128,7 +128,7 @@ always_comb begin
                 if (w_eoi && i == irq_val) begin
                     r_int_next[i] = int_masked[i];
                 end else begin
-                    r_int_next[i] = r_int[i];
+                    r_int_next[i] = r_int[i] | int_masked[i];
                 end
             end
         endcase

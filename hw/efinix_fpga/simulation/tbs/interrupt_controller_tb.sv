@@ -66,6 +66,7 @@ endtask
  */
  // TODO this needs to test that it does not trigger after we clear the irq.
 task test_edge_irq();
+    $display("Testing Edge IRQ");
     repeat (5) @(posedge r_clk_cpu);
     reset = 1;
     cs = 0;
@@ -84,6 +85,7 @@ task test_edge_irq();
     int_in = 1;
     @(posedge r_clk_cpu)
     assert (int_out == 1) else begin
+        errors = errors + 1;
         $error("Interrupt should be high!");
     end
     repeat (5) @(posedge r_clk_cpu);
@@ -91,18 +93,72 @@ task test_edge_irq();
     write_reg(1, 8'h01);
     @(posedge r_clk_cpu);
     assert (int_out == 0) else begin
+        errors = errors + 1;
         $error("Interrupt should be low!");
     end
     int_in = 0;
     repeat (5) @(posedge r_clk_cpu);
+    write_reg(0, 8'hff);
+    write_reg(1, 8'h01);
     assert (int_out == 0) else begin
+        errors = errors + 1;
         $error("Interrupt should be low!");
     end
 endtask
 
+task test_level_irq();
+    $display("Testing level IRQ");
+    repeat (5) @(posedge r_clk_cpu);
+    reset = 1;
+    cs = 0;
+    rwb = 1;
+    addr = '0;
+    i_data = '0;
+    int_in = '0;
+    repeat (5) @(posedge r_clk_cpu);
+    reset = 0;
+    repeat (5) @(posedge r_clk_cpu);
+    write_reg(0, 8'h10);    // Enable register
+    write_reg(1, 8'hff);    // 0-7 all enabled
+    write_reg(0, 8'h20);    // Type register
+    write_reg(1, 8'hff);    // 0-7 all level triggered?
+    repeat (5) @(posedge r_clk_cpu);
+    int_in = 1;
+    @(posedge r_clk_cpu)
+    assert (int_out == 1) else begin
+        errors = errors + 1;
+        $error("Interrupt should be high!");
+    end
+    repeat (5) @(posedge r_clk_cpu);
+    write_reg(0, 8'hff);
+    write_reg(1, 8'h01);
+    @(posedge r_clk_cpu);
+    assert (int_out == 1) else begin
+        errors = errors + 1;
+        $error("Interrupt should be high!");
+    end
+    int_in = 0;
+    repeat (5) @(posedge r_clk_cpu);
+    write_reg(0, 8'hff);
+    write_reg(1, 8'h01);
+    @(posedge r_clk_cpu);
+    repeat (5) @(posedge r_clk_cpu)
+    assert (int_out == 0) else begin
+        errors = errors + 1;
+        $error("Interrupt should be low!");
+    end
+endtask
+
+int errors;
+
 initial begin
+    errors = 0;
     test_edge_irq();
-    $finish();
+    test_level_irq();
+    if (errors > 0)
+        $finish_and_return(-1);
+    else
+        $finish();
 end
 
 initial
