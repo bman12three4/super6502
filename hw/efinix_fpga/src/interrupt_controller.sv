@@ -24,7 +24,7 @@ byte_sel_register #(
     .DATA_WIDTH(8),
     .ADDR_WIDTH(32)
 ) reg_enable (
-    .i_clk(clk),
+    .i_clk(~clk),
     .i_reset(reset),
     .i_write(w_enable_write),
     .i_byte_sel(w_byte_sel),
@@ -50,7 +50,7 @@ byte_sel_register #(
     .DATA_WIDTH(8),
     .ADDR_WIDTH(32)
 ) reg_type (
-    .i_clk(clk),
+    .i_clk(~clk),
     .i_reset(reset),
     .i_write(w_type_write),
     .i_byte_sel(w_byte_sel),
@@ -112,9 +112,26 @@ always_comb begin
         end
     end
 
-    r_int_next = (~r_int | w_type_full_data) & int_masked | r_int;
-    if (w_eoi) begin
-        r_int_next[irq_val] = 0;
+    for (int i = 0; i < 256; i++) begin
+        case (w_type_full_data[i])
+            0: begin    // Edge triggered
+                if (w_eoi && i == irq_val) begin
+                    r_int_next[i] = 0;
+                end else begin
+                    r_int_next[i] = (~r_int[i] & int_masked[i]) | r_int[i];
+                end
+            end
+
+            1: begin    // Level Triggered
+                // If we are trying to clear this interrupt but it is still active,
+                // then we don't actually want to clear it.
+                if (w_eoi && i == irq_val) begin
+                    r_int_next[i] = int_masked[i];
+                end else begin
+                    r_int_next[i] = r_int[i];
+                end
+            end
+        endcase
     end
 end
 

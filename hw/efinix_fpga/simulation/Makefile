@@ -9,7 +9,7 @@ TEST_PROGRAM_NAME?=loop_test
 TEST_FOLDER?=$(REPO_TOP)/sw/test_code/$(TEST_PROGRAM_NAME)
 TEST_PROGRAM?=$(REPO_TOP)/sw/test_code/$(TEST_PROGRAM_NAME)/$(TEST_PROGRAM_NAME).hex
 
-STANDALONE_TB= interrupt_controller_tb mapper_code_tb
+STANDALONE_TB= interrupt_controller_tb mapper_code_tb mapper_tb
 
 #TODO implement something like sources.list
 
@@ -34,8 +34,8 @@ full_sim: $(TARGET) $(SD_IMAGE)
 $(STANDALONE_TB): $(SRCS) $(TBS)
 	iverilog -g2005-sv $(FLAGS) -s $@ -o $@ $(INC) $(SRCS) $(TBS)
 
-mapper_code_tb: $(SRCS) $(TBS) $(INIT_MEM)
-	iverilog -g2005-sv $(FLAGS) -s $@ -o $@ $(INC) $(SRCS) $(TBS)
+# mapper_code_tb: $(SRCS) $(TBS) $(INIT_MEM)
+# 	iverilog -g2005-sv $(FLAGS) -s $@ -o $@ $(INC) $(SRCS) $(TBS)
 
 
 $(TARGET): $(INIT_MEM) $(SRCS)
@@ -57,5 +57,5 @@ clean:
 	rm -rf $(TARGET)
 	rm -rf $(INIT_MEM)
 	rm -rf $(SD_IMAGE)
-	rm -rf mapper_tb
-	rm -rf mapper_tb.vcd
+	rm -rf $(STANDALONE_TB)
+	rm -rf *.vcd

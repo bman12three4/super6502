@@ -31,7 +31,7 @@ interrupt_controller u_interrupt_controller(
     .cs(cs),
     .rwb(rwb),
     .int_in(int_in),
-    .int_out(int_out2)
+    .int_out(int_out)
 );
 
 /* These should be shared */
@@ -61,7 +61,11 @@ task read_reg(input logic [2:0] _addr, output logic [7:0] _data);
     rwb <= '1;
 endtask
 
-initial begin
+/* Test Level triggered IRQ by triggering IRQ0
+ * and then clearing it, 
+ */
+ // TODO this needs to test that it does not trigger after we clear the irq.
+task test_edge_irq();
     repeat (5) @(posedge r_clk_cpu);
     reset = 1;
     cs = 0;
@@ -72,18 +76,32 @@ initial begin
     repeat (5) @(posedge r_clk_cpu);
     reset = 0;
     repeat (5) @(posedge r_clk_cpu);
-    write_reg(0, 8'h10);
-    write_reg(1, 8'hff);
-    write_reg(0, 8'h20);
-    write_reg(1, 8'hff);
+    write_reg(0, 8'h10);    // Enable register
+    write_reg(1, 8'hff);    // 0-7 all enabled
+    write_reg(0, 8'h20);    // Type register
+    write_reg(1, 8'h00);    // 0-7 all level triggered?
     repeat (5) @(posedge r_clk_cpu);
     int_in = 1;
     @(posedge r_clk_cpu)
-    int_in = 0;
+    assert (int_out == 1) else begin
+        $error("Interrupt should be high!");
+    end
     repeat (5) @(posedge r_clk_cpu);
     write_reg(0, 8'hff);
     write_reg(1, 8'h01);
+    @(posedge r_clk_cpu);
+    assert (int_out == 0) else begin
+        $error("Interrupt should be low!");
+    end
+    int_in = 0;
     repeat (5) @(posedge r_clk_cpu);
+    assert (int_out == 0) else begin
+        $error("Interrupt should be low!");
+    end
+endtask
+
+initial begin
+    test_edge_irq();
     $finish();
 end
 
