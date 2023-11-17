@@ -4,6 +4,8 @@ module interrupt_controller_tb();
 
 logic r_clk_cpu;
 
+localparam BITS_256 = 256'hffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff;
+
 // clk_cpu
 initial begin
     r_clk_cpu <= '1;
@@ -82,12 +84,43 @@ task test_level_irq();
     end
 endtask
 
-int errors;
 
+task test_irq_val();
+    int irq_val = -1;
+    $display("Testing IRQ val output");
+    do_reset();
+    set_enable('1);
+    set_edge_type('1);
+    for (int i = 255; i >= 0; i--) begin
+        set_interrupts(BITS_256 << i);
+        read_irqval(irq_val);
+        assert(i == irq_val) else begin
+            errors = errors + 1;
+            $display("Expected %d got %d", i, irq_val);
+        end
+    end
+
+    for (int i = 0; i < 256; i++) begin
+        set_interrupts(BITS_256 >> i);
+        read_irqval(irq_val);
+        assert(int_out == 1) else begin
+            errors = errors + 1;
+            $display("int_out should be asserted!");
+        end
+        assert(0 == irq_val) else begin
+            errors = errors + 1;
+            $display("Expected %d got %d", i, irq_val);
+        end
+    end
+
+endtask
+
+int errors;
 initial begin
     errors = 0;
     test_edge_irq();
     test_level_irq();
+    test_irq_val();
     if (errors > 0)
         $finish_and_return(-1);
     else
@@ -143,15 +176,15 @@ task do_reset();
 endtask
 
 task set_enable(input logic [255:0] en);
-    for (int i = 0; i < 16; i++) begin
-        write_reg(0, 8'h10 | i);
+    for (int i = 0; i < 32; i++) begin
+        write_reg(0, 8'h20 | i);
         write_reg(1, en[8*i +: 8]);
     end
 endtask
 
 task set_edge_type(input logic [255:0] edge_type);
-    for (int i = 0; i < 16; i++) begin
-        write_reg(0, 8'h20 | i);
+    for (int i = 0; i < 32; i++) begin
+        write_reg(0, 8'h40 | i);
         write_reg(1, edge_type[8*i +: 8]);
     end
 endtask
@@ -164,6 +197,11 @@ endtask
 task send_eoi();
     write_reg(0, 8'hff);
     write_reg(1, 8'h01);
+endtask
+
+task read_irqval(output logic [7:0] _irq_val);
+    write_reg(0, 8'h00);
+    read_reg(1, _irq_val);
 endtask
 
 

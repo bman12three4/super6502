@@ -82,19 +82,19 @@ always_comb begin
 
     if (addr == '1) begin
         unique casez (cmd)
-            8'h0?: begin
-                $display("Case 0 not handled");
+            8'b000?????: begin
+                o_data = irq_val;
             end
 
-            8'h1?: begin
+            8'b001?????: begin
                 w_enable_write = we;
-                w_byte_sel = cmd[3:0];
+                w_byte_sel = cmd[4:0];
                 o_data = w_enable_data;
             end
 
-            8'h2?: begin
+            8'b010?????: begin
                 w_type_write = we;
-                w_byte_sel = cmd[3:0];
+                w_byte_sel = cmd[4:0];
                 o_data = w_type_data;
             end
 
