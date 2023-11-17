@@ -16,6 +16,8 @@ logic w_enable_write;
 logic [7:0] w_enable_data;
 logic [255:0] w_enable_full_data;
 
+logic [255:0] int_in_d1;
+
 logic [4:0] w_byte_sel;
 
 logic [7:0] irq_val;
@@ -118,7 +120,7 @@ always_comb begin
                 if (w_eoi && i == irq_val) begin
                     r_int_next[i] = 0;
                 end else begin
-                    r_int_next[i] = (~r_int[i] & int_masked[i]) | r_int[i];
+                    r_int_next[i] = (~int_in_d1[i] & int_masked[i]) | r_int[i];
                 end
             end
 
@@ -139,9 +141,11 @@ always_ff @(negedge clk) begin
     if (reset) begin
         r_int <= '0;
         cmd <= '0;
+        int_in_d1 <= '0;
     end else begin
         r_int <= r_int_next;
         cmd <= cmd_next;
+        int_in_d1 <= int_in;
     end
 end
 

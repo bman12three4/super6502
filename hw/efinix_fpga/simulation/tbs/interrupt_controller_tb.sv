@@ -34,72 +34,25 @@ interrupt_controller u_interrupt_controller(
     .int_out(int_out)
 );
 
-/* These should be shared */
-task write_reg(input logic [4:0] _addr, input logic [7:0] _data);
-    @(negedge r_clk_cpu);
-    cs <= '1;
-    addr <= _addr;
-    rwb <= '0;
-    i_data <= '1;
-    @(posedge r_clk_cpu);
-    i_data <= _data;
-    @(negedge r_clk_cpu);
-    cs <= '0;
-    rwb <= '1;
-endtask
-
-task read_reg(input logic [2:0] _addr, output logic [7:0] _data);
-    @(negedge r_clk_cpu);
-    cs <= '1;
-    addr <= _addr;
-    rwb <= '1;
-    i_data <= '1;
-    @(posedge r_clk_cpu);
-    _data <= o_data;
-    @(negedge r_clk_cpu);
-    cs <= '0;
-    rwb <= '1;
-endtask
-
 /* Test Level triggered IRQ by triggering IRQ0
  * and then clearing it, 
  */
- // TODO this needs to test that it does not trigger after we clear the irq.
 task test_edge_irq();
     $display("Testing Edge IRQ");
-    repeat (5) @(posedge r_clk_cpu);
-    reset = 1;
-    cs = 0;
-    rwb = 1;
-    addr = '0;
-    i_data = '0;
-    int_in = '0;
-    repeat (5) @(posedge r_clk_cpu);
-    reset = 0;
-    repeat (5) @(posedge r_clk_cpu);
-    write_reg(0, 8'h10);    // Enable register
-    write_reg(1, 8'hff);    // 0-7 all enabled
-    write_reg(0, 8'h20);    // Type register
-    write_reg(1, 8'h00);    // 0-7 all level triggered?
-    repeat (5) @(posedge r_clk_cpu);
-    int_in = 1;
-    @(posedge r_clk_cpu)
+    do_reset();
+    set_enable(255'hff);
+    set_edge_type(255'h0);
+    set_interrupts(1);
     assert (int_out == 1) else begin
         errors = errors + 1;
         $error("Interrupt should be high!");
     end
-    repeat (5) @(posedge r_clk_cpu);
-    write_reg(0, 8'hff);
-    write_reg(1, 8'h01);
-    @(posedge r_clk_cpu);
+    send_eoi();
     assert (int_out == 0) else begin
         errors = errors + 1;
         $error("Interrupt should be low!");
     end
-    int_in = 0;
-    repeat (5) @(posedge r_clk_cpu);
-    write_reg(0, 8'hff);
-    write_reg(1, 8'h01);
+    set_interrupts(0);
     assert (int_out == 0) else begin
         errors = errors + 1;
         $error("Interrupt should be low!");
@@ -108,41 +61,21 @@ endtask
 
 task test_level_irq();
     $display("Testing level IRQ");
-    repeat (5) @(posedge r_clk_cpu);
-    reset = 1;
-    cs = 0;
-    rwb = 1;
-    addr = '0;
-    i_data = '0;
-    int_in = '0;
-    repeat (5) @(posedge r_clk_cpu);
-    reset = 0;
-    repeat (5) @(posedge r_clk_cpu);
-    write_reg(0, 8'h10);    // Enable register
-    write_reg(1, 8'hff);    // 0-7 all enabled
-    write_reg(0, 8'h20);    // Type register
-    write_reg(1, 8'hff);    // 0-7 all level triggered?
-    repeat (5) @(posedge r_clk_cpu);
-    int_in = 1;
-    @(posedge r_clk_cpu)
+    do_reset();
+    set_enable(255'hff);
+    set_edge_type(255'hff);
+    set_interrupts(1);
     assert (int_out == 1) else begin
         errors = errors + 1;
         $error("Interrupt should be high!");
     end
-    repeat (5) @(posedge r_clk_cpu);
-    write_reg(0, 8'hff);
-    write_reg(1, 8'h01);
-    @(posedge r_clk_cpu);
+    send_eoi();
     assert (int_out == 1) else begin
         errors = errors + 1;
         $error("Interrupt should be high!");
     end
-    int_in = 0;
-    repeat (5) @(posedge r_clk_cpu);
-    write_reg(0, 8'hff);
-    write_reg(1, 8'h01);
-    @(posedge r_clk_cpu);
-    repeat (5) @(posedge r_clk_cpu)
+    set_interrupts(0);
+    send_eoi();
     assert (int_out == 0) else begin
         errors = errors + 1;
         $error("Interrupt should be low!");
@@ -166,5 +99,72 @@ begin
     $dumpfile("interrupt_controller_tb.vcd");
     $dumpvars(0,interrupt_controller_tb);
 end
+
+/* These should be shared */
+task write_reg(input logic [4:0] _addr, input logic [7:0] _data);
+    @(negedge r_clk_cpu);
+    cs <= '1;
+    addr <= _addr;
+    rwb <= '0;
+    i_data <= '1;
+    @(posedge r_clk_cpu);
+    i_data <= _data;
+    @(negedge r_clk_cpu);
+    cs <= '0;
+    rwb <= '1;
+    @(posedge r_clk_cpu);
+endtask
+
+task read_reg(input logic [2:0] _addr, output logic [7:0] _data);
+    @(negedge r_clk_cpu);
+    cs <= '1;
+    addr <= _addr;
+    rwb <= '1;
+    i_data <= '1;
+    @(posedge r_clk_cpu);
+    _data <= o_data;
+    @(negedge r_clk_cpu);
+    cs <= '0;
+    rwb <= '1;
+    @(posedge r_clk_cpu);
+endtask
+
+task do_reset();
+    repeat (5) @(posedge r_clk_cpu);
+    reset = 1;
+    cs = 0;
+    rwb = 1;
+    addr = '0;
+    i_data = '0;
+    int_in = '0;
+    repeat (5) @(posedge r_clk_cpu);
+    reset = 0;
+    repeat (5) @(posedge r_clk_cpu);
+endtask
+
+task set_enable(input logic [255:0] en);
+    for (int i = 0; i < 16; i++) begin
+        write_reg(0, 8'h10 | i);
+        write_reg(1, en[8*i +: 8]);
+    end
+endtask
+
+task set_edge_type(input logic [255:0] edge_type);
+    for (int i = 0; i < 16; i++) begin
+        write_reg(0, 8'h20 | i);
+        write_reg(1, edge_type[8*i +: 8]);
+    end
+endtask
+
+task set_interrupts(logic [255:0] ints);
+    int_in = ints;
+    @(posedge r_clk_cpu);
+endtask
+
+task send_eoi();
+    write_reg(0, 8'hff);
+    write_reg(1, 8'h01);
+endtask
+
 
 endmodule
