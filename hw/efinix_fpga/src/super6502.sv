@@ -267,16 +267,7 @@ interrupt_controller u_interrupt_controller(
     .i_data(cpu_data_in),
     .o_data(w_irq_data_out),
     .cs(w_irq_cs),
-    .rwb(cpu_rwb),
-    .irqb_master(cpu_irqb),
-    .irqb0(w_timer_irqb),
-    .irqb1('1),
-    .irqb2('1),
-    .irqb3('1),
-    .irqb4('1),
-    .irqb5('1),
-    .irqb6('1),
-    .irqb7('1)
+    .rwb(cpu_rwb)
 );
 
 

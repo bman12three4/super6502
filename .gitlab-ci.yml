@@ -146,3 +146,18 @@ mapper_code sim:
     - make clean
     - TEST_PROGRAM_NAME=mapper_test make mapper_code_tb
     - ./mapper_code_tb
+
+interrupt_controller sim:
+  tags:
+    - linux
+    - iverilog
+  stage: simulate
+  artifacts:
+    paths:
+      - hw/efinix_fpga/simulation/interrupt_controller.vcd
+  script:
+    - source init_env.sh
+    - cd hw/efinix_fpga/simulation
+    - make clean
+    - TEST_PROGRAM_NAME=mapper_test make interrupt_controller_tb
+    - ./interrupt_controller_tb
