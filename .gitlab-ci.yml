@@ -98,7 +98,7 @@ run sim:
     - cd hw/efinix_fpga/simulation
     - make sim
   dependencies:
-    - build sim
+    - build toolchain
 
 full sim:
   tags:
