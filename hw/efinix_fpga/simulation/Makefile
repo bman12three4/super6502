@@ -42,6 +42,7 @@ $(CODE_TB): $(SRCS) $(TBS) $(INIT_MEM)
 $(TARGET): $(INIT_MEM) $(SRCS)
 	iverilog -g2005-sv $(FLAGS) -s $(TOP_MODULE) -o $(TARGET) $(INC) $(SRCS)
 
+.PHONY: $(INIT_MEM)
 $(INIT_MEM):
 # Make kernel
 	$(MAKE) -C $(REPO_TOP)/sw/kernel

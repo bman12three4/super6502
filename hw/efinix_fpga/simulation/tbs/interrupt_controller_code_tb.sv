@@ -22,12 +22,16 @@ end
 
 initial begin
     u_sim_top.u_dut.int_in = 0;
-    repeat (1000) @(posedge u_sim_top.r_clk_cpu);
-    u_sim_top.u_dut.int_in = 1;
+    repeat (2400) @(posedge u_sim_top.r_clk_cpu);
+    for (int i = 0; i < 256; i++) begin
+        repeat (100) @(posedge u_sim_top.r_clk_cpu);
+        u_sim_top.u_dut.int_in = 1 << i;
+        $display("Activiating interrupt %d", i);
+    end
 end
 
 initial begin
-    repeat (2000) @(posedge u_sim_top.r_clk_cpu);
+    repeat (40000) @(posedge u_sim_top.r_clk_cpu);
     $display("Timed out");
     $finish_and_return(-1);
 end
