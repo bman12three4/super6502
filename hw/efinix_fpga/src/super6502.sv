@@ -112,7 +112,7 @@ always_comb begin
     w_divider_cs = w_mapped_addr >= 16'hefe8 && w_mapped_addr <= 16'hefef;
     w_uart_cs = w_mapped_addr >= 16'hefe6 && w_mapped_addr <= 16'hefe7;
     w_spi_cs = w_mapped_addr >= 16'hefd8 && w_mapped_addr <= 16'hefdb;
-    w_leds_cs = w_mapped_addr == 16'hefff;
+    w_leds_cs = w_mapped_addr == 16'hefd7;
     
     w_sdram_cs = ~(
         w_rom_cs | 
@@ -146,7 +146,7 @@ always_comb begin
     else if (w_irq_cs)
         cpu_data_out = w_irq_data_out;
     else if (w_rtc_cs)
-        cpu_data_out = w_rtc_cs;
+        cpu_data_out = w_rtc_data_out;
     else if (w_sdram_cs)
         cpu_data_out = w_sdram_data_out;
     else
@@ -289,7 +289,7 @@ interrupt_controller u_interrupt_controller(
     .addr(w_mapped_addr[0]),
     .cs(w_irq_cs),
     .rwb(cpu_rwb),
-    .int_in(int_in),
+    .int_in(w_int_in),
     .int_out(w_irq)
 );
 

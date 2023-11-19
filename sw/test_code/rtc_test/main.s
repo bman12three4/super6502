@@ -10,11 +10,26 @@ RTC_DAT = $efff
 
 .zeropage
 finish: .res 1
+print: .res 1
+iters: .res 1
 
 .code
 
 _nmi_int:
 _irq_int:
+    lda #$30
+    sta RTC_CMD
+    lda RTC_DAT
+    sta print
+
+    lda iters
+    inc
+    cmp #$10
+    bge @end
+    sta iters
+    rti
+
+@end:
     lda #$6d
     sta finish
 
@@ -48,8 +63,15 @@ _init:
     ; Set IRQ Threshold
     lda #$20
     sta RTC_CMD
-    lda #$02
+    lda #$04
     sta RTC_DAT
+
+    lda #$30
+    sta RTC_CMD
+    lda #$03
+    sta RTC_DAT
+
+    stz iters
 
     cli
 
