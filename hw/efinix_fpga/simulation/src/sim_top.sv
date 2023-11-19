@@ -61,6 +61,7 @@ logic w_cpu_reset;
 logic [15:0] w_cpu_addr;
 logic [7:0] w_cpu_data_from_cpu, w_cpu_data_from_dut;
 logic w_cpu_rdy;
+logic w_cpu_irqb;
 logic w_cpu_we;
 logic w_cpu_phi2;
 
@@ -70,7 +71,7 @@ cpu_65c02 u_cpu(
     .reset(~w_cpu_reset),
     .AB(w_cpu_addr),
     .RDY(w_cpu_rdy),
-    .IRQ('0),
+    .IRQ(~w_cpu_irqb),
     .NMI('0),
     .DI_s1(w_cpu_data_from_dut),
     .DO(w_cpu_data_from_cpu),
@@ -114,6 +115,7 @@ super6502 u_dut(
     .cpu_rwb(~w_cpu_we),
     .cpu_rdy(w_cpu_rdy),
     .cpu_phi2(w_cpu_phi2),
+    .cpu_irqb(w_cpu_irqb),
 
     .uart_rx(w_dut_uart_rx),
     .uart_tx(w_dut_uart_tx),
