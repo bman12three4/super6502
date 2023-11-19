@@ -25,13 +25,14 @@ stages:          # List of stages for jobs, and their order of execution
   - simulate
 
 build toolchain:
+  retry: 2
   tags:
     - linux
   stage: toolchain
   script:
     - source init_env.sh
     - cd sw/cc65
-    - make -j
+    - make -j 12
   artifacts:
     paths:
       - sw/cc65/bin
