@@ -47,22 +47,6 @@ build fpga:       # This job runs in the build stage, which runs first.
     - cd hw/efinix_fpga
     - make
 
-build sim:
-  tags:
-   - iverilog
-   - linux
-  stage: build
-  artifacts:
-    paths:
-      - hw/efinix_fpga/simulation/sim_top
-      - hw/efinix_fpga/simulation/init_hex.mem
-  script:  
-    - source init_env.sh
-    - cd hw/efinix_fpga/simulation
-    - make sim_top
-  dependencies:
-    - build toolchain
-
 build bios:
   tags:
     - linux
@@ -85,22 +69,9 @@ build kernel:
   dependencies:
     - build toolchain
 
-run sim:
-  tags:
-    - linux
-    - iverilog
-  stage: simulate
-  artifacts:
-    paths:
-      - hw/efinix_fpga/simulation/sim_top.vcd
-  script:
-    - source init_env.sh
-    - cd hw/efinix_fpga/simulation
-    - make sim
-  dependencies:
-    - build toolchain
 
 full sim:
+  when: manual
   tags:
     - linux
     - iverilog
