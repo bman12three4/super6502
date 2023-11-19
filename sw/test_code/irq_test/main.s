@@ -2,7 +2,7 @@
 
 .export _init, _nmi_int, _irq_int
 
-.import tmp1
+.importzp tmp1
 
 CMD = $effc
 DAT = $effd
