@@ -9,7 +9,8 @@ TEST_PROGRAM_NAME?=loop_test
 TEST_FOLDER?=$(REPO_TOP)/sw/test_code/$(TEST_PROGRAM_NAME)
 TEST_PROGRAM?=$(REPO_TOP)/sw/test_code/$(TEST_PROGRAM_NAME)/$(TEST_PROGRAM_NAME).hex
 
-STANDALONE_TB= interrupt_controller_tb mapper_code_tb mapper_tb
+STANDALONE_TB= interrupt_controller_tb mapper_tb rtc_tb
+CODE_TB= interrupt_controller_code_tb mapper_code_tb
 
 #TODO implement something like sources.list
 
@@ -32,15 +33,16 @@ full_sim: $(TARGET) $(SD_IMAGE)
 	vvp -i $(TARGET) -fst
 
 $(STANDALONE_TB): $(SRCS) $(TBS)
-	iverilog -g2005-sv $(FLAGS) -s $@ -o $@ $(INC) $(SRCS) $(TBS)
+	iverilog -g2005-sv $(FLAGS) -s $@ -o $@ $(INC) $(SRCS) tbs/$@.sv
 
-# mapper_code_tb: $(SRCS) $(TBS) $(INIT_MEM)
-# 	iverilog -g2005-sv $(FLAGS) -s $@ -o $@ $(INC) $(SRCS) $(TBS)
+$(CODE_TB): $(SRCS) $(TBS) $(INIT_MEM)
+	iverilog -g2005-sv $(FLAGS) -s $@ -o $@ $(INC) $(SRCS) tbs/$@.sv
 
 
 $(TARGET): $(INIT_MEM) $(SRCS)
 	iverilog -g2005-sv $(FLAGS) -s $(TOP_MODULE) -o $(TARGET) $(INC) $(SRCS)
 
+.PHONY: $(INIT_MEM)
 $(INIT_MEM):
 # Make kernel
 	$(MAKE) -C $(REPO_TOP)/sw/kernel
@@ -58,4 +60,5 @@ clean:
 	rm -rf $(INIT_MEM)
 	rm -rf $(SD_IMAGE)
 	rm -rf $(STANDALONE_TB)
+	rm -rf $(CODE_TB)
 	rm -rf *.vcd
