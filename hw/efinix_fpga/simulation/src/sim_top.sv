@@ -53,7 +53,7 @@ initial begin
     button_reset <= '0;
     repeat(10) @(r_clk_cpu);
     button_reset <= '1;
-    repeat(5000000) @(r_clk_cpu);
+    repeat(1250000) @(posedge r_clk_cpu);
     $finish();
 end
 
