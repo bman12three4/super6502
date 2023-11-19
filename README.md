@@ -15,6 +15,8 @@ There are a few goals that I have for this project.
 The number 1 goal is to create a pre-emptive multitasking operating system with
 virtual memory.
 
+I also have a few stretch goals:
+
 1. Connect it to the internet
 
 2. Boot linux (lol)
