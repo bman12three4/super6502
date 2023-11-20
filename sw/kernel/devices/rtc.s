@@ -67,6 +67,12 @@ RTC_CONTROL         = $30
     sta RTC_CMD
     lda #$00
     sta RTC_DAT
+
+    lda #$30
+    sta RTC_CMD
+    lda #$3
+    sta RTC_DAT
+    
     rts
 
 .endproc
