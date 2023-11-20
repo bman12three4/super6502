@@ -25,7 +25,7 @@ IRQ_CMD_EOI     = $ff
 ; mask all IRQs, set all type to edge.
 .proc _init_interrupt_controller
     ldx #$20    ; enable
-    ldy #$ff
+    ldy #00
     jsr cmd_all
     ldx #$40    ; edge type
     ldy #$00
