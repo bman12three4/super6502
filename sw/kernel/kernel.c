@@ -7,19 +7,19 @@ int main() {
 
     cputs("Kernel\n");
 
-    // cputs("Init Paging")
+    // cputs("Init Paging\n")
     // init_paging()
 
-    // cputs("Initialize Interrupts");
+    // cputs("Initialize Interrupts\n");
     // init_interrupts();
 
-    cputs("Initialize Interrupt Controller");
+    cputs("Initialize Interrupt Controller\n");
     init_interrupt_controller();
 
-    cputs("Initialize RTC");
+    cputs("Initialize RTC\n");
     init_rtc();
 
-    // cputs("Initialize Serial");
+    // cputs("Initialize Serial\n");
     // // init_serial();
     // enable_irq(2, IRQ_EDGE);
 

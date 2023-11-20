@@ -51,19 +51,19 @@ RTC_CONTROL         = $30
     lda #$00
     sta RTC_DAT
 
-    lda #RTC_THRESHOLD+0    ; Set irq threshold to 50 ($32)
+    lda #RTC_IRQ_THRESHOLD+0    ; Set irq threshold to 50 ($32)
     sta RTC_CMD
     lda #$32
     sta RTC_DAT
-    lda #RTC_THRESHOLD+1
+    lda #RTC_IRQ_THRESHOLD+1
     sta RTC_CMD
     lda #$00
     sta RTC_DAT
-    lda #RTC_THRESHOLD+2
+    lda #RTC_IRQ_THRESHOLD+2
     sta RTC_CMD
     lda #$00
     sta RTC_DAT
-    lda #RTC_THRESHOLD+3
+    lda #RTC_IRQ_THRESHOLD+3
     sta RTC_CMD
     lda #$00
     sta RTC_DAT
