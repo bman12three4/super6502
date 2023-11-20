@@ -1,25 +1,27 @@
 #include <conio.h>
-
-char* longstring = \
-"This is a very long string that is meant to test the loader.\
- We can only load one cluster so far, which means 8 sectors of\
- 512bytes, or a total of 4k. If there was any more data than this,\
- then we would have to traverse the fat to find the next cluster number.\
- This may not be that difficult, but the file will need to be large\
- enough to actually stretch that far. The kernel will probably be\
- that big in the future, but for now when it doesnt really do anything\
- then it can't really be tested.";
+#include "devices/interrupt_controller.h"
+#include "devices/rtc.h"
 
 
 int main() {
-    char* string = "this is a shorter string";
-    int val = 42;
-    cputs("Kernel\n");
-    cprintf("Kernel printf\n");
-    cprintf("Val: %d\n", val);
-    cprintf("%s", string);
 
-    cprintf("Here is a long string: %s\n", longstring);
+    cputs("Kernel\n");
+
+    // cputs("Init Paging\n")
+    // init_paging()
+
+    // cputs("Initialize Interrupts\n");
+    // init_interrupts();
+
+    cputs("Initialize Interrupt Controller\n");
+    init_interrupt_controller();
+
+    cputs("Initialize RTC\n");
+    init_rtc();
+
+    // cputs("Initialize Serial\n");
+    // // init_serial();
+    // enable_irq(2, IRQ_EDGE);
 
     while(1);
 
