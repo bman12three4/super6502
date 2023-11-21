@@ -64,7 +64,7 @@ loop:
     lda IRQ_DAT_ADDR
     sta tmp1
     pla
-    and $07     ; A is now 0-7
+    and #$07     ; A is now 0-7
     tax
     inx         ; X is now 1-8
     lda #$01
