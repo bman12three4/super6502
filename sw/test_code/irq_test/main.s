@@ -54,7 +54,7 @@ _init:
 
 cmd_all:
     txa
-    add #$20
+    add #$10
     sta tmp1
 loop:
     txa

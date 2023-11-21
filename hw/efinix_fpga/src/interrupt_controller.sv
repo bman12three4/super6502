@@ -1,5 +1,7 @@
-module interrupt_controller
-(
+module interrupt_controller 
+#(
+    parameter N_INTERRUPTS = 128
+)(
     input clk,
     input reset,
     input [7:0] i_data,
@@ -8,15 +10,15 @@ module interrupt_controller
     input cs,
     input rwb,
 
-    input [255:0] int_in,
+    input [N_INTERRUPTS-1:0] int_in,
     output logic int_out
 );
 
 logic w_enable_write;
 logic [7:0] w_enable_data;
-logic [255:0] w_enable_full_data;
+logic [N_INTERRUPTS-1:0] w_enable_full_data;
 
-logic [255:0] int_in_d1;
+logic [N_INTERRUPTS-1:0] int_in_d1;
 
 logic [4:0] w_byte_sel;
 
@@ -24,7 +26,7 @@ logic [7:0] irq_val;
 
 byte_sel_register #(
     .DATA_WIDTH(8),
-    .ADDR_WIDTH(32)
+    .ADDR_WIDTH(N_INTERRUPTS/8)
 ) reg_enable (
     .i_clk(~clk),
     .i_reset(reset),
@@ -40,17 +42,17 @@ logic we, re;
 assign we = cs & ~rwb;
 assign re = cs & rwb;
 
-logic [255:0] int_masked;
+logic [N_INTERRUPTS-1:0] int_masked;
 assign int_masked = int_in & w_enable_full_data;
 
 
 logic w_type_write;
 logic [7:0] w_type_data;
-logic [255:0] w_type_full_data;
+logic [N_INTERRUPTS-1:0] w_type_full_data;
 
 byte_sel_register #(
     .DATA_WIDTH(8),
-    .ADDR_WIDTH(32)
+    .ADDR_WIDTH(N_INTERRUPTS/8)
 ) reg_type (
     .i_clk(~clk),
     .i_reset(reset),
@@ -65,7 +67,7 @@ logic [7:0] cmd, cmd_next;
 
 logic w_eoi;
 
-logic [255:0] r_int, r_int_next;
+logic [N_INTERRUPTS-1:0] r_int, r_int_next;
 
 always_comb begin
     w_eoi = 0;
@@ -108,13 +110,13 @@ always_comb begin
     int_out = |r_int;
 
     irq_val = 8'hff;
-    for (int i = 255; i >= 0; i--) begin
+    for (int i = N_INTERRUPTS-1; i >= 0; i--) begin
         if (r_int[i] == 1) begin
             irq_val = i;
         end
     end
 
-    for (int i = 0; i < 256; i++) begin
+    for (int i = 0; i < N_INTERRUPTS; i++) begin
         case (w_type_full_data[i])
             0: begin    // Edge triggered
                 if (w_eoi && i == irq_val) begin
