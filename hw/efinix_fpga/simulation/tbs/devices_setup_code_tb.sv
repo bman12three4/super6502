@@ -20,4 +20,8 @@ always begin
     # 1;
 end
 
+always @(u_sim_top.u_dut.u_rtc.r_output) begin
+    $display("counter: %d", u_sim_top.u_dut.u_rtc.r_output);
+end
+
 endmodule

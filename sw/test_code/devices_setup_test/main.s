@@ -34,4 +34,6 @@ _init:
     lda #$0
     jsr _enable_irq
 
+    cli
+
 @end:   bra @end
