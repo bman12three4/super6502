@@ -163,3 +163,15 @@ rtc_code sim:
     - make clean
     - TEST_PROGRAM_NAME=rtc_test make rtc_code_tb
     - ./rtc_code_tb
+
+devices_setup_code sim:
+  tags:
+    - linux
+    - iverilog
+  stage: simulate
+  script:
+    - source init_env.sh
+    - cd hw/efinix_fpga/simulation
+    - make clean
+    - TEST_PROGRAM_NAME=devices_setup_test make devices_setup_code_tb  
+    - ./devices_setup_code_tb
