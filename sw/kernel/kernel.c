@@ -27,6 +27,8 @@ int main() {
 
     register_irq(&handle_rtc_interrupt, 0);
 
+    asm volatile("cli");
+
     // cputs("Initialize Serial\n");
     // // init_serial();
     // enable_irq(2, IRQ_EDGE);
