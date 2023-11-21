@@ -29,7 +29,7 @@ $(HEX): $(BIN)
 	objcopy --input-target=binary --output-target=verilog $(BIN) $(HEX)
 
 $(BIN): $(OBJS) $(KERNEL_OBJS)
-	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $@
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) $(KERNEL_OBJS) -o $@
 
 %.o: %.c $(LISTS)
 	$(CC) $(CFLAGS) -l $(LISTS)/$<.list -c $< -o $@
