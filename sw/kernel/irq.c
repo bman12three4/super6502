@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <conio.h>
 
-#include "devices/interrupt.h"
+#include "interrupts/interrupt.h"
 #include "devices/uart.h"
 
 

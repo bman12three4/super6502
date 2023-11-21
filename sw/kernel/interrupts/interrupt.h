@@ -9,6 +9,8 @@
 void irq_int();
 void nmi_int();
 
+void register_irq(void* addr, uint8_t irqn);
+
 uint8_t irq_get_status();
 void irq_set_status(uint8_t);
 
