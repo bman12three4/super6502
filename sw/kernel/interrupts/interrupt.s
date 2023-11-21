@@ -2,6 +2,8 @@
 
 .autoimport
 
+.import _enable_irq
+
 .export   _irq_int, _nmi_int
 .export _register_irq
 
@@ -35,6 +37,11 @@ rti
     sta irq_table,x
     jsr popa
     sta irq_table+1,x
+
+    lda #$00
+    jsr pusha
+    txa
+    jsr _enable_irq
     rts
 .endproc
 
