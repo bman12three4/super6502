@@ -1,4 +1,4 @@
-.export _init, _nmi_int, _irq_int
+.export _init, nmi_int, irq_int
 
 .autoimport
 
@@ -11,8 +11,8 @@ finish: .res 1
 
 .code
 
-_nmi_int:
-_irq_int:
+nmi_int:
+irq_int:
     lda #$6d
     sta $00
 

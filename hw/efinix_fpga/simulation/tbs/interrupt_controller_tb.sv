@@ -4,8 +4,7 @@ module interrupt_controller_tb();
 
 logic r_clk_cpu;
 
-localparam BITS_256 = 256'hffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff;
-
+localparam BITS_128 = 128'hffffffffffffffffffffffffffffffff;
 // clk_cpu
 initial begin
     r_clk_cpu <= '1;
@@ -21,10 +20,12 @@ logic [7:0] o_data;
 logic cs;
 logic rwb;
 
-logic [255:0] int_in;
+logic [127:0] int_in;
 logic int_out;
 
-interrupt_controller u_interrupt_controller(
+interrupt_controller #(
+    .N_INTERRUPTS(128)
+) u_interrupt_controller (
     .clk(r_clk_cpu),
     .reset(reset),
     .i_data(i_data),
@@ -42,8 +43,8 @@ interrupt_controller u_interrupt_controller(
 task test_edge_irq();
     $display("Testing Edge IRQ");
     do_reset();
-    set_enable(255'hff);
-    set_edge_type(255'h0);
+    set_enable(128'hff);
+    set_edge_type(128'h0);
     set_interrupts(1);
     assert (int_out == 1) else begin
         errors = errors + 1;
@@ -64,8 +65,8 @@ endtask
 task test_level_irq();
     $display("Testing level IRQ");
     do_reset();
-    set_enable(255'hff);
-    set_edge_type(255'hff);
+    set_enable(128'hff);
+    set_edge_type(128'hff);
     set_interrupts(1);
     assert (int_out == 1) else begin
         errors = errors + 1;
@@ -91,8 +92,8 @@ task test_irq_val();
     do_reset();
     set_enable('1);
     set_edge_type('1);
-    for (int i = 255; i >= 0; i--) begin
-        set_interrupts(BITS_256 << i);
+    for (int i = 127; i >= 0; i--) begin
+        set_interrupts(BITS_128 << i);
         read_irqval(irq_val);
         assert(i == irq_val) else begin
             errors = errors + 1;
@@ -100,8 +101,8 @@ task test_irq_val();
         end
     end
 
-    for (int i = 0; i < 256; i++) begin
-        set_interrupts(BITS_256 >> i);
+    for (int i = 0; i < 128; i++) begin
+        set_interrupts(BITS_128 >> i);
         read_irqval(irq_val);
         assert(int_out == 1) else begin
             errors = errors + 1;
@@ -175,21 +176,21 @@ task do_reset();
     repeat (5) @(posedge r_clk_cpu);
 endtask
 
-task set_enable(input logic [255:0] en);
-    for (int i = 0; i < 32; i++) begin
+task set_enable(input logic [127:0] en);
+    for (int i = 0; i < 16; i++) begin
         write_reg(0, 8'h20 | i);
         write_reg(1, en[8*i +: 8]);
     end
 endtask
 
-task set_edge_type(input logic [255:0] edge_type);
-    for (int i = 0; i < 32; i++) begin
+task set_edge_type(input logic [127:0] edge_type);
+    for (int i = 0; i < 16; i++) begin
         write_reg(0, 8'h40 | i);
         write_reg(1, edge_type[8*i +: 8]);
     end
 endtask
 
-task set_interrupts(logic [255:0] ints);
+task set_interrupts(logic [127:0] ints);
     int_in = ints;
     @(posedge r_clk_cpu);
 endtask

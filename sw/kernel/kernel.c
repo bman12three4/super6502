@@ -1,7 +1,13 @@
 #include <conio.h>
 #include "devices/interrupt_controller.h"
+#include "interrupts/interrupt.h"
 #include "devices/rtc.h"
 
+
+void handle_rtc_interrupt() {
+    cputs("In IRQ interrupt!\n");
+    asm volatile ("rti");
+}
 
 int main() {
 
@@ -18,6 +24,10 @@ int main() {
 
     cputs("Initialize RTC\n");
     init_rtc();
+
+    register_irq(&handle_rtc_interrupt, 0);
+
+    asm volatile("cli");
 
     // cputs("Initialize Serial\n");
     // // init_serial();

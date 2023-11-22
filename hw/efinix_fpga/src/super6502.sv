@@ -159,6 +159,24 @@ rom #(.DATA_WIDTH(8), .ADDR_WIDTH(12)) u_rom(
     .data(w_rom_data_out)
 );
 
+logic w_irq;
+assign cpu_irqb = ~w_irq;
+logic [127:0] w_int_in;
+
+assign w_int_in[127:2] = 0;
+
+interrupt_controller u_interrupt_controller(
+    .clk(clk_cpu),
+    .reset(~cpu_resb),
+    .i_data(cpu_data_in),
+    .o_data(w_irq_data_out),
+    .addr(w_mapped_addr[0]),
+    .cs(w_irq_cs),
+    .rwb(cpu_rwb),
+    .int_in(w_int_in),
+    .int_out(w_irq)
+);
+
 leds u_leds(
     .clk(clk_cpu),
     .i_data(cpu_data_in),
@@ -213,7 +231,7 @@ divider_wrapper u_divider(
     .addr(w_mapped_addr[2:0])
 );
 
-logic w_uart_irqb;
+logic w_uart_irq;
 
 uart_wrapper u_uart(
     .clk(clk_cpu),
@@ -226,8 +244,10 @@ uart_wrapper u_uart(
     .addr(w_mapped_addr[0]),
     .rx_i(uart_rx),
     .tx_o(uart_tx),
-    .irqb(w_uart_irqb)
+    .irq(w_uart_irq)
 );
+
+assign w_int_in[1] = w_uart_irq;
 
 spi_controller spi_controller(
     .i_clk(clk_cpu),
@@ -273,24 +293,6 @@ sdram_adapter u_sdram_adapter(
     .o_sdr_DATA_oe(o_sdr_DATA_oe),
     .i_sdr_DATA(i_sdr_DATA),
     .o_sdr_DQM(o_sdr_DQM)
-);
-
-logic w_irq;
-assign cpu_irqb = ~w_irq;
-logic [255:0] w_int_in;
-
-assign w_int_in[255:1] = 0;
-
-interrupt_controller u_interrupt_controller(
-    .clk(clk_cpu),
-    .reset(~cpu_resb),
-    .i_data(cpu_data_in),
-    .o_data(w_irq_data_out),
-    .addr(w_mapped_addr[0]),
-    .cs(w_irq_cs),
-    .rwb(cpu_rwb),
-    .int_in(w_int_in),
-    .int_out(w_irq)
 );
 
 rtc u_rtc(

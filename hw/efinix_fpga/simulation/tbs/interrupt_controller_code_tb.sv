@@ -23,7 +23,7 @@ end
 initial begin
     // u_sim_top.u_dut.w_int_in = 0;
     repeat (2400) @(posedge u_sim_top.r_clk_cpu);
-    for (int i = 0; i < 256; i++) begin
+    for (int i = 0; i < 128; i++) begin
         repeat (100) @(posedge u_sim_top.r_clk_cpu);
         force u_sim_top.u_dut.u_interrupt_controller.int_in = 1 << i;
         $display("Activiating interrupt %d", i);

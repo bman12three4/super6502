@@ -9,6 +9,8 @@
 .export _disable_irq
 .export _send_eoi
 
+.import irq_int, nmi_int
+
 IRQ_CMD_ADDR    = $effc
 IRQ_DAT_ADDR    = $effd
 
@@ -19,11 +21,24 @@ IRQ_CMD_ENABLE  = $20
 IRQ_CMD_TYPE    = $40
 IRQ_CMD_EOI     = $ff
 
+IRQ_VECTOR = $220
+NMI_VECTOR = $222
+
 .code
 
 ; void init_irq();
 ; mask all IRQs, set all type to edge.
 .proc _init_interrupt_controller
+    lda #<irq_int
+    sta IRQ_VECTOR
+    lda #>irq_int
+    sta IRQ_VECTOR+1
+
+    lda #<nmi_int
+    sta NMI_VECTOR
+    lda #>nmi_int
+    sta NMI_VECTOR+1
+
     ldx #$20    ; enable
     ldy #00
     jsr cmd_all
@@ -34,7 +49,7 @@ IRQ_CMD_EOI     = $ff
 
 cmd_all:        ; Send the same value to all 32 bytes
     txa
-    add #$20
+    add #$10
     sta tmp1
 loop:
     txa
@@ -51,10 +66,8 @@ loop:
 ; void enable_irq(uint8_t type, uint8_t irqnum);
 ; in A: 
 .proc _enable_irq
-    ; Decide which byte we need to modify by dividing by 32 (>> 5)
+    ; Decide which byte we need to modify by dividing by 8 (>> 3)
     pha
-    lsr
-    lsr
     lsr
     lsr
     lsr         ; A is now bytesel
@@ -97,11 +110,10 @@ L3: sta IRQ_DAT_ADDR
 
 .endproc
 
+; TODO this is mostly the same as enable, why copy?
 .proc _disable_irq
     ; Decide which byte we need to modify by dividing by 32 (>> 5)
     pha
-    lsr
-    lsr
     lsr
     lsr
     lsr         ; A is now bytesel

@@ -11,7 +11,7 @@ module uart_wrapper(
     input rx_i,
     output tx_o,
 
-    output logic irqb
+    output logic irq
 );
 
 logic [7:0] status, control;
@@ -20,6 +20,8 @@ logic tx_busy, rx_busy;
 
 logic rx_data_valid, rx_error, rx_parity_error;
 logic baud_x16_ce;
+
+assign irq = rx_data_valid;
 
 logic tx_en;
 
@@ -47,7 +49,6 @@ enum bit [1:0] {READY, WAIT, TRANSMIT} state, next_state;
 always_ff @(posedge clk_50) begin
     if (reset) begin
         state <= READY;
-        irqb <= '1;
     end else begin
         state <= next_state;
     end

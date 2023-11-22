@@ -14,6 +14,18 @@ RTC_IRQ_THRESHOLD   = $20
 RTC_OUTPUT          = $30
 RTC_CONTROL         = $30
 
+THRESHOLD_0         = $a0
+; THRESHOLD_1         = $0f
+THRESHOLD_1         = $00
+THRESHOLD_2         = $00
+THRESHOLD_3         = $00
+
+; IRQ_THRESHOLD_0     = $32
+IRQ_THRESHOLD_0     = $10
+IRQ_THRESHOLD_1     = $00
+IRQ_THRESHOLD_2     = $00
+IRQ_THRESHOLD_3     = $00
+
 ; void init_rtc(void);
 ; Initialize rtc and generate 50ms interrupts
 .proc _init_rtc
@@ -36,36 +48,36 @@ RTC_CONTROL         = $30
 
     lda #RTC_THRESHOLD+0    ; Set threshold to 4000 ($fa0)
     sta RTC_CMD
-    lda #$a0
+    lda #THRESHOLD_0
     sta RTC_DAT
     lda #RTC_THRESHOLD+1
     sta RTC_CMD
-    lda #$0f
+    lda #THRESHOLD_1
     sta RTC_DAT
     lda #RTC_THRESHOLD+2
     sta RTC_CMD
-    lda #$00
+    lda #THRESHOLD_2
     sta RTC_DAT
     lda #RTC_THRESHOLD+3
     sta RTC_CMD
-    lda #$00
+    lda #THRESHOLD_3
     sta RTC_DAT
 
     lda #RTC_IRQ_THRESHOLD+0    ; Set irq threshold to 50 ($32)
     sta RTC_CMD
-    lda #$32
+    lda #IRQ_THRESHOLD_0
     sta RTC_DAT
     lda #RTC_IRQ_THRESHOLD+1
     sta RTC_CMD
-    lda #$00
+    lda #IRQ_THRESHOLD_1
     sta RTC_DAT
     lda #RTC_IRQ_THRESHOLD+2
     sta RTC_CMD
-    lda #$00
+    lda #IRQ_THRESHOLD_2
     sta RTC_DAT
     lda #RTC_IRQ_THRESHOLD+3
     sta RTC_CMD
-    lda #$00
+    lda #IRQ_THRESHOLD_3
     sta RTC_DAT
 
     lda #$30
