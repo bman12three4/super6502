@@ -13,7 +13,7 @@ HEX=$(NAME).hex
 LISTS=lists
 
 KERNEL_SRCS=rtc.s interrupt_controller.s
-KERNEL_OBJS=$(patsubst %.s,%.o,$(filter %s,$(KERNEL_SRCS)))
+# KERNEL_OBJS=$(patsubst %.s,%.o,$(filter %s,$(KERNEL_SRCS)))
 
 SRCS=$(wildcard *.s) $(wildcard *.c) 
 SRCS+=$(wildcard **/*.s) $(wildcard **/*.c)
@@ -28,8 +28,8 @@ all: $(KERNEL_SRCS) $(HEX)
 $(HEX): $(BIN)
 	objcopy --input-target=binary --output-target=verilog $(BIN) $(HEX)
 
-$(BIN): $(OBJS) $(KERNEL_OBJS)
-	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) $(KERNEL_OBJS) -o $@
+$(BIN): $(OBJS)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $@
 
 %.o: %.c $(LISTS)
 	$(CC) $(CFLAGS) -l $(LISTS)/$<.list -c $< -o $@
