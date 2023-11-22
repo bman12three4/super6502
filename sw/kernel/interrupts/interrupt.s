@@ -4,7 +4,7 @@
 
 .import _enable_irq
 
-.export   _irq_int, _nmi_int
+.export   irq_int, nmi_int
 .export _register_irq
 
 IRQ_CMD_ADDR    = $effc
@@ -12,13 +12,14 @@ IRQ_DAT_ADDR    = $effd
 
 IRQ_CMD_READIRQ = $00
 
-.proc _nmi_int
+
+.proc nmi_int
 rti
 .endproc
 
 
-; _irq_int
-.proc _irq_int
+; irq_int
+.proc irq_int
     ; Load IRQ number
     lda #IRQ_CMD_READIRQ
     sta IRQ_CMD_ADDR

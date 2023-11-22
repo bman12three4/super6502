@@ -9,6 +9,8 @@
 .export _disable_irq
 .export _send_eoi
 
+.import irq_int, nmi_int
+
 IRQ_CMD_ADDR    = $effc
 IRQ_DAT_ADDR    = $effd
 
@@ -19,11 +21,24 @@ IRQ_CMD_ENABLE  = $20
 IRQ_CMD_TYPE    = $40
 IRQ_CMD_EOI     = $ff
 
+IRQ_VECTOR = $220
+NMI_VECTOR = $222
+
 .code
 
 ; void init_irq();
 ; mask all IRQs, set all type to edge.
 .proc _init_interrupt_controller
+    lda #<irq_int
+    sta IRQ_VECTOR
+    lda #>irq_int
+    sta IRQ_VECTOR+1
+
+    lda #<nmi_int
+    sta NMI_VECTOR
+    lda #>nmi_int
+    sta NMI_VECTOR+1
+
     ldx #$20    ; enable
     ldy #00
     jsr cmd_all
