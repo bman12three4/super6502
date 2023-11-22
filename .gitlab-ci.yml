@@ -21,7 +21,8 @@ variables:
 
 stages:          # List of stages for jobs, and their order of execution
   - toolchain
-  - build
+  - build_sw
+  - build_hw
   - simulate
 
 build toolchain:
@@ -38,20 +39,13 @@ build toolchain:
       - sw/cc65/bin
       - sw/cc65/lib
 
-build fpga:       # This job runs in the build stage, which runs first.
-  tags:
-    - efinity
-    - linux
-  stage: build
-  script:
-    - source init_env.sh
-    - cd hw/efinix_fpga
-    - make
-
 build bios:
   tags:
     - linux
-  stage: build
+  stage: build_sw
+  artifacts:
+    paths:
+      - hw/efinix_fpga/init_hex.mem
   script:
     - source init_env.sh
     - cd sw/
@@ -62,13 +56,25 @@ build bios:
 build kernel:
   tags:
     - linux
-  stage: build
+  stage: build_sw
   script:
     - source init_env.sh
     - cd sw/
     - make kernel
   dependencies:
     - build toolchain
+
+build fpga:       # This job runs in the build stage, which runs first.
+  tags:
+    - efinity
+    - linux
+  stage: build_hw
+  dependencies:
+    - build bios
+  script:
+    - source init_env.sh
+    - cd hw/efinix_fpga
+    - make
 
 
 full sim:
