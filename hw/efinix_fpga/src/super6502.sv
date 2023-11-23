@@ -250,7 +250,8 @@ uart_wrapper u_uart(
 assign w_int_in[1] = w_uart_irq;
 
 spi_controller spi_controller(
-    .i_clk(clk_cpu),
+    .i_clk_cpu(clk_cpu),
+    .i_clk_50(clk_50),
     .i_rst(~cpu_resb),
     .i_cs(w_spi_cs),
     .i_rwb(cpu_rwb),
