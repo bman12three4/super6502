@@ -6,7 +6,9 @@
 
 
 void handle_rtc_interrupt() {
-    cputs("In IRQ interrupt!\n");
+    // cputs("In IRQ interrupt!\n");
+    cputc('A');
+    send_eoi();
     asm volatile ("rti");
 }
 

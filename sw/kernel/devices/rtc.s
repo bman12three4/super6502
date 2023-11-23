@@ -15,13 +15,13 @@ RTC_OUTPUT          = $30
 RTC_CONTROL         = $30
 
 THRESHOLD_0         = $a0
-; THRESHOLD_1         = $0f
-THRESHOLD_1         = $00
+THRESHOLD_1         = $0f
+; THRESHOLD_1         = $00
 THRESHOLD_2         = $00
 THRESHOLD_3         = $00
 
-; IRQ_THRESHOLD_0     = $32
-IRQ_THRESHOLD_0     = $10
+IRQ_THRESHOLD_0     = $32
+; IRQ_THRESHOLD_0     = $10
 IRQ_THRESHOLD_1     = $00
 IRQ_THRESHOLD_2     = $00
 IRQ_THRESHOLD_3     = $00
