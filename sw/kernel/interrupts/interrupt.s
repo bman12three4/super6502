@@ -3,15 +3,38 @@
 .autoimport
 
 .import _enable_irq
+.import _map
 
 .export   irq_int, nmi_int
 .export _register_irq
+.export _init_interrupts
 
 IRQ_CMD_ADDR    = $effc
 IRQ_DAT_ADDR    = $effd
 
 IRQ_CMD_READIRQ = $00
 
+; void init_interrupts();
+; remap the upper page into ram,
+; then load the new vector addresses.
+.proc _init_interrupts
+    ; map(001f, f);
+    lda #$1f
+    jsr pushax
+    lda #$f
+    jsr _map
+
+    lda #<irq_int
+    sta $fffe
+    lda #>irq_int
+    sta $ffff
+    
+    lda #<nmi_int
+    sta $fffa
+    lda #>nmi_int
+    sta $fffb
+    rts
+.endproc
 
 .proc nmi_int
 rti

@@ -1,6 +1,7 @@
 #include <conio.h>
 #include "devices/interrupt_controller.h"
 #include "interrupts/interrupt.h"
+#include "devices/mapper.h"
 #include "devices/rtc.h"
 
 
@@ -13,11 +14,11 @@ int main() {
 
     cputs("Kernel\n");
 
-    // cputs("Init Paging\n")
-    // init_paging()
+    cputs("Init Mapper\n");
+    init_mapper();
 
-    // cputs("Initialize Interrupts\n");
-    // init_interrupts();
+    cputs("Initialize Interrupts\n");
+    init_interrupts();
 
     cputs("Initialize Interrupt Controller\n");
     init_interrupt_controller();
