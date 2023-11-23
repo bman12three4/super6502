@@ -96,6 +96,8 @@ full sim:
     - make clean
     - TEST_PROGRAM=$REPO_TOP/sw/bios/bios.hex TEST_FOLDER=$REPO_TOP/sw/bios make full_sim
   needs:
+    - job: build toolchain
+      artifacts: true
     - job: build bios
       artifacts: true
     - job: build kernel
