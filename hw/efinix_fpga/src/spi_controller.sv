@@ -43,12 +43,8 @@ logic working;
 always @(negedge i_clk_cpu) begin
     if (i_rst) begin
         r_baud_rate <= 8'h1;
-        r_input_data <= '0;
         r_output_data <= '0;
         r_control <= '0;
-        r_clock_counter <= '0;
-        count <= '0;
-        spi_clk <= '0;
         active <= '0;
     end else begin
         active <= '0;
@@ -71,8 +67,19 @@ end
 logic active_f;
 logic [7:0] r_output_data_f;
 
+logic reset_f;
+always @(posedge i_clk_50) begin
+    reset_f <= i_rst;
+end
 
 always @(posedge i_clk_50) begin
+    if (reset_f) begin
+        r_input_data <= '0;
+        r_clock_counter <= '0;
+        count <= '0;
+        spi_clk <= '0;
+    end
+
     if (active_f) begin
         r_spi_mosi <= r_output_data_f[7];
         r_clock_counter <= r_clock_counter + 9'b1;
