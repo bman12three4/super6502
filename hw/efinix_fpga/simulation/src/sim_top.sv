@@ -34,7 +34,7 @@ end
 initial begin
     r_clk_cpu <= '1;
     forever begin
-        #125 r_clk_cpu <= ~r_clk_cpu;
+        #250 r_clk_cpu <= ~r_clk_cpu;
     end
 end
 
