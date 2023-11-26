@@ -7,3 +7,6 @@
 [submodule "hw/efinix_fpga/simulation/src/verilog-sd-emulator"]
 	path = hw/efinix_fpga/simulation/src/verilog-sd-emulator
 	url = https://git.byronlathi.com/bslathi19/verilog-sd-emulator
+[submodule "hw/kicad_library"]
+	path = hw/kicad_library
+	url = https://git.byronlathi.com/bslathi19/kicad_library.git

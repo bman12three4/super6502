@@ -17,7 +17,8 @@
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
 
 variables:
-     GIT_SUBMODULE_STRATEGY: recursive
+    GIT_SUBMODULE_PATHS: ":(exclude)hw/kicad_library"
+    GIT_SUBMODULE_STRATEGY: recursive
 
 stages:          # List of stages for jobs, and their order of execution
   - toolchain
