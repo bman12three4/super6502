@@ -4,6 +4,10 @@
 # ENV=".env/$HOSTNAME"
 
 export REPO_TOP=$(git rev-parse --show-toplevel)
+export KICAD7_SYMBOL_DIR=$REPO_TOP/hw/kicad_library/symbols
+export KICAD7_3DMODEL_DIR=$REPO_TOP/hw/kicad_library/3dmodels
+export KICAD7_FOOTPRINT_DIR=$REPO_TOP/hw/kicad_library/footprints	
+
 
 # if [ ! -d "$ENV" ]; then
 #     mkdir -p "$ENV"
