@@ -471,6 +471,46 @@
     [
       "0c7bd276-5f73-4ef8-a8a2-874fce123825",
       ""
+    ],
+    [
+      "03abecec-4724-420e-920e-986ba2580308",
+      "power"
+    ],
+    [
+      "a28bae45-a41d-48aa-8dee-a2333866db3d",
+      "cpu"
+    ],
+    [
+      "240fb45c-362d-4cf9-bead-d17ef15bf7d9",
+      "ddr"
+    ],
+    [
+      "337f91b2-5935-41a8-adab-77c6de100854",
+      "vga"
+    ],
+    [
+      "d1b08bf9-d018-4d88-92a5-af0d22dce754",
+      "hdmi"
+    ],
+    [
+      "0e586220-674f-4460-8339-5e3e7edc244c",
+      "ethernet"
+    ],
+    [
+      "97b7ebae-6d0e-40d9-8e3a-8f6a0baafdc2",
+      "board_io"
+    ],
+    [
+      "40603e20-84c6-45bc-99e6-f7272e6c1ac0",
+      "fpga"
+    ],
+    [
+      "95d69960-5749-4bf0-ba13-8cc427d1e8e9",
+      "ftdi"
+    ],
+    [
+      "608a5705-96be-4a71-b2b6-c4625a5aee39",
+      "usb"
     ]
   ],
   "text_variables": {}
