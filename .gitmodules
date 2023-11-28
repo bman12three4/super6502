@@ -9,4 +9,4 @@
 	url = https://git.byronlathi.com/bslathi19/verilog-sd-emulator
 [submodule "hw/kicad_library"]
 	path = hw/kicad_library
-	url = https://git.byronlathi.com/bslathi19/kicad_library.git
+	url = https://git.byronlathi.com/bslathi19/kicad-library-2.git
