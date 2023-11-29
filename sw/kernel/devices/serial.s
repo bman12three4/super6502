@@ -9,7 +9,7 @@
 .export _serial_init
 .export _serial_handle_irq
 
-.export _serial_putc, _serial_puts, _serial_getc, _serial_get_nb
+.export _serial_putc, _serial_puts, _serial_getc, _serial_getc_nb
 
 .zeropage
 
@@ -39,8 +39,8 @@ UART_STATUS = UART + 1
 ; Get the character and store it.
 .proc _serial_handle_irq
         lda UART_RXB
-        sta last_char
         ora #$80        ; set msb
+        sta last_char
         jsr _send_eoi
         rti
 .endproc
@@ -58,7 +58,7 @@ L1:     lda last_char
 ; Serial Port Get Character Non-Blocking
 ; return last character, even if it has already been read.
 ; If the character is new, we still clear the new flag.
-.proc _serial_get_nb
+.proc _serial_getc_nb
         lda last_char
         bpl L1
         and #$7f

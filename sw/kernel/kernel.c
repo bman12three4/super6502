@@ -8,7 +8,7 @@
 
 void handle_rtc_interrupt() {
     // cputs("In IRQ interrupt!\n");
-    cputc('A');
+    // cputc('A');
     send_eoi();
     asm volatile ("rti");
 }
@@ -40,12 +40,12 @@ int main() {
 
     serial_puts("Hello from serial!\n");
 
-    c = serial_getc();
-
-    serial_puts("Got a character!: ");
-    serial_putc(c);
-
-    while(1);
+    while(1) {
+        c = serial_getc();
+        serial_puts("Got a character!: ");
+        serial_putc(c);
+        serial_putc('\n');
+    }
 
     return 0;
 }
