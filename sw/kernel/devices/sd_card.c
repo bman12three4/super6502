@@ -339,11 +339,15 @@ token = 0xFF - response timeout
 *******************************************************************************/
 uint8_t SD_writeSingleBlock(uint32_t addr, uint8_t *buf, uint8_t *token)
 {
+
+    (void)addr;
+    (void)buf;
+    (void)token;
+
+    /*
     uint16_t readAttempts;
     uint8_t res1, read;
     uint16_t i;
-
-    /*
 
     // set token to none
     *token = 0xFF;
@@ -391,9 +395,11 @@ uint8_t SD_writeSingleBlock(uint32_t addr, uint8_t *buf, uint8_t *token)
     spi_deselect(0);
     spi_exchange(0xFF);
 
+    return res1;
+
     */
 
-    return res1;
+    return 0;
 }
 
 /*******************************************************************************

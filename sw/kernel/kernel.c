@@ -3,6 +3,7 @@
 #include "interrupts/interrupt.h"
 #include "devices/mapper.h"
 #include "devices/rtc.h"
+#include "devices/serial.h"
 
 
 void handle_rtc_interrupt() {
@@ -13,6 +14,8 @@ void handle_rtc_interrupt() {
 }
 
 int main() {
+
+    uint8_t c;
 
     cputs("Kernel\n");
 
@@ -32,9 +35,15 @@ int main() {
 
     asm volatile("cli");
 
-    // cputs("Initialize Serial\n");
-    // // init_serial();
-    // enable_irq(2, IRQ_EDGE);
+    cputs("Initialize Serial\n");
+    serial_init();
+
+    serial_puts("Hello from serial!\n");
+
+    c = serial_getc();
+
+    serial_puts("Got a character!: ");
+    serial_putc(c);
 
     while(1);
 
