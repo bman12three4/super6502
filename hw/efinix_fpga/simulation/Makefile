@@ -11,7 +11,7 @@ TEST_PROGRAM?=$(REPO_TOP)/sw/test_code/$(TEST_PROGRAM_NAME)/$(TEST_PROGRAM_NAME)
 
 STANDALONE_TB= interrupt_controller_tb mapper_tb rtc_tb uart_irq_tb
 CODE_TB= interrupt_controller_code_tb mapper_code_tb rtc_code_tb \
-		devices_setup_code_tb
+		devices_setup_code_tb uart_irq_code_tb
 
 #TODO implement something like sources.list
 
