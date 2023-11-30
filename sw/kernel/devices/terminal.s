@@ -27,7 +27,7 @@ terminal_buf: .res 128
         bge FAIL
         sta tmp1            ; Store nbytes in tmp1
         
-        jsr pushax          ; Check that buf != NULL
+        jsr popax          ; Check that buf != NULL
         cmp #$00
         bne L1
         cpx #$00
@@ -90,14 +90,34 @@ FAIL:   lda #$ff            ; return -1 on fail
         rts
 .endproc
 
-; terminal_write
+; int8_t terminal_write(uint8_t fd, const void* buf, uint8_t nbytes);
 ; write characters to the terminal
 ; Inputs: int8_t* buf - buffer of characters to write
 ;         uint8_t n - number of characters to write
 ; Return Value: 0 on success, -1 on failure
 ; Writes to screen. Only stops after n chars written.
+; This seems to not care about null termination?
 .proc _terminal_write
+        sta tmp1            ; put nbytes in tmp1
 
+        jsr popax           ; check that buf is not null
+        cmp #$00
+        bne L1
+        cpx #$00
+        bne L1
+        bra FAIL
+L1:
+        ldy #$00
+LOOP:   lda (ptr1),y        ; Loop through buffer and print
+        jsr _serial_putc
+        iny
+        cmp tmp1
+        blt LOOP
+        lda #$00
+        rts
+
+FAIL:   lda #$ff            ; old code didn't fail, but new code does.
+        rts
 .endproc
 
 ; terminal_open

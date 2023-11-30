@@ -1,9 +1,13 @@
 #include <conio.h>
+#include <string.h>
+
 #include "devices/interrupt_controller.h"
 #include "interrupts/interrupt.h"
 #include "devices/mapper.h"
 #include "devices/rtc.h"
 #include "devices/serial.h"
+
+#include "devices/terminal.h"
 
 
 void handle_rtc_interrupt() {
@@ -13,9 +17,9 @@ void handle_rtc_interrupt() {
     asm volatile ("rti");
 }
 
-int main() {
+char buf[128];
 
-    uint8_t c;
+int main() {
 
     cputs("Kernel\n");
 
@@ -40,11 +44,13 @@ int main() {
 
     serial_puts("Hello from serial!\n");
 
+    terminal_open(NULL);
+    terminal_write(0, "Terminal Write\n", 15);
+
     while(1) {
-        c = serial_getc();
-        serial_puts("Got a character!: ");
-        serial_putc(c);
-        serial_putc('\n');
+        terminal_read(0, buf, 128);
+        terminal_write(0, "Got: ", 5);
+        terminal_write(0, buf, strlen(buf));
     }
 
     return 0;
