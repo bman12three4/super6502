@@ -48,7 +48,7 @@ rti
     sta IRQ_CMD_ADDR
     lda IRQ_DAT_ADDR
     ; shift by 2 (oh so only 128 interrupts are supported lol)
-    lsr
+    asl
     tax
     jmp (irq_table,x)
     ; use that to index jump table
@@ -56,6 +56,7 @@ rti
 
 ; void register_irq(void* addr, uint8_t irqn);
 .proc _register_irq
+    asl
     tax
     jsr popa
     sta irq_table,x
@@ -65,6 +66,7 @@ rti
     lda #$00
     jsr pusha
     txa
+    lsr
     jsr _enable_irq
     rts
 .endproc
