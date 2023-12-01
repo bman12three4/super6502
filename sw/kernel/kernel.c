@@ -36,6 +36,9 @@ int main() {
 
     register_irq(&handle_rtc_interrupt, 0);
 
+    rtc_set(0xaaaa, RTC_THRESHOLD);
+    rtc_set(0xbbbb, RTC_IRQ_THRESHOLD);
+
     asm volatile("cli");
 
     // cputs("Initialize Serial\n");
