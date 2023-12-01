@@ -106,12 +106,13 @@ FAIL:   lda #$ff            ; return -1 on fail
         cpx #$00
         bne L1
         bra FAIL
-L1:
+L1:     sta ptr1
+        stx ptr1+1
         ldy #$00
 LOOP:   lda (ptr1),y        ; Loop through buffer and print
         jsr _serial_putc
         iny
-        cmp tmp1
+        cpy tmp1
         blt LOOP
         lda #$00
         rts
