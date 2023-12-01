@@ -202,6 +202,8 @@ timer u_timer(
 mapper u_mapper(
     .i_reset(~cpu_resb),
     .i_clk(clk_cpu),
+    .i_clk50(clk_50),
+    .i_clk100(i_sysclk),
     .i_cs(w_mapper_cs),
     .i_we(~cpu_rwb),
     .i_data(cpu_data_in),

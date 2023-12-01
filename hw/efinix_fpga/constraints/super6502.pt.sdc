@@ -11,11 +11,18 @@
 
 # PLL Constraints
 #################
-create_clock -period 5.0000 i_sdrclk
-create_clock -period 5.0000 i_tACclk
-create_clock -period 10.0000 i_sysclk
+
 create_clock -period 20.0000 clk_50
-create_clock -period 500.0000 clk_2
+create_generated_clock -source clk_50 -multiply_by 4 i_sdrclk
+create_generated_clock -source clk_50 -multiply_by 4 i_tACclk
+create_generated_clock -source clk_50 -multiply_by 2 i_sysclk
+create_generated_clock -source clk_50 -divide_by 25 clk_cpu
+
+
+# create_clock -period 5.0000 i_sdrclk
+# create_clock -period 5.0000 i_tACclk
+# create_clock -period 10.0000 i_sysclk
+# create_clock -period 500.0000 clk_cpu
 
 # GPIO Constraints
 ####################
