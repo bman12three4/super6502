@@ -23,7 +23,7 @@ terminal_buf: .res 128
 .proc _terminal_read
         cmp #$00            ; Check that nbytes is > 0 and < 128
         beq FAIL
-        cmp #$80
+        cmp #$81
         bge FAIL
         sta tmp1            ; Store nbytes in tmp1
         
@@ -44,8 +44,9 @@ LOOP:   cpy tmp1
         jsr _serial_getc
         sta terminal_buf,y
 
-        cmp #$0a            ; If newline, do something
+        cmp #$0d            ; If newline, do something
         bne L2
+        lda #$0a            ; hacky serial, we want $0a, not $0d
         jsr _serial_putc
         bra END
 
@@ -61,7 +62,7 @@ L2:     cmp #$08            ; Handle backspace
         bra LOOP
 
 L3:     lda terminal_buf,y  ; Normal character
-        sta (tmp1),y
+        sta (ptr1),y
         jsr _serial_putc
         iny
         bra LOOP

@@ -20,26 +20,25 @@ void handle_rtc_interrupt() {
 char buf[128];
 
 int main() {
-
     cputs("Kernel\n");
 
-    cputs("Init Mapper\n");
+    // cputs("Init Mapper\n");
     init_mapper();
 
-    cputs("Initialize Interrupts\n");
+    // cputs("Initialize Interrupts\n");
     init_interrupts();
 
-    cputs("Initialize Interrupt Controller\n");
+    // cputs("Initialize Interrupt Controller\n");
     init_interrupt_controller();
 
-    cputs("Initialize RTC\n");
+    // cputs("Initialize RTC\n");
     init_rtc();
 
     register_irq(&handle_rtc_interrupt, 0);
 
     asm volatile("cli");
 
-    cputs("Initialize Serial\n");
+    // cputs("Initialize Serial\n");
     serial_init();
 
     serial_puts("Hello from serial!\n");
@@ -48,9 +47,13 @@ int main() {
     terminal_write(0, "Terminal Write\n", 15);
 
     while(1) {
-        terminal_read(0, buf, 128);
+        if (terminal_read(0, buf, 128)) {
+            cprintf("Fail\n");
+            break;
+        }
         terminal_write(0, "Got: ", 5);
         terminal_write(0, buf, strlen(buf));
+        terminal_write(0, "\n", 1);
     }
 
     return 0;

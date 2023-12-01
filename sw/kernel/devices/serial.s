@@ -85,7 +85,7 @@ L1:     rts
         ldy #$00                ; initialize y to 0
 L1:     lda (ptr1),y            ; load character from string
         beq L2                  ; Quit if NULL
-        jsr _uart_txb_block      ; send character (does not change y or ptr1)
+        jsr _serial_putc        ; send character (does not change y or ptr1)
         iny                     ; increment y
         bne L1                  ; If Y == 0, increment high byte of pointer
         inc ptr1+1
