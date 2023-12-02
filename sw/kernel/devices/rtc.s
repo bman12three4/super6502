@@ -2,8 +2,11 @@
 
 .importzp tmp1
 
+.import popa
+
 .export _init_rtc
 .export _handle_rtc
+.export _rtc_set
 
 RTC_CMD = $effe
 RTC_DAT = $efff
@@ -86,7 +89,20 @@ IRQ_THRESHOLD_3     = $00
     sta RTC_DAT
     
     rts
+.endproc
 
+; void rtc_set(uint32_t val, uint8_t idx);
+.proc _rtc_set
+    sta tmp1        ; store idx in tmp1
+    ldx #$04
+L1: lda tmp1
+    sta RTC_CMD     ; store cmd+idx to CMD    
+    jsr popa        ; pop 1 byte of argument
+    sta RTC_DAT     ; write it to data
+    inc tmp1        ; increase index
+    dex         
+    bne L1          ; repeat 4 times
+    rts
 .endproc
 
 
