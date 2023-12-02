@@ -93,12 +93,13 @@ IRQ_THRESHOLD_3     = $00
 
 ; void rtc_set(uint32_t val, uint8_t idx);
 .proc _rtc_set
-    tay             ; move cmd to Y
+    sta tmp1        ; store idx in tmp1
     ldx #$04
-L1: sty RTC_CMD     ; store cmd+idx to CMD    
+L1: lda tmp1
+    sta RTC_CMD     ; store cmd+idx to CMD    
     jsr popa        ; pop 1 byte of argument
     sta RTC_DAT     ; write it to data
-    iny             ; increase index
+    inc tmp1        ; increase index
     dex         
     bne L1          ; repeat 4 times
     rts
