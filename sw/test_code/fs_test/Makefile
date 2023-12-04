@@ -6,6 +6,8 @@ LDFLAGS=-m $(NAME).map
 
 NAME=fs_test
 
+SIMARGS=
+
 BIN=$(NAME).bin
 
 FS=$(REPO_TOP)/sw/script/fs.fat
@@ -20,7 +22,7 @@ OBJS+=$(patsubst %.s,%.o,$(filter %s,$(SRCS)))
 OBJS+=$(patsubst %.c,%.o,$(filter %c,$(SRCS)))
 
 run: all
-	$(SIM) $(BIN)
+	$(SIM) $(SIMARGS) $(BIN)
 
 all: fs.fat fat32.s $(BIN)
 

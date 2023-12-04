@@ -16,6 +16,6 @@ uint16_t imulii(uint16_t a, uint16_t b) {
 
 uint8_t SD_readSingleBlock(uint32_t addr, uint8_t *buf, uint8_t *error) {
     FILE* f = fopen(FILE_PATH, "rb");
-    // fseek(f, addr * 512, SEEK_SET);
+    fseek(f, addr * 512, SEEK_SET);
     fread(buf, 512, 1, f);
 }

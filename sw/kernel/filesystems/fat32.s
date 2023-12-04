@@ -53,7 +53,7 @@ sectors_per_fat         = sd_buf + $24
     ldx bytes_per_sector+1
     jsr pushax
     ldy #$4
-    jsr _printf
+    jsr _cprintf
 
     lda #<sps_val_str
     ldx #>sps_val_str
