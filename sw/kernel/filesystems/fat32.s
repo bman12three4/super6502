@@ -9,7 +9,8 @@
 
 .export _fat32_init
 
-.export _root_cluster, _fat_start_sector, _data_start_sector, _fat_size, _sd_buf
+.export _root_cluster, _fat_start_sector, _data_start_sector
+.export _fat_size, _sd_buf, _sectors_per_cluster
 
 
 .data
@@ -17,6 +18,7 @@ _root_cluster: .res 4
 _fat_start_sector: .res 2
 _data_start_sector: .res 4
 _fat_size: .res 4
+_sectors_per_cluster: .res 1
 
 _sd_buf: .res 512
 
@@ -46,6 +48,9 @@ root_cluster_offs       = _sd_buf + $2C
     lda #<ptr1
     ldx #>ptr1
     jsr _SD_readSingleBlock
+
+    lda sectors_per_cluster
+    sta _sectors_per_cluster
 
     ldx #$00
 L1: lda root_cluster_offs,x
