@@ -12,9 +12,22 @@ int8_t fat32_read_cluster(uint32_t cluster, void* buf) {
     return error;
 }
 
+uint32_t fat32_next_cluster(uint32_t cluster) {
+    uint8_t error;
+    uint32_t addr = fat_start_sector;
+    uint32_t cluster_val;
+    SD_readSingleBlock(addr, sd_buf, &error);
+    cluster_val = ((uint32_t*)sd_buf)[cluster];
+    return cluster_val;
+}
+
 int8_t fat32_get_cluster_by_name(char* name, struct fat32_directory_entry* dentry) {
     struct fat32_directory_entry* local_entry;
     int i = 0;
+
+    uint32_t cluster;
+
+    cluster = fat32_next_cluster(root_cluster);
 
     cprintf("Sectors per cluster: %hhx\n", sectors_per_cluster);
 

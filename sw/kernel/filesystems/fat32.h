@@ -41,5 +41,6 @@ struct lfn_entry {
 
 int8_t fat32_get_cluster_by_name(char* name, struct fat32_directory_entry* dentry);
 int8_t fat32_read_cluster(uint32_t cluster, void* buf);
+uint32_t fat32_next_cluster(uint32_t cluster);
 
 #endif
