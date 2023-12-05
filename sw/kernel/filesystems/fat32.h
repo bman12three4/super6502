@@ -5,6 +5,12 @@
 
 void fat32_init();
 
+extern uint32_t root_cluster;
+extern uint16_t fat_start_sector;
+extern uint32_t data_start_sector;
+extern uint32_t fat_size;
+extern uint8_t* sd_buf;
+
 struct fat32_directory_entry {
     char file_name[8];
     char file_ext[3];
@@ -30,5 +36,8 @@ struct lfn_entry {
     uint16_t cluster_low;
     uint16_t name_2[2];
 };
+
+uint8_t fat32_get_cluster_by_name(char* name, struct fat32_directory_entry* dentry);
+uint8_t fat32_read_cluster(uint32_t cluster, void* buf);
 
 #endif
