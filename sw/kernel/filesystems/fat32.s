@@ -11,21 +11,16 @@
 
 
 .data
+root_cluster: .res 4
 fat_start_sector: .res 2
 data_start_sector: .res 4
 fat_size: .res 4
 
 sd_buf: .res 512
 
-bps_val_str: .asciiz "Bytes Per Sector: 0x%x\n"
-sps_val_str: .asciiz "Sectors Per Cluster: 0x%x\n"
-rsv_val_str: .asciiz "Reserved Sectors: 0x%x\n"
-fat_count_str: .asciiz "FAT count: 0x%x\n"
-fat_sect_str: .asciiz "Sectors per FAT: 0x%x\n"
-fat_size_tot_str: .asciiz "Total fat size: 0x%lx\n"
-rsv_sect_bytes_str: .asciiz "Total reserved bytes: 0x%x\n"
-rsv_sd_sectors: .asciiz "Reserved SD Sectors: 0x%x\n"
 data_start_sect_str: .asciiz "Data sector start: 0x%lx\n"
+starting_cluster_str: .asciiz "Root cluster num: %lx\n";
+value_str: .asciiz "Value: 0x%x\n"
 
 .code
 
@@ -34,6 +29,7 @@ sectors_per_cluster     = sd_buf + $0D
 reserved_sectors        = sd_buf + $0E
 fat_count               = sd_buf + $10
 sectors_per_fat         = sd_buf + $24
+root_cluster_offs       = sd_buf + $2C
 
 .proc _fat32_init
     ; load sector 0 into sd_buf
@@ -49,68 +45,25 @@ sectors_per_fat         = sd_buf + $24
     ldx #>ptr1
     jsr _SD_readSingleBlock
 
-    lda #<bps_val_str
-    ldx #>bps_val_str
-    jsr pushax
-    lda bytes_per_sector
-    ldx bytes_per_sector+1
-    jsr pushax
-    ldy #$4
-    jsr _cprintf
-
-    lda #<sps_val_str
-    ldx #>sps_val_str
-    jsr pushax
-    lda sectors_per_cluster
     ldx #$00
-    jsr pushax
-    ldy #$4
-    jsr _cprintf
+L1: lda root_cluster_offs,x
+    sta root_cluster,x
+    inx
+    cpx #$4
+    blt L1
 
-    lda #<rsv_val_str
-    ldx #>rsv_val_str
-    jsr pushax
-    lda reserved_sectors
-    ldx #$00
-    jsr pushax
-    ldy #$4
-    jsr _cprintf
-
-    lda #<fat_count_str
-    ldx #>fat_count_str
-    jsr pushax
-    lda fat_count
-    ldx #$00
-    jsr pushax
-    ldy #$4
-    jsr _cprintf
-
-
-    lda #<rsv_sect_bytes_str
-    ldx #>rsv_sect_bytes_str
-    jsr pushax
-
+    ; Multiply reserved sectors and bytes per sector, then divide by 512 to get sd sectors
     lda reserved_sectors
     jsr pusha0
     lda bytes_per_sector
     ldx bytes_per_sector+1
     jsr _imulii
-    jsr pushax
-    phx
-    ldy #$4
-    jsr _cprintf
-
-    pla
+    txa
     lsr
     sta fat_start_sector
     stz fat_start_sector + 1
 
-    lda #<fat_size_tot_str
-    ldx #>fat_size_tot_str
-    jsr pushax
-
-    ; multiply fat size and number of fats
-
+    ; multiply fat size and number of fats to get total fat size
     lda fat_count
     jsr pusha0
     lda sectors_per_fat
@@ -122,13 +75,9 @@ sectors_per_fat         = sd_buf + $24
     sta fat_size+2
     lda sreg+1
     sta fat_size+3
-    lda fat_size
-    ldx fat_size+1
-    jsr pusheax
-    ldy #$6
-    jsr _cprintf
 
 
+    ; Add fat size to starting fat sector to get data start sector
     lda fat_size
     adc fat_start_sector
     sta data_start_sector
