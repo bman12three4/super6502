@@ -36,8 +36,6 @@ int8_t fat32_get_cluster_by_name(char* name, struct fat32_directory_entry* dentr
     }
 
     cprintf("Found file!\n");
-
-    cprintf("attr1: %x\n", local_entry->attr1);
-    cprintf("cluster: %x %x\n", local_entry->cluster_high, local_entry->cluster_low);
-    cprintf("File Size: %lx\n", local_entry->file_size);
+    memcpy(dentry, local_entry, 32);
+    return 0;
 }
