@@ -15,8 +15,8 @@
 struct fops {
     int8_t (*open)(const char* filename);
     int8_t (*close)(int8_t fd);
-    int8_t (*read)(int8_t fd, void* buf, size_t nbytes);
-    int8_t (*write)(int8_t fd, const void* buf, size_t nbytes);
+    size_t (*read)(int8_t fd, void* buf, size_t nbytes);
+    size_t (*write)(int8_t fd, const void* buf, size_t nbytes);
 };
 
 struct file_desc {

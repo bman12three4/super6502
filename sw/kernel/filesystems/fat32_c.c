@@ -13,7 +13,7 @@ int8_t fd_val;
 
 
 //TODO
-int8_t fat32_file_write(int8_t fd, const void* buf, size_t nbytes) {
+size_t fat32_file_write(int8_t fd, const void* buf, size_t nbytes) {
     (void)fd;
     (void)buf;
     (void)nbytes;
@@ -62,7 +62,7 @@ int8_t fat32_file_open(const char* filename) {
     return fd;
 }
 
-int8_t fat32_file_read(int8_t fd, void* buf, size_t nbytes) {
+size_t fat32_file_read(int8_t fd, void* buf, size_t nbytes) {
     uint16_t i;
     uint8_t error;
     size_t offset;
@@ -84,11 +84,17 @@ int8_t fat32_file_read(int8_t fd, void* buf, size_t nbytes) {
     for (i = 0; i < cluster_seq; i++) {
         cluster = fat32_next_cluster(cluster);
     }
+
+    offset = fdesc->file_pos % 512;
+
+    if (offset + nbytes > 512) {
+        cprintf("Need to do something about this!\n");
+    }
     
     fat32_read_cluster(cluster, sd_buf);
-    memcpy(buf, sd_buf, nbytes);
+    memcpy(buf, sd_buf + offset, nbytes);
     fdesc->file_pos += nbytes;
-    return error;
+    return nbytes;
 }
 
 int8_t fat32_read_cluster(uint32_t cluster, void* buf) {

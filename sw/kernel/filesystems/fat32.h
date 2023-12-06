@@ -45,8 +45,8 @@ int8_t fat32_read_cluster(uint32_t cluster, void* buf);
 uint32_t fat32_next_cluster(uint32_t cluster);
 
 int8_t fat32_file_open(const char* filename);
-int8_t fat32_file_read(int8_t fd, void* buf, size_t nbytes);
-int8_t fat32_file_write(int8_t fd, const void* buf, size_t nbytes);
+size_t fat32_file_read(int8_t fd, void* buf, size_t nbytes);
+size_t fat32_file_write(int8_t fd, const void* buf, size_t nbytes);
 int8_t fat32_file_close(int8_t fd);
 
 #endif
