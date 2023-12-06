@@ -1,9 +1,66 @@
-#include "fat32.h"
-
 #include <devices/sd_card.h>
+#include <process/process.h>
 #include <conio.h>
 #include <stdint.h>
 #include <string.h>
+
+#include "fat32.h"
+#include "fs.h"
+
+static struct fops fat32_file_ops = {fat32_file_open, fat32_file_close, fat32_file_read, fat32_file_write};
+
+int8_t fd_val;
+
+
+//TODO
+int8_t fat32_file_write(int8_t fd, const void* buf, int8_t nbytes) {
+    return -1;
+}
+
+int8_t fat32_file_close(int8_t fd) {
+    return -1;
+}
+
+int8_t fat32_file_open(const int8_t* filename) {
+    int8_t ret;
+    int8_t i;
+    int8_t fd;
+
+    struct fat32_directory_entry dentry;
+
+    struct pcb* pcb = get_pcb_ptr();
+
+    ret = fat32_get_cluster_by_name(filename, &dentry);
+    if (ret) {
+        cprintf("Error finding cluster for filename");
+        return -1;
+    }
+
+    /* try to find an empty file desciptor, fail otherwise */
+    //TODO We start at 3 here because 0, 1, 2 will be reserved later
+    for (i = 3; i < FILE_DESC_SIZE; i++) {
+        if (pcb->file_desc_array[i].flags == !IN_USE) {
+            fd = i;
+            break;
+        }
+    }
+    if (fd == -1){
+        return -1;
+    }
+
+    /* add process */
+    pcb->file_desc_array[fd].f32_dentry = dentry;
+    pcb->file_desc_array[fd].flags = IN_USE;
+    pcb->file_desc_array[fd].file_pos = 0;
+
+    pcb->file_desc_array[fd].file_ops = &fat32_file_ops;
+
+    return fd;
+}
+
+int8_t fat32_file_read(int8_t fd, const void* buf, int8_t nbytes) {
+    struct pcb* pcb = get_pcb_ptr();
+}
 
 int8_t fat32_read_cluster(uint32_t cluster, void* buf) {
     uint8_t error;

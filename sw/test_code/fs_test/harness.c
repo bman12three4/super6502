@@ -1,8 +1,16 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <process/process.h>
 
 #define FILE_PATH "fs.fat"
+
+struct pcb fake_pcb;
+
+//TODO
+struct pcb* get_pcb_ptr() {
+    return &fake_pcb;
+}
 
 uint32_t lmulii(uint16_t a, uint16_t b) {
     printf("lmulii: %x * %x = %x\n", a, b, a*b);
