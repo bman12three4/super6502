@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 #include <filesystems/fat32.h>
+#include <stdio.h>
 
 #define FILE_DESC_SIZE      8
 
@@ -12,10 +13,10 @@
 
 
 struct fops {
-    int8_t (*open)(const int8_t* filename);
+    int8_t (*open)(const char* filename);
     int8_t (*close)(int8_t fd);
-    int8_t (*read)(int8_t fd, void* buf, int8_t nbytes);
-    int8_t (*write)(int8_t fd, const void* buf, int8_t nbytes);
+    int8_t (*read)(int8_t fd, void* buf, size_t nbytes);
+    int8_t (*write)(int8_t fd, const void* buf, size_t nbytes);
 };
 
 struct file_desc {

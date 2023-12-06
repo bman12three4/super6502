@@ -2,6 +2,7 @@
 #define _FAT32_H
 
 #include <stdint.h>
+#include <stdio.h>
 
 void fat32_init();
 
@@ -39,12 +40,13 @@ struct lfn_entry {
     uint16_t name_2[2];
 };
 
-int8_t fat32_get_cluster_by_name(char* name, struct fat32_directory_entry* dentry);
+int8_t fat32_get_cluster_by_name(const char* name, struct fat32_directory_entry* dentry);
 int8_t fat32_read_cluster(uint32_t cluster, void* buf);
 uint32_t fat32_next_cluster(uint32_t cluster);
 
-int8_t fat32_file_open(const int8_t* filename);
-int8_t fat32_file_read(int8_t fd, const void* buf, int8_t nbytes);
-int8_t fat32_file_write(int8_t fd, const void* buf, int8_t nbytes);
+int8_t fat32_file_open(const char* filename);
+int8_t fat32_file_read(int8_t fd, void* buf, size_t nbytes);
+int8_t fat32_file_write(int8_t fd, const void* buf, size_t nbytes);
 int8_t fat32_file_close(int8_t fd);
+
 #endif

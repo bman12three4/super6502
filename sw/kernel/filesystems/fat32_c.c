@@ -13,15 +13,19 @@ int8_t fd_val;
 
 
 //TODO
-int8_t fat32_file_write(int8_t fd, const void* buf, int8_t nbytes) {
+int8_t fat32_file_write(int8_t fd, const void* buf, size_t nbytes) {
+    (void)fd;
+    (void)buf;
+    (void)nbytes;
     return -1;
 }
 
 int8_t fat32_file_close(int8_t fd) {
+    (void)fd;
     return -1;
 }
 
-int8_t fat32_file_open(const int8_t* filename) {
+int8_t fat32_file_open(const char* filename) {
     int8_t ret;
     int8_t i;
     int8_t fd;
@@ -58,8 +62,33 @@ int8_t fat32_file_open(const int8_t* filename) {
     return fd;
 }
 
-int8_t fat32_file_read(int8_t fd, const void* buf, int8_t nbytes) {
+int8_t fat32_file_read(int8_t fd, void* buf, size_t nbytes) {
+    uint16_t i;
+    uint8_t error;
+    size_t offset;
     struct pcb* pcb = get_pcb_ptr();
+    struct file_desc* fdesc = &pcb->file_desc_array[fd];
+    uint32_t cluster_seq = fdesc->file_pos >> 9;
+    uint32_t cluster = ((uint32_t)fdesc->f32_dentry.cluster_high << 16) | fdesc->f32_dentry.cluster_low;
+
+    /* validate starting position isn't past end of file */
+    if (fdesc->file_pos >= fdesc->f32_dentry.file_size){
+        return 0;
+    }
+    /* validate final pos isn't past end of file */
+    if (fdesc->file_pos+nbytes > fdesc->f32_dentry.file_size){ 
+        nbytes = fdesc->f32_dentry.file_size - fdesc->file_pos;
+    }
+
+
+    for (i = 0; i < cluster_seq; i++) {
+        cluster = fat32_next_cluster(cluster);
+    }
+    
+    fat32_read_cluster(cluster, sd_buf);
+    memcpy(buf, sd_buf, nbytes);
+    fdesc->file_pos += nbytes;
+    return error;
 }
 
 int8_t fat32_read_cluster(uint32_t cluster, void* buf) {
@@ -69,6 +98,7 @@ int8_t fat32_read_cluster(uint32_t cluster, void* buf) {
     return error;
 }
 
+// This will not handle clusters numbers that leaves a sector
 uint32_t fat32_next_cluster(uint32_t cluster) {
     uint8_t error;
     uint32_t addr = fat_start_sector;
@@ -78,7 +108,7 @@ uint32_t fat32_next_cluster(uint32_t cluster) {
     return cluster_val;
 }
 
-int8_t fat32_get_cluster_by_name(char* name, struct fat32_directory_entry* dentry) {
+int8_t fat32_get_cluster_by_name(const char* name, struct fat32_directory_entry* dentry) {
     struct fat32_directory_entry* local_entry;
     int i = 0;
 
@@ -90,7 +120,7 @@ int8_t fat32_get_cluster_by_name(char* name, struct fat32_directory_entry* dentr
 
     fat32_read_cluster(root_cluster, sd_buf);
     for (i = 0; i < 16; i++){
-        local_entry = sd_buf + i*32;
+        local_entry = (struct fat32_directory_entry*)(sd_buf + i*32);
         if (local_entry->attr1 == 0xf || local_entry->attr1 & 0x8 || !local_entry->attr1) {
             continue;
         }
