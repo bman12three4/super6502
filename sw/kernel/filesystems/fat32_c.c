@@ -20,9 +20,21 @@ size_t fat32_file_write(int8_t fd, const void* buf, size_t nbytes) {
     return -1;
 }
 
+/*
+ * file_close
+ * DESCRIPTION: close device abstracted as file
+ * INPUTS: fd -- file descriptor for file to be closed
+ * OUTPUTS: none
+ * RETURN VALUE: none
+ * SIDE EFFECTS: none
+ */
 int8_t fat32_file_close(int8_t fd) {
-    (void)fd;
-    return -1;
+    struct pcb* pcb;
+    pcb = get_pcb_ptr();
+
+    /* update pcb to remove process */
+    pcb->file_desc_array[fd].flags = !IN_USE;
+    return 0;
 }
 
 int8_t fat32_file_open(const char* filename) {
@@ -64,7 +76,6 @@ int8_t fat32_file_open(const char* filename) {
 
 size_t fat32_file_read(int8_t fd, void* buf, size_t nbytes) {
     uint16_t i;
-    uint8_t error;
     size_t offset;
     size_t leftover_length;
     size_t bytes_read = 0;

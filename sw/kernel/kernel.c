@@ -21,6 +21,9 @@ void handle_rtc_interrupt() {
 char buf[128];
 
 int main() {
+    int8_t fd;
+    size_t nbytes, i;
+
     cputs("Kernel\n");
 
     cputs("Init Mapper\n");
@@ -49,17 +52,19 @@ int main() {
     
     fat32_init();
 
-    terminal_open(NULL);
-    terminal_write(0, "Terminal Write\n", 15);
+    /* This is what is going to be part of open */
+    fd = fat32_file_open("VERYLA~1TXT");
+    cprintf("fd: %x\n", fd);
 
-    while(1) {
-        if (terminal_read(0, buf, 128)) {
-            cprintf("Fail\n");
-            break;
+    nbytes = fat32_file_read(fd, buf, 23);
+    for (i = 0; i < nbytes; i++) {
+        cprintf("%c", buf[i]);
+    }
+
+    while ((nbytes = fat32_file_read(fd, buf, 128))){
+        for (i = 0; i < nbytes; i++) {
+            cprintf("%c", buf[i]);
         }
-        terminal_write(0, "Got: ", 5);
-        terminal_write(0, buf, strlen(buf));
-        terminal_write(0, "\n", 1);
     }
 
     return 0;

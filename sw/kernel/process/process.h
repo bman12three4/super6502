@@ -34,11 +34,10 @@ struct pcb {
     struct file_desc file_desc_array[FILE_DESC_SIZE];
     int32_t is_vidmapped;
     uint8_t args[128];
-    uint32_t execute_return;
-    int32_t pid;
-    int32_t parent_pid;
-    uint32_t parent_esp;
-    uint32_t parent_ebp;
+    uint16_t execute_return;
+    uint16_t pid;
+    uint16_t parent_pid;
+    uint16_t parent_esp;
 };
 
 
