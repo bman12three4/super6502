@@ -16,6 +16,11 @@ int main(void) {
     fd = fat32_file_open("VERYLA~1TXT");
     cprintf("fd: %x\n", fd);
 
+    nbytes = fat32_file_read(fd, data, 123);
+    for (i = 0; i < nbytes; i++) {
+        cprintf("%c", data[i]);
+    }
+
     while ((nbytes = fat32_file_read(fd, data, 256))){
         for (i = 0; i < nbytes; i++) {
             cprintf("%c", data[i]);

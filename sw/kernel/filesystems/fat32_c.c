@@ -66,6 +66,9 @@ size_t fat32_file_read(int8_t fd, void* buf, size_t nbytes) {
     uint16_t i;
     uint8_t error;
     size_t offset;
+    size_t leftover_length;
+    size_t bytes_read = 0;
+    size_t clusters;
     struct pcb* pcb = get_pcb_ptr();
     struct file_desc* fdesc = &pcb->file_desc_array[fd];
     uint32_t cluster_seq = fdesc->file_pos >> 9;
@@ -85,16 +88,54 @@ size_t fat32_file_read(int8_t fd, void* buf, size_t nbytes) {
         cluster = fat32_next_cluster(cluster);
     }
 
-    offset = fdesc->file_pos % 512;
+    // This is an upper bound. It is possible that a 512 chunk can span
+    // 2 clusters, but the first one will already be handled.
+    clusters = nbytes >> 9;
 
-    if (offset + nbytes > 512) {
-        cprintf("Need to do something about this!\n");
+
+    /* Handle first unaligned block */
+    offset = fdesc->file_pos % 512;
+    leftover_length = 512 - offset;
+
+    if (leftover_length != 0) {
+        if (nbytes <= leftover_length) {
+            fat32_read_cluster(cluster, sd_buf);
+            memcpy(buf, sd_buf + offset, nbytes);
+            bytes_read += nbytes;
+            fdesc->file_pos += bytes_read;
+            return bytes_read;
+        } else {
+            fat32_read_cluster(cluster, sd_buf);
+            memcpy(buf, sd_buf + offset, leftover_length);
+            bytes_read += leftover_length;
+            fdesc->file_pos += bytes_read;
+        }
     }
-    
-    fat32_read_cluster(cluster, sd_buf);
-    memcpy(buf, sd_buf + offset, nbytes);
-    fdesc->file_pos += nbytes;
-    return nbytes;
+
+
+    /* Handle middle aligned blocks */
+    for (i = 0; i < clusters; i++) {
+        cluster = fat32_next_cluster(cluster);
+        if (cluster >= 0xffffff00) {
+            // cprintf("Last cluster in file!\n");
+        }
+
+        if (nbytes - bytes_read > 512) {
+            leftover_length = 512;
+        } else {
+            leftover_length = nbytes - bytes_read;
+        }
+
+        fat32_read_cluster(cluster, sd_buf);
+        memcpy((uint8_t*)buf+bytes_read, sd_buf, leftover_length);
+        bytes_read += leftover_length;
+        fdesc->file_pos += bytes_read;
+        if (bytes_read == nbytes) {
+            return bytes_read;
+        }
+    }
+
+    return bytes_read;
 }
 
 int8_t fat32_read_cluster(uint32_t cluster, void* buf) {
