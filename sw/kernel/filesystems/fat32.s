@@ -85,7 +85,7 @@ L1: lda root_cluster_offs,x
 
 
     ; Add fat size to starting fat sector to get data start sector
-    cli
+    clc
     lda _fat_size
     adc _fat_start_sector
     sta _data_start_sector
