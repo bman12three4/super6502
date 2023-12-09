@@ -12,6 +12,7 @@ extern uint32_t data_start_sector;
 extern uint32_t fat_size;
 extern uint8_t* sd_buf;
 extern uint8_t sectors_per_cluster;
+extern uint8_t log2_sectors_per_cluster;
 
 struct fat32_directory_entry {
     char file_name[8];
@@ -41,7 +42,7 @@ struct lfn_entry {
 };
 
 int8_t fat32_get_cluster_by_name(const char* name, struct fat32_directory_entry* dentry);
-int8_t fat32_read_cluster(uint32_t cluster, void* buf);
+int8_t fat32_read_sector(uint32_t cluster, uint32_t sector, void* buf);
 uint32_t fat32_next_cluster(uint32_t cluster);
 
 int8_t fat32_file_open(const char* filename);

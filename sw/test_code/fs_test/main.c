@@ -12,6 +12,8 @@ int main(void) {
     size_t nbytes;
     fat32_init();
 
+    cprintf("log2 sectors per cluster: %x\n", log2_sectors_per_cluster);
+
     /* This is what is going to be part of open */
     fd = fat32_file_open("VERYLA~1TXT");
     cprintf("fd: %x\n", fd);
