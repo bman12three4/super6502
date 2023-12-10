@@ -1,6 +1,6 @@
-<mxfile host="Electron" modified="2023-12-10T20:00:08.330Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.2.8 Chrome/112.0.5615.165 Electron/24.2.0 Safari/537.36" etag="8OLcgVswaloEKkqbb9h8" version="21.2.8" type="device">
+<mxfile host="Electron" modified="2023-12-10T21:14:49.308Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.2.8 Chrome/112.0.5615.165 Electron/24.2.0 Safari/537.36" etag="sZP_m_eEjLXBp7Y1YPD3" version="21.2.8" type="device">
   <diagram name="Page-1" id="7Rw6F9II7pOpJdUVt1bv">
-    <mxGraphModel dx="11530" dy="22480" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1824" dy="1768" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -173,6 +173,24 @@
           <mxGeometry x="-0.5407" y="-3" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="-dacnNeOdv5-g_cJ_ze7-1" value="Kernel Physical Memory:&lt;br&gt;$000000-$01FFFF" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="520" width="120" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="-dacnNeOdv5-g_cJ_ze7-5" value="Process &lt;i&gt;n&lt;/i&gt;&lt;br&gt;$(n+1)0000+:$FFFF" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="360" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="-dacnNeOdv5-g_cJ_ze7-7" value="Process &lt;i&gt;1&lt;/i&gt;&lt;br&gt;$20000-$2FFFF" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="480" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="-dacnNeOdv5-g_cJ_ze7-8" value="Process &lt;i&gt;2&lt;/i&gt;&lt;br&gt;$30000-$3FFFF" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="440" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="-dacnNeOdv5-g_cJ_ze7-10" value="..." style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="470" y="400" width="60" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="-dacnNeOdv5-g_cJ_ze7-11" value="&lt;h1&gt;Physical Memory Layout&lt;/h1&gt;&lt;p&gt;Kernel gets 128K, since it needs more than 64k to remap the IRQ vectors.&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="410" y="210" width="370" height="120" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
