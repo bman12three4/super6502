@@ -1,0 +1,180 @@
+<mxfile host="Electron" modified="2023-12-10T20:00:08.330Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.2.8 Chrome/112.0.5615.165 Electron/24.2.0 Safari/537.36" etag="8OLcgVswaloEKkqbb9h8" version="21.2.8" type="device">
+  <diagram name="Page-1" id="7Rw6F9II7pOpJdUVt1bv">
+    <mxGraphModel dx="11530" dy="22480" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-1" value="&lt;pre&gt;0x0000-0x0fff&lt;/pre&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="960" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-2" value="&lt;pre&gt;0x1000-0x1fff&lt;/pre&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="880" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-3" value="&lt;pre&gt;0x2000-0x2fff&lt;/pre&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="800" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-4" value="&lt;pre&gt;0x3000-0x3fff&lt;/pre&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="720" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-5" value="&lt;pre&gt;0x4000-0x4fff&lt;/pre&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="640" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-6" value="&lt;pre&gt;0x5000-0x5fff&lt;/pre&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="560" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-7" value="&lt;pre&gt;0x6000-0x6fff&lt;/pre&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="480" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-8" value="&lt;pre&gt;0x7000-0x7fff&lt;/pre&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="400" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-13" value="&lt;pre&gt;0xC000-0xCfff&lt;/pre&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="80" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-14" value="&lt;pre&gt;0x8000-0x8fff&lt;/pre&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="320" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-15" value="&lt;pre&gt;0x9000-0x9fff&lt;/pre&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="240" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-16" value="&lt;pre&gt;0xA000-0xAfff&lt;/pre&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="160" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-17" value="&lt;pre&gt;0xB000-0xBfff&lt;/pre&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="80" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-18" value="&lt;pre&gt;0xD000-0xDfff&lt;/pre&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="-80" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="pYEtOsGAO75I4X_FlfaG-19" target="pYEtOsGAO75I4X_FlfaG-31" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-19" value="&lt;pre&gt;0xE000-0xEfff&lt;/pre&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="-160" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-20" value="&lt;pre&gt;0xF000-0xFfff&lt;/pre&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="-240" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-21" value="&lt;h1&gt;Virtual Address Space&lt;/h1&gt;&lt;p&gt;These are addresses issued and requested by the CPU itself.&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="60" y="-370" width="280" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-22" value="&lt;p style=&quot;line-height: 40%;&quot;&gt;Zero Page&lt;br&gt;&lt;/p&gt;&lt;pre style=&quot;line-height: 0%;&quot;&gt;0x0000-0x00ff&lt;/pre&gt;&lt;p&gt;&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="280" y="1000" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-24" value="&lt;p style=&quot;line-height: 40%;&quot;&gt;Hardware Stack&lt;br&gt;&lt;/p&gt;&lt;pre style=&quot;line-height: 0%;&quot;&gt;0x0100-0x01ff&lt;/pre&gt;&lt;p&gt;&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="280" y="960" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-26" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="pYEtOsGAO75I4X_FlfaG-1" target="pYEtOsGAO75I4X_FlfaG-22" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="290" y="1000" as="sourcePoint" />
+            <mxPoint x="340" y="950" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-27" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="pYEtOsGAO75I4X_FlfaG-1" target="pYEtOsGAO75I4X_FlfaG-24" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="290" y="1000" as="sourcePoint" />
+            <mxPoint x="340" y="950" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-28" value="Interrupt Vectors and Handlers" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="240" y="-240" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-31" value="IO" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="240" y="-140" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-35" value="Kernel Task Switch Code" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="240" y="-200" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-39" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="pYEtOsGAO75I4X_FlfaG-1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="230" y="810" as="sourcePoint" />
+            <mxPoint x="280" y="940" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-40" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="pYEtOsGAO75I4X_FlfaG-1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="230" y="810" as="sourcePoint" />
+            <mxPoint x="280" y="900" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-41" value="&lt;p style=&quot;line-height: 40%;&quot;&gt;Kernel Stack&lt;br&gt;&lt;/p&gt;&lt;pre style=&quot;line-height: 0%;&quot;&gt;0x0200-0x05ff&lt;/pre&gt;&lt;p&gt;&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="280" y="920" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-42" value="&lt;p style=&quot;line-height: 40%;&quot;&gt;User Stack&lt;br&gt;&lt;/p&gt;&lt;pre style=&quot;line-height: 0%;&quot;&gt;0x0600-0x09ff&lt;/pre&gt;&lt;p&gt;&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="280" y="880" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-44" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="pYEtOsGAO75I4X_FlfaG-20" target="pYEtOsGAO75I4X_FlfaG-35" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="220" y="-130" as="sourcePoint" />
+            <mxPoint x="270" y="-180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-45" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" target="pYEtOsGAO75I4X_FlfaG-28" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="200" y="-200" as="sourcePoint" />
+            <mxPoint x="270" y="-180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pYEtOsGAO75I4X_FlfaG-47" value="&lt;p style=&quot;line-height: 100%;&quot;&gt;PCB&lt;/p&gt;&lt;p&gt;&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="280" y="840" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="AZdJHS7n-zztnA_jSMj7-1" value="&lt;h1&gt;Kernel Interrupt Handling&lt;/h1&gt;&lt;p&gt;This data is always stored in dram at &lt;font face=&quot;Courier New&quot;&gt;0x1F000&lt;/font&gt;. It includes the remapped interrupt vectors as well as the code to handle both context switches and syscalls.&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="425" y="-260" width="385" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="AZdJHS7n-zztnA_jSMj7-2" value="&lt;h1&gt;IO&lt;/h1&gt;&lt;div&gt;IO is mapped in physical addresses here, but will most likely be identity mapped if the processes need IO. if the IO is to be handled by the kernel then this can be mapped to dram instead.&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="425" y="-160" width="385" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="AZdJHS7n-zztnA_jSMj7-3" value="&lt;h1&gt;Page Zero&lt;/h1&gt;&lt;p&gt;Page zero contains both the zeropage and the hardware stack. This will be independent for each process and so needs to be swapped out.&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="440" y="840" width="290" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="bhRd4TTOC8HePC8Sw22R-1" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=0;" parent="1" target="pYEtOsGAO75I4X_FlfaG-1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-40" y="960" as="sourcePoint" />
+            <mxPoint x="10" y="890" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bhRd4TTOC8HePC8Sw22R-2" value="code" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="bhRd4TTOC8HePC8Sw22R-1" vertex="1" connectable="0">
+          <mxGeometry x="-0.6796" relative="1" as="geometry">
+            <mxPoint x="11" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bhRd4TTOC8HePC8Sw22R-3" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-40" y="879.44" as="sourcePoint" />
+            <mxPoint x="40" y="879.44" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bhRd4TTOC8HePC8Sw22R-4" value="data" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="bhRd4TTOC8HePC8Sw22R-3" vertex="1" connectable="0">
+          <mxGeometry x="-0.6222" y="1" relative="1" as="geometry">
+            <mxPoint x="15" y="-19" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bhRd4TTOC8HePC8Sw22R-5" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint y="-80" as="sourcePoint" />
+            <mxPoint x="80" y="-80" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bhRd4TTOC8HePC8Sw22R-6" value="heap" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="bhRd4TTOC8HePC8Sw22R-5" vertex="1" connectable="0">
+          <mxGeometry x="-0.5778" y="-2" relative="1" as="geometry">
+            <mxPoint x="13" y="8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bhRd4TTOC8HePC8Sw22R-8" value="&lt;h1&gt;Process Memory Layout&lt;/h1&gt;&lt;p&gt;Code starts at $1000, with data following after it. The stack is a fixed size and is located in page zero. The heap starts at $DFFF and grows downward to 0x8000.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Pages from $1000 to $7FFF are always mapped in, regardless of the size of the program.&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="-360" y="480" width="280" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="bhRd4TTOC8HePC8Sw22R-9" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-40" y="400" as="sourcePoint" />
+            <mxPoint x="80" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bhRd4TTOC8HePC8Sw22R-10" value="end of data" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="bhRd4TTOC8HePC8Sw22R-9" vertex="1" connectable="0">
+          <mxGeometry x="-0.5407" y="-3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
