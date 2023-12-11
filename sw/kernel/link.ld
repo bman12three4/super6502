@@ -1,9 +1,11 @@
 MEMORY
 {
     ZP:     start = $0,    size = $100,  type = rw, define = yes;
-    STACK:  start = $200,  size = $E00,  type = rw, define = yes;
-    KERNEL: start = $1000, size = $7000, type = rw, define = yes, file = %O;
-    USER:   start = $8000, size = $6000, type = rw, define = yes;
+    KSTACK: start = $200,  size = $400,  type = rw, define = yes;
+    USTACK: start = $600,  size = $400,  type = rw, define = yes;
+    PCB:    start = $A00,  size = $100,  type = rw, define = yes;
+    KERNEL: start = $1000, size = $C000, type = rw, define = yes, file = %O;
+    USER:   start = $D000, size = $1000, type = rw, define = yes;
     IO:     start = $E000, size = $1000, type = rw, define = yes;
     ROM:    start = $f000, size = $1000, type = rw, define = yes; #rw for vectors
 }
