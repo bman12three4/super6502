@@ -19,6 +19,8 @@ SEGMENTS {
     DATA:       load = KERNEL,  type = rw, define = yes;
     BSS:        load = KERNEL,  type = rw, define = yes;
     HEAP:       load = KERNEL,  type = rw, define = yes, optional = yes;
+    KERNEL_HI:  load = KERNEL,  RUN = ROM, type = rw, define = yes, optional = yes;
+    VECTORS:    load = ROM,     type = ro, start    = $FFFA;
 }
 
 FILES
