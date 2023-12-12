@@ -46,50 +46,7 @@ irq_vector:
     sta nmi_vector
     lda #>nmi_int
     sta nmi_vector + 1
-
-    ; Relocate kernel_hi into final page
-    jsr copy_kernel_hi
-
     rts
-.endproc
-
-.proc copy_kernel_hi
-        lda     #<__KERNEL_HI_LOAD__         ; Source pointer
-        sta     ptr1
-        lda     #>__KERNEL_HI_LOAD__
-        sta     ptr1+1
-
-        lda     #<__KERNEL_HI_RUN__          ; Target pointer
-        sta     ptr2
-        lda     #>__KERNEL_HI_RUN__
-        sta     ptr2+1
-
-        ldx     #<~__KERNEL_HI_SIZE__
-        lda     #>~__KERNEL_HI_SIZE__        ; Use -(__DATASIZE__+1)
-        sta     tmp1
-        ldy     #$00
-
-; Copy loop
-
-@L1:    inx
-        beq     @L3
-
-@L2:    lda     (ptr1),y
-        sta     (ptr2),y
-        iny
-        bne     @L1
-        inc     ptr1+1
-        inc     ptr2+1                  ; Bump pointers
-        bne     @L1                     ; Branch always (hopefully)
-
-; Bump the high counter byte
-
-@L3:    inc     tmp1
-        bne     @L2
-
-; Done
-
-        rts
 .endproc
 
 ; void register_irq(void* addr, uint8_t irqn);
