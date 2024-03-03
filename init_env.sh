@@ -8,23 +8,6 @@ export KICAD7_SYMBOL_DIR=$REPO_TOP/hw/kicad_library/symbols
 export KICAD7_3DMODEL_DIR=$REPO_TOP/hw/kicad_library/3dmodels
 export KICAD7_FOOTPRINT_DIR=$REPO_TOP/hw/kicad_library/footprints	
 
-
-# if [ ! -d "$ENV" ]; then
-#     mkdir -p "$ENV"
-# fi
-
-# if [ ! -f "$ENV/efinity-2023.1.150-rhe-x64.tar.bz2" ]; then
-#     scp 192.168.50.101:/export/scratch/efinity-2023.1.150-rhe-x64.tar.bz2 "$ENV"
-# fi
-
-# if [ ! -d "$ENV/efinity" ]; then
-#     pv "$ENV/efinity-2023.1.150-rhe-x64.tar.bz2" | tar xj --directory "$ENV"
-#     scp 192.168.50.101:/export/scratch/libffi.so.6 "$ENV/efinity/2023.1/lib/"
-# fi
-
-# source "$ENV/efinity/2023.1/bin/setup.sh"
-# export PATH=$PATH:"$EFXPT_HOME/bin"
-
 if [ -n "$EFX_SETUP" ]; then
     source $EFX_SETUP
 else
@@ -32,7 +15,7 @@ else
 fi
 
 
-# python -m venv .user_venv --system-site-packages
-# . .user_venv/bin/activate
+python3 -m venv .user_venv
+. .user_venv/bin/activate
 
 # pip install -r requirements.txt
