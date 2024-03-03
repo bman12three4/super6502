@@ -1,0 +1,31 @@
+ca65 V2.19 - Git 71b58f796
+Main file   : main.s
+Current file: main.s
+
+000000r 1               .export _init, _nmi_int, _irq_int
+000000r 1               
+000000r 1               
+000000r 1               SDRAM = $200
+000000r 1               
+000000r 1               .segment  "VECTORS"
+000000r 1               
+000000r 1  rr rr        .addr      _nmi_int    ; NMI vector
+000002r 1  rr rr        .addr      _init       ; Reset vector
+000004r 1  rr rr        .addr      _irq_int    ; IRQ/BRK vector
+000006r 1               
+000006r 1               .code
+000000r 1               
+000000r 1               _nmi_int:
+000000r 1               _irq_int:
+000000r 1               
+000000r 1               _init:
+000000r 1  A9 00                lda #$00
+000002r 1               @start:
+000002r 1  8D 00 02             sta SDRAM
+000005r 1  CD 00 02             cmp SDRAM
+000008r 1  D0 03                bne @end
+00000Ar 1  1A                   ina
+00000Br 1  80 F5                bra @start
+00000Dr 1               
+00000Dr 1  80 FE        @end:   bra @end
+00000Dr 1               
