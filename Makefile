@@ -1,4 +1,7 @@
-all:
+all: hw
+
+.PHONY: hw
+hw:
 	$(MAKE) -C hw
 
 .PHONY: clean
