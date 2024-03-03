@@ -21,11 +21,12 @@ $(INIT_HEX): toolchain script/generate_rom_image.py $(HEX)
 	python script/generate_rom_image.py -i $(HEX) -o $@
 
 $(HEX):
-	$(MAKE) -C sw/$(ROM) $(notdir $@)
+	$(MAKE) -C sw/$(ROM_TARGET) $(notdir $@)
 
 .PHONY: clean
 clean:
 	$(MAKE) -C hw/super6502_fpga $@
+	$(MAKE) -C sw/$(ROM_TARGET) clean
 
 .PHONY: distclean
 distclean: clean
