@@ -4,12 +4,12 @@ variables:
 stages:
   - build
 
-build hw:
+build:
   stage: build
   tags:
     - efinity
     - linux
   script:
     - source init_env.sh
-    - make hw
+    - make
 

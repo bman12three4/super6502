@@ -1,2 +1,22 @@
 .vscode
 .~lock*
+
+.user_venv/
+
+
+# Software build files
+*.map
+*.list
+*.bin
+*.o
+
+
+# Efinix Debugger
+*.log*
+*.vcd
+*.gtkw
+*debug_profile*
+
+
+*.mem
+
