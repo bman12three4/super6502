@@ -21,13 +21,13 @@ module super6502_fpga(
     output  logic               o_cpu0_irqb,
     output  logic               o_cpu0_nmib,
     output  logic               o_cpu0_rdy,
-    output  logic               o_cpu0_reset
+    output  logic               o_cpu0_reset,
+    output  logic               o_clk_phi2
 );
 
 
 localparam ADDR_WIDTH = 32;
 localparam DATA_WIDTH = 32;
-
 
 assign pll_cpu_reset = '1;
 assign o_pll_reset = '1;
