@@ -1,0 +1,6 @@
+[submodule "hw/super6502_fpga/src/sub/rtl-common"]
+	path = hw/super6502_fpga/src/sub/rtl-common
+	url = ../rtl-common.git
+[submodule "hw/super6502_fpga/src/sub/axi_crossbar"]
+	path = hw/super6502_fpga/src/sub/axi_crossbar
+	url = ../axi_crossbar.git
