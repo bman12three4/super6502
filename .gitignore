@@ -19,4 +19,7 @@
 
 
 *.mem
+sim_top
 
+# Allow sources.list specifically
+!*sources.list
