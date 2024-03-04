@@ -14,6 +14,9 @@ fpga_image: $(INIT_HEX)
 sim: $(INIT_HEX)
 	$(MAKE) -C hw/super6502_fpga/src/sim
 
+waves: sim
+	gtkwave hw/super6502_fpga/src/sim/sim_top.vcd
+
 # SW
 .PHONY: toolchain
 toolchain:

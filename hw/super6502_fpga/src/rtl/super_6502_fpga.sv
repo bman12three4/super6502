@@ -12,6 +12,19 @@ module super6502_fpga(
     input                       i_pll_locked,
     output  logic               o_pll_reset,
 
+    output  logic               o_sdr_CKE,
+    output  logic               o_sdr_n_CS,
+    output  logic               o_sdr_n_WE,
+    output  logic               o_sdr_n_RAS,
+    output  logic               o_sdr_n_CAS,
+    output  logic   [1:0]       o_sdr_BA,
+    output  logic   [12:0]      o_sdr_ADDR,
+    input   logic   [15:0]      i_sdr_DATA,
+    output  logic   [15:0]      o_sdr_DATA,
+    output  logic   [15:0]      o_sdr_DATA_oe,
+    output  logic   [1:0]       o_sdr_DQM,
+
+
     input           [7:0]       i_cpu0_data_from_cpu,
     input                       i_cpu0_sync,
     input                       i_cpu0_rwb,
@@ -38,10 +51,21 @@ assign o_clk_phi2 = clk_cpu;
 
 assign o_cpu0_data_oe = {8{i_cpu0_rwb}};
 
+logic vio0_reset;
+assign vio0_reset = '1;
 
 logic master_reset;
+logic sdram_ready;
+logic [3:0] w_sdr_state;
 
-assign master_reset = button_reset;
+logic pre_reset;
+
+assign pre_reset = button_reset & vio0_reset;
+
+assign sdram_ready = |w_sdr_state;
+
+assign master_reset = pre_reset & sdram_ready;
+
 
 logic                       cpu0_AWVALID;
 logic                       cpu0_AWREADY;
@@ -98,6 +122,24 @@ logic                       rom_rready;
 logic [DATA_WIDTH-1:0]      rom_rdata;
 logic [1:0]                 rom_rresp;
 
+logic                       sdram_AWVALID;
+logic                       sdram_AWREADY;
+logic  [ADDR_WIDTH-1:0]     sdram_AWADDR;
+logic                       sdram_WVALID;
+logic                       sdram_WREADY;
+logic  [DATA_WIDTH-1:0]     sdram_WDATA;
+logic  [DATA_WIDTH/8-1:0]   sdram_WSTRB;
+logic                       sdram_BVALID;
+logic                       sdram_BREADY;
+logic  [1:0]                sdram_BRESP;
+logic                       sdram_ARVALID;
+logic                       sdram_ARREADY;
+logic  [ADDR_WIDTH-1:0]     sdram_ARADDR;
+logic                       sdram_RVALID;
+logic                       sdram_RREADY;
+logic  [DATA_WIDTH-1:0]     sdram_RDATA;
+logic  [1:0]                sdram_RRESP;
+
 
 cpu_wrapper u_cpu_wrapper_0(
     .i_clk_cpu  (clk_cpu),
@@ -145,7 +187,7 @@ cpu_wrapper u_cpu_wrapper_0(
 
 axi_crossbar #(
     .N_INITIATORS(1),
-    .N_TARGETS(2)
+    .N_TARGETS(3)
 ) u_crossbar (
     .clk(i_sysclk),
     .rst(~master_reset),
@@ -168,23 +210,24 @@ axi_crossbar #(
     .ini_bvalid     ({cpu0_BVALID   }),
     .ini_bready     ({cpu0_BREADY   }),
 
-    .tgt_araddr     ({ram_araddr,   rom_araddr      }),
-    .tgt_arvalid    ({ram_arvalid,  rom_arvalid     }),
-    .tgt_arready    ({ram_arready,  rom_arready     }),
-    .tgt_rdata      ({ram_rdata,    rom_rdata       }),
-    .tgt_rresp      ({ram_rresp,    rom_rresp       }),
-    .tgt_rvalid     ({ram_rvalid,   rom_rvalid      }),
-    .tgt_rready     ({ram_rready,   rom_rready      }),
-    .tgt_awaddr     ({ram_awaddr,   rom_awaddr      }),
-    .tgt_awvalid    ({ram_awvalid,  rom_awvalid     }),
-    .tgt_awready    ({ram_awready,  rom_awready     }),
-    .tgt_wdata      ({ram_wdata,    rom_wdata       }),
-    .tgt_wvalid     ({ram_wvalid,   rom_wvalid      }),
-    .tgt_wready     ({ram_wready,   rom_wready      }),
-    .tgt_wstrb      ({ram_wstrb,    rom_wstrb       }),
-    .tgt_bresp      ({ram_bresp,    rom_bresp       }),
-    .tgt_bvalid     ({ram_bvalid,   rom_bvalid      }),
-    .tgt_bready     ({ram_bready,   rom_bready      })
+    .tgt_araddr     ({ram_araddr,   rom_araddr,     sdram_ARADDR    }),
+    .tgt_arvalid    ({ram_arvalid,  rom_arvalid,    sdram_ARVALID   }),
+    .tgt_arready    ({ram_arready,  rom_arready,    sdram_ARREADY   }),
+    .tgt_rdata      ({ram_rdata,    rom_rdata,      sdram_RDATA     }),
+    .tgt_rresp      ({ram_rresp,    rom_rresp,      sdram_RRESP     }),
+    .tgt_rvalid     ({ram_rvalid,   rom_rvalid,     sdram_RVALID    }),
+    .tgt_rready     ({ram_rready,   rom_rready,     sdram_RREADY    }),
+    .tgt_awaddr     ({ram_awaddr,   rom_awaddr,     sdram_AWADDR    }),
+    .tgt_awvalid    ({ram_awvalid,  rom_awvalid,    sdram_AWVALID   }),
+    .tgt_awready    ({ram_awready,  rom_awready,    sdram_AWREADY   }),
+    .tgt_wdata      ({ram_wdata,    rom_wdata,      sdram_WDATA     }),
+    .tgt_wvalid     ({ram_wvalid,   rom_wvalid,     sdram_WVALID    }),
+    .tgt_wready     ({ram_wready,   rom_wready,     sdram_WREADY    }),
+    .tgt_wstrb      ({ram_wstrb,    rom_wstrb,      sdram_WSTRB     }),
+    .tgt_bresp      ({ram_bresp,    rom_bresp,      sdram_BRESP     }),
+    .tgt_bvalid     ({ram_bvalid,   rom_bvalid,     sdram_BVALID    }),
+    .tgt_bready     ({ram_bready,   rom_bready,     sdram_BREADY    })
+
 );
 
 axi4_lite_rom #(
@@ -250,6 +293,79 @@ axi4_lite_ram #(
     .i_WVALID(ram_wvalid),
     .i_WDATA(ram_wdata),
     .i_WSTRB(ram_wstrb)
+);
+
+logic [1:0] w_sdr_CKE;
+logic [1:0] w_sdr_n_CS;
+logic [1:0] w_sdr_n_RAS;
+logic [1:0] w_sdr_n_CAS;
+logic [1:0] w_sdr_n_WE;
+logic [3:0] w_sdr_BA;
+logic [25:0] w_sdr_ADDR;
+logic [31:0] w_sdr_DATA;
+logic [31:0] w_sdr_DATA_oe;
+logic [3:0] w_sdr_DQM;
+
+assign o_sdr_CKE = w_sdr_CKE[0];    //Using SOFT ddio, ignore second cycle
+assign o_sdr_n_CS = w_sdr_n_CS[0];
+assign o_sdr_n_RAS = w_sdr_n_RAS[0];
+assign o_sdr_n_CAS = w_sdr_n_CAS[0];
+assign o_sdr_n_WE = w_sdr_n_WE[0];
+assign o_sdr_BA = w_sdr_BA[0+:2];
+assign o_sdr_ADDR = w_sdr_ADDR[0+:13];
+assign o_sdr_DATA = w_sdr_DATA[0+:16];
+assign o_sdr_DATA_oe = w_sdr_DATA_oe[0+:16];
+assign o_sdr_DQM = w_sdr_DQM[0+:2];
+
+sdram_controller u_sdram_controller(
+    .i_aresetn          (pre_reset),
+    .i_sysclk           (i_sysclk),
+    .i_sdrclk           (i_sdrclk),
+    .i_tACclk           (i_tACclk),
+    .o_pll_reset        (),
+    .i_pll_locked       ('1),
+
+    .o_sdr_state        (w_sdr_state),
+
+    .i_AXI4_AWVALID     (sdram_AWVALID),
+    .o_AXI4_AWREADY     (sdram_AWREADY),
+    .i_AXI4_AWADDR      (sdram_AWADDR[23:0]),
+    .i_AXI4_WVALID      (sdram_WVALID),
+    .o_AXI4_WREADY      (sdram_WREADY),
+    .i_AXI4_WDATA       (sdram_WDATA),
+    .i_AXI4_WSTRB       (sdram_WSTRB),
+    .o_AXI4_BVALID      (sdram_BVALID),
+    .i_AXI4_BREADY      (sdram_BREADY),
+    .i_AXI4_ARVALID     (sdram_ARVALID),
+    .o_AXI4_ARREADY     (sdram_ARREADY),
+    .i_AXI4_ARADDR      (sdram_ARADDR[23:0]),
+    .o_AXI4_RVALID      (sdram_RVALID),
+    .i_AXI4_RREADY      (sdram_RREADY),
+    .o_AXI4_RDATA       (sdram_RDATA),
+
+    .i_AXI4_WLAST       (sdram_WVALID),
+    .o_AXI4_RLAST       (),
+    .i_AXI4_AWID        ('0),
+    .i_AXI4_AWSIZE      ('0),
+    .i_AXI4_ARID        ('0),
+    .i_AXI4_ARLEN       ('0),
+    .i_AXI4_ARSIZE      ('0),
+    .i_AXI4_ARBURST     ('0),
+    .i_AXI4_AWLEN       ('0),
+    .o_AXI4_RID         (),
+    .o_AXI4_BID         (),
+
+    .o_sdr_CKE          (w_sdr_CKE),
+    .o_sdr_n_CS         (w_sdr_n_CS),
+    .o_sdr_n_RAS        (w_sdr_n_RAS),
+    .o_sdr_n_CAS        (w_sdr_n_CAS),
+    .o_sdr_n_WE         (w_sdr_n_WE),
+    .o_sdr_BA           (w_sdr_BA),
+    .o_sdr_ADDR         (w_sdr_ADDR),
+    .o_sdr_DATA         (w_sdr_DATA),
+    .o_sdr_DATA_oe      (w_sdr_DATA_oe),
+    .i_sdr_DATA         ({{16'b0}, {i_sdr_DATA}}),
+    .o_sdr_DQM          (w_sdr_DQM)
 );
 
 

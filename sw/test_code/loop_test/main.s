@@ -6,8 +6,7 @@
 .addr      _init       ; Reset vector
 .addr      _irq_int    ; IRQ/BRK vector
 
-.zeropage
-tmp: .res 1
+SDRAM= $200
 
 .code
 
@@ -17,8 +16,8 @@ _irq_int:
 _init:
         lda #$00
 @start:
-        sta tmp
-        cmp tmp
+        sta SDRAM
+        cmp SDRAM
         bne @end
         ina
         bra @start
