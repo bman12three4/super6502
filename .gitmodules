@@ -7,3 +7,6 @@
 [submodule "sw/toolchain/cc65"]
 	path = sw/toolchain/cc65
 	url = ../cc65.git
+[submodule "hw/super6502_fpga/src/sim/sub/verilog-6502"]
+	path = hw/super6502_fpga/src/sim/sub/verilog-6502
+	url = ../verilog-6502.git

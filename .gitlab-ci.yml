@@ -3,6 +3,7 @@ variables:
 
 stages:
   - build
+  - sim
 
 build:
   stage: build
@@ -12,4 +13,12 @@ build:
   script:
     - source init_env.sh
     - make
+
+sim:
+  stage: sim
+  tags:
+    - linux
+  script:
+    - source init_env.sh
+    - make sim
 
