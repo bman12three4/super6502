@@ -736,13 +736,13 @@ begin
 					if (SDR_BWIDTH > AXI_WDATA_WIDTH)
 					begin
 						r_addr_1P[0+:BA_WIDTH+ROW_WIDTH+COL_WIDTH-(0-SDR_BWIDTH/AXI_WDATA_WIDTH+1)]	<= i_AXI4_AWADDR[BA_WIDTH+ROW_WIDTH+COL_WIDTH-1:0-SDR_BWIDTH/AXI_WDATA_WIDTH+1];
-						$display("foo_gt\n");
+						// $display("foo_gt\n");
 					end
 					else if (SDR_BWIDTH == AXI_WDATA_WIDTH)
 					begin
 						r_addr_1P	<= {i_AXI4_AWADDR[BA_WIDTH+ROW_WIDTH+COL_WIDTH-1:COL_WIDTH], {(DATA_RATE-1){1'b0}}, i_AXI4_AWADDR[COL_WIDTH-1:DATA_RATE-1]};
 						//r_addr_1P	<= {{(DATA_RATE-1){1'b0}},i_AXI4_AWADDR[BA_WIDTH+ROW_WIDTH+COL_WIDTH-1:DATA_RATE-1]};
-						$display("foo_eq\n");
+						// $display("foo_eq\n");
 					end
 					
 					if (SDR_BWIDTH > AXI_WDATA_WIDTH)
@@ -750,7 +750,7 @@ begin
 						//r_AXI4_WREADY_c				<= 1'b1;
 						r_size_1P						<= SDR_BWIDTH/AXI_WDATA_WIDTH-1'b1;
 						r_shift_cnt_1P					<= SDR_BWIDTH/AXI_WDATA_WIDTH-1'b1;
-						$display("SDR_BWIDTH %d > AXI_WDATA_WIDTH %d\n", SDR_BWIDTH, AXI_WDATA_WIDTH);
+						// $display("SDR_BWIDTH %d > AXI_WDATA_WIDTH %d\n", SDR_BWIDTH, AXI_WDATA_WIDTH);
 					end
 					else if (SDR_BWIDTH == AXI_WDATA_WIDTH)
 					begin
@@ -762,14 +762,14 @@ begin
 						end
 						r_size_1P			<= SDR_BWIDTH/AXI_WDATA_WIDTH-1'b1;
 						r_shift_cnt_1P		<= {7{1'b0}};
-						$display("SDR_BWIDTH %d = AXI_WDATA_WIDTH %d\n", SDR_BWIDTH, AXI_WDATA_WIDTH);
+						// $display("SDR_BWIDTH %d = AXI_WDATA_WIDTH %d\n", SDR_BWIDTH, AXI_WDATA_WIDTH);
 					end
 					else
 					begin
 						//r_AXI4_WREADY_c	<= 1'b1;
 						r_size_1P			<= AXI_WDATA_WIDTH/SDR_BWIDTH-1'b1;
 						r_shift_cnt_1P		<= AXI_WDATA_WIDTH/SDR_BWIDTH-1'b1;
-						$display("SDR_BWIDTH %d < AXI_WDATA_WIDTH %d\n", SDR_BWIDTH, AXI_WDATA_WIDTH);
+						// $display("SDR_BWIDTH %d < AXI_WDATA_WIDTH %d\n", SDR_BWIDTH, AXI_WDATA_WIDTH);
 					end
 				end
 			end
