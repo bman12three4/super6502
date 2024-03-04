@@ -11,6 +11,8 @@ all: fpga_image
 fpga_image: $(INIT_HEX)
 	$(MAKE) -C hw/super6502_fpga
 
+sim: $(INIT_HEX)
+	$(MAKE) -C hw/super6502_fpga/src/sim
 
 # SW
 .PHONY: toolchain
@@ -27,6 +29,7 @@ $(HEX):
 clean:
 	$(MAKE) -C hw/super6502_fpga $@
 	$(MAKE) -C sw/$(ROM_TARGET) clean
+	$(MAKE) -C hw/super6502_fpga/src/sim clean
 
 .PHONY: distclean
 distclean: clean
