@@ -11,4 +11,4 @@ src/sub/rtl-common/src/rtl/axi4_lite_rom.sv
 src/sub/rtl-common/src/rtl/ff_cdc.sv
 src/sub/rtl-common/src/rtl/shallow_async_fifo.sv
 src/sub/rtl-common/src/rtl/sync_fifo.sv
-
+ip/sdram_controller/sdram_controller.v
