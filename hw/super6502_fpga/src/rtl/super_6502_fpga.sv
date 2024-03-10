@@ -35,7 +35,10 @@ module super6502_fpga(
     output  logic               o_cpu0_nmib,
     output  logic               o_cpu0_rdy,
     output  logic               o_cpu0_reset,
-    output  logic               o_clk_phi2
+    output  logic               o_clk_phi2,
+
+    input                       i_sd_cmd,
+    output                      o_sd_cmd
 );
 
 
@@ -141,6 +144,45 @@ logic  [DATA_WIDTH-1:0]     sdram_RDATA;
 logic  [1:0]                sdram_RRESP;
 
 
+// These are for the control/status registers
+logic                       sd_controller_csr_AWVALID;
+logic                       sd_controller_csr_AWREADY;
+logic  [ADDR_WIDTH-1:0]     sd_controller_csr_AWADDR;
+logic                       sd_controller_csr_WVALID;
+logic                       sd_controller_csr_WREADY;
+logic  [DATA_WIDTH-1:0]     sd_controller_csr_WDATA;
+logic  [DATA_WIDTH/8-1:0]   sd_controller_csr_WSTRB;
+logic                       sd_controller_csr_BVALID;
+logic                       sd_controller_csr_BREADY;
+logic  [1:0]                sd_controller_csr_BRESP;
+logic                       sd_controller_csr_ARVALID;
+logic                       sd_controller_csr_ARREADY;
+logic  [ADDR_WIDTH-1:0]     sd_controller_csr_ARADDR;
+logic                       sd_controller_csr_RVALID;
+logic                       sd_controller_csr_RREADY;
+logic  [DATA_WIDTH-1:0]     sd_controller_csr_RDATA;
+logic  [1:0]                sd_controller_csr_RRESP;
+
+// these are for the dma master.
+logic                       sd_controller_dma_AWVALID;
+logic                       sd_controller_dma_AWREADY;
+logic  [ADDR_WIDTH-1:0]     sd_controller_dma_AWADDR;
+logic                       sd_controller_dma_WVALID;
+logic                       sd_controller_dma_WREADY;
+logic  [DATA_WIDTH-1:0]     sd_controller_dma_WDATA;
+logic  [DATA_WIDTH/8-1:0]   sd_controller_dma_WSTRB;
+logic                       sd_controller_dma_BVALID;
+logic                       sd_controller_dma_BREADY;
+logic  [1:0]                sd_controller_dma_BRESP;
+logic                       sd_controller_dma_ARVALID;
+logic                       sd_controller_dma_ARREADY;
+logic  [ADDR_WIDTH-1:0]     sd_controller_dma_ARADDR;
+logic                       sd_controller_dma_RVALID;
+logic                       sd_controller_dma_RREADY;
+logic  [DATA_WIDTH-1:0]     sd_controller_dma_RDATA;
+logic  [1:0]                sd_controller_dma_RRESP;
+
+
 cpu_wrapper u_cpu_wrapper_0(
     .i_clk_cpu  (clk_cpu),
     .i_clk_100  (i_sysclk),
@@ -187,7 +229,7 @@ cpu_wrapper u_cpu_wrapper_0(
 
 axi_crossbar #(
     .N_INITIATORS(1),
-    .N_TARGETS(3)
+    .N_TARGETS(4)
 ) u_crossbar (
     .clk(i_sysclk),
     .rst(~master_reset),
@@ -209,24 +251,23 @@ axi_crossbar #(
     .ini_bresp      ({cpu0_BRESP    }),
     .ini_bvalid     ({cpu0_BVALID   }),
     .ini_bready     ({cpu0_BREADY   }),
-
-    .tgt_araddr     ({ram_araddr,   rom_araddr,     sdram_ARADDR    }),
-    .tgt_arvalid    ({ram_arvalid,  rom_arvalid,    sdram_ARVALID   }),
-    .tgt_arready    ({ram_arready,  rom_arready,    sdram_ARREADY   }),
-    .tgt_rdata      ({ram_rdata,    rom_rdata,      sdram_RDATA     }),
-    .tgt_rresp      ({ram_rresp,    rom_rresp,      sdram_RRESP     }),
-    .tgt_rvalid     ({ram_rvalid,   rom_rvalid,     sdram_RVALID    }),
-    .tgt_rready     ({ram_rready,   rom_rready,     sdram_RREADY    }),
-    .tgt_awaddr     ({ram_awaddr,   rom_awaddr,     sdram_AWADDR    }),
-    .tgt_awvalid    ({ram_awvalid,  rom_awvalid,    sdram_AWVALID   }),
-    .tgt_awready    ({ram_awready,  rom_awready,    sdram_AWREADY   }),
-    .tgt_wdata      ({ram_wdata,    rom_wdata,      sdram_WDATA     }),
-    .tgt_wvalid     ({ram_wvalid,   rom_wvalid,     sdram_WVALID    }),
-    .tgt_wready     ({ram_wready,   rom_wready,     sdram_WREADY    }),
-    .tgt_wstrb      ({ram_wstrb,    rom_wstrb,      sdram_WSTRB     }),
-    .tgt_bresp      ({ram_bresp,    rom_bresp,      sdram_BRESP     }),
-    .tgt_bvalid     ({ram_bvalid,   rom_bvalid,     sdram_BVALID    }),
-    .tgt_bready     ({ram_bready,   rom_bready,     sdram_BREADY    })
+    .tgt_araddr     ({ram_araddr,   rom_araddr,     sdram_ARADDR,   sd_controller_csr_ARADDR    }),
+    .tgt_arvalid    ({ram_arvalid,  rom_arvalid,    sdram_ARVALID,  sd_controller_csr_ARVALID   }),
+    .tgt_arready    ({ram_arready,  rom_arready,    sdram_ARREADY,  sd_controller_csr_ARREADY   }),
+    .tgt_rdata      ({ram_rdata,    rom_rdata,      sdram_RDATA,    sd_controller_csr_RDATA     }),
+    .tgt_rresp      ({ram_rresp,    rom_rresp,      sdram_RRESP,    sd_controller_csr_RRESP     }),
+    .tgt_rvalid     ({ram_rvalid,   rom_rvalid,     sdram_RVALID,   sd_controller_csr_RVALID    }),
+    .tgt_rready     ({ram_rready,   rom_rready,     sdram_RREADY,   sd_controller_csr_RREADY    }),
+    .tgt_awaddr     ({ram_awaddr,   rom_awaddr,     sdram_AWADDR,   sd_controller_csr_AWADDR    }),
+    .tgt_awvalid    ({ram_awvalid,  rom_awvalid,    sdram_AWVALID,  sd_controller_csr_AWVALID   }),
+    .tgt_awready    ({ram_awready,  rom_awready,    sdram_AWREADY,  sd_controller_csr_AWREADY   }),
+    .tgt_wdata      ({ram_wdata,    rom_wdata,      sdram_WDATA,    sd_controller_csr_WDATA     }),
+    .tgt_wvalid     ({ram_wvalid,   rom_wvalid,     sdram_WVALID,   sd_controller_csr_WVALID    }),
+    .tgt_wready     ({ram_wready,   rom_wready,     sdram_WREADY,   sd_controller_csr_WREADY    }),
+    .tgt_wstrb      ({ram_wstrb,    rom_wstrb,      sdram_WSTRB,    sd_controller_csr_WSTRB     }),
+    .tgt_bresp      ({ram_bresp,    rom_bresp,      sdram_BRESP,    sd_controller_csr_BRESP     }),
+    .tgt_bvalid     ({ram_bvalid,   rom_bvalid,     sdram_BVALID,   sd_controller_csr_BVALID    }),
+    .tgt_bready     ({ram_bready,   rom_bready,     sdram_BREADY,   sd_controller_csr_BREADY    })
 
 );
 
@@ -368,6 +409,70 @@ sdram_controller u_sdram_controller(
     .o_sdr_DQM          (w_sdr_DQM)
 );
 
+logic                       sd_controller_apb_psel;
+logic                       sd_controller_apb_penable;
+logic                       sd_controller_apb_pwrite;
+logic [2:0]                 sd_controller_apb_pprot;
+logic [ADDR_WIDTH-1:0]      sd_controller_apb_paddr;
+logic [DATA_WIDTH-1:0]      sd_controller_apb_pwdata;
+logic [DATA_WIDTH/8-1:0]    sd_controller_apb_pstrb;
+logic                       sd_controller_apb_pready;
+logic  [DATA_WIDTH-1:0]       sd_controller_apb_prdata;
+logic                       sd_controller_apb_pslverr;
 
+
+axi4_lite_to_apb4 u_sd_axi_apb_converter (
+    .i_clk(i_sysclk),
+    .i_rst(~master_reset),
+
+    .i_AWVALID(sd_controller_csr_AWVALID),
+    .o_AWREADY(sd_controller_csr_AWREADY),
+    .i_AWADDR(sd_controller_csr_AWADDR),
+    .i_WVALID(sd_controller_csr_AWVALID),
+    .o_WREADY(sd_controller_csr_WREADY),
+    .i_WDATA(sd_controller_csr_WDATA),
+    .i_WSTRB(sd_controller_csr_WSTRB),
+    .o_BVALID(sd_controller_csr_BVALID),
+    .i_BREADY(sd_controller_csr_BREADY),
+    .o_BRESP(sd_controller_csr_BRESP),
+    .i_ARVALID(sd_controller_csr_ARVALID),
+    .o_ARREADY(sd_controller_csr_ARREADY),
+    .i_ARADDR(sd_controller_csr_ARADDR),
+    .i_ARPROT('0),
+    .o_RVALID(sd_controller_csr_RVALID),
+    .i_RREADY(sd_controller_csr_RREADY),
+    .o_RDATA(sd_controller_csr_RDATA),
+    .o_RRESP(sd_controller_csr_RRESP),
+
+    .m_apb_psel(sd_controller_apb_psel),
+    .m_apb_penable(sd_controller_apb_penable),
+    .m_apb_pwrite(sd_controller_apb_pwrite),
+    .m_apb_pprot(sd_controller_apb_pprot),
+    .m_apb_paddr(sd_controller_apb_paddr),
+    .m_apb_pwdata(sd_controller_apb_pwdata),
+    .m_apb_pstrb(sd_controller_apb_pstrb),
+    .m_apb_pready(sd_controller_apb_pready),
+    .m_apb_prdata(sd_controller_apb_prdata),
+    .m_apb_pslverr(sd_controller_apb_pslverr)
+);
+
+sd_controller_top u_sd_controller (
+    .clk(i_sysclk),
+    .rst(~master_reset),
+
+    .s_apb_psel(sd_controller_apb_psel),
+    .s_apb_penable(sd_controller_apb_penable),
+    .s_apb_pwrite(sd_controller_apb_pwrite),
+    .s_apb_pprot(sd_controller_apb_pprot),
+    .s_apb_paddr(sd_controller_apb_paddr[5:0]),
+    .s_apb_pwdata(sd_controller_apb_pwdata),
+    .s_apb_pstrb(sd_controller_apb_pstrb),
+    .s_apb_pready(sd_controller_apb_pready),
+    .s_apb_prdata(sd_controller_apb_prdata),
+    .s_apb_pslverr(sd_controller_apb_pslverr),
+
+    .i_sd_cmd(i_sd_cmd),
+    .o_sd_cmd(o_sd_cmd)
+);
 
 endmodule

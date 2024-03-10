@@ -1,4 +1,4 @@
-ROM_TARGET=test_code/loop_test
+ROM_TARGET=test_code/sd_controller_test
 
 INIT_HEX=hw/super6502_fpga/init_hex.mem
 HEX=sw/$(ROM_TARGET)/$(notdir $(ROM_TARGET)).bin
