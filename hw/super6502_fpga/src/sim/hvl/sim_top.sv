@@ -59,9 +59,10 @@ logic           w_cpu0_rdy;
 logic           w_cpu0_irqb;
 logic           w_cpu0_we;
 logic           w_cpu0_sync;
+logic           w_clk_phi2;
 
 cpu_65c02 u_cpu0 (
-    .phi2   (clk_cpu),
+    .phi2   (w_clk_phi2),
     .reset  (~w_cpu0_reset),
     .AB     (w_cpu0_addr),
     .RDY    (w_cpu0_rdy),
@@ -111,6 +112,18 @@ generate
     end
 endgenerate
 
+
+// potential sd card sim here?
+
+logic i_sd_cmd;
+logic o_sd_cmd;
+logic o_sd_cmd_oe;
+logic i_sd_dat;
+logic o_sd_dat;
+logic i_sd_dat_oe;
+logic o_sd_clk;
+logic o_sd_cs;
+
 super6502_fpga u_dut (
     .i_sysclk               (clk_100),
     .i_sdrclk               (clk_200),
@@ -127,6 +140,7 @@ super6502_fpga u_dut (
     .o_cpu0_irqb            (w_cpu0_irqb),
     .i_cpu0_rwb             (~w_cpu0_we),
     .i_cpu0_sync            (w_cpu0_sync),
+    .o_clk_phi2             (w_clk_phi2),
 
     .o_sdr_CKE              (w_sdr_CKE),
     .o_sdr_n_CS             (w_sdr_n_CS),
@@ -138,7 +152,16 @@ super6502_fpga u_dut (
     .i_sdr_DATA             (w_sdr_DQ),
     .o_sdr_DATA             (w_sdr_DATA),
     .o_sdr_DATA_oe          (w_sdr_DATA_oe),
-    .o_sdr_DQM              (w_sdr_DQM)
+    .o_sdr_DQM              (w_sdr_DQM),
+
+    .i_sd_cmd               (i_sd_cmd),
+    .o_sd_cmd               (o_sd_cmd),
+    .o_sd_cmd_oe            (o_sd_cmd_oe),
+    .i_sd_dat               (i_sd_dat),
+    .o_sd_dat               (o_sd_dat),
+    .o_sd_dat_oe            (o_sd_dat_oe),
+    .o_sd_clk               (o_sd_clk),
+    .o_sd_cs                (o_sd_cs)
 
 );
 

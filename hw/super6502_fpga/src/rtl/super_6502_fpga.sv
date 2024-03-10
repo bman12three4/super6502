@@ -38,7 +38,13 @@ module super6502_fpga(
     output  logic               o_clk_phi2,
 
     input                       i_sd_cmd,
-    output                      o_sd_cmd
+    output                      o_sd_cmd,
+    output                      o_sd_cmd_oe,
+    input                       i_sd_dat,
+    output                      o_sd_dat,
+    output                      o_sd_dat_oe,
+    output                      o_sd_clk,
+    output                      o_sd_cs
 );
 
 
@@ -68,6 +74,8 @@ assign pre_reset = button_reset & vio0_reset;
 assign sdram_ready = |w_sdr_state;
 
 assign master_reset = pre_reset & sdram_ready;
+
+assign o_sd_cs = '1;
 
 
 logic                       cpu0_AWVALID;
@@ -472,7 +480,9 @@ sd_controller_top u_sd_controller (
     .s_apb_pslverr(sd_controller_apb_pslverr),
 
     .i_sd_cmd(i_sd_cmd),
-    .o_sd_cmd(o_sd_cmd)
+    .o_sd_cmd(o_sd_cmd),
+    .o_sd_cmd_oe(o_sd_cmd_oe),
+    .o_sd_clk(o_sd_clk)
 );
 
 endmodule

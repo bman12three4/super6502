@@ -282,7 +282,22 @@
         <efxpt:gpio name="o_sdr_n_WE" gpio_def="GPIOR_141" mode="output" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
             <efxpt:output_config name="o_sdr_n_WE" name_ddio_lo="" register_option="register" clock_name="i_sdrclk" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="3"/>
         </efxpt:gpio>
-
+       <efxpt:gpio name="o_sd_cs" gpio_def="GPIOL_36" mode="output" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+            <efxpt:output_config name="o_sd_cs" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+        </efxpt:gpio>
+        <efxpt:gpio name="o_sd_clk" gpio_def="GPIOL_26" mode="output" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+            <efxpt:output_config name="o_sd_clk" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+        </efxpt:gpio>
+        <efxpt:gpio name="io_sd_cmd" gpio_def="GPIOL_25" mode="inout" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+            <efxpt:input_config name="i_sd_cmd" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="none" is_schmitt_trigger="false" ddio_type="none"/>
+            <efxpt:output_config name="o_sd_cmd" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="3"/>
+            <efxpt:output_enable_config name="o_sd_cmd_oe" is_register="false" clock_name="" is_clock_inverted="false"/>
+        </efxpt:gpio>
+        <efxpt:gpio name="io_sd_dat" gpio_def="GPIOL_29" mode="inout" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+            <efxpt:input_config name="i_sd_dat" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="none" is_schmitt_trigger="false" ddio_type="none"/>
+            <efxpt:output_config name="o_sd_dat" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="3"/>
+            <efxpt:output_enable_config name="o_sd_dat_oe" is_register="false" clock_name="" is_clock_inverted="false"/>
+        </efxpt:gpio>
         <efxpt:global_unused_config state="input with weak pullup"/>
         <efxpt:bus name="cpu_data" mode="inout" msb="7" lsb="0"/>
         <efxpt:bus name="cpu_addr" mode="input" msb="15" lsb="0"/>
