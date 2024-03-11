@@ -14,6 +14,9 @@ fpga_image: $(INIT_HEX)
 sim: $(INIT_HEX)
 	$(MAKE) -C hw/super6502_fpga/src/sim
 
+pgm:
+	$(MAKE) -C hw/super6502_fpga pgm
+
 waves: sim
 	gtkwave hw/super6502_fpga/src/sim/sim_top.vcd
 
