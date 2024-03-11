@@ -13,3 +13,4 @@ $(SUPER6502_FPGA_BITSTREAM): $(SUPER6502_FPGA_SOURCES) $(SUPER6502_FPGA_PROJECT)
 clean:
 	rm -rf work_*
 	rm -rf outflow
+	rm -rf init_hex.mem
