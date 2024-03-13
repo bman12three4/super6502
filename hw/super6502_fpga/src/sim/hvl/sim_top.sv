@@ -162,7 +162,13 @@ super6502_fpga u_dut (
     .o_sd_dat_oe            (o_sd_dat_oe),
     .o_sd_clk               (o_sd_clk),
     .o_sd_cs                (o_sd_cs)
+);
 
+sd_card_emu u_sd_card_emu(
+    .clk(o_sd_clk),
+    .rst(~button_reset),
+    .i_cmd(o_sd_cmd),
+    .o_cmd(i_sd_cmd)
 );
 
 initial begin

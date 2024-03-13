@@ -2,3 +2,5 @@ hvl/sim_top.sv
 sub/verilog-6502/ALU.v
 sub/verilog-6502/cpu_65c02.v
 sub/sim_sdram/generic_sdr.v
+sub/verilog-sd-emulator/src/sd_card_command.sv
+sub/verilog-sd-emulator/src/sd_card_emu.sv
