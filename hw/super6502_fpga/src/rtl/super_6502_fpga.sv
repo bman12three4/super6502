@@ -482,7 +482,11 @@ sd_controller_top u_sd_controller (
     .i_sd_cmd(i_sd_cmd),
     .o_sd_cmd(o_sd_cmd),
     .o_sd_cmd_oe(o_sd_cmd_oe),
-    .o_sd_clk(o_sd_clk)
+    .o_sd_clk(o_sd_clk),
+
+    .i_sd_dat(i_sd_dat),
+    .o_sd_dat(o_sd_dat),
+    .o_sd_dat_oe(o_sd_dat_oe)
 );
 
 endmodule
