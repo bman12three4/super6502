@@ -3,6 +3,7 @@ ROM_TARGET=test_code/sd_controller_test
 INIT_HEX=hw/super6502_fpga/init_hex.mem
 HEX=sw/$(ROM_TARGET)/$(notdir $(ROM_TARGET)).bin
 
+CC65=sw/toolchain/cc65/bin
 
 all: fpga_image
 
@@ -21,11 +22,10 @@ waves: sim
 	gtkwave hw/super6502_fpga/src/sim/sim_top.vcd
 
 # SW
-.PHONY: toolchain
-toolchain:
+$(CC65): 
 	$(MAKE) -C sw/toolchain/cc65 -j $(shell nproc)
 
-$(INIT_HEX): toolchain script/generate_rom_image.py $(HEX)
+$(INIT_HEX): $(CC65) script/generate_rom_image.py $(HEX)
 	python script/generate_rom_image.py -i $(HEX) -o $@
 
 $(HEX):
