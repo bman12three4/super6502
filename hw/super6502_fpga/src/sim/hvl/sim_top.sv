@@ -39,7 +39,7 @@ initial begin
     clk_cpu <= '1;
     forever begin
         // #62.5 clk_cpu <= ~clk_cpu;
-        #250 clk_cpu <= ~clk_cpu;
+        #500 clk_cpu <= ~clk_cpu;
     end
 end
 

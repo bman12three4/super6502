@@ -20,6 +20,9 @@ _nmi_int:
 _irq_int:
 
 _init:
+        ldx #$ff
+        txs
+
         lda #$00
         sta SD_CONTROLLER
 
@@ -32,21 +35,21 @@ _init:
         sta SD_ARG+3
         lda #$08
         sta SD_CONTROLLER
-        nop
-        nop
-        nop
+        jsr delay
 
         lda #55
         sta SD_CONTROLLER
+        jsr delay
         lda #41
         sta SD_CONTROLLER
-        nop
-        nop
-        nop
+        jsr delay
 
 @acmd41:
         lda #55
         sta SD_CONTROLLER
+
+        jsr delay
+
         lda #$80
         sta SD_ARG+1
         lda #$ff
@@ -56,11 +59,7 @@ _init:
         lda #41
         sta SD_CONTROLLER
 
-        nop
-        nop
-        nop
-        nop
-        nop
+        jsr delay
 
         lda SD_RESP+3
         bmi card_ready
@@ -76,30 +75,12 @@ card_ready:
         lda #2
         sta SD_CONTROLLER
 
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
+        jsr delay
 
         lda #3
         sta SD_CONTROLLER
 
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
+        jsr delay
 
         lda SD_RESP
         sta rca
@@ -121,18 +102,19 @@ card_ready:
         lda #7
         sta SD_CONTROLLER
 
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
-        nop
+        jsr delay
 
         lda #17
         sta SD_CONTROLLER
 
 @end:   bra @end
+
+delay:
+        nop
+        nop
+        nop
+        nop
+        nop
+        nop
+        nop
+        rts
