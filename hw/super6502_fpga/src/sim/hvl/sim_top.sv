@@ -168,7 +168,9 @@ sd_card_emu u_sd_card_emu(
     .clk(o_sd_clk),
     .rst(~button_reset),
     .i_cmd(o_sd_cmd),
-    .o_cmd(i_sd_cmd)
+    .o_cmd(i_sd_cmd),
+    .i_dat(o_sd_dat),
+    .o_dat(i_sd_dat)
 );
 
 initial begin

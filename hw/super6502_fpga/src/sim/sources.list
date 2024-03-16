@@ -5,3 +5,4 @@ sub/sim_sdram/generic_sdr.v
 sub/verilog-sd-emulator/src/sd_card_command.sv
 sub/verilog-sd-emulator/src/sd_card_emu.sv
 sub/verilog-sd-emulator/src/sd_card_state_controller.sv
+sub/verilog-sd-emulator/src/sd_card_data.sv
