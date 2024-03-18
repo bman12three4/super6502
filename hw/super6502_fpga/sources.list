@@ -21,3 +21,4 @@ src/sub/sd_controller/src/sd_command.sv
 src/sub/sd_controller/src/sd_control.sv
 src/sub/sd_controller/src/sd_controller_top.sv
 src/sub/sd_controller/src/sd_data.sv
+src/sub/sd_controller/src/sd_dma.sv

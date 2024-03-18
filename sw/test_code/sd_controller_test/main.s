@@ -11,6 +11,9 @@ SD_ARG = SD_CONTROLLER + $4
 SD_RESP = SD_CONTROLLER + $10
 CLK_DIV = $20
 
+SD_DMA_BASE = SD_CONTROLLER + $28
+SD_DMA_STAT_CTRL = SD_CONTROLLER + $2C
+
 .zeropage
 rca: .res 4
 
@@ -106,6 +109,22 @@ card_ready:
 
         lda #17
         sta SD_CONTROLLER
+
+        lda #$10
+        sta SD_DMA_BASE + 1
+        lda #1
+        sta SD_DMA_STAT_CTRL
+
+@poll:  lda SD_DMA_STAT_CTRL+2
+        cmp #$1
+        bne @poll
+        stz SD_DMA_STAT_CTRL
+
+        lda $1000
+        lda $1001
+        lda $1002
+        lda $1003
+
 
 @end:   bra @end
 
