@@ -207,7 +207,7 @@ always @(posedge i_clk_100 or posedge i_rst) begin
     end 
 end
 
-localparam MAX_DELAY = 4;
+localparam MAX_DELAY = 8;
 
 logic [7:0] cycle_counter;
 logic too_late;

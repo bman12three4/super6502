@@ -1,4 +1,4 @@
-<efx:project xmlns:efx="http://www.efinixinc.com/enf_proj" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="super6502_fpga" description="" last_change_date="Sun Mar 03 2024 23:29:38" location="/home/byron/Projects/super6502/hw/super6502_fpga" sw_version="2023.1.150" last_run_state="pass" last_run_tool="efx_pgm" last_run_flow="bitstream" config_result_in_sync="sync" design_ood="sync" place_ood="sync" route_ood="sync" xsi:schemaLocation="http://www.efinixinc.com/enf_proj enf_proj.xsd">
+<efx:project xmlns:efx="http://www.efinixinc.com/enf_proj" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="super6502_fpga" description="" last_change_date="Sun Mar 17 2024 10:14:03 PM" location="/home/byron/Projects/super6502/hw/super6502_fpga" sw_version="2023.1.150" last_run_state="pass" last_run_tool="efx_pgm" last_run_flow="bitstream" config_result_in_sync="sync" design_ood="sync" place_ood="sync" route_ood="sync" xsi:schemaLocation="http://www.efinixinc.com/enf_proj enf_proj.xsd">
     <efx:device_info>
         <efx:family name="Trion" />
         <efx:device name="T20F256" />
@@ -16,6 +16,17 @@
         <efx:design_file name="src/sub/axi_crossbar/src/rtl/slave_addr_decoder.sv" version="default" library="default" />
         <efx:design_file name="src/sub/axi_crossbar/src/rtl/axi_crossbar.sv" version="default" library="default" />
         <efx:design_file name="src/sub/axi_crossbar/src/rtl/rr_scheduler.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/rtl-common/src/rtl/axi4_lite_to_apb4.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller/src/crc16.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller/src/crc7.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller/src/sd_control.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller/src/sd_controller_top.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller/src/sd_command.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller/src/sd_dma.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller/src/regs/sd_controller_regs.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller/src/regs/sd_controller_regs_pkg.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller/src/sd_data.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/rtl-common/src/rtl/async_fifo.sv" version="default" library="default" />
         <efx:top_vhdl_arch name="" />
     </efx:design_info>
     <efx:constraint_info>
@@ -86,4 +97,9 @@
         <efx:param name="cold_boot" value="off" value_type="e_bool" />
         <efx:param name="cascade" value="off" value_type="e_option" />
     </efx:bitstream_generation>
+    <efx:debugger>
+        <efx:param name="work_dir" value="work_dbg" value_type="e_string" />
+        <efx:param name="auto_instantiation" value="off" value_type="e_bool" />
+        <efx:param name="profile" value="debug_profile.wizard.json" value_type="e_string" />
+    </efx:debugger>
 </efx:project>
