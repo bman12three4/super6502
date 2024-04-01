@@ -1,4 +1,4 @@
-<efx:project xmlns:efx="http://www.efinixinc.com/enf_proj" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="super6502_fpga" description="" last_change_date="Sun Mar 17 2024 10:14:03 PM" location="/home/byron/Projects/super6502/hw/super6502_fpga" sw_version="2023.1.150" last_run_state="pass" last_run_tool="efx_pgm" last_run_flow="bitstream" config_result_in_sync="sync" design_ood="sync" place_ood="sync" route_ood="sync" xsi:schemaLocation="http://www.efinixinc.com/enf_proj enf_proj.xsd">
+<efx:project xmlns:efx="http://www.efinixinc.com/enf_proj" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="super6502_fpga" description="" last_change_date="Mon Apr 01 2024 08:10:49 AM" location="/home/byron/Projects/super6502/hw/super6502_fpga" sw_version="2023.1.150" last_run_state="pass" last_run_tool="efx_pgm" last_run_flow="bitstream" config_result_in_sync="sync" design_ood="sync" place_ood="sync" route_ood="sync" xsi:schemaLocation="http://www.efinixinc.com/enf_proj enf_proj.xsd">
     <efx:device_info>
         <efx:family name="Trion" />
         <efx:device name="T20F256" />
@@ -11,11 +11,9 @@
         <efx:design_file name="src/sub/rtl-common/src/rtl/axi4_lite_rom.sv" version="default" library="default" />
         <efx:design_file name="src/sub/rtl-common/src/rtl/axi4_lite_ram.sv" version="default" library="default" />
         <efx:design_file name="src/sub/rtl-common/src/rtl/ff_cdc.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/axi_crossbar/src/rtl/axi_master.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/axi_crossbar/src/rtl/axi_slave.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/axi_crossbar/src/rtl/slave_addr_decoder.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/axi_crossbar/src/rtl/axi_crossbar.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/axi_crossbar/src/rtl/rr_scheduler.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/wb2axip/rtl/addrdecode.v" version="default" library="default" />
+        <efx:design_file name="src/sub/wb2axip/rtl/axilxbar.v" version="default" library="default" />
+        <efx:design_file name="src/sub/wb2axip/rtl/skidbuffer.v" version="default" library="default" />
         <efx:design_file name="src/sub/rtl-common/src/rtl/axi4_lite_to_apb4.sv" version="default" library="default" />
         <efx:design_file name="src/sub/sd_controller/src/crc16.sv" version="default" library="default" />
         <efx:design_file name="src/sub/sd_controller/src/crc7.sv" version="default" library="default" />
