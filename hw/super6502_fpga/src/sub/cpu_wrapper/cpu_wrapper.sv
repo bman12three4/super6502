@@ -65,6 +65,7 @@ typedef enum logic [3:0] {
     WRITE_VALID,
     GET_WRITE_DATA,
     WRITE_DATA,
+    WRITE_RESP,
     STALL
 } state_t;
 
@@ -334,6 +335,14 @@ always_comb begin
         o_WDATA = r_write_data << 8*r_addr[1:0];
 
         o_BREADY = '1;
+        if (i_AWREADY) begin
+            state_next = WRITE_RESP;
+        end
+    end
+
+    WRITE_RESP: begin
+        o_BREADY = '1;
+
         if (i_BVALID) begin
             state_next = IDLE;
         end

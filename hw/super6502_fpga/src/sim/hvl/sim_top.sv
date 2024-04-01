@@ -120,7 +120,7 @@ logic o_sd_cmd;
 logic o_sd_cmd_oe;
 logic i_sd_dat;
 logic o_sd_dat;
-logic i_sd_dat_oe;
+logic o_sd_dat_oe;
 logic o_sd_clk;
 logic o_sd_cs;
 

@@ -235,52 +235,64 @@ cpu_wrapper u_cpu_wrapper_0(
 );
 
 
-axi_crossbar #(
-    .N_INITIATORS(2),
-    .N_TARGETS(4)
+axilxbar #(
+    .C_AXI_DATA_WIDTH(32),
+    .C_AXI_ADDR_WIDTH(32),
+    .NM(2),
+    .NS(4),
+    .SLAVE_ADDR({
+        {32'h000001ff, 32'h00000000},
+        {32'h0000ffff, 32'h0000ff00},
+        {32'h0000dfff, 32'h00000200},
+        {32'h0000e03f, 32'h0000e000}
+    })
 ) u_crossbar (
-    .clk(i_sysclk),
-    .rst(~master_reset),
+    .S_AXI_ACLK     (i_sysclk),
+    .S_AXI_ARESETN  (master_reset),
 
-    .ini_araddr     ({cpu0_ARADDR,  sd_controller_dma_ARADDR        }),
-    .ini_arvalid    ({cpu0_ARVALID, sd_controller_dma_ARVALID       }),
-    .ini_arready    ({cpu0_ARREADY, sd_controller_dma_ARREADY       }),
-    .ini_rdata      ({cpu0_RDATA,   sd_controller_dma_RDATA         }),
-    .ini_rresp      ({cpu0_RRESP,   sd_controller_dma_RRESP         }),
-    .ini_rvalid     ({cpu0_RVALID,  sd_controller_dma_RVALID        }),
-    .ini_rready     ({cpu0_RREADY,  sd_controller_dma_RREADY        }),
-    .ini_awaddr     ({cpu0_AWADDR,  sd_controller_dma_AWADDR        }),
-    .ini_awready    ({cpu0_AWREADY, sd_controller_dma_AWREADY       }),
-    .ini_awvalid    ({cpu0_AWVALID, sd_controller_dma_AWVALID       }),
-    .ini_wvalid     ({cpu0_WVALID,  sd_controller_dma_WVALID        }),
-    .ini_wready     ({cpu0_WREADY,  sd_controller_dma_WREADY        }),
-    .ini_wdata      ({cpu0_WDATA,   sd_controller_dma_WDATA         }),
-    .ini_wstrb      ({cpu0_WSTRB,   sd_controller_dma_WSTRB         }),
-    .ini_bresp      ({cpu0_BRESP,   sd_controller_dma_BRESP         }),
-    .ini_bvalid     ({cpu0_BVALID,  sd_controller_dma_BVALID        }),
-    .ini_bready     ({cpu0_BREADY,  sd_controller_dma_BREADY        }),
-    .tgt_araddr     ({ram_araddr,   rom_araddr,     sdram_ARADDR,   sd_controller_csr_ARADDR    }),
-    .tgt_arvalid    ({ram_arvalid,  rom_arvalid,    sdram_ARVALID,  sd_controller_csr_ARVALID   }),
-    .tgt_arready    ({ram_arready,  rom_arready,    sdram_ARREADY,  sd_controller_csr_ARREADY   }),
-    .tgt_rdata      ({ram_rdata,    rom_rdata,      sdram_RDATA,    sd_controller_csr_RDATA     }),
-    .tgt_rresp      ({ram_rresp,    rom_rresp,      sdram_RRESP,    sd_controller_csr_RRESP     }),
-    .tgt_rvalid     ({ram_rvalid,   rom_rvalid,     sdram_RVALID,   sd_controller_csr_RVALID    }),
-    .tgt_rready     ({ram_rready,   rom_rready,     sdram_RREADY,   sd_controller_csr_RREADY    }),
-    .tgt_awaddr     ({ram_awaddr,   rom_awaddr,     sdram_AWADDR,   sd_controller_csr_AWADDR    }),
-    .tgt_awvalid    ({ram_awvalid,  rom_awvalid,    sdram_AWVALID,  sd_controller_csr_AWVALID   }),
-    .tgt_awready    ({ram_awready,  rom_awready,    sdram_AWREADY,  sd_controller_csr_AWREADY   }),
-    .tgt_wdata      ({ram_wdata,    rom_wdata,      sdram_WDATA,    sd_controller_csr_WDATA     }),
-    .tgt_wvalid     ({ram_wvalid,   rom_wvalid,     sdram_WVALID,   sd_controller_csr_WVALID    }),
-    .tgt_wready     ({ram_wready,   rom_wready,     sdram_WREADY,   sd_controller_csr_WREADY    }),
-    .tgt_wstrb      ({ram_wstrb,    rom_wstrb,      sdram_WSTRB,    sd_controller_csr_WSTRB     }),
-    .tgt_bresp      ({ram_bresp,    rom_bresp,      sdram_BRESP,    sd_controller_csr_BRESP     }),
-    .tgt_bvalid     ({ram_bvalid,   rom_bvalid,     sdram_BVALID,   sd_controller_csr_BVALID    }),
-    .tgt_bready     ({ram_bready,   rom_bready,     sdram_BREADY,   sd_controller_csr_BREADY    })
+    .S_AXI_AWVALID  ({cpu0_AWVALID, sd_controller_dma_AWVALID       }),
+    .S_AXI_AWREADY  ({cpu0_AWREADY, sd_controller_dma_AWREADY       }),
+    .S_AXI_AWADDR   ({cpu0_AWADDR,  sd_controller_dma_AWADDR        }),
+    .S_AXI_AWPROT   ('0),
+    .S_AXI_WVALID   ({cpu0_WVALID,  sd_controller_dma_WVALID        }),
+    .S_AXI_WREADY   ({cpu0_WREADY,  sd_controller_dma_WREADY        }),
+    .S_AXI_WDATA    ({cpu0_WDATA,   sd_controller_dma_WDATA         }),
+    .S_AXI_WSTRB    ({cpu0_WSTRB,   sd_controller_dma_WSTRB         }),
+    .S_AXI_BVALID   ({cpu0_BVALID,  sd_controller_dma_BVALID        }),
+    .S_AXI_BREADY   ({cpu0_BREADY,  sd_controller_dma_BREADY        }),
+    .S_AXI_BRESP    ({cpu0_BRESP,   sd_controller_dma_BRESP         }),
+    .S_AXI_ARVALID  ({cpu0_ARVALID, sd_controller_dma_ARVALID       }),
+    .S_AXI_ARREADY  ({cpu0_ARREADY, sd_controller_dma_ARREADY       }),
+    .S_AXI_ARADDR   ({cpu0_ARADDR,  sd_controller_dma_ARADDR        }),
+    .S_AXI_ARPROT   ('0),
+    .S_AXI_RVALID   ({cpu0_RVALID,  sd_controller_dma_RVALID        }),
+    .S_AXI_RREADY   ({cpu0_RREADY,  sd_controller_dma_RREADY        }),
+    .S_AXI_RDATA    ({cpu0_RDATA,   sd_controller_dma_RDATA         }),
 
+    .M_AXI_AWADDR   ({ram_awaddr,   rom_awaddr,     sdram_AWADDR,   sd_controller_csr_AWADDR    }),
+    .M_AXI_AWPROT   (),
+    .M_AXI_AWVALID  ({ram_awvalid,  rom_awvalid,    sdram_AWVALID,  sd_controller_csr_AWVALID   }),
+    .M_AXI_AWREADY  ({ram_awready,  rom_awready,    sdram_AWREADY,  sd_controller_csr_AWREADY   }),
+    .M_AXI_WDATA    ({ram_wdata,    rom_wdata,      sdram_WDATA,    sd_controller_csr_WDATA     }),
+    .M_AXI_WSTRB    ({ram_wstrb,    rom_wstrb,      sdram_WSTRB,    sd_controller_csr_WSTRB     }),
+    .M_AXI_WVALID   ({ram_wvalid,   rom_wvalid,     sdram_WVALID,   sd_controller_csr_WVALID    }),
+    .M_AXI_WREADY   ({ram_wready,   rom_wready,     sdram_WREADY,   sd_controller_csr_WREADY    }),
+    .M_AXI_BRESP    ({ram_bresp,    rom_bresp,      sdram_BRESP,    sd_controller_csr_BRESP     }),
+    .M_AXI_BVALID   ({ram_bvalid,   rom_bvalid,     sdram_BVALID,   sd_controller_csr_BVALID    }),
+    .M_AXI_BREADY   ({ram_bready,   rom_bready,     sdram_BREADY,   sd_controller_csr_BREADY    }),
+    .M_AXI_ARADDR   ({ram_araddr,   rom_araddr,     sdram_ARADDR,   sd_controller_csr_ARADDR    }),
+    .M_AXI_ARPROT   (),
+    .M_AXI_ARVALID  ({ram_arvalid,  rom_arvalid,    sdram_ARVALID,  sd_controller_csr_ARVALID   }),
+    .M_AXI_ARREADY  ({ram_arready,  rom_arready,    sdram_ARREADY,  sd_controller_csr_ARREADY   }),
+    .M_AXI_RDATA    ({ram_rdata,    rom_rdata,      sdram_RDATA,    sd_controller_csr_RDATA     }),
+    .M_AXI_RRESP    ({ram_rresp,    rom_rresp,      sdram_RRESP,    sd_controller_csr_RRESP     }),
+    .M_AXI_RVALID   ({ram_rvalid,   rom_rvalid,     sdram_RVALID,   sd_controller_csr_RVALID    }),
+    .M_AXI_RREADY   ({ram_rready,   rom_rready,     sdram_RREADY,   sd_controller_csr_RREADY    })
 );
 
 axi4_lite_rom #(
     .ROM_SIZE(8),
+    .BASE_ADDRESS(32'h0000ff00),
     .ROM_INIT_FILE("init_hex.mem")
 ) u_rom (
     .i_clk(i_sysclk),
@@ -313,7 +325,8 @@ axi4_lite_rom #(
 );
 
 axi4_lite_ram #(
-    .RAM_SIZE(9)
+    .RAM_SIZE(9),
+    .BASE_ADDRESS(32'h00000000)
 ) u_ram(
     .i_clk(i_sysclk),
     .i_rst(~master_reset),
@@ -436,7 +449,7 @@ axi4_lite_to_apb4 u_sd_axi_apb_converter (
     .i_AWVALID(sd_controller_csr_AWVALID),
     .o_AWREADY(sd_controller_csr_AWREADY),
     .i_AWADDR(sd_controller_csr_AWADDR),
-    .i_WVALID(sd_controller_csr_AWVALID),
+    .i_WVALID(sd_controller_csr_WVALID),
     .o_WREADY(sd_controller_csr_WREADY),
     .i_WDATA(sd_controller_csr_WDATA),
     .i_WSTRB(sd_controller_csr_WSTRB),
