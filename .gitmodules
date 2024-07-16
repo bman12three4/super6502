@@ -17,5 +17,5 @@
 	path = hw/super6502_fpga/src/sub/wb2axip
 	url = ../wb2axip.git
 [submodule "hw/super6502_fpga/src/sub/sdcard_mass_storage_controller"]
-	path = hw/super6502_fpga/src/sub/sdcard_mass_storage_controller
+	path = hw/super6502_fpga/src/sub/sdcard_controller_wrapper/sdcard_mass_storage_controller
 	url = ../sdcard_mass_storage_controller.git
