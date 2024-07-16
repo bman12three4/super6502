@@ -13,5 +13,6 @@ python3.11 -m venv .user_venv
 . .user_venv/bin/activate
 
 module load efinity/2023.1
+module load iverilog/12.0
 
 # pip install -r requirements.txt
