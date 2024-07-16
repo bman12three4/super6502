@@ -13,12 +13,3 @@ src/sub/rtl-common/src/rtl/shallow_async_fifo.sv
 src/sub/rtl-common/src/rtl/sync_fifo.sv
 src/sub/rtl-common/src/rtl/axi4_lite_to_apb4.sv
 ip/sdram_controller/sdram_controller.v
-src/sub/sd_controller/src/regs/sd_controller_regs_pkg.sv
-src/sub/sd_controller/src/regs/sd_controller_regs.sv
-src/sub/sd_controller/src/crc7.sv
-src/sub/sd_controller/src/crc16.sv
-src/sub/sd_controller/src/sd_command.sv
-src/sub/sd_controller/src/sd_control.sv
-src/sub/sd_controller/src/sd_controller_top.sv
-src/sub/sd_controller/src/sd_data.sv
-src/sub/sd_controller/src/sd_dma.sv

@@ -464,49 +464,4 @@ axi4_lite_to_apb4 u_sd_axi_apb_converter (
     .m_apb_pslverr(sd_controller_apb_pslverr)
 );
 
-sd_controller_top u_sd_controller (
-    .clk(i_sysclk),
-    .rst(~master_reset),
-
-    .s_apb_psel(sd_controller_apb_psel),
-    .s_apb_penable(sd_controller_apb_penable),
-    .s_apb_pwrite(sd_controller_apb_pwrite),
-    .s_apb_pprot(sd_controller_apb_pprot),
-    .s_apb_paddr(sd_controller_apb_paddr[5:0]),
-    .s_apb_pwdata(sd_controller_apb_pwdata),
-    .s_apb_pstrb(sd_controller_apb_pstrb),
-    .s_apb_pready(sd_controller_apb_pready),
-    .s_apb_prdata(sd_controller_apb_prdata),
-    .s_apb_pslverr(sd_controller_apb_pslverr),
-
-    .o_AWVALID  (sd_controller_dma_AWVALID),
-    .i_AWREADY  (sd_controller_dma_AWREADY),
-    .o_AWADDR   (sd_controller_dma_AWADDR),
-    .o_WVALID   (sd_controller_dma_WVALID),
-    .i_WREADY   (sd_controller_dma_WREADY),
-    .o_WDATA    (sd_controller_dma_WDATA),
-    .o_WSTRB    (sd_controller_dma_WSTRB),
-    .i_BVALID   (sd_controller_dma_BVALID),
-    .o_BREADY   (sd_controller_dma_BREADY),
-    .i_BRESP    (sd_controller_dma_BRESP),
-    .o_ARVALID  (sd_controller_dma_ARVALID),
-    .i_ARREADY  (sd_controller_dma_ARREADY),
-    .o_ARADDR   (sd_controller_dma_ARADDR),
-    .i_RVALID   (sd_controller_dma_RVALID),
-    .o_RREADY   (sd_controller_dma_RREADY),
-    .i_RDATA    (sd_controller_dma_RDATA),
-    .i_RRESP    (sd_controller_dma_RRESP),
-
-    
-
-    .i_sd_cmd(i_sd_cmd),
-    .o_sd_cmd(o_sd_cmd),
-    .o_sd_cmd_oe(o_sd_cmd_oe),
-    .o_sd_clk(o_sd_clk),
-
-    .i_sd_dat(i_sd_dat),
-    .o_sd_dat(o_sd_dat),
-    .o_sd_dat_oe(o_sd_dat_oe)
-);
-
 endmodule
