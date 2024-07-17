@@ -15,4 +15,4 @@
 	url = ../wb2axip.git
 [submodule "hw/super6502_fpga/src/sub/sdspi"]
 	path = hw/super6502_fpga/src/sub/sdspi
-	url = git@git.byronlathi.com:bslathi19/sdspi.git
+	url = ../sdspi.git
