@@ -10,7 +10,7 @@ TB_NAME=sim_top
 
 COPY_FILES=addr_map.mem init_hex.mem
 
-FLAGS=-DSIM -DRTL_SIM
+FLAGS=-DSIM -DRTL_SIM -DVERILATOR -DSDIO_AXI
 
 all: waves
 
