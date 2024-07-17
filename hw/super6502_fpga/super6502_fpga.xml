@@ -1,4 +1,4 @@
-<efx:project xmlns:efx="http://www.efinixinc.com/enf_proj" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="super6502_fpga" description="" last_change_date="Tue Jul 16 2024 12:02:55 AM" location="/cluster/projects/super6502/hw/super6502_fpga" sw_version="2023.1.150" last_run_state="pass" last_run_tool="efx_pgm" last_run_flow="bitstream" config_result_in_sync="sync" design_ood="sync" place_ood="sync" route_ood="sync" xsi:schemaLocation="http://www.efinixinc.com/enf_proj enf_proj.xsd">
+<efx:project xmlns:efx="http://www.efinixinc.com/enf_proj" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="super6502_fpga" description="" last_change_date="Tue Jul 16 2024 06:55:10 PM" location="/home/byron/Projects/super6502/hw/super6502_fpga" sw_version="2023.1.150" last_run_state="pass" last_run_tool="efx_pgm" last_run_flow="bitstream" config_result_in_sync="sync" design_ood="sync" place_ood="sync" route_ood="sync" xsi:schemaLocation="http://www.efinixinc.com/enf_proj enf_proj.xsd">
     <efx:device_info>
         <efx:family name="Trion" />
         <efx:device name="T20F256" />
@@ -18,6 +18,25 @@
         <efx:design_file name="src/sub/axi_crossbar/src/rtl/rr_scheduler.sv" version="default" library="default" />
         <efx:design_file name="src/sub/rtl-common/src/rtl/axi4_lite_to_apb4.sv" version="default" library="default" />
         <efx:design_file name="src/sub/rtl-common/src/rtl/async_fifo.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/sdcard_controller_wrapper/sdcard_controller_wrapper.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/sdcard_controller_wrapper/sdcard_mass_storage_controller/rtl/sdc_dma/verilog/sdc_controller.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sdcard_controller_wrapper/sdcard_mass_storage_controller/rtl/sdc_dma/verilog/sd_cmd_master.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sdcard_controller_wrapper/sdcard_mass_storage_controller/rtl/sdc_dma/verilog/sd_crc_7.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sdcard_controller_wrapper/sdcard_mass_storage_controller/rtl/sdc_dma/verilog/sd_controller_wb.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sdcard_controller_wrapper/sdcard_mass_storage_controller/rtl/sdc_dma/verilog/sd_fifo_rx_filler.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sdcard_controller_wrapper/sdcard_mass_storage_controller/rtl/sdc_dma/verilog/sd_rx_fifo.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sdcard_controller_wrapper/sdcard_mass_storage_controller/rtl/sdc_dma/verilog/sd_cmd_serial_host.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sdcard_controller_wrapper/sdcard_mass_storage_controller/rtl/sdc_dma/verilog/sd_fifo_tx_filler.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sdcard_controller_wrapper/sdcard_mass_storage_controller/rtl/sdc_dma/verilog/sd_data_serial_host.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sdcard_controller_wrapper/sdcard_mass_storage_controller/rtl/sdc_dma/verilog/sd_data_master.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sdcard_controller_wrapper/sdcard_mass_storage_controller/rtl/sdc_dma/verilog/sd_rx_fifo_tb.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sdcard_controller_wrapper/sdcard_mass_storage_controller/rtl/sdc_dma/verilog/sd_bd.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sdcard_controller_wrapper/sdcard_mass_storage_controller/rtl/sdc_dma/verilog/sd_defines.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sdcard_controller_wrapper/sdcard_mass_storage_controller/rtl/sdc_dma/verilog/sd_tx_fifo.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sdcard_controller_wrapper/sdcard_mass_storage_controller/rtl/sdc_dma/verilog/sd_clock_divider.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sdcard_controller_wrapper/sdcard_mass_storage_controller/rtl/sdc_dma/verilog/sd_crc_16.v" version="default" library="default" />
+        <efx:design_file name="src/sub/wb2axip/rtl/axlite2wbsp.v" version="default" library="default" />
+        <efx:design_file name="src/sub/wb2axip/rtl/wbm2axilite.v" version="default" library="default" />
         <efx:top_vhdl_arch name="" />
     </efx:design_info>
     <efx:constraint_info>
