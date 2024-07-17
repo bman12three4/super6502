@@ -4,7 +4,7 @@ module super6502_fpga(
     input   logic               i_tACclk,       // t_ac clock (200MHz)
     input                       clk_cpu,
 
-    input                       button_reset,
+    input                       button_resetn,
 
     input                       pll_cpu_locked,
     output  logic               pll_cpu_reset,
@@ -60,22 +60,25 @@ assign o_clk_phi2 = clk_cpu;
 
 assign o_cpu0_data_oe = {8{i_cpu0_rwb}};
 
-logic vio0_reset;
-assign vio0_reset = '1;
+logic vio0_resetn;
+assign vio0_resetn = '1;
 
-logic master_reset;
+logic master_resetn;
 logic sdram_ready;
 logic [3:0] w_sdr_state;
 
-logic pre_reset;
+logic pre_resetn;
 
-assign pre_reset = button_reset & vio0_reset;
+assign pre_resetn = button_resetn & vio0_resetn;
 
 assign sdram_ready = |w_sdr_state;
 
-assign master_reset = pre_reset & sdram_ready;
+assign master_resetn = pre_resetn & sdram_ready;
 
 assign o_sd_cs = '1;
+
+logic i_sd_cd;
+assign i_sd_cd = '1;
 
 
 logic                       cpu0_AWVALID;
@@ -194,7 +197,7 @@ logic  [1:0]                sd_controller_dma_RRESP;
 cpu_wrapper u_cpu_wrapper_0(
     .i_clk_cpu  (clk_cpu),
     .i_clk_100  (i_sysclk),
-    .i_rst      (~master_reset),
+    .i_rst      (~master_resetn),
 
     .o_cpu_rst  (o_cpu0_reset),
     .o_cpu_rdy  (o_cpu0_rdy),
@@ -246,7 +249,7 @@ axilxbar #(
     })
 ) u_crossbar (
     .S_AXI_ACLK         (i_sysclk),
-    .S_AXI_ARESETN      (master_reset),
+    .S_AXI_ARESETN      (master_resetn),
 
     .S_AXI_ARADDR       ({cpu0_ARADDR,  sd_controller_dma_ARADDR        }),
     .S_AXI_ARVALID      ({cpu0_ARVALID, sd_controller_dma_ARVALID       }),
@@ -290,7 +293,7 @@ axi4_lite_rom #(
     .ROM_INIT_FILE("init_hex.mem")
 ) u_rom (
     .i_clk(i_sysclk),
-    .i_rst(~master_reset),
+    .i_rst(~master_resetn),
 
     .o_AWREADY(rom_awready),
     .o_WREADY(rom_wready),
@@ -322,7 +325,7 @@ axi4_lite_ram #(
     .RAM_SIZE(9)
 ) u_ram(
     .i_clk(i_sysclk),
-    .i_rst(~master_reset),
+    .i_rst(~master_resetn),
 
     .o_AWREADY(ram_awready),
     .o_WREADY(ram_wready),
@@ -373,7 +376,7 @@ assign o_sdr_DATA_oe = w_sdr_DATA_oe[0+:16];
 assign o_sdr_DQM = w_sdr_DQM[0+:2];
 
 sdram_controller u_sdram_controller(
-    .i_aresetn          (pre_reset),
+    .i_aresetn          (pre_resetn),
     .i_sysclk           (i_sysclk),
     .i_sdrclk           (i_sdrclk),
     .i_tACclk           (i_tACclk),
@@ -436,7 +439,7 @@ sdio_top #(
     .OPT_1P8V           (0)     // doesn't really matter but we don't need it
 ) u_sdio_top (
     .i_clk              (i_sysclk),
-    .i_reset            (~master_reset),
+    .i_reset            (~master_resetn),
     .i_hsclk            ('0),   // Not using serdes
 
     .S_AXIL_AWVALID     (sd_controller_ctrl_AWVALID),
