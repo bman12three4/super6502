@@ -1,9 +1,6 @@
 [submodule "hw/super6502_fpga/src/sub/rtl-common"]
 	path = hw/super6502_fpga/src/sub/rtl-common
 	url = ../rtl-common.git
-[submodule "hw/super6502_fpga/src/sub/axi_crossbar"]
-	path = hw/super6502_fpga/src/sub/axi_crossbar
-	url = ../axi_crossbar.git
 [submodule "sw/toolchain/cc65"]
 	path = sw/toolchain/cc65
 	url = ../cc65.git
@@ -16,6 +13,6 @@
 [submodule "hw/super6502_fpga/src/sub/wb2axip"]
 	path = hw/super6502_fpga/src/sub/wb2axip
 	url = ../wb2axip.git
-[submodule "hw/super6502_fpga/src/sub/sdcard_mass_storage_controller"]
-	path = hw/super6502_fpga/src/sub/sdcard_controller_wrapper/sdcard_mass_storage_controller
-	url = ../sdcard_mass_storage_controller.git
+[submodule "hw/super6502_fpga/src/sub/sdspi"]
+	path = hw/super6502_fpga/src/sub/sdspi
+	url = git@git.byronlathi.com:bslathi19/sdspi.git

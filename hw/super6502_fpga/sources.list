@@ -1,9 +1,4 @@
 src/rtl/super_6502_fpga.sv
-src/sub/axi_crossbar/src/rtl/axi_crossbar.sv
-src/sub/axi_crossbar/src/rtl/axi_master.sv
-src/sub/axi_crossbar/src/rtl/axi_slave.sv
-src/sub/axi_crossbar/src/rtl/rr_scheduler.sv
-src/sub/axi_crossbar/src/rtl/slave_addr_decoder.sv
 src/sub/cpu_wrapper/cpu_wrapper.sv
 src/sub/rtl-common/src/rtl/async_fifo.sv
 src/sub/rtl-common/src/rtl/axi4_lite_ram.sv
