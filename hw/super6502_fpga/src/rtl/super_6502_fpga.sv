@@ -290,6 +290,7 @@ axilxbar #(
 
 axi4_lite_rom #(
     .ROM_SIZE(8),
+    .BASE_ADDRESS(32'h0000ff00),
     .ROM_INIT_FILE("init_hex.mem")
 ) u_rom (
     .i_clk(i_sysclk),
@@ -322,7 +323,8 @@ axi4_lite_rom #(
 );
 
 axi4_lite_ram #(
-    .RAM_SIZE(9)
+    .RAM_SIZE(9),
+    .ZERO_INIT(1)
 ) u_ram(
     .i_clk(i_sysclk),
     .i_rst(~master_resetn),
