@@ -430,24 +430,16 @@ sdram_controller u_sdram_controller(
 
 logic sd_irq;
 
-sdio_top #(
-    .NUMIO              (1),    // board as it stands is in 1 bit mode
-    .ADDRESS_WIDTH      (32),
-    .DW                 (32),
-    .OPT_DMA            (1),
-    .OPT_EMMC           (0),
-    .OPT_SERDES         (0),
-    .OPT_DDR            (0),
-    .OPT_1P8V           (0)     // doesn't really matter but we don't need it
+sd_controller_wrapper #(
+    .NUMIO              (1),   // board as it stands is in 1 bit mode
+    .BASE_ADDRESS       (32'h0000E000)
 ) u_sdio_top (
     .i_clk              (i_sysclk),
     .i_reset            (~master_resetn),
-    .i_hsclk            ('0),   // Not using serdes
 
     .S_AXIL_AWVALID     (sd_controller_ctrl_AWVALID),
     .S_AXIL_AWREADY     (sd_controller_ctrl_AWREADY),
     .S_AXIL_AWADDR      (sd_controller_ctrl_AWADDR),
-    .S_AXIL_AWPROT      ('0),
     .S_AXIL_WVALID      (sd_controller_ctrl_WVALID),
     .S_AXIL_WREADY      (sd_controller_ctrl_WREADY),
     .S_AXIL_WDATA       (sd_controller_ctrl_WDATA),
@@ -458,7 +450,6 @@ sdio_top #(
     .S_AXIL_ARVALID     (sd_controller_ctrl_ARVALID),
     .S_AXIL_ARREADY     (sd_controller_ctrl_ARREADY),
     .S_AXIL_ARADDR      (sd_controller_ctrl_ARADDR),
-    .S_AXIL_ARPROT      ('0),
     .S_AXIL_RVALID      (sd_controller_ctrl_RVALID),
     .S_AXIL_RREADY      (sd_controller_ctrl_RREADY),
     .S_AXIL_RDATA       (sd_controller_ctrl_RDATA),
@@ -467,7 +458,6 @@ sdio_top #(
     .M_AXI_AWVALID      (sd_controller_dma_AWVALID),
     .M_AXI_AWREADY      (sd_controller_dma_AWREADY),
     .M_AXI_AWADDR       (sd_controller_dma_AWADDR),
-    .M_AXI_AWPROT       (),
     .M_AXI_WVALID       (sd_controller_dma_WVALID),
     .M_AXI_WREADY       (sd_controller_dma_WREADY),
     .M_AXI_WDATA        (sd_controller_dma_WDATA),
@@ -478,7 +468,6 @@ sdio_top #(
     .M_AXI_ARVALID      (sd_controller_dma_ARVALID),
     .M_AXI_ARREADY      (sd_controller_dma_ARREADY),
     .M_AXI_ARADDR       (sd_controller_dma_ARADDR),
-    .M_AXI_ARPROT       (),
     .M_AXI_RVALID       (sd_controller_dma_RVALID),
     .M_AXI_RREADY       (sd_controller_dma_RREADY),
     .M_AXI_RDATA        (sd_controller_dma_RDATA),
@@ -491,7 +480,6 @@ sdio_top #(
     .o_cmd              (o_sd_cmd),
     .io_cmd_tristate    (o_sd_cmd_oe),
     .o_ck               (o_sd_clk),
-    .i_ds               ('0),   //emmc, don't care
     .i_card_detect      (i_sd_cd),
     .o_int              (sd_irq)
 );
