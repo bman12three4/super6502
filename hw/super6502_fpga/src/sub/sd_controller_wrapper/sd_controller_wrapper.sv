@@ -66,6 +66,64 @@ module sd_controller_wrapper #(
     output  wire                o_int
 );
 
+logic                shadow_AXI_AWVALID;
+logic                shadow_AXI_AWREADY;
+logic    [31:0]      shadow_AXI_AWADDR;
+logic                shadow_AXI_WVALID;
+logic                shadow_AXI_WREADY;
+logic    [31:0]      shadow_AXI_WDATA;
+logic    [3:0]       shadow_AXI_WSTRB;
+logic                shadow_AXI_BVALID;
+logic                shadow_AXI_BREADY;
+logic    [1:0]       shadow_AXI_BRESP;
+logic                shadow_AXI_ARVALID;
+logic                shadow_AXI_ARREADY;
+logic    [31:0]      shadow_AXI_ARADDR;
+logic                shadow_AXI_RVALID;
+logic                shadow_AXI_RREADY;
+logic    [31:0]      shadow_AXI_RDATA;
+logic    [1:0]       shadow_AXI_RRESP;
+
+shadow_regs #(.N(8)) u_shadow_regs (
+    .i_clk              (i_clk),
+    .i_reset            (i_reset),
+
+    .S_AXIL_AWVALID     (S_AXIL_AWVALID),
+    .S_AXIL_AWREADY     (S_AXIL_AWREADY),
+    .S_AXIL_AWADDR      (S_AXIL_AWADDR-BASE_ADDRESS),
+    .S_AXIL_WVALID      (S_AXIL_WVALID),
+    .S_AXIL_WREADY      (S_AXIL_WREADY),
+    .S_AXIL_WDATA       (S_AXIL_WDATA),
+    .S_AXIL_WSTRB       (S_AXIL_WSTRB),
+    .S_AXIL_BVALID      (S_AXIL_BVALID),
+    .S_AXIL_BREADY      (S_AXIL_BREADY),
+    .S_AXIL_BRESP       (S_AXIL_BRESP),
+    .S_AXIL_ARVALID     (S_AXIL_ARVALID),
+    .S_AXIL_ARREADY     (S_AXIL_ARREADY),
+    .S_AXIL_ARADDR      (S_AXIL_ARADDR-BASE_ADDRESS),
+    .S_AXIL_RVALID      (S_AXIL_RVALID),
+    .S_AXIL_RREADY      (S_AXIL_RREADY),
+    .S_AXIL_RDATA       (S_AXIL_RDATA),
+    .S_AXIL_RRESP       (S_AXIL_RRESP),
+
+    .M_AXI_AWVALID      (shadow_AXI_AWVALID),
+    .M_AXI_AWREADY      (shadow_AXI_AWREADY),
+    .M_AXI_AWADDR       (shadow_AXI_AWADDR),
+    .M_AXI_WVALID       (shadow_AXI_WVALID),
+    .M_AXI_WREADY       (shadow_AXI_WREADY),
+    .M_AXI_WDATA        (shadow_AXI_WDATA),
+    .M_AXI_WSTRB        (shadow_AXI_WSTRB),
+    .M_AXI_BVALID       (shadow_AXI_BVALID),
+    .M_AXI_BREADY       (shadow_AXI_BREADY),
+    .M_AXI_BRESP        (shadow_AXI_BRESP),
+    .M_AXI_ARVALID      (shadow_AXI_ARVALID),
+    .M_AXI_ARREADY      (shadow_AXI_ARREADY),
+    .M_AXI_ARADDR       (shadow_AXI_ARADDR),
+    .M_AXI_RVALID       (shadow_AXI_RVALID),
+    .M_AXI_RREADY       (shadow_AXI_RREADY),
+    .M_AXI_RDATA        (shadow_AXI_RDATA),
+    .M_AXI_RRESP        (shadow_AXI_RRESP)
+);
 
 
 sdio_top #(
@@ -82,25 +140,25 @@ sdio_top #(
     .i_reset            (i_reset),
     .i_hsclk            ('0),   // Not using serdes
 
-    .S_AXIL_AWVALID     (S_AXIL_AWVALID),
-    .S_AXIL_AWREADY     (S_AXIL_AWREADY),
-    .S_AXIL_AWADDR      (S_AXIL_AWADDR-BASE_ADDRESS),
-    .S_AXIL_AWPROT      ('0),
-    .S_AXIL_WVALID      (S_AXIL_WVALID),
-    .S_AXIL_WREADY      (S_AXIL_WREADY),
-    .S_AXIL_WDATA       (S_AXIL_WDATA),
-    .S_AXIL_WSTRB       (S_AXIL_WSTRB),
-    .S_AXIL_BVALID      (S_AXIL_BVALID),
-    .S_AXIL_BREADY      (S_AXIL_BREADY),
-    .S_AXIL_BRESP       (S_AXIL_BRESP),
-    .S_AXIL_ARVALID     (S_AXIL_ARVALID),
-    .S_AXIL_ARREADY     (S_AXIL_ARREADY),
-    .S_AXIL_ARADDR      (S_AXIL_ARADDR-BASE_ADDRESS),
-    .S_AXIL_ARPROT      ('0),
-    .S_AXIL_RVALID      (S_AXIL_RVALID),
-    .S_AXIL_RREADY      (S_AXIL_RREADY),
-    .S_AXIL_RDATA       (S_AXIL_RDATA),
-    .S_AXIL_RRESP       (S_AXIL_RRESP),
+    .S_AXIL_AWVALID     (shadow_AXI_AWVALID),
+    .S_AXIL_AWREADY     (shadow_AXI_AWREADY),
+    .S_AXIL_AWADDR      (shadow_AXI_AWADDR),
+    .S_AXIL_AWPROT      (),
+    .S_AXIL_WVALID      (shadow_AXI_WVALID),
+    .S_AXIL_WREADY      (shadow_AXI_WREADY),
+    .S_AXIL_WDATA       (shadow_AXI_WDATA),
+    .S_AXIL_WSTRB       (shadow_AXI_WSTRB),
+    .S_AXIL_BVALID      (shadow_AXI_BVALID),
+    .S_AXIL_BREADY      (shadow_AXI_BREADY),
+    .S_AXIL_BRESP       (shadow_AXI_BRESP),
+    .S_AXIL_ARVALID     (shadow_AXI_ARVALID),
+    .S_AXIL_ARREADY     (shadow_AXI_ARREADY),
+    .S_AXIL_ARADDR      (shadow_AXI_ARADDR),
+    .S_AXIL_ARPROT      (),
+    .S_AXIL_RVALID      (shadow_AXI_RVALID),
+    .S_AXIL_RREADY      (shadow_AXI_RREADY),
+    .S_AXIL_RDATA       (shadow_AXI_RDATA),
+    .S_AXIL_RRESP       (shadow_AXI_RRESP),
 
     .M_AXI_AWVALID      (M_AXI_AWVALID),
     .M_AXI_AWREADY      (M_AXI_AWREADY),

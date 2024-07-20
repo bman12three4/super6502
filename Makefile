@@ -22,12 +22,14 @@ waves: sim
 	gtkwave hw/super6502_fpga/src/sim/sim_top.vcd
 
 # SW
-$(CC65): 
+$(CC65):
 	$(MAKE) -C sw/toolchain/cc65 -j $(shell nproc)
 
 $(INIT_HEX): $(CC65) script/generate_rom_image.py $(HEX)
 	python script/generate_rom_image.py -i $(HEX) -o $@
 
+# This should get dependencies of rom, not be phony
+.PHONY: $(HEX)
 $(HEX):
 	$(MAKE) -C sw/$(ROM_TARGET) $(notdir $@)
 

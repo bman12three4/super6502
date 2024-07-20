@@ -20,6 +20,8 @@ waves: $(TB_NAME)
 $(TB_NAME): $(SUPER6502_FPGA_SOURCES) $(SIM_SOURCES) $(COPY_FILES)
 	iverilog -g2005-sv $(FLAGS) -s $@ -o $@ $(INCLUDE) $(SUPER6502_FPGA_SOURCES) $(SIM_SOURCES) -I ../../
 
+# I feel like this should also realize that the outside files are newer...
+.PHONY: $(COPY_FILES)
 $(COPY_FILES): ../../$@
 	cp ../../$@ .
 
