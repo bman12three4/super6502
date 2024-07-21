@@ -193,7 +193,7 @@ initial begin
     button_resetn <= '0;
     repeat(10) @(clk_cpu);
     button_resetn <= '1;
-    repeat(4000) @(posedge clk_cpu);
+    repeat(20000) @(posedge clk_cpu);
     $finish();
 end
 

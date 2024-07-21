@@ -1,7 +1,7 @@
 MEMORY
 {
     RAM: start = $0000, size = $200;
-    ROM: start = $FF00, size = $100, file = %O;
+    ROM: start = $F000, size = $1000, file = %O;
 }
 
 SEGMENTS {
@@ -25,6 +25,6 @@ FEATURES {
 
 SYMBOLS {
     # Define the stack size for the application
-    __STACKSIZE__:  value = $0200, type = weak;
-    __STACKSTART__: type = weak, value = $0800; # 2k stack
+    __STACKSIZE__:  value = $0800, type = weak;
+    __STACKSTART__: type = weak, value = $0200; # 2k stack
 }

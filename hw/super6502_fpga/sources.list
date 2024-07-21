@@ -7,12 +7,12 @@ src/sub/rtl-common/src/rtl/ff_cdc.sv
 src/sub/rtl-common/src/rtl/shallow_async_fifo.sv
 src/sub/rtl-common/src/rtl/sync_fifo.sv
 src/sub/rtl-common/src/rtl/axi4_lite_to_apb4.sv
-src/sub/rtl-common/src/rtl/shadow_regs.sv
 ip/sdram_controller/sdram_controller.v
 src/sub/wb2axip/rtl/axilxbar.v
 src/sub/wb2axip/rtl/addrdecode.v
 src/sub/wb2axip/rtl/skidbuffer.v
 src/sub/sd_controller_wrapper/sd_controller_wrapper.sv
+src/sub/sd_controller_wrapper/shadow_regs.sv
 src/sub/sd_controller_wrapper/sdspi/rtl/sdckgen.v
 src/sub/sd_controller_wrapper/sdspi/rtl/sddma_rxgears.v
 src/sub/sd_controller_wrapper/sdspi/rtl/sddma.v

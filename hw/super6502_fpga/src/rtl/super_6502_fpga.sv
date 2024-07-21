@@ -243,7 +243,7 @@ axilxbar #(
     .NS(4),
     .SLAVE_ADDR({
         {32'h000001ff, 32'h00000000},
-        {32'h0000ffff, 32'h0000ff00},
+        {32'h0000ffff, 32'h0000f000},
         {32'h0000dfff, 32'h00000200},
         {32'h0000e03f, 32'h0000e000}
     })
@@ -289,8 +289,8 @@ axilxbar #(
 );
 
 axi4_lite_rom #(
-    .ROM_SIZE(8),
-    .BASE_ADDRESS(32'h0000ff00),
+    .ROM_SIZE(12),
+    .BASE_ADDRESS(32'h0000f000),
     .ROM_INIT_FILE("init_hex.mem")
 ) u_rom (
     .i_clk(i_sysclk),
