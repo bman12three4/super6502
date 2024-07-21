@@ -162,13 +162,29 @@ super6502_fpga u_dut (
     .o_sd_clk               (o_sd_clk)
 );
 
-sd_card_emu u_sd_card_emu(
-    .clk(o_sd_clk),
-    .rst(~button_resetn),
-    .i_cmd(o_sd_cmd),
-    .o_cmd(i_sd_cmd),
-    .i_dat(o_sd_dat),
-    .o_dat(i_sd_dat)
+wire w_sd_cmd;
+wire w_sd_dat;
+
+IOBUF cmd_buf (
+    .T(o_sd_cmd_oe),
+    .I(o_sd_cmd),
+    .O(i_sd_cmd),
+    .IO(w_sd_cmd)
+);
+
+IOBUF dat_buf (
+    .T(o_sd_dat_oe),
+    .I(o_sd_dat),
+    .O(i_sd_dat),
+    .IO(w_sd_dat)
+);
+
+mdl_sdio #(
+    .LGMEMSZ(16)
+) u_sd_card_emu (
+    .sd_clk(o_sd_clk),
+    .sd_cmd(w_sd_cmd),
+    .sd_dat(w_sd_dat)
 );
 
 initial begin

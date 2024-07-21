@@ -7,9 +7,6 @@
 [submodule "hw/super6502_fpga/src/sim/sub/verilog-6502"]
 	path = hw/super6502_fpga/src/sim/sub/verilog-6502
 	url = ../verilog-6502.git
-[submodule "hw/super6502_fpga/src/sim/sub/verilog-sd-emulator"]
-	path = hw/super6502_fpga/src/sim/sub/verilog-sd-emulator
-	url = ../verilog-sd-emulator.git
 [submodule "hw/super6502_fpga/src/sub/wb2axip"]
 	path = hw/super6502_fpga/src/sub/wb2axip
 	url = ../wb2axip.git
