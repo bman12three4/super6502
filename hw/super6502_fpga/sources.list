@@ -19,6 +19,7 @@ src/sub/sd_controller_wrapper/sdspi/rtl/sddma.v
 src/sub/sd_controller_wrapper/sdspi/rtl/sdrxframe.v
 src/sub/sd_controller_wrapper/sdspi/rtl/sdtxframe.v
 src/sub/sd_controller_wrapper/sdspi/rtl/sddma_s2mm.v
+src/sub/sd_controller_wrapper/sdspi/rtl/sddma_s2mm_axi.v
 src/sub/sd_controller_wrapper/sdspi/rtl/afifo.v
 src/sub/sd_controller_wrapper/sdspi/rtl/sddma_txgears.v
 src/sub/sd_controller_wrapper/sdspi/rtl/sdskid.v
