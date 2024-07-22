@@ -1,6 +1,7 @@
 MEMORY
 {
     RAM: start = $0000, size = $200;
+    SDRAM: start = $200, size = $de00;
     ROM: start = $F000, size = $1000, file = %O;
 }
 

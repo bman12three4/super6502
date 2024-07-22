@@ -180,7 +180,8 @@ IOBUF dat_buf (
 );
 
 mdl_sdio #(
-    .LGMEMSZ(16)
+    .LGMEMSZ(16),
+    .MEMFILE("sd_image.bin")
 ) u_sd_card_emu (
     .sd_clk(o_sd_clk),
     .sd_cmd(w_sd_cmd),
