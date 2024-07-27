@@ -169,6 +169,11 @@ _init:
                 lda #18
                 jsr send_dma
 
+                ; dumb sleep to wait for DMA to be done.
+                lda #$3a
+        @sleep: dec
+                bne @sleep
+
                 ; Try reading again just to make sure it works.
                 stz SD_DMA_BASE+$3
                 stz SD_DMA_BASE+$2
@@ -182,7 +187,7 @@ _init:
                 lda #$01
                 sta SD_DMA_LEN
 
-                ; address 0
+                ; address 2
                 stz sreg+1
                 stz sreg
                 ldx #$00
