@@ -1,0 +1,25 @@
+variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+
+stages:
+  - build
+  - sim
+
+build:
+  stage: build
+  tags:
+    - efinity
+    - linux
+  script:
+    - source init_env.sh
+    - make
+
+sim:
+  stage: sim
+  tags:
+    - linux
+    - efinity
+  script:
+    - source init_env.sh
+    - make sim
+
