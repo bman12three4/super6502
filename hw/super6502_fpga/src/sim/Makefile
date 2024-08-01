@@ -13,13 +13,19 @@ SD_IMAGE=sd_image.bin
 
 FLAGS=-DSIM -DRTL_SIM -DVERILATOR -DSDIO_AXI
 
+USE_VERILATOR=1
+
 all: waves
 
 waves: $(TB_NAME)
-	./$(TB_NAME) -fst
+	./obj_dir/Vsim_top
 
 $(TB_NAME): $(SUPER6502_FPGA_SOURCES) $(SIM_SOURCES) $(COPY_FILES) $(SD_IMAGE)
-	iverilog -g2005-sv $(FLAGS) -s $@ -o $@ $(INCLUDE) $(SUPER6502_FPGA_SOURCES) $(SIM_SOURCES) -I ../../
+	verilator --binary $(FLAGS) $(INCLUDE) $(SUPER6502_FPGA_SOURCES) $(SIM_SOURCES) +incdir+../../ -Wno-BLKANDNBLK -Wno-fatal -j 16 --top sim_top --trace-fst -Wno-ASSIGNDLY
+# ifeq ($(USE_VERILATOR), 1)
+# else
+# iverilog -g2005-sv $(FLAGS) -s $@ -o $@ $(INCLUDE) $(SUPER6502_FPGA_SOURCES) $(SIM_SOURCES) -I ../../
+# endif
 
 $(SD_IMAGE):
 	dd if=/dev/urandom bs=1 count=65536 of=$(SD_IMAGE)
@@ -34,3 +40,4 @@ clean:
 	rm -rf $(COPY_FILES)
 	rm -rf $(TB_NAME)
 	rm -rf sim_top.vcd
+	rm -rf obj_dir

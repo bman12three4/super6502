@@ -1,3 +1,4 @@
 outflow
 work_*
 .lock
+obj_dir

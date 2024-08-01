@@ -14,6 +14,7 @@ python3.11 -m venv .user_venv
 
 module load efinity/2023.1
 module load iverilog/12.0
+module load verilator
 module load gtkwave/3.3_gtk3
 
 # pip install -r requirements.txt

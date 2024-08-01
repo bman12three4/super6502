@@ -1,6 +1,6 @@
 /**************************************************************************
 *
-*    File Name:  sdr.v  
+*    File Name:  sdr.v
 *      Version:  2.2
 *         Date:  October 12th, 2010
 *        Model:  BUS Functional
@@ -18,8 +18,8 @@
 *         Note:  - Set simulator resolution to "ps" accuracy
 *                - Set Debug = 0 to disable $display messages
 *
-*   Disclaimer:  THESE DESIGNS ARE PROVIDED "AS IS" WITH NO WARRANTY 
-*                WHATSOEVER AND MICRON SPECIFICALLY DISCLAIMS ANY 
+*   Disclaimer:  THESE DESIGNS ARE PROVIDED "AS IS" WITH NO WARRANTY
+*                WHATSOEVER AND MICRON SPECIFICALLY DISCLAIMS ANY
 *                IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR
 *                A PARTICULAR PURPOSE, OR AGAINST INFRINGEMENT.
 *
@@ -48,7 +48,7 @@
 `define SYS_CLK_100
 
 module generic_sdr (Dq, Addr, Ba, Clk, Cke, Cs_n, Ras_n, Cas_n, We_n, Dqm);
-	
+
 `include "include/sdram_controller_define.vh"
 
 parameter tCK              =     1000/fCK_MHz; // tCK    ns    Nominal Clock Cycle Time
@@ -64,8 +64,8 @@ parameter tCK              =     1000/fCK_MHz; // tCK    ns    Nominal Clock Cyc
     parameter real tAC3             =     6.0; // tAC3   ns    Access time from CLK (pos edge) CL = 3
     parameter real tAC2             =     6.0; // tAC2   ns    Access time from CLK (pos edge) CL = 2
     parameter real tAC1             =     6.0; // tAC1   ns    Parameter definition for compilation - CL = 1 illegal for sg75
-`endif    
-    
+`endif
+
 `ifdef CLK_200
     parameter real tHZ3             =     4.5; // tHZ3   ns    Data Out High Z time - CL = 3
     parameter real tHZ2             =     4.5; // tHZ2   ns    Data Out High Z time - CL = 2
@@ -83,7 +83,7 @@ parameter tCK              =     1000/fCK_MHz; // tCK    ns    Nominal Clock Cyc
 parameter tOH              =     2.7; // tOH    ns    Data Out Hold time
 parameter tRRD             =     2.0; // tRRD   tCK   Active bank a to Active bank b command time (2 * tCK)
 parameter tWRa             =     tCK; // tWR    ns    Write recovery time (auto-precharge mode - must add 1 CLK)
-parameter tWRm             =   2*tCK; // tWR    ns    Write recovery time	
+parameter tWRm             =   2*tCK; // tWR    ns    Write recovery time
 parameter ADDR_BITS        = ROW_WIDTH; // Set this parameter to control how many Address bits are used
 parameter ROW_BITS         = ROW_WIDTH; // Set this parameter to control how many Row bits are used
 parameter COL_BITS         = COL_WIDTH; // Set this parameter to control how many Column bits are used
@@ -166,7 +166,7 @@ parameter mem_sizes        = 2**(ROW_BITS+COL_BITS) - 1;
 
     wire      Debug            = 1'b0;                          // Debug messages : 1 = On
     wire      Dq_chk           = Sys_clk & Data_in_enable;      // Check setup/hold time for DQ
-    
+
     assign    Dq               = Dq_reg;                        // DQ buffer
 
     // Commands Operation
@@ -319,7 +319,7 @@ parameter mem_sizes        = 2**(ROW_BITS+COL_BITS) - 1;
             // Record Current tRFC time
             RFC_chk = $time;
         end
-        
+
         // Load Mode Register
         if (Mode_reg_enable === 1'b1) begin
             // Register Mode
@@ -388,7 +388,7 @@ parameter mem_sizes        = 2**(ROW_BITS+COL_BITS) - 1;
             // Reset MRD Counter
             MRD_chk = 0;
         end
-        
+
         // Active Block (Latch Bank Address and Row Address)
         if (Active_enable === 1'b1) begin
             // Activate an open bank can corrupt data
@@ -517,7 +517,7 @@ parameter mem_sizes        = 2**(ROW_BITS+COL_BITS) - 1;
             RRD_chk = $time;
             Prev_bank = Ba;
         end
-        
+
         // Precharge Block
         if (Prech_enable == 1'b1) begin
             // Load Mode Register to Precharge
@@ -530,7 +530,7 @@ parameter mem_sizes        = 2**(ROW_BITS+COL_BITS) - 1;
                 Act_b0 = 1'b0;
                 Pc_b0 = 1'b1;
                 RP_chk0 = $time;
-                
+
                 // Debug Message
                 if (Debug) begin
                     $display ("%m : at time %t PRECHARGE  : Bank = 0", $time);
@@ -552,7 +552,7 @@ parameter mem_sizes        = 2**(ROW_BITS+COL_BITS) - 1;
                 Act_b1 = 1'b0;
                 Pc_b1 = 1'b1;
                 RP_chk1 = $time;
-                
+
                 // Debug Message
                 if (Debug) begin
                     $display ("%m : at time %t PRECHARGE  : Bank = 1", $time);
@@ -574,7 +574,7 @@ parameter mem_sizes        = 2**(ROW_BITS+COL_BITS) - 1;
                 Act_b2 = 1'b0;
                 Pc_b2 = 1'b1;
                 RP_chk2 = $time;
-                
+
                 // Debug Message
                 if (Debug) begin
                     $display ("%m : at time %t PRECHARGE  : Bank = 2", $time);
@@ -596,7 +596,7 @@ parameter mem_sizes        = 2**(ROW_BITS+COL_BITS) - 1;
                 Act_b3 = 1'b0;
                 Pc_b3 = 1'b1;
                 RP_chk3 = $time;
-                
+
                 // Debug Message
                 if (Debug) begin
                     $display ("%m : at time %t PRECHARGE  : Bank = 3", $time);
@@ -628,7 +628,7 @@ parameter mem_sizes        = 2**(ROW_BITS+COL_BITS) - 1;
             Bank_precharge[Cas_latency - 1] = Ba;
             A10_precharge[Cas_latency - 1] = Addr[10];
         end
-        
+
         // Burst terminate
         if (Burst_term === 1'b1) begin
             // Terminate a Write Immediately
@@ -644,7 +644,7 @@ parameter mem_sizes        = 2**(ROW_BITS+COL_BITS) - 1;
                 $display ("%m : at time %t BST  : Burst Terminate",$time);
             end
         end
-        
+
         // Read, Write, Column Latch
         if (Read_enable === 1'b1) begin
             // Check to see if bank is open (ACT)
@@ -730,7 +730,7 @@ parameter mem_sizes        = 2**(ROW_BITS+COL_BITS) - 1;
             // Write interrupt Read (terminate Read immediately)
             if (Data_out_enable == 1'b1) begin
                 Data_out_enable = 1'b0;
-                
+
                 // Interrupting a Read with Autoprecharge
                 if (Auto_precharge[RW_interrupt_bank] == 1'b1 && Read_precharge[RW_interrupt_bank] == 1'b1) begin
                     RW_interrupt_read[RW_interrupt_bank] = 1'b1;
@@ -859,7 +859,7 @@ parameter mem_sizes        = 2**(ROW_BITS+COL_BITS) - 1;
         end
         if ((Auto_precharge[1] == 1'b1) && (Read_precharge[1] == 1'b1)) begin
             if ((($time - RAS_chk1 >= tRAS) &&
-                ((Burst_length_1 == 1'b1 && Count_precharge[1] >= 1) || 
+                ((Burst_length_1 == 1'b1 && Count_precharge[1] >= 1) ||
                  (Burst_length_2 == 1'b1 && Count_precharge[1] >= 2) ||
                  (Burst_length_4 == 1'b1 && Count_precharge[1] >= 4) ||
                  (Burst_length_8 == 1'b1 && Count_precharge[1] >= 8))) ||
@@ -877,7 +877,7 @@ parameter mem_sizes        = 2**(ROW_BITS+COL_BITS) - 1;
         end
         if ((Auto_precharge[2] == 1'b1) && (Read_precharge[2] == 1'b1)) begin
             if ((($time - RAS_chk2 >= tRAS) &&
-                ((Burst_length_1 == 1'b1 && Count_precharge[2] >= 1) || 
+                ((Burst_length_1 == 1'b1 && Count_precharge[2] >= 1) ||
                  (Burst_length_2 == 1'b1 && Count_precharge[2] >= 2) ||
                  (Burst_length_4 == 1'b1 && Count_precharge[2] >= 4) ||
                  (Burst_length_8 == 1'b1 && Count_precharge[2] >= 8))) ||
@@ -895,7 +895,7 @@ parameter mem_sizes        = 2**(ROW_BITS+COL_BITS) - 1;
         end
         if ((Auto_precharge[3] == 1'b1) && (Read_precharge[3] == 1'b1)) begin
             if ((($time - RAS_chk3 >= tRAS) &&
-                ((Burst_length_1 == 1'b1 && Count_precharge[3] >= 1) || 
+                ((Burst_length_1 == 1'b1 && Count_precharge[3] >= 1) ||
                  (Burst_length_2 == 1'b1 && Count_precharge[3] >= 2) ||
                  (Burst_length_4 == 1'b1 && Count_precharge[3] >= 4) ||
                  (Burst_length_8 == 1'b1 && Count_precharge[3] >= 8))) ||
@@ -1075,7 +1075,7 @@ parameter mem_sizes        = 2**(ROW_BITS+COL_BITS) - 1;
                 Col = Col_temp;
             end
 
-            // Burst Read Single Write            
+            // Burst Read Single Write
             if (Write_burst_mode == 1'b1) begin
                 Data_in_enable = 1'b0;
             end
@@ -1117,7 +1117,7 @@ parameter mem_sizes        = 2**(ROW_BITS+COL_BITS) - 1;
     `elsif CLK_100
             tCK3 =  10,
     `elsif CLK_200
-            tCK3 =  5,   
+            tCK3 =  5,
     `endif
             tCH  =  2.5,                                        // Clock High-Level Width
             tCL  =  2.5,                                        // Clock Low-Level Width
