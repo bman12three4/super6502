@@ -196,6 +196,33 @@ _init:
                 lda #18
                 jsr send_dma
 
+                ; dumb sleep to wait for DMA to be done.
+                lda #$3a
+        @sleep2:dec
+                bne @sleep2
+
+                ; Write the first sector into the second sector
+                stz SD_DMA_BASE+$3
+                stz SD_DMA_BASE+$2
+                lda #$10
+                sta SD_DMA_BASE+$1
+                stz SD_DMA_BASE
+
+                stz SD_DMA_LEN + $3
+                stz SD_DMA_LEN + $2
+                stz SD_DMA_LEN + $1
+                lda #$2
+                sta SD_DMA_LEN
+
+                ; address 2
+                stz sreg+1
+                stz sreg
+                ldx #$00
+                lda #$02
+                jsr pusheax
+                lda #25
+                jsr write_dma
+
 
 @end:
                 bra @end
@@ -244,6 +271,12 @@ send_r1b:       stz tmp1
 
 send_dma:       pha
                 lda #$20
+                sta tmp1
+                pla
+                bra send
+
+write_dma:      pha
+                lda #$a4
                 sta tmp1
                 pla
                 bra send

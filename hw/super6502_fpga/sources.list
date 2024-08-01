@@ -27,6 +27,7 @@ src/sub/sd_controller_wrapper/sdspi/rtl/sdfrontend.v
 src/sub/sd_controller_wrapper/sdspi/rtl/spicmd.v
 src/sub/sd_controller_wrapper/sdspi/rtl/sdaxil.v
 src/sub/sd_controller_wrapper/sdspi/rtl/sddma_mm2s.v
+src/sub/sd_controller_wrapper/sdspi/rtl/sddma_mm2s_axi.v
 src/sub/sd_controller_wrapper/sdspi/rtl/sdio_top.v
 src/sub/sd_controller_wrapper/sdspi/rtl/sdwb.v
 src/sub/sd_controller_wrapper/sdspi/rtl/sdio.v
