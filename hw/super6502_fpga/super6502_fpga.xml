@@ -1,4 +1,4 @@
-<efx:project xmlns:efx="http://www.efinixinc.com/enf_proj" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="super6502_fpga" description="" last_change_date="Sun Mar 17 2024 10:14:03 PM" location="/home/byron/Projects/super6502/hw/super6502_fpga" sw_version="2023.1.150" last_run_state="pass" last_run_tool="efx_pgm" last_run_flow="bitstream" config_result_in_sync="sync" design_ood="sync" place_ood="sync" route_ood="sync" xsi:schemaLocation="http://www.efinixinc.com/enf_proj enf_proj.xsd">
+<efx:project xmlns:efx="http://www.efinixinc.com/enf_proj" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="super6502_fpga" description="" last_change_date="Wed Jul 31 2024 10:01:03 PM" location="/home/byron/Projects/super6502/hw/super6502_fpga" sw_version="2023.1.150" last_run_state="pass" last_run_tool="efx_pgm" last_run_flow="bitstream" config_result_in_sync="sync" design_ood="sync" place_ood="sync" route_ood="sync" xsi:schemaLocation="http://www.efinixinc.com/enf_proj enf_proj.xsd">
     <efx:device_info>
         <efx:family name="Trion" />
         <efx:device name="T20F256" />
@@ -11,22 +11,33 @@
         <efx:design_file name="src/sub/rtl-common/src/rtl/axi4_lite_rom.sv" version="default" library="default" />
         <efx:design_file name="src/sub/rtl-common/src/rtl/axi4_lite_ram.sv" version="default" library="default" />
         <efx:design_file name="src/sub/rtl-common/src/rtl/ff_cdc.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/axi_crossbar/src/rtl/axi_master.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/axi_crossbar/src/rtl/axi_slave.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/axi_crossbar/src/rtl/slave_addr_decoder.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/axi_crossbar/src/rtl/axi_crossbar.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/axi_crossbar/src/rtl/rr_scheduler.sv" version="default" library="default" />
         <efx:design_file name="src/sub/rtl-common/src/rtl/axi4_lite_to_apb4.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller/src/crc16.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller/src/crc7.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller/src/sd_control.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller/src/sd_controller_top.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller/src/sd_command.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller/src/sd_dma.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller/src/regs/sd_controller_regs.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller/src/regs/sd_controller_regs_pkg.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller/src/sd_data.sv" version="default" library="default" />
         <efx:design_file name="src/sub/rtl-common/src/rtl/async_fifo.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/wb2axip/rtl/axilxbar.v" version="default" library="default" />
+        <efx:design_file name="src/sub/wb2axip/rtl/addrdecode.v" version="default" library="default" />
+        <efx:design_file name="src/sub/wb2axip/rtl/skidbuffer.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller_wrapper/sd_controller_wrapper.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller_wrapper/shadow_regs.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdckgen.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sddma_rxgears.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sddma.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdrxframe.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdtxframe.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sddma_s2mm.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sddma_s2mm_axi.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/afifo.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sddma_txgears.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdskid.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdfrontend.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/spicmd.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdaxil.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sddma_mm2s.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sddma_mm2s_axi.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdio_top.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdwb.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdio.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdcmd.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdfifo.v" version="default" library="default" />
         <efx:top_vhdl_arch name="" />
     </efx:design_info>
     <efx:constraint_info>
@@ -67,14 +78,16 @@
         <efx:param name="mult_input_regs_packing" value="1" value_type="e_option" />
         <efx:param name="mult_output_regs_packing" value="1" value_type="e_option" />
         <efx:param name="include" value="ip/sdram_controller" value_type="e_string" />
+        <efx:defmacro name="SDIO_AXI" value="1" />
+        <efx:defmacro name="EFINIX" value="1" />
     </efx:synthesis>
     <efx:place_and_route tool_name="efx_pnr">
         <efx:param name="work_dir" value="work_pnr" value_type="e_string" />
         <efx:param name="verbose" value="off" value_type="e_bool" />
         <efx:param name="load_delaym" value="on" value_type="e_bool" />
-        <efx:param name="optimization_level" value="NULL" value_type="e_option" />
+        <efx:param name="optimization_level" value="TIMING_3" value_type="e_option" />
         <efx:param name="seed" value="1" value_type="e_integer" />
-        <efx:param name="placer_effort_level" value="2" value_type="e_option" />
+        <efx:param name="placer_effort_level" value="5" value_type="e_option" />
         <efx:param name="max_threads" value="-1" value_type="e_integer" />
     </efx:place_and_route>
     <efx:bitstream_generation tool_name="efx_pgm">

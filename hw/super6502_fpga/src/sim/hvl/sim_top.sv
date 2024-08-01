@@ -49,7 +49,7 @@ initial begin
     $dumpvars(0,sim_top);
 end
 
-logic button_reset;
+logic button_resetn;
 
 logic           w_cpu0_reset;
 logic [15:0]    w_cpu0_addr;
@@ -120,9 +120,8 @@ logic o_sd_cmd;
 logic o_sd_cmd_oe;
 logic i_sd_dat;
 logic o_sd_dat;
-logic i_sd_dat_oe;
+logic o_sd_dat_oe;
 logic o_sd_clk;
-logic o_sd_cs;
 
 super6502_fpga u_dut (
     .i_sysclk               (clk_100),
@@ -130,7 +129,7 @@ super6502_fpga u_dut (
     .i_tACclk               (~clk_200),
     .clk_cpu                (clk_cpu),
 
-    .button_reset           (button_reset),
+    .button_resetn          (button_resetn),
 
     .o_cpu0_reset           (w_cpu0_reset),
     .i_cpu0_addr            (w_cpu0_addr),
@@ -160,26 +159,42 @@ super6502_fpga u_dut (
     .i_sd_dat               (i_sd_dat),
     .o_sd_dat               (o_sd_dat),
     .o_sd_dat_oe            (o_sd_dat_oe),
-    .o_sd_clk               (o_sd_clk),
-    .o_sd_cs                (o_sd_cs)
+    .o_sd_clk               (o_sd_clk)
 );
 
-sd_card_emu u_sd_card_emu(
-    .clk(o_sd_clk),
-    .rst(~button_reset),
-    .i_cmd(o_sd_cmd),
-    .o_cmd(i_sd_cmd),
-    .i_dat(o_sd_dat),
-    .o_dat(i_sd_dat)
+wire w_sd_cmd;
+wire w_sd_dat;
+
+IOBUF cmd_buf (
+    .T(o_sd_cmd_oe),
+    .I(o_sd_cmd),
+    .O(i_sd_cmd),
+    .IO(w_sd_cmd)
+);
+
+IOBUF dat_buf (
+    .T(o_sd_dat_oe),
+    .I(o_sd_dat),
+    .O(i_sd_dat),
+    .IO(w_sd_dat)
+);
+
+mdl_sdio #(
+    .LGMEMSZ(16),
+    .MEMFILE("sd_image.bin")
+) u_sd_card_emu (
+    .sd_clk(o_sd_clk),
+    .sd_cmd(w_sd_cmd),
+    .sd_dat(w_sd_dat)
 );
 
 initial begin
-    button_reset <= '1;
+    button_resetn <= '1;
     repeat(10) @(clk_cpu);
-    button_reset <= '0;
+    button_resetn <= '0;
     repeat(10) @(clk_cpu);
-    button_reset <= '1;
-    repeat(4000) @(posedge clk_cpu);
+    button_resetn <= '1;
+    repeat(20000) @(posedge clk_cpu);
     $finish();
 end
 

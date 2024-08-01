@@ -82,6 +82,9 @@ logic w_write_data_en;
 logic [7:0] r_write_data, r_write_data_next;
 logic w_write_data_empty;
 
+logic latched_awvalid, latched_awvalid_next;
+logic latched_wvalid, latched_wvalid_next;
+
 logic [2:0] counter;
 logic w_reset;
 
@@ -160,7 +163,7 @@ always @(posedge i_clk_100 or posedge i_rst) begin
         end else begin
             flag <= '0;
         end
-    end 
+    end
 end
 
 // // This uses inverted clock, remember in sdc?
@@ -204,7 +207,7 @@ always @(posedge i_clk_100 or posedge i_rst) begin
         end else begin
             flag2 <= '0;
         end
-    end 
+    end
 end
 
 localparam MAX_DELAY = 8;
@@ -232,6 +235,9 @@ always_ff @(posedge i_clk_100 or posedge i_rst) begin
         end
 
         rdy_dly <= {rdy_dly[1:0], too_late};
+
+        latched_awvalid <= latched_awvalid_next;
+        latched_wvalid <= latched_wvalid_next;
     end
 end
 
@@ -244,11 +250,11 @@ always_comb begin
     // Set defaults
     o_AWVALID = '0;
     o_AWADDR = '0;
-    o_AWPROT = '0;  
+    o_AWPROT = '0;
     o_WVALID = '0;
     o_WDATA = '0;
-    o_WSTRB = '0;   
-    o_BREADY = '0;  
+    o_WSTRB = '0;
+    o_BREADY = '0;
     o_ARVALID = '0;
     o_ARADDR = '0;
     o_ARPROT = '0;
@@ -258,6 +264,9 @@ always_comb begin
 
     read_data_next = read_data;
     did_delay_next = did_delay;
+
+    latched_awvalid_next = latched_awvalid;
+    latched_wvalid_next = latched_wvalid;
 
     case (state)
     RESET: begin
@@ -273,6 +282,8 @@ always_comb begin
         end
 
         did_delay_next = '0;
+        latched_awvalid_next = '0;
+        latched_wvalid_next = '0;
     end
 
     ADDR_CONTROL: begin
@@ -327,9 +338,22 @@ always_comb begin
     end
 
     WRITE_DATA: begin
-        o_AWVALID = '1;
+        if (~latched_awvalid) begin
+            o_AWVALID = i_AWREADY;
+            latched_awvalid_next = '1;
+        end else begin
+            o_AWVALID = '0;
+        end
         o_AWADDR = {r_addr[15:2], 2'b0};
-        o_WVALID = '1;
+
+        if (~latched_wvalid) begin
+            o_WVALID = i_WREADY;
+            latched_wvalid_next = '1;
+        end else begin
+            o_WVALID = '0;
+        end
+
+
         o_WSTRB = 4'b1 << r_addr[1:0];
         o_WDATA = r_write_data << 8*r_addr[1:0];
 
