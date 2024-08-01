@@ -1,4 +1,4 @@
-<efx:project xmlns:efx="http://www.efinixinc.com/enf_proj" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="super6502_fpga" description="" last_change_date="Fri Jul 26 2024 11:01:59 PM" location="/home/byron/Projects/super6502/hw/super6502_fpga" sw_version="2023.1.150" last_run_state="pass" last_run_tool="efx_pgm" last_run_flow="bitstream" config_result_in_sync="sync" design_ood="sync" place_ood="sync" route_ood="sync" xsi:schemaLocation="http://www.efinixinc.com/enf_proj enf_proj.xsd">
+<efx:project xmlns:efx="http://www.efinixinc.com/enf_proj" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="super6502_fpga" description="" last_change_date="Wed Jul 31 2024 10:01:03 PM" location="/home/byron/Projects/super6502/hw/super6502_fpga" sw_version="2023.1.150" last_run_state="pass" last_run_tool="efx_pgm" last_run_flow="bitstream" config_result_in_sync="sync" design_ood="sync" place_ood="sync" route_ood="sync" xsi:schemaLocation="http://www.efinixinc.com/enf_proj enf_proj.xsd">
     <efx:device_info>
         <efx:family name="Trion" />
         <efx:device name="T20F256" />
@@ -32,6 +32,7 @@
         <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/spicmd.v" version="default" library="default" />
         <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdaxil.v" version="default" library="default" />
         <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sddma_mm2s.v" version="default" library="default" />
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sddma_mm2s_axi.v" version="default" library="default" />
         <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdio_top.v" version="default" library="default" />
         <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdwb.v" version="default" library="default" />
         <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdio.v" version="default" library="default" />
