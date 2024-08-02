@@ -120,7 +120,7 @@ always_comb begin
         M_AXI_WVALID = S_AXIL_WVALID;
         S_AXIL_WREADY = M_AXI_WREADY;
         M_AXI_WDATA = {REGS[addr][31:8], wdata[7:0]};
-        M_AXI_WSTRB = {4'b111};
+        M_AXI_WSTRB = {4'b1111};
         M_AXI_WVALID = '1;
     end
 end

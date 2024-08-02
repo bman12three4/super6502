@@ -165,19 +165,27 @@ super6502_fpga u_dut (
 wire w_sd_cmd;
 wire w_sd_dat;
 
-IOBUF cmd_buf (
-    .T(o_sd_cmd_oe),
-    .I(o_sd_cmd),
-    .O(i_sd_cmd),
-    .IO(w_sd_cmd)
-);
+// IOBUF cmd_buf (
+//     .T(o_sd_cmd_oe),
+//     .I(o_sd_cmd),
+//     .O(i_sd_cmd),
+//     .IO(w_sd_cmd)
+// );
 
-IOBUF dat_buf (
-    .T(o_sd_dat_oe),
-    .I(o_sd_dat),
-    .O(i_sd_dat),
-    .IO(w_sd_dat)
-);
+pullup(w_sd_cmd);
+assign	w_sd_cmd = (o_sd_cmd_oe) ? 1'bz : o_sd_cmd;
+assign	i_sd_cmd = (w_sd_cmd !== 1'b0);
+
+// IOBUF dat_buf (
+//     .T(o_sd_dat_oe),
+//     .I(o_sd_dat),
+//     .O(i_sd_dat),
+//     .IO(w_sd_dat)
+// );
+
+pullup(w_sd_dat);
+assign	w_sd_dat = (o_sd_dat_oe) ? 1'bz : o_sd_dat;
+assign	i_sd_dat = (w_sd_dat !== 1'b0);
 
 wire [2:0] w_sd_dat_unused;
 
