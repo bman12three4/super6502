@@ -17,6 +17,8 @@
 *.gtkw
 *debug_profile*
 
+# Drawio temp files.
+*.bkp
 
 *.mem
 sim_top
