@@ -1,4 +1,4 @@
-addrmap tcp_stream {
+regfile tcp_stream {
     name = "TCP Stream Regs";
     desc = "";
 
@@ -75,7 +75,7 @@ addrmap tcp_stream {
             desc = "Closes the exisitng connection when written with 1";
             hw   = r;
             sw   = rw;
-            hwclr
+            hwclr;
         } close[2:2] = 0x0;
 
         field {
@@ -89,7 +89,7 @@ addrmap tcp_stream {
 
     // is addrmap right for this? How do we specify the address of it though?
     // Maybe we have to do this separately and include it?
-    addrmap stats {
+    regfile stats {
         name = "Statistics";
         desc = "";
 
@@ -132,4 +132,8 @@ addrmap tcp_stream {
 
         } rx_bad_crc @ 0x8;
     };
+};
+
+addrmap tcp_stream_regs {
+    tcp_stream tcp_streams;
 };

@@ -193,6 +193,24 @@ logic                       sd_controller_dma_RREADY;
 logic  [DATA_WIDTH-1:0]     sd_controller_dma_RDATA;
 logic  [1:0]                sd_controller_dma_RRESP;
 
+logic                       ntw_AWVALID;
+logic                       ntw_AWREADY;
+logic  [ADDR_WIDTH-1:0]     ntw_AWADDR;
+logic                       ntw_WVALID;
+logic                       ntw_WREADY;
+logic  [DATA_WIDTH-1:0]     ntw_WDATA;
+logic  [DATA_WIDTH/8-1:0]   ntw_WSTRB;
+logic                       ntw_BVALID;
+logic                       ntw_BREADY;
+logic  [1:0]                ntw_BRESP;
+logic                       ntw_ARVALID;
+logic                       ntw_ARREADY;
+logic  [ADDR_WIDTH-1:0]     ntw_ARADDR;
+logic                       ntw_RVALID;
+logic                       ntw_RREADY;
+logic  [DATA_WIDTH-1:0]     ntw_RDATA;
+logic  [1:0]                ntw_RRESP;
+
 
 cpu_wrapper u_cpu_wrapper_0(
     .i_clk_cpu  (clk_cpu),
@@ -240,12 +258,13 @@ cpu_wrapper u_cpu_wrapper_0(
 
 axilxbar #(
     .NM(2),
-    .NS(4),
+    .NS(5),
     .SLAVE_ADDR({
         {32'h000001ff, 32'h00000000},
         {32'h0000ffff, 32'h0000f000},
         {32'h0000dfff, 32'h00000200},
-        {32'h0000e03f, 32'h0000e000}
+        {32'h0000e03f, 32'h0000e000},
+        {32'h0000e3ff, 32'h0000e200}
     })
 ) u_crossbar (
     .S_AXI_ACLK         (i_sysclk),
@@ -268,23 +287,23 @@ axilxbar #(
     .S_AXI_BRESP        ({cpu0_BRESP,   sd_controller_dma_BRESP         }),
     .S_AXI_BVALID       ({cpu0_BVALID,  sd_controller_dma_BVALID        }),
     .S_AXI_BREADY       ({cpu0_BREADY,  sd_controller_dma_BREADY        }),
-    .M_AXI_ARADDR       ({ram_araddr,   rom_araddr,     sdram_ARADDR,   sd_controller_ctrl_ARADDR    }),
-    .M_AXI_ARVALID      ({ram_arvalid,  rom_arvalid,    sdram_ARVALID,  sd_controller_ctrl_ARVALID   }),
-    .M_AXI_ARREADY      ({ram_arready,  rom_arready,    sdram_ARREADY,  sd_controller_ctrl_ARREADY   }),
-    .M_AXI_RDATA        ({ram_rdata,    rom_rdata,      sdram_RDATA,    sd_controller_ctrl_RDATA     }),
-    .M_AXI_RRESP        ({ram_rresp,    rom_rresp,      sdram_RRESP,    sd_controller_ctrl_RRESP     }),
-    .M_AXI_RVALID       ({ram_rvalid,   rom_rvalid,     sdram_RVALID,   sd_controller_ctrl_RVALID    }),
-    .M_AXI_RREADY       ({ram_rready,   rom_rready,     sdram_RREADY,   sd_controller_ctrl_RREADY    }),
-    .M_AXI_AWADDR       ({ram_awaddr,   rom_awaddr,     sdram_AWADDR,   sd_controller_ctrl_AWADDR    }),
-    .M_AXI_AWVALID      ({ram_awvalid,  rom_awvalid,    sdram_AWVALID,  sd_controller_ctrl_AWVALID   }),
-    .M_AXI_AWREADY      ({ram_awready,  rom_awready,    sdram_AWREADY,  sd_controller_ctrl_AWREADY   }),
-    .M_AXI_WDATA        ({ram_wdata,    rom_wdata,      sdram_WDATA,    sd_controller_ctrl_WDATA     }),
-    .M_AXI_WVALID       ({ram_wvalid,   rom_wvalid,     sdram_WVALID,   sd_controller_ctrl_WVALID    }),
-    .M_AXI_WREADY       ({ram_wready,   rom_wready,     sdram_WREADY,   sd_controller_ctrl_WREADY    }),
-    .M_AXI_WSTRB        ({ram_wstrb,    rom_wstrb,      sdram_WSTRB,    sd_controller_ctrl_WSTRB     }),
-    .M_AXI_BRESP        ({ram_bresp,    rom_bresp,      sdram_BRESP,    sd_controller_ctrl_BRESP     }),
-    .M_AXI_BVALID       ({ram_bvalid,   rom_bvalid,     sdram_BVALID,   sd_controller_ctrl_BVALID    }),
-    .M_AXI_BREADY       ({ram_bready,   rom_bready,     sdram_BREADY,   sd_controller_ctrl_BREADY    })
+    .M_AXI_ARADDR       ({ram_araddr,   rom_araddr,     sdram_ARADDR,   sd_controller_ctrl_ARADDR,  ntw_ARADDR  }),
+    .M_AXI_ARVALID      ({ram_arvalid,  rom_arvalid,    sdram_ARVALID,  sd_controller_ctrl_ARVALID, ntw_ARVALID }),
+    .M_AXI_ARREADY      ({ram_arready,  rom_arready,    sdram_ARREADY,  sd_controller_ctrl_ARREADY, ntw_ARREADY }),
+    .M_AXI_RDATA        ({ram_rdata,    rom_rdata,      sdram_RDATA,    sd_controller_ctrl_RDATA,   ntw_RDATA   }),
+    .M_AXI_RRESP        ({ram_rresp,    rom_rresp,      sdram_RRESP,    sd_controller_ctrl_RRESP,   ntw_RRESP   }),
+    .M_AXI_RVALID       ({ram_rvalid,   rom_rvalid,     sdram_RVALID,   sd_controller_ctrl_RVALID,  ntw_RVALID  }),
+    .M_AXI_RREADY       ({ram_rready,   rom_rready,     sdram_RREADY,   sd_controller_ctrl_RREADY,  ntw_RREADY  }),
+    .M_AXI_AWADDR       ({ram_awaddr,   rom_awaddr,     sdram_AWADDR,   sd_controller_ctrl_AWADDR,  ntw_AWADDR  }),
+    .M_AXI_AWVALID      ({ram_awvalid,  rom_awvalid,    sdram_AWVALID,  sd_controller_ctrl_AWVALID, ntw_AWVALID }),
+    .M_AXI_AWREADY      ({ram_awready,  rom_awready,    sdram_AWREADY,  sd_controller_ctrl_AWREADY, ntw_AWREADY }),
+    .M_AXI_WDATA        ({ram_wdata,    rom_wdata,      sdram_WDATA,    sd_controller_ctrl_WDATA,   ntw_WDATA   }),
+    .M_AXI_WVALID       ({ram_wvalid,   rom_wvalid,     sdram_WVALID,   sd_controller_ctrl_WVALID,  ntw_WVALID  }),
+    .M_AXI_WREADY       ({ram_wready,   rom_wready,     sdram_WREADY,   sd_controller_ctrl_WREADY,  ntw_WREADY  }),
+    .M_AXI_WSTRB        ({ram_wstrb,    rom_wstrb,      sdram_WSTRB,    sd_controller_ctrl_WSTRB,   ntw_WSTRB   }),
+    .M_AXI_BRESP        ({ram_bresp,    rom_bresp,      sdram_BRESP,    sd_controller_ctrl_BRESP,   ntw_BRESP   }),
+    .M_AXI_BVALID       ({ram_bvalid,   rom_bvalid,     sdram_BVALID,   sd_controller_ctrl_BVALID,  ntw_BVALID  }),
+    .M_AXI_BREADY       ({ram_bready,   rom_bready,     sdram_BREADY,   sd_controller_ctrl_BREADY,  ntw_BREADY  })
 
 );
 
@@ -482,6 +501,33 @@ sd_controller_wrapper #(
     .o_ck               (o_sd_clk),
     .i_card_detect      (i_sd_cd),
     .o_int              (sd_irq)
+);
+
+network_processor #(
+    .NUM_TCP(8)  
+) u_network_processor (
+    .i_clk          (i_sysclk),
+    .i_rst          (~master_resetn),
+
+    .s_axil_awready (ntw_AWREADY),
+    .s_axil_awvalid (ntw_AWVALID),
+    .s_axil_awaddr  (ntw_AWADDR),
+    .s_axil_awprot  (ntw_AWPROT),
+    .s_axil_wready  (ntw_WREADY),
+    .s_axil_wvalid  (ntw_WVALID),
+    .s_axil_wdata   (ntw_WDATA),
+    .s_axil_wstrb   (ntw_WSTRB),
+    .s_axil_bready  (ntw_BREADY),
+    .s_axil_bvalid  (ntw_BVALID),
+    .s_axil_bresp   (ntw_BRESP),
+    .s_axil_arready (ntw_ARREADY),
+    .s_axil_arvalid (ntw_ARVALID),
+    .s_axil_araddr  (ntw_ARADDR),
+    .s_axil_arprot  (ntw_ARPROT),
+    .s_axil_rready  (ntw_RREADY),
+    .s_axil_rvalid  (ntw_RVALID),
+    .s_axil_rdata   (ntw_RDATA),
+    .s_axil_rresp   (ntw_RRESP)
 );
 
 endmodule

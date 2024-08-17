@@ -1,0 +1,22 @@
+sd_controller_wrapper.sv
+shadow_regs.sv
+sdspi/rtl/sdckgen.v
+sdspi/rtl/sddma_rxgears.v
+sdspi/rtl/sddma.v
+sdspi/rtl/sdrxframe.v
+sdspi/rtl/sdtxframe.v
+sdspi/rtl/sddma_s2mm.v
+sdspi/rtl/sddma_s2mm_axi.v
+# sdspi/rtl/afifo.v
+sdspi/rtl/sddma_txgears.v
+sdspi/rtl/sdskid.v
+sdspi/rtl/sdfrontend.v
+sdspi/rtl/spicmd.v
+sdspi/rtl/sdaxil.v
+sdspi/rtl/sddma_mm2s.v
+sdspi/rtl/sddma_mm2s_axi.v
+sdspi/rtl/sdio_top.v
+sdspi/rtl/sdwb.v
+sdspi/rtl/sdio.v
+sdspi/rtl/sdcmd.v
+sdspi/rtl/sdfifo.v

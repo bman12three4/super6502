@@ -1,0 +1,3 @@
+-i https://git.byronlathi.com/api/v4/projects/95/packages/pypi/simple
+peakrdl==1.1.0
+rtl-manifest>=0.2.0

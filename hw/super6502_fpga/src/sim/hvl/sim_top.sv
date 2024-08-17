@@ -179,13 +179,15 @@ IOBUF dat_buf (
     .IO(w_sd_dat)
 );
 
+wire [2:0] w_sd_dat_unused;
+
 mdl_sdio #(
     .LGMEMSZ(16),
     .MEMFILE("sd_image.bin")
 ) u_sd_card_emu (
     .sd_clk(o_sd_clk),
     .sd_cmd(w_sd_cmd),
-    .sd_dat(w_sd_dat)
+    .sd_dat({w_sd_dat_unused, w_sd_dat})
 );
 
 initial begin

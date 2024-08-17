@@ -1,0 +1,3 @@
+addrmap tcp_top_regfile{
+    external tcp_stream tcp_streams[8] += 0x40;
+};
