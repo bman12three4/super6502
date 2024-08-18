@@ -1,4 +1,4 @@
-<efx:project xmlns:efx="http://www.efinixinc.com/enf_proj" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="super6502_fpga" description="" last_change_date="Wed Jul 31 2024 10:01:03 PM" location="/home/byron/Projects/super6502/hw/super6502_fpga" sw_version="2023.1.150" last_run_state="pass" last_run_tool="efx_pgm" last_run_flow="bitstream" config_result_in_sync="sync" design_ood="sync" place_ood="sync" route_ood="sync" xsi:schemaLocation="http://www.efinixinc.com/enf_proj enf_proj.xsd">
+<efx:project xmlns:efx="http://www.efinixinc.com/enf_proj" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="super6502_fpga" description="" last_change_date="Sun Aug 18 2024 10:11:10 AM" location="/cluster/projects/super6502/hw/super6502_fpga" sw_version="2023.1.150" last_run_state="pass" last_run_tool="efx_pgm" last_run_flow="bitstream" config_result_in_sync="sync" design_ood="sync" place_ood="sync" route_ood="sync" xsi:schemaLocation="http://www.efinixinc.com/enf_proj enf_proj.xsd">
     <efx:device_info>
         <efx:family name="Trion" />
         <efx:device name="T20F256" />
@@ -38,6 +38,13 @@
         <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdio.v" version="default" library="default" />
         <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdcmd.v" version="default" library="default" />
         <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdfifo.v" version="default" library="default" />
+        <efx:design_file name="src/sub/network_processor/src/tcp_stream.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/network_processor/src/tcp_state_manager.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/network_processor/src/network_processor.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/network_processor/src/regs/tcp_stream_regs_pkg.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/network_processor/src/regs/tcp_top_regfile.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/network_processor/src/regs/tcp_stream_regs.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/network_processor/src/regs/tcp_top_regfile_pkg.sv" version="default" library="default" />
         <efx:top_vhdl_arch name="" />
     </efx:design_info>
     <efx:constraint_info>
