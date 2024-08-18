@@ -87,6 +87,7 @@ logic   [DQ_GROUP				-1:0]   w_sdr_DQM;
 wire    [DQ_GROUP	*DQ_WIDTH	-1:0]   w_sdr_DQ;
 // ^ Has to be wire because of tristate/inout stuff
 
+/*
 genvar i, j;
 generate
     for (i=0; i<DQ_GROUP*DQ_WIDTH; i=i+1)
@@ -111,7 +112,7 @@ generate
         );
     end
 endgenerate
-
+*/
 
 // potential sd card sim here?
 
