@@ -5,3 +5,4 @@ src/regs/tcp_top_regfile.sv
 src/network_processor.sv
 src/tcp_state_manager.sv
 src/tcp_stream.sv
+src/tcp.sv
