@@ -151,29 +151,29 @@ logic                                   tcp_tx_ip_payload_axis_tready;
 logic                                   tcp_tx_ip_payload_axis_tlast;
 logic                                   tcp_tx_ip_payload_axis_tuser;
 
-logic                                   udp_ip_hdr_valid;
-logic                                   udp_ip_hdr_ready;
-logic   [47:0]                          udp_ip_eth_dest_mac;
-logic   [47:0]                          udp_ip_eth_src_mac;
-logic   [15:0]                          udp_ip_eth_type;
-logic   [3:0]                           udp_ip_version;
-logic   [3:0]                           udp_ip_ihl;
-logic   [5:0]                           udp_ip_dscp;
-logic   [1:0]                           udp_ip_ecn;
-logic   [15:0]                          udp_ip_length;
-logic   [15:0]                          udp_ip_identification;
-logic   [2:0]                           udp_ip_flags;
-logic   [12:0]                          udp_ip_fragment_offset;
-logic   [7:0]                           udp_ip_ttl;
-logic   [7:0]                           udp_ip_protocol;
-logic   [15:0]                          udp_ip_header_checksum;
-logic   [31:0]                          udp_ip_source_ip;
-logic   [31:0]                          udp_ip_dest_ip;
-logic   [7:0]                           udp_ip_payload_axis_tdata;
-logic                                   udp_ip_payload_axis_tvalid;
-logic                                   udp_ip_payload_axis_tready;
-logic                                   udp_ip_payload_axis_tlast;
-logic                                   udp_ip_payload_axis_tuser;
+logic                                   udp_rx_ip_hdr_valid;
+logic                                   udp_rx_ip_hdr_ready;
+logic   [47:0]                          udp_rx_ip_eth_dest_mac;
+logic   [47:0]                          udp_rx_ip_eth_src_mac;
+logic   [15:0]                          udp_rx_ip_eth_type;
+logic   [3:0]                           udp_rx_ip_version;
+logic   [3:0]                           udp_rx_ip_ihl;
+logic   [5:0]                           udp_rx_ip_dscp;
+logic   [1:0]                           udp_rx_ip_ecn;
+logic   [15:0]                          udp_rx_ip_length;
+logic   [15:0]                          udp_rx_ip_identification;
+logic   [2:0]                           udp_rx_ip_flags;
+logic   [12:0]                          udp_rx_ip_fragment_offset;
+logic   [7:0]                           udp_rx_ip_ttl;
+logic   [7:0]                           udp_rx_ip_protocol;
+logic   [15:0]                          udp_rx_ip_header_checksum;
+logic   [31:0]                          udp_rx_ip_source_ip;
+logic   [31:0]                          udp_rx_ip_dest_ip;
+logic   [7:0]                           udp_rx_ip_payload_axis_tdata;
+logic                                   udp_rx_ip_payload_axis_tvalid;
+logic                                   udp_rx_ip_payload_axis_tready;
+logic                                   udp_rx_ip_payload_axis_tlast;
+logic                                   udp_rx_ip_payload_axis_tuser;
 
 // tx is less because IP adds it automatically.
 logic                                   udp_tx_ip_hdr_valid;
@@ -191,29 +191,29 @@ logic                                   udp_tx_ip_payload_axis_tready;
 logic                                   udp_tx_ip_payload_axis_tlast;
 logic                                   udp_tx_ip_payload_axis_tuser;
 
-logic                                   icmp_ip_hdr_valid;
-logic                                   icmp_ip_hdr_ready;
-logic   [47:0]                          icmp_ip_eth_dest_mac;
-logic   [47:0]                          icmp_ip_eth_src_mac;
-logic   [15:0]                          icmp_ip_eth_type;
-logic   [3:0]                           icmp_ip_version;
-logic   [3:0]                           icmp_ip_ihl;
-logic   [5:0]                           icmp_ip_dscp;
-logic   [1:0]                           icmp_ip_ecn;
-logic   [15:0]                          icmp_ip_length;
-logic   [15:0]                          icmp_ip_identification;
-logic   [2:0]                           icmp_ip_flags;
-logic   [12:0]                          icmp_ip_fragment_offset;
-logic   [7:0]                           icmp_ip_ttl;
-logic   [7:0]                           icmp_ip_protocol;
-logic   [15:0]                          icmp_ip_header_checksum;
-logic   [31:0]                          icmp_ip_source_ip;
-logic   [31:0]                          icmp_ip_dest_ip;
-logic   [7:0]                           icmp_ip_payload_axis_tdata;
-logic                                   icmp_ip_payload_axis_tvalid;
-logic                                   icmp_ip_payload_axis_tready;
-logic                                   icmp_ip_payload_axis_tlast;
-logic                                   icmp_ip_payload_axis_tuser;
+logic                                   icmp_rx_ip_hdr_valid;
+logic                                   icmp_rx_ip_hdr_ready;
+logic   [47:0]                          icmp_rx_ip_eth_dest_mac;
+logic   [47:0]                          icmp_rx_ip_eth_src_mac;
+logic   [15:0]                          icmp_rx_ip_eth_type;
+logic   [3:0]                           icmp_rx_ip_version;
+logic   [3:0]                           icmp_rx_ip_ihl;
+logic   [5:0]                           icmp_rx_ip_dscp;
+logic   [1:0]                           icmp_rx_ip_ecn;
+logic   [15:0]                          icmp_rx_ip_length;
+logic   [15:0]                          icmp_rx_ip_identification;
+logic   [2:0]                           icmp_rx_ip_flags;
+logic   [12:0]                          icmp_rx_ip_fragment_offset;
+logic   [7:0]                           icmp_rx_ip_ttl;
+logic   [7:0]                           icmp_rx_ip_protocol;
+logic   [15:0]                          icmp_rx_ip_header_checksum;
+logic   [31:0]                          icmp_rx_ip_source_ip;
+logic   [31:0]                          icmp_rx_ip_dest_ip;
+logic   [7:0]                           icmp_rx_ip_payload_axis_tdata;
+logic                                   icmp_rx_ip_payload_axis_tvalid;
+logic                                   icmp_rx_ip_payload_axis_tready;
+logic                                   icmp_rx_ip_payload_axis_tlast;
+logic                                   icmp_rx_ip_payload_axis_tuser;
 
 // tx is less because IP adds it automatically.
 logic                                   icmp_tx_ip_hdr_valid;
@@ -446,6 +446,12 @@ ip_complete #(
 );
 
 
+logic ip_demux_drop;
+assign ip_demux_drop = !((rx_ip_protocol == `PROTO_ICMP) || (rx_ip_protocol == `PROTO_UDP) || (rx_ip_protocol == `PROTO_TCP));
+
+logic [1:0] ip_demux_sel;
+assign ip_demux_sel = (rx_ip_protocol == `PROTO_ICMP) ? 2'h2 : (rx_ip_protocol == `PROTO_UDP) ? 2'h1 : 2'h0;
+
 ip_demux #(
     .M_COUNT(3),
     .DATA_WIDTH(MAC_DATA_WIDTH)
@@ -477,35 +483,101 @@ ip_demux #(
     .s_ip_payload_axis_tlast            (rx_ip_payload_axis_tlast),
     .s_ip_payload_axis_tuser            (rx_ip_payload_axis_tuser),
 
-    .m_ip_hdr_valid                     ({icmp_ip_hdr_valid,            udp_ip_hdr_valid,             tcp_tx_ip_hdr_valid}),
-    .m_ip_hdr_ready                     ({icmp_ip_hdr_ready,            udp_ip_hdr_ready,             tcp_tx_ip_hdr_ready}),
-    .m_eth_dest_mac                     ({icmp_ip_eth_dest_mac,         udp_ip_eth_dest_mac,          tcp_tx_ip_eth_dest_mac}),
-    .m_eth_src_mac                      ({icmp_ip_eth_src_mac,          udp_ip_eth_src_mac,           tcp_tx_ip_eth_src_mac}),
-    .m_eth_type                         ({icmp_ip_eth_type,             udp_ip_eth_type,              tcp_tx_ip_eth_type}),
-    .m_ip_version                       ({icmp_ip_version,              udp_ip_version,               tcp_tx_ip_version}),
-    .m_ip_ihl                           ({icmp_ip_ihl,                  udp_ip_ihl,                   tcp_tx_ip_ihl}),
-    .m_ip_dscp                          ({icmp_ip_dscp,                 udp_ip_dscp,                  tcp_tx_ip_dscp}),
-    .m_ip_ecn                           ({icmp_ip_ecn,                  udp_ip_ecn,                   tcp_tx_ip_ecn}),
-    .m_ip_length                        ({icmp_ip_length,               udp_ip_length,                tcp_tx_ip_length}),
-    .m_ip_identification                ({icmp_ip_identification,       udp_ip_identification,        tcp_tx_ip_identification}),
-    .m_ip_flags                         ({icmp_ip_flags,                udp_ip_flags,                 tcp_tx_ip_flags}),
-    .m_ip_fragment_offset               ({icmp_ip_fragment_offset,      udp_ip_fragment_offset,       tcp_tx_ip_fragment_offset}),
-    .m_ip_ttl                           ({icmp_ip_ttl,                  udp_ip_ttl,                   tcp_tx_ip_ttl}),
-    .m_ip_protocol                      ({icmp_ip_protocol,             udp_ip_protocol,              tcp_tx_ip_protocol}),
-    .m_ip_header_checksum               ({icmp_ip_header_checksum,      udp_ip_header_checksum,       tcp_tx_ip_header_checksum}),
-    .m_ip_source_ip                     ({icmp_ip_source_ip,            udp_ip_source_ip,             tcp_tx_ip_source_ip}),
-    .m_ip_dest_ip                       ({icmp_ip_dest_ip,              udp_ip_dest_ip,               tcp_tx_ip_dest_ip}),
-    .m_ip_payload_axis_tdata            ({icmp_ip_payload_axis_tdata,   udp_ip_payload_axis_tdata,    tcp_tx_ip_payload_axis_tdata}),
+    .m_ip_hdr_valid                     ({icmp_rx_ip_hdr_valid,            udp_rx_ip_hdr_valid,             tcp_rx_ip_hdr_valid}),
+    .m_ip_hdr_ready                     ({icmp_rx_ip_hdr_ready,            udp_rx_ip_hdr_ready,             tcp_rx_ip_hdr_ready}),
+    .m_eth_dest_mac                     ({icmp_rx_ip_eth_dest_mac,         udp_rx_ip_eth_dest_mac,          tcp_rx_ip_eth_dest_mac}),
+    .m_eth_src_mac                      ({icmp_rx_ip_eth_src_mac,          udp_rx_ip_eth_src_mac,           tcp_rx_ip_eth_src_mac}),
+    .m_eth_type                         ({icmp_rx_ip_eth_type,             udp_rx_ip_eth_type,              tcp_rx_ip_eth_type}),
+    .m_ip_version                       ({icmp_rx_ip_version,              udp_rx_ip_version,               tcp_rx_ip_version}),
+    .m_ip_ihl                           ({icmp_rx_ip_ihl,                  udp_rx_ip_ihl,                   tcp_rx_ip_ihl}),
+    .m_ip_dscp                          ({icmp_rx_ip_dscp,                 udp_rx_ip_dscp,                  tcp_rx_ip_dscp}),
+    .m_ip_ecn                           ({icmp_rx_ip_ecn,                  udp_rx_ip_ecn,                   tcp_rx_ip_ecn}),
+    .m_ip_length                        ({icmp_rx_ip_length,               udp_rx_ip_length,                tcp_rx_ip_length}),
+    .m_ip_identification                ({icmp_rx_ip_identification,       udp_rx_ip_identification,        tcp_rx_ip_identification}),
+    .m_ip_flags                         ({icmp_rx_ip_flags,                udp_rx_ip_flags,                 tcp_rx_ip_flags}),
+    .m_ip_fragment_offset               ({icmp_rx_ip_fragment_offset,      udp_rx_ip_fragment_offset,       tcp_rx_ip_fragment_offset}),
+    .m_ip_ttl                           ({icmp_rx_ip_ttl,                  udp_rx_ip_ttl,                   tcp_rx_ip_ttl}),
+    .m_ip_protocol                      ({icmp_rx_ip_protocol,             udp_rx_ip_protocol,              tcp_rx_ip_protocol}),
+    .m_ip_header_checksum               ({icmp_rx_ip_header_checksum,      udp_rx_ip_header_checksum,       tcp_rx_ip_header_checksum}),
+    .m_ip_source_ip                     ({icmp_rx_ip_source_ip,            udp_rx_ip_source_ip,             tcp_rx_ip_source_ip}),
+    .m_ip_dest_ip                       ({icmp_rx_ip_dest_ip,              udp_rx_ip_dest_ip,               tcp_rx_ip_dest_ip}),
+    .m_ip_payload_axis_tdata            ({icmp_rx_ip_payload_axis_tdata,   udp_rx_ip_payload_axis_tdata,    tcp_rx_ip_payload_axis_tdata}),
     .m_ip_payload_axis_tkeep            (),
-    .m_ip_payload_axis_tvalid           ({icmp_ip_payload_axis_tvalid,  udp_ip_payload_axis_tvalid,   tcp_tx_ip_payload_axis_tvalid}),
-    .m_ip_payload_axis_tready           ({icmp_ip_payload_axis_tready,  udp_ip_payload_axis_tready,   tcp_tx_ip_payload_axis_tready}),
-    .m_ip_payload_axis_tlast            ({icmp_ip_payload_axis_tlast,   udp_ip_payload_axis_tlast,    tcp_tx_ip_payload_axis_tlast}),
+    .m_ip_payload_axis_tvalid           ({icmp_rx_ip_payload_axis_tvalid,  udp_rx_ip_payload_axis_tvalid,   tcp_rx_ip_payload_axis_tvalid}),
+    .m_ip_payload_axis_tready           ({icmp_rx_ip_payload_axis_tready,  udp_rx_ip_payload_axis_tready,   tcp_rx_ip_payload_axis_tready}),
+    .m_ip_payload_axis_tlast            ({icmp_rx_ip_payload_axis_tlast,   udp_rx_ip_payload_axis_tlast,    tcp_rx_ip_payload_axis_tlast}),
     .m_ip_payload_axis_tid              (),
     .m_ip_payload_axis_tdest            (),
-    .m_ip_payload_axis_tuser            ({icmp_ip_payload_axis_tuser,   udp_ip_payload_axis_tuser,    tcp_tx_ip_payload_axis_tuser}),
+    .m_ip_payload_axis_tuser            ({icmp_rx_ip_payload_axis_tuser,   udp_rx_ip_payload_axis_tuser,    tcp_rx_ip_payload_axis_tuser}),
+
     .enable                             ('1),
     .drop                               (ip_demux_drop),
     .select                             (ip_demux_sel)
+);
+
+assign icmp_rx_ip_hdr_ready = '1;
+assign icmp_rx_ip_payload_axis_tready = '1;
+assign udp_rx_ip_hdr_ready = '1;
+assign udp_rx_ip_payload_axis_tready = '1;
+
+
+ip_arb_mux #(
+    .S_COUNT(3),
+    .DATA_WIDTH(MAC_DATA_WIDTH)
+) u_ip_arb_mux (
+    .clk                                (i_clk),
+    .rst                                (i_rst),
+
+    .s_ip_hdr_valid                     ({icmp_tx_ip_hdr_valid,            udp_tx_ip_hdr_valid,             tcp_tx_ip_hdr_valid}),
+    .s_ip_hdr_ready                     ({icmp_tx_ip_hdr_ready,            udp_tx_ip_hdr_ready,             tcp_tx_ip_hdr_ready}),
+    .s_eth_dest_mac                     ('0),
+    .s_eth_src_mac                      ('0),
+    .s_eth_type                         ('0),
+    .s_ip_version                       ('0),
+    .s_ip_ihl                           ('0),
+    .s_ip_dscp                          ({icmp_tx_ip_dscp,                 udp_tx_ip_dscp,                  tcp_tx_ip_dscp}),
+    .s_ip_ecn                           ({icmp_tx_ip_ecn,                  udp_tx_ip_ecn,                   tcp_tx_ip_ecn}),
+    .s_ip_length                        ({icmp_tx_ip_length,               udp_tx_ip_length,                tcp_tx_ip_length}),
+    .s_ip_identification                ('0),
+    .s_ip_flags                         ('0),
+    .s_ip_fragment_offset               ('0),
+    .s_ip_ttl                           ({icmp_tx_ip_ttl,                  udp_tx_ip_ttl,                   tcp_tx_ip_ttl}),
+    .s_ip_protocol                      ({icmp_tx_ip_protocol,             udp_tx_ip_protocol,              tcp_tx_ip_protocol}),
+    .s_ip_header_checksum               ('0),
+    .s_ip_source_ip                     ({icmp_tx_ip_source_ip,            udp_tx_ip_source_ip,             tcp_tx_ip_source_ip}),
+    .s_ip_dest_ip                       ({icmp_tx_ip_dest_ip,              udp_tx_ip_dest_ip,               tcp_tx_ip_dest_ip}),
+    .s_ip_payload_axis_tdata            ({icmp_tx_ip_payload_axis_tdata,   udp_tx_ip_payload_axis_tdata,    tcp_tx_ip_payload_axis_tdata}),
+    .s_ip_payload_axis_tkeep            ('1),
+    .s_ip_payload_axis_tvalid           ({icmp_tx_ip_payload_axis_tvalid,  udp_tx_ip_payload_axis_tvalid,   tcp_tx_ip_payload_axis_tvalid}),
+    .s_ip_payload_axis_tready           ({icmp_tx_ip_payload_axis_tready,  udp_tx_ip_payload_axis_tready,   tcp_tx_ip_payload_axis_tready}),
+    .s_ip_payload_axis_tlast            ({icmp_tx_ip_payload_axis_tlast,   udp_tx_ip_payload_axis_tlast,    tcp_tx_ip_payload_axis_tlast}),
+    .s_ip_payload_axis_tid              ('0),
+    .s_ip_payload_axis_tdest            ('0),
+    .s_ip_payload_axis_tuser            ({icmp_tx_ip_payload_axis_tuser,   udp_tx_ip_payload_axis_tuser,    tcp_tx_ip_payload_axis_tuser}),
+
+    .m_ip_hdr_valid                     (tx_ip_hdr_valid),
+    .m_ip_hdr_ready                     (tx_ip_hdr_ready),
+    .m_eth_dest_mac                     (),
+    .m_eth_src_mac                      (),
+    .m_eth_type                         (),
+    .m_ip_version                       (),
+    .m_ip_ihl                           (),
+    .m_ip_dscp                          (tx_ip_dscp),
+    .m_ip_ecn                           (tx_ip_ecn),
+    .m_ip_length                        (),
+    .m_ip_identification                (),
+    .m_ip_flags                         (),
+    .m_ip_fragment_offset               (),
+    .m_ip_ttl                           (tx_ip_ttl),
+    .m_ip_protocol                      (tx_ip_protocol),
+    .m_ip_header_checksum               (),
+    .m_ip_source_ip                     (tx_ip_source_ip),
+    .m_ip_dest_ip                       (tx_ip_dest_ip),
+    .m_ip_payload_axis_tdata            (tx_ip_payload_axis_tdata),
+    .m_ip_payload_axis_tvalid           (tx_ip_payload_axis_tvalid),
+    .m_ip_payload_axis_tready           (tx_ip_payload_axis_tready),
+    .m_ip_payload_axis_tlast            (tx_ip_payload_axis_tlast),
+    .m_ip_payload_axis_tuser            (tx_ip_payload_axis_tuser)
 );
 
 tcp #(
