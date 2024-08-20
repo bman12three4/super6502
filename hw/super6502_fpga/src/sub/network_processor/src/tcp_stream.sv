@@ -42,8 +42,8 @@ module tcp_stream #(
     input  wire [31:0]                  s_ip_source_ip,
     input  wire [31:0]                  s_ip_dest_ip,
     input  wire [7:0]                   s_ip_payload_axis_tdata,
-    input  wire                         s_ip_payload_axis_tvalid
-    output wire                         s_ip_payload_axis_tready
+    input  wire                         s_ip_payload_axis_tvalid,
+    output wire                         s_ip_payload_axis_tready,
     input  wire                         s_ip_payload_axis_tlast,
     input  wire                         s_ip_payload_axis_tuser,
 
@@ -60,8 +60,8 @@ module tcp_stream #(
     output wire [31:0]                  m_ip_source_ip,
     output wire [31:0]                  m_ip_dest_ip,
     output wire [7:0]                   m_ip_payload_axis_tdata,
-    output wire                         m_ip_payload_axis_tvalid
-    input  wire                         m_ip_payload_axis_tready
+    output wire                         m_ip_payload_axis_tvalid,
+    input  wire                         m_ip_payload_axis_tready,
     output wire                         m_ip_payload_axis_tlast,
     output wire                         m_ip_payload_axis_tuser
 );

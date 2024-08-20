@@ -5,18 +5,18 @@ module tcp #(
     input i_clk,
     input i_rst,
 
-    input  wire                         m_cpuif_req,
-    input  wire                         m_cpuif_req_is_wr,
-    input  wire [4:0]                   m_cpuif_addr,
-    input  wire [31:0]                  m_cpuif_wr_data,
-    input  wire [31:0]                  m_cpuif_wr_biten,
-    output wire                         m_cpuif_req_stall_wr,
-    output wire                         m_cpuif_req_stall_rd,
-    output wire                         m_cpuif_rd_ack,
-    output wire                         m_cpuif_rd_err,
-    output wire [31:0]                  m_cpuif_rd_data,
-    output wire                         m_cpuif_wr_ack,
-    output wire                         m_cpuif_wr_err
+    input  wire                         s_cpuif_req,
+    input  wire                         s_cpuif_req_is_wr,
+    input  wire [4:0]                   s_cpuif_addr,
+    input  wire [31:0]                  s_cpuif_wr_data,
+    input  wire [31:0]                  s_cpuif_wr_biten,
+    output wire                         s_cpuif_req_stall_wr,
+    output wire                         s_cpuif_req_stall_rd,
+    output wire                         s_cpuif_rd_ack,
+    output wire                         s_cpuif_rd_err,
+    output wire [31:0]                  s_cpuif_rd_data,
+    output wire                         s_cpuif_wr_ack,
+    output wire                         s_cpuif_wr_err,
 
     /*
      * IP input
@@ -40,8 +40,8 @@ module tcp #(
     input  wire [31:0]                  s_ip_source_ip,
     input  wire [31:0]                  s_ip_dest_ip,
     input  wire [7:0]                   s_ip_payload_axis_tdata,
-    input  wire                         s_ip_payload_axis_tvalid
-    output wire                         s_ip_payload_axis_tready
+    input  wire                         s_ip_payload_axis_tvalid,
+    output wire                         s_ip_payload_axis_tready,
     input  wire                         s_ip_payload_axis_tlast,
     input  wire                         s_ip_payload_axis_tuser,
 
@@ -58,8 +58,8 @@ module tcp #(
     output wire [31:0]                  m_ip_source_ip,
     output wire [31:0]                  m_ip_dest_ip,
     output wire [7:0]                   m_ip_payload_axis_tdata,
-    output wire                         m_ip_payload_axis_tvalid
-    input  wire                         m_ip_payload_axis_tready
+    output wire                         m_ip_payload_axis_tvalid,
+    input  wire                         m_ip_payload_axis_tready,
     output wire                         m_ip_payload_axis_tlast,
     output wire                         m_ip_payload_axis_tuser
 );
@@ -92,6 +92,7 @@ tcp_top_regfile u_tcp_top_regfile (
 localparam KEEP_WIDTH = ((DATA_WIDTH+7)/8);
 localparam USER_WIDTH = 1;
 localparam DEST_WIDTH = 8;
+localparam ID_WIDTH = 8;
 
 logic [DATA_WIDTH-1:0]          m2s_tx_axis_tdata;
 logic [KEEP_WIDTH-1:0]          m2s_tx_axis_tkeep;
@@ -192,7 +193,7 @@ generate
             .s_cpuif_rd_err         (),
             .s_cpuif_rd_data        (tcp_hwif_in.tcp_streams[i].rd_data),
             .s_cpuif_wr_ack         (tcp_hwif_in.tcp_streams[i].wr_ack),
-            .s_cpuif_wr_err         (),
+            .s_cpuif_wr_err         ()
         );
     end
 endgenerate
