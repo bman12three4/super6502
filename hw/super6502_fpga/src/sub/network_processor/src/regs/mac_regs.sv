@@ -66,10 +66,8 @@ module mac_regs (
     // Address Decode
     //--------------------------------------------------------------------------
     typedef struct {
-        struct {
-            logic ctrl;
-            logic stats;
-        } mac;
+        logic ctrl;
+        logic stats;
     } decoded_reg_strb_t;
     decoded_reg_strb_t decoded_reg_strb;
     logic decoded_req;
@@ -78,8 +76,8 @@ module mac_regs (
     logic [31:0] decoded_wr_biten;
 
     always_comb begin
-        decoded_reg_strb.mac.ctrl = cpuif_req_masked & (cpuif_addr == 3'h0);
-        decoded_reg_strb.mac.stats = cpuif_req_masked & (cpuif_addr == 3'h4);
+        decoded_reg_strb.ctrl = cpuif_req_masked & (cpuif_addr == 3'h0);
+        decoded_reg_strb.stats = cpuif_req_masked & (cpuif_addr == 3'h4);
     end
 
     // Pass down signals to next stage
@@ -94,414 +92,410 @@ module mac_regs (
     typedef struct {
         struct {
             struct {
-                struct {
-                    logic next;
-                    logic load_next;
-                } tx_en;
-                struct {
-                    logic next;
-                    logic load_next;
-                } rx_en;
-                struct {
-                    logic next;
-                    logic load_next;
-                } phy_rstn;
-                struct {
-                    logic [7:0] next;
-                    logic load_next;
-                } ifg;
-            } ctrl;
+                logic next;
+                logic load_next;
+            } tx_en;
             struct {
-                struct {
-                    logic next;
-                    logic load_next;
-                } tx_error_underflow;
-                struct {
-                    logic next;
-                    logic load_next;
-                } tx_fifo_overflow;
-                struct {
-                    logic next;
-                    logic load_next;
-                } tx_fifo_bad_frame;
-                struct {
-                    logic next;
-                    logic load_next;
-                } tx_fifo_good_frame;
-                struct {
-                    logic next;
-                    logic load_next;
-                } rx_error_bad_frame;
-                struct {
-                    logic next;
-                    logic load_next;
-                } rx_error_bad_fcs;
-                struct {
-                    logic next;
-                    logic load_next;
-                } rx_fifo_overflow;
-                struct {
-                    logic next;
-                    logic load_next;
-                } rx_fifo_bad_frame;
-                struct {
-                    logic next;
-                    logic load_next;
-                } rx_fifo_good_frame;
-            } stats;
-        } mac;
+                logic next;
+                logic load_next;
+            } rx_en;
+            struct {
+                logic next;
+                logic load_next;
+            } phy_rstn;
+            struct {
+                logic [7:0] next;
+                logic load_next;
+            } ifg;
+        } ctrl;
+        struct {
+            struct {
+                logic next;
+                logic load_next;
+            } tx_error_underflow;
+            struct {
+                logic next;
+                logic load_next;
+            } tx_fifo_overflow;
+            struct {
+                logic next;
+                logic load_next;
+            } tx_fifo_bad_frame;
+            struct {
+                logic next;
+                logic load_next;
+            } tx_fifo_good_frame;
+            struct {
+                logic next;
+                logic load_next;
+            } rx_error_bad_frame;
+            struct {
+                logic next;
+                logic load_next;
+            } rx_error_bad_fcs;
+            struct {
+                logic next;
+                logic load_next;
+            } rx_fifo_overflow;
+            struct {
+                logic next;
+                logic load_next;
+            } rx_fifo_bad_frame;
+            struct {
+                logic next;
+                logic load_next;
+            } rx_fifo_good_frame;
+        } stats;
     } field_combo_t;
     field_combo_t field_combo;
 
     typedef struct {
         struct {
             struct {
-                struct {
-                    logic value;
-                } tx_en;
-                struct {
-                    logic value;
-                } rx_en;
-                struct {
-                    logic value;
-                } phy_rstn;
-                struct {
-                    logic [7:0] value;
-                } ifg;
-            } ctrl;
+                logic value;
+            } tx_en;
             struct {
-                struct {
-                    logic value;
-                } tx_error_underflow;
-                struct {
-                    logic value;
-                } tx_fifo_overflow;
-                struct {
-                    logic value;
-                } tx_fifo_bad_frame;
-                struct {
-                    logic value;
-                } tx_fifo_good_frame;
-                struct {
-                    logic value;
-                } rx_error_bad_frame;
-                struct {
-                    logic value;
-                } rx_error_bad_fcs;
-                struct {
-                    logic value;
-                } rx_fifo_overflow;
-                struct {
-                    logic value;
-                } rx_fifo_bad_frame;
-                struct {
-                    logic value;
-                } rx_fifo_good_frame;
-            } stats;
-        } mac;
+                logic value;
+            } rx_en;
+            struct {
+                logic value;
+            } phy_rstn;
+            struct {
+                logic [7:0] value;
+            } ifg;
+        } ctrl;
+        struct {
+            struct {
+                logic value;
+            } tx_error_underflow;
+            struct {
+                logic value;
+            } tx_fifo_overflow;
+            struct {
+                logic value;
+            } tx_fifo_bad_frame;
+            struct {
+                logic value;
+            } tx_fifo_good_frame;
+            struct {
+                logic value;
+            } rx_error_bad_frame;
+            struct {
+                logic value;
+            } rx_error_bad_fcs;
+            struct {
+                logic value;
+            } rx_fifo_overflow;
+            struct {
+                logic value;
+            } rx_fifo_bad_frame;
+            struct {
+                logic value;
+            } rx_fifo_good_frame;
+        } stats;
     } field_storage_t;
     field_storage_t field_storage;
 
-    // Field: mac_regs.mac.ctrl.tx_en
+    // Field: mac_regs.ctrl.tx_en
     always_comb begin
         automatic logic [0:0] next_c;
         automatic logic load_next_c;
-        next_c = field_storage.mac.ctrl.tx_en.value;
+        next_c = field_storage.ctrl.tx_en.value;
         load_next_c = '0;
-        if(decoded_reg_strb.mac.ctrl && decoded_req_is_wr) begin // SW write
-            next_c = (field_storage.mac.ctrl.tx_en.value & ~decoded_wr_biten[0:0]) | (decoded_wr_data[0:0] & decoded_wr_biten[0:0]);
+        if(decoded_reg_strb.ctrl && decoded_req_is_wr) begin // SW write
+            next_c = (field_storage.ctrl.tx_en.value & ~decoded_wr_biten[0:0]) | (decoded_wr_data[0:0] & decoded_wr_biten[0:0]);
             load_next_c = '1;
         end
-        field_combo.mac.ctrl.tx_en.next = next_c;
-        field_combo.mac.ctrl.tx_en.load_next = load_next_c;
+        field_combo.ctrl.tx_en.next = next_c;
+        field_combo.ctrl.tx_en.load_next = load_next_c;
     end
     always_ff @(posedge clk) begin
         if(rst) begin
-            field_storage.mac.ctrl.tx_en.value <= 1'h0;
-        end else if(field_combo.mac.ctrl.tx_en.load_next) begin
-            field_storage.mac.ctrl.tx_en.value <= field_combo.mac.ctrl.tx_en.next;
+            field_storage.ctrl.tx_en.value <= 1'h0;
+        end else if(field_combo.ctrl.tx_en.load_next) begin
+            field_storage.ctrl.tx_en.value <= field_combo.ctrl.tx_en.next;
         end
     end
-    assign hwif_out.mac.ctrl.tx_en.value = field_storage.mac.ctrl.tx_en.value;
-    // Field: mac_regs.mac.ctrl.rx_en
+    assign hwif_out.ctrl.tx_en.value = field_storage.ctrl.tx_en.value;
+    // Field: mac_regs.ctrl.rx_en
     always_comb begin
         automatic logic [0:0] next_c;
         automatic logic load_next_c;
-        next_c = field_storage.mac.ctrl.rx_en.value;
+        next_c = field_storage.ctrl.rx_en.value;
         load_next_c = '0;
-        if(decoded_reg_strb.mac.ctrl && decoded_req_is_wr) begin // SW write
-            next_c = (field_storage.mac.ctrl.rx_en.value & ~decoded_wr_biten[1:1]) | (decoded_wr_data[1:1] & decoded_wr_biten[1:1]);
+        if(decoded_reg_strb.ctrl && decoded_req_is_wr) begin // SW write
+            next_c = (field_storage.ctrl.rx_en.value & ~decoded_wr_biten[1:1]) | (decoded_wr_data[1:1] & decoded_wr_biten[1:1]);
             load_next_c = '1;
         end
-        field_combo.mac.ctrl.rx_en.next = next_c;
-        field_combo.mac.ctrl.rx_en.load_next = load_next_c;
+        field_combo.ctrl.rx_en.next = next_c;
+        field_combo.ctrl.rx_en.load_next = load_next_c;
     end
     always_ff @(posedge clk) begin
         if(rst) begin
-            field_storage.mac.ctrl.rx_en.value <= 1'h0;
-        end else if(field_combo.mac.ctrl.rx_en.load_next) begin
-            field_storage.mac.ctrl.rx_en.value <= field_combo.mac.ctrl.rx_en.next;
+            field_storage.ctrl.rx_en.value <= 1'h0;
+        end else if(field_combo.ctrl.rx_en.load_next) begin
+            field_storage.ctrl.rx_en.value <= field_combo.ctrl.rx_en.next;
         end
     end
-    assign hwif_out.mac.ctrl.rx_en.value = field_storage.mac.ctrl.rx_en.value;
-    // Field: mac_regs.mac.ctrl.phy_rstn
+    assign hwif_out.ctrl.rx_en.value = field_storage.ctrl.rx_en.value;
+    // Field: mac_regs.ctrl.phy_rstn
     always_comb begin
         automatic logic [0:0] next_c;
         automatic logic load_next_c;
-        next_c = field_storage.mac.ctrl.phy_rstn.value;
+        next_c = field_storage.ctrl.phy_rstn.value;
         load_next_c = '0;
-        if(decoded_reg_strb.mac.ctrl && decoded_req_is_wr) begin // SW write
-            next_c = (field_storage.mac.ctrl.phy_rstn.value & ~decoded_wr_biten[2:2]) | (decoded_wr_data[2:2] & decoded_wr_biten[2:2]);
+        if(decoded_reg_strb.ctrl && decoded_req_is_wr) begin // SW write
+            next_c = (field_storage.ctrl.phy_rstn.value & ~decoded_wr_biten[2:2]) | (decoded_wr_data[2:2] & decoded_wr_biten[2:2]);
             load_next_c = '1;
         end
-        field_combo.mac.ctrl.phy_rstn.next = next_c;
-        field_combo.mac.ctrl.phy_rstn.load_next = load_next_c;
+        field_combo.ctrl.phy_rstn.next = next_c;
+        field_combo.ctrl.phy_rstn.load_next = load_next_c;
     end
     always_ff @(posedge clk) begin
         if(rst) begin
-            field_storage.mac.ctrl.phy_rstn.value <= 1'h1;
-        end else if(field_combo.mac.ctrl.phy_rstn.load_next) begin
-            field_storage.mac.ctrl.phy_rstn.value <= field_combo.mac.ctrl.phy_rstn.next;
+            field_storage.ctrl.phy_rstn.value <= 1'h1;
+        end else if(field_combo.ctrl.phy_rstn.load_next) begin
+            field_storage.ctrl.phy_rstn.value <= field_combo.ctrl.phy_rstn.next;
         end
     end
-    assign hwif_out.mac.ctrl.phy_rstn.value = field_storage.mac.ctrl.phy_rstn.value;
-    // Field: mac_regs.mac.ctrl.ifg
+    assign hwif_out.ctrl.phy_rstn.value = field_storage.ctrl.phy_rstn.value;
+    // Field: mac_regs.ctrl.ifg
     always_comb begin
         automatic logic [7:0] next_c;
         automatic logic load_next_c;
-        next_c = field_storage.mac.ctrl.ifg.value;
+        next_c = field_storage.ctrl.ifg.value;
         load_next_c = '0;
-        if(decoded_reg_strb.mac.ctrl && decoded_req_is_wr) begin // SW write
-            next_c = (field_storage.mac.ctrl.ifg.value & ~decoded_wr_biten[15:8]) | (decoded_wr_data[15:8] & decoded_wr_biten[15:8]);
+        if(decoded_reg_strb.ctrl && decoded_req_is_wr) begin // SW write
+            next_c = (field_storage.ctrl.ifg.value & ~decoded_wr_biten[15:8]) | (decoded_wr_data[15:8] & decoded_wr_biten[15:8]);
             load_next_c = '1;
         end
-        field_combo.mac.ctrl.ifg.next = next_c;
-        field_combo.mac.ctrl.ifg.load_next = load_next_c;
+        field_combo.ctrl.ifg.next = next_c;
+        field_combo.ctrl.ifg.load_next = load_next_c;
     end
     always_ff @(posedge clk) begin
         if(rst) begin
-            field_storage.mac.ctrl.ifg.value <= 8'h0;
-        end else if(field_combo.mac.ctrl.ifg.load_next) begin
-            field_storage.mac.ctrl.ifg.value <= field_combo.mac.ctrl.ifg.next;
+            field_storage.ctrl.ifg.value <= 8'h0;
+        end else if(field_combo.ctrl.ifg.load_next) begin
+            field_storage.ctrl.ifg.value <= field_combo.ctrl.ifg.next;
         end
     end
-    assign hwif_out.mac.ctrl.ifg.value = field_storage.mac.ctrl.ifg.value;
-    // Field: mac_regs.mac.stats.tx_error_underflow
+    assign hwif_out.ctrl.ifg.value = field_storage.ctrl.ifg.value;
+    // Field: mac_regs.stats.tx_error_underflow
     always_comb begin
         automatic logic [0:0] next_c;
         automatic logic load_next_c;
-        next_c = field_storage.mac.stats.tx_error_underflow.value;
+        next_c = field_storage.stats.tx_error_underflow.value;
         load_next_c = '0;
-        if(decoded_reg_strb.mac.stats && !decoded_req_is_wr) begin // SW clear on read
+        if(decoded_reg_strb.stats && !decoded_req_is_wr) begin // SW clear on read
             next_c = '0;
             load_next_c = '1;
-        end else if(hwif_in.mac.stats.tx_error_underflow.hwset) begin // HW Set
+        end else if(hwif_in.stats.tx_error_underflow.hwset) begin // HW Set
             next_c = '1;
             load_next_c = '1;
         end
-        field_combo.mac.stats.tx_error_underflow.next = next_c;
-        field_combo.mac.stats.tx_error_underflow.load_next = load_next_c;
+        field_combo.stats.tx_error_underflow.next = next_c;
+        field_combo.stats.tx_error_underflow.load_next = load_next_c;
     end
     always_ff @(posedge clk) begin
         if(rst) begin
-            field_storage.mac.stats.tx_error_underflow.value <= 1'h0;
-        end else if(field_combo.mac.stats.tx_error_underflow.load_next) begin
-            field_storage.mac.stats.tx_error_underflow.value <= field_combo.mac.stats.tx_error_underflow.next;
+            field_storage.stats.tx_error_underflow.value <= 1'h0;
+        end else if(field_combo.stats.tx_error_underflow.load_next) begin
+            field_storage.stats.tx_error_underflow.value <= field_combo.stats.tx_error_underflow.next;
         end
     end
-    assign hwif_out.mac.stats.tx_error_underflow.value = field_storage.mac.stats.tx_error_underflow.value;
-    // Field: mac_regs.mac.stats.tx_fifo_overflow
+    assign hwif_out.stats.tx_error_underflow.value = field_storage.stats.tx_error_underflow.value;
+    // Field: mac_regs.stats.tx_fifo_overflow
     always_comb begin
         automatic logic [0:0] next_c;
         automatic logic load_next_c;
-        next_c = field_storage.mac.stats.tx_fifo_overflow.value;
+        next_c = field_storage.stats.tx_fifo_overflow.value;
         load_next_c = '0;
-        if(decoded_reg_strb.mac.stats && !decoded_req_is_wr) begin // SW clear on read
+        if(decoded_reg_strb.stats && !decoded_req_is_wr) begin // SW clear on read
             next_c = '0;
             load_next_c = '1;
-        end else if(hwif_in.mac.stats.tx_fifo_overflow.hwset) begin // HW Set
+        end else if(hwif_in.stats.tx_fifo_overflow.hwset) begin // HW Set
             next_c = '1;
             load_next_c = '1;
         end
-        field_combo.mac.stats.tx_fifo_overflow.next = next_c;
-        field_combo.mac.stats.tx_fifo_overflow.load_next = load_next_c;
+        field_combo.stats.tx_fifo_overflow.next = next_c;
+        field_combo.stats.tx_fifo_overflow.load_next = load_next_c;
     end
     always_ff @(posedge clk) begin
         if(rst) begin
-            field_storage.mac.stats.tx_fifo_overflow.value <= 1'h0;
-        end else if(field_combo.mac.stats.tx_fifo_overflow.load_next) begin
-            field_storage.mac.stats.tx_fifo_overflow.value <= field_combo.mac.stats.tx_fifo_overflow.next;
+            field_storage.stats.tx_fifo_overflow.value <= 1'h0;
+        end else if(field_combo.stats.tx_fifo_overflow.load_next) begin
+            field_storage.stats.tx_fifo_overflow.value <= field_combo.stats.tx_fifo_overflow.next;
         end
     end
-    assign hwif_out.mac.stats.tx_fifo_overflow.value = field_storage.mac.stats.tx_fifo_overflow.value;
-    // Field: mac_regs.mac.stats.tx_fifo_bad_frame
+    assign hwif_out.stats.tx_fifo_overflow.value = field_storage.stats.tx_fifo_overflow.value;
+    // Field: mac_regs.stats.tx_fifo_bad_frame
     always_comb begin
         automatic logic [0:0] next_c;
         automatic logic load_next_c;
-        next_c = field_storage.mac.stats.tx_fifo_bad_frame.value;
+        next_c = field_storage.stats.tx_fifo_bad_frame.value;
         load_next_c = '0;
-        if(decoded_reg_strb.mac.stats && !decoded_req_is_wr) begin // SW clear on read
+        if(decoded_reg_strb.stats && !decoded_req_is_wr) begin // SW clear on read
             next_c = '0;
             load_next_c = '1;
-        end else if(hwif_in.mac.stats.tx_fifo_bad_frame.hwset) begin // HW Set
+        end else if(hwif_in.stats.tx_fifo_bad_frame.hwset) begin // HW Set
             next_c = '1;
             load_next_c = '1;
         end
-        field_combo.mac.stats.tx_fifo_bad_frame.next = next_c;
-        field_combo.mac.stats.tx_fifo_bad_frame.load_next = load_next_c;
+        field_combo.stats.tx_fifo_bad_frame.next = next_c;
+        field_combo.stats.tx_fifo_bad_frame.load_next = load_next_c;
     end
     always_ff @(posedge clk) begin
         if(rst) begin
-            field_storage.mac.stats.tx_fifo_bad_frame.value <= 1'h0;
-        end else if(field_combo.mac.stats.tx_fifo_bad_frame.load_next) begin
-            field_storage.mac.stats.tx_fifo_bad_frame.value <= field_combo.mac.stats.tx_fifo_bad_frame.next;
+            field_storage.stats.tx_fifo_bad_frame.value <= 1'h0;
+        end else if(field_combo.stats.tx_fifo_bad_frame.load_next) begin
+            field_storage.stats.tx_fifo_bad_frame.value <= field_combo.stats.tx_fifo_bad_frame.next;
         end
     end
-    assign hwif_out.mac.stats.tx_fifo_bad_frame.value = field_storage.mac.stats.tx_fifo_bad_frame.value;
-    // Field: mac_regs.mac.stats.tx_fifo_good_frame
+    assign hwif_out.stats.tx_fifo_bad_frame.value = field_storage.stats.tx_fifo_bad_frame.value;
+    // Field: mac_regs.stats.tx_fifo_good_frame
     always_comb begin
         automatic logic [0:0] next_c;
         automatic logic load_next_c;
-        next_c = field_storage.mac.stats.tx_fifo_good_frame.value;
+        next_c = field_storage.stats.tx_fifo_good_frame.value;
         load_next_c = '0;
-        if(decoded_reg_strb.mac.stats && !decoded_req_is_wr) begin // SW clear on read
+        if(decoded_reg_strb.stats && !decoded_req_is_wr) begin // SW clear on read
             next_c = '0;
             load_next_c = '1;
-        end else if(hwif_in.mac.stats.tx_fifo_good_frame.hwset) begin // HW Set
+        end else if(hwif_in.stats.tx_fifo_good_frame.hwset) begin // HW Set
             next_c = '1;
             load_next_c = '1;
         end
-        field_combo.mac.stats.tx_fifo_good_frame.next = next_c;
-        field_combo.mac.stats.tx_fifo_good_frame.load_next = load_next_c;
+        field_combo.stats.tx_fifo_good_frame.next = next_c;
+        field_combo.stats.tx_fifo_good_frame.load_next = load_next_c;
     end
     always_ff @(posedge clk) begin
         if(rst) begin
-            field_storage.mac.stats.tx_fifo_good_frame.value <= 1'h0;
-        end else if(field_combo.mac.stats.tx_fifo_good_frame.load_next) begin
-            field_storage.mac.stats.tx_fifo_good_frame.value <= field_combo.mac.stats.tx_fifo_good_frame.next;
+            field_storage.stats.tx_fifo_good_frame.value <= 1'h0;
+        end else if(field_combo.stats.tx_fifo_good_frame.load_next) begin
+            field_storage.stats.tx_fifo_good_frame.value <= field_combo.stats.tx_fifo_good_frame.next;
         end
     end
-    assign hwif_out.mac.stats.tx_fifo_good_frame.value = field_storage.mac.stats.tx_fifo_good_frame.value;
-    // Field: mac_regs.mac.stats.rx_error_bad_frame
+    assign hwif_out.stats.tx_fifo_good_frame.value = field_storage.stats.tx_fifo_good_frame.value;
+    // Field: mac_regs.stats.rx_error_bad_frame
     always_comb begin
         automatic logic [0:0] next_c;
         automatic logic load_next_c;
-        next_c = field_storage.mac.stats.rx_error_bad_frame.value;
+        next_c = field_storage.stats.rx_error_bad_frame.value;
         load_next_c = '0;
-        if(decoded_reg_strb.mac.stats && !decoded_req_is_wr) begin // SW clear on read
+        if(decoded_reg_strb.stats && !decoded_req_is_wr) begin // SW clear on read
             next_c = '0;
             load_next_c = '1;
-        end else if(hwif_in.mac.stats.rx_error_bad_frame.hwset) begin // HW Set
+        end else if(hwif_in.stats.rx_error_bad_frame.hwset) begin // HW Set
             next_c = '1;
             load_next_c = '1;
         end
-        field_combo.mac.stats.rx_error_bad_frame.next = next_c;
-        field_combo.mac.stats.rx_error_bad_frame.load_next = load_next_c;
+        field_combo.stats.rx_error_bad_frame.next = next_c;
+        field_combo.stats.rx_error_bad_frame.load_next = load_next_c;
     end
     always_ff @(posedge clk) begin
         if(rst) begin
-            field_storage.mac.stats.rx_error_bad_frame.value <= 1'h0;
-        end else if(field_combo.mac.stats.rx_error_bad_frame.load_next) begin
-            field_storage.mac.stats.rx_error_bad_frame.value <= field_combo.mac.stats.rx_error_bad_frame.next;
+            field_storage.stats.rx_error_bad_frame.value <= 1'h0;
+        end else if(field_combo.stats.rx_error_bad_frame.load_next) begin
+            field_storage.stats.rx_error_bad_frame.value <= field_combo.stats.rx_error_bad_frame.next;
         end
     end
-    assign hwif_out.mac.stats.rx_error_bad_frame.value = field_storage.mac.stats.rx_error_bad_frame.value;
-    // Field: mac_regs.mac.stats.rx_error_bad_fcs
+    assign hwif_out.stats.rx_error_bad_frame.value = field_storage.stats.rx_error_bad_frame.value;
+    // Field: mac_regs.stats.rx_error_bad_fcs
     always_comb begin
         automatic logic [0:0] next_c;
         automatic logic load_next_c;
-        next_c = field_storage.mac.stats.rx_error_bad_fcs.value;
+        next_c = field_storage.stats.rx_error_bad_fcs.value;
         load_next_c = '0;
-        if(decoded_reg_strb.mac.stats && !decoded_req_is_wr) begin // SW clear on read
+        if(decoded_reg_strb.stats && !decoded_req_is_wr) begin // SW clear on read
             next_c = '0;
             load_next_c = '1;
-        end else if(hwif_in.mac.stats.rx_error_bad_fcs.hwset) begin // HW Set
+        end else if(hwif_in.stats.rx_error_bad_fcs.hwset) begin // HW Set
             next_c = '1;
             load_next_c = '1;
         end
-        field_combo.mac.stats.rx_error_bad_fcs.next = next_c;
-        field_combo.mac.stats.rx_error_bad_fcs.load_next = load_next_c;
+        field_combo.stats.rx_error_bad_fcs.next = next_c;
+        field_combo.stats.rx_error_bad_fcs.load_next = load_next_c;
     end
     always_ff @(posedge clk) begin
         if(rst) begin
-            field_storage.mac.stats.rx_error_bad_fcs.value <= 1'h0;
-        end else if(field_combo.mac.stats.rx_error_bad_fcs.load_next) begin
-            field_storage.mac.stats.rx_error_bad_fcs.value <= field_combo.mac.stats.rx_error_bad_fcs.next;
+            field_storage.stats.rx_error_bad_fcs.value <= 1'h0;
+        end else if(field_combo.stats.rx_error_bad_fcs.load_next) begin
+            field_storage.stats.rx_error_bad_fcs.value <= field_combo.stats.rx_error_bad_fcs.next;
         end
     end
-    assign hwif_out.mac.stats.rx_error_bad_fcs.value = field_storage.mac.stats.rx_error_bad_fcs.value;
-    // Field: mac_regs.mac.stats.rx_fifo_overflow
+    assign hwif_out.stats.rx_error_bad_fcs.value = field_storage.stats.rx_error_bad_fcs.value;
+    // Field: mac_regs.stats.rx_fifo_overflow
     always_comb begin
         automatic logic [0:0] next_c;
         automatic logic load_next_c;
-        next_c = field_storage.mac.stats.rx_fifo_overflow.value;
+        next_c = field_storage.stats.rx_fifo_overflow.value;
         load_next_c = '0;
-        if(decoded_reg_strb.mac.stats && !decoded_req_is_wr) begin // SW clear on read
+        if(decoded_reg_strb.stats && !decoded_req_is_wr) begin // SW clear on read
             next_c = '0;
             load_next_c = '1;
-        end else if(hwif_in.mac.stats.rx_fifo_overflow.hwset) begin // HW Set
+        end else if(hwif_in.stats.rx_fifo_overflow.hwset) begin // HW Set
             next_c = '1;
             load_next_c = '1;
         end
-        field_combo.mac.stats.rx_fifo_overflow.next = next_c;
-        field_combo.mac.stats.rx_fifo_overflow.load_next = load_next_c;
+        field_combo.stats.rx_fifo_overflow.next = next_c;
+        field_combo.stats.rx_fifo_overflow.load_next = load_next_c;
     end
     always_ff @(posedge clk) begin
         if(rst) begin
-            field_storage.mac.stats.rx_fifo_overflow.value <= 1'h0;
-        end else if(field_combo.mac.stats.rx_fifo_overflow.load_next) begin
-            field_storage.mac.stats.rx_fifo_overflow.value <= field_combo.mac.stats.rx_fifo_overflow.next;
+            field_storage.stats.rx_fifo_overflow.value <= 1'h0;
+        end else if(field_combo.stats.rx_fifo_overflow.load_next) begin
+            field_storage.stats.rx_fifo_overflow.value <= field_combo.stats.rx_fifo_overflow.next;
         end
     end
-    assign hwif_out.mac.stats.rx_fifo_overflow.value = field_storage.mac.stats.rx_fifo_overflow.value;
-    // Field: mac_regs.mac.stats.rx_fifo_bad_frame
+    assign hwif_out.stats.rx_fifo_overflow.value = field_storage.stats.rx_fifo_overflow.value;
+    // Field: mac_regs.stats.rx_fifo_bad_frame
     always_comb begin
         automatic logic [0:0] next_c;
         automatic logic load_next_c;
-        next_c = field_storage.mac.stats.rx_fifo_bad_frame.value;
+        next_c = field_storage.stats.rx_fifo_bad_frame.value;
         load_next_c = '0;
-        if(decoded_reg_strb.mac.stats && !decoded_req_is_wr) begin // SW clear on read
+        if(decoded_reg_strb.stats && !decoded_req_is_wr) begin // SW clear on read
             next_c = '0;
             load_next_c = '1;
-        end else if(hwif_in.mac.stats.rx_fifo_bad_frame.hwset) begin // HW Set
+        end else if(hwif_in.stats.rx_fifo_bad_frame.hwset) begin // HW Set
             next_c = '1;
             load_next_c = '1;
         end
-        field_combo.mac.stats.rx_fifo_bad_frame.next = next_c;
-        field_combo.mac.stats.rx_fifo_bad_frame.load_next = load_next_c;
+        field_combo.stats.rx_fifo_bad_frame.next = next_c;
+        field_combo.stats.rx_fifo_bad_frame.load_next = load_next_c;
     end
     always_ff @(posedge clk) begin
         if(rst) begin
-            field_storage.mac.stats.rx_fifo_bad_frame.value <= 1'h0;
-        end else if(field_combo.mac.stats.rx_fifo_bad_frame.load_next) begin
-            field_storage.mac.stats.rx_fifo_bad_frame.value <= field_combo.mac.stats.rx_fifo_bad_frame.next;
+            field_storage.stats.rx_fifo_bad_frame.value <= 1'h0;
+        end else if(field_combo.stats.rx_fifo_bad_frame.load_next) begin
+            field_storage.stats.rx_fifo_bad_frame.value <= field_combo.stats.rx_fifo_bad_frame.next;
         end
     end
-    assign hwif_out.mac.stats.rx_fifo_bad_frame.value = field_storage.mac.stats.rx_fifo_bad_frame.value;
-    // Field: mac_regs.mac.stats.rx_fifo_good_frame
+    assign hwif_out.stats.rx_fifo_bad_frame.value = field_storage.stats.rx_fifo_bad_frame.value;
+    // Field: mac_regs.stats.rx_fifo_good_frame
     always_comb begin
         automatic logic [0:0] next_c;
         automatic logic load_next_c;
-        next_c = field_storage.mac.stats.rx_fifo_good_frame.value;
+        next_c = field_storage.stats.rx_fifo_good_frame.value;
         load_next_c = '0;
-        if(decoded_reg_strb.mac.stats && !decoded_req_is_wr) begin // SW clear on read
+        if(decoded_reg_strb.stats && !decoded_req_is_wr) begin // SW clear on read
             next_c = '0;
             load_next_c = '1;
-        end else if(hwif_in.mac.stats.rx_fifo_good_frame.hwset) begin // HW Set
+        end else if(hwif_in.stats.rx_fifo_good_frame.hwset) begin // HW Set
             next_c = '1;
             load_next_c = '1;
         end
-        field_combo.mac.stats.rx_fifo_good_frame.next = next_c;
-        field_combo.mac.stats.rx_fifo_good_frame.load_next = load_next_c;
+        field_combo.stats.rx_fifo_good_frame.next = next_c;
+        field_combo.stats.rx_fifo_good_frame.load_next = load_next_c;
     end
     always_ff @(posedge clk) begin
         if(rst) begin
-            field_storage.mac.stats.rx_fifo_good_frame.value <= 1'h0;
-        end else if(field_combo.mac.stats.rx_fifo_good_frame.load_next) begin
-            field_storage.mac.stats.rx_fifo_good_frame.value <= field_combo.mac.stats.rx_fifo_good_frame.next;
+            field_storage.stats.rx_fifo_good_frame.value <= 1'h0;
+        end else if(field_combo.stats.rx_fifo_good_frame.load_next) begin
+            field_storage.stats.rx_fifo_good_frame.value <= field_combo.stats.rx_fifo_good_frame.next;
         end
     end
-    assign hwif_out.mac.stats.rx_fifo_good_frame.value = field_storage.mac.stats.rx_fifo_good_frame.value;
+    assign hwif_out.stats.rx_fifo_good_frame.value = field_storage.stats.rx_fifo_good_frame.value;
 
     //--------------------------------------------------------------------------
     // Write response
@@ -520,21 +514,21 @@ module mac_regs (
 
     // Assign readback values to a flattened array
     logic [31:0] readback_array[2];
-    assign readback_array[0][0:0] = (decoded_reg_strb.mac.ctrl && !decoded_req_is_wr) ? field_storage.mac.ctrl.tx_en.value : '0;
-    assign readback_array[0][1:1] = (decoded_reg_strb.mac.ctrl && !decoded_req_is_wr) ? field_storage.mac.ctrl.rx_en.value : '0;
-    assign readback_array[0][2:2] = (decoded_reg_strb.mac.ctrl && !decoded_req_is_wr) ? field_storage.mac.ctrl.phy_rstn.value : '0;
+    assign readback_array[0][0:0] = (decoded_reg_strb.ctrl && !decoded_req_is_wr) ? field_storage.ctrl.tx_en.value : '0;
+    assign readback_array[0][1:1] = (decoded_reg_strb.ctrl && !decoded_req_is_wr) ? field_storage.ctrl.rx_en.value : '0;
+    assign readback_array[0][2:2] = (decoded_reg_strb.ctrl && !decoded_req_is_wr) ? field_storage.ctrl.phy_rstn.value : '0;
     assign readback_array[0][7:3] = '0;
-    assign readback_array[0][15:8] = (decoded_reg_strb.mac.ctrl && !decoded_req_is_wr) ? field_storage.mac.ctrl.ifg.value : '0;
+    assign readback_array[0][15:8] = (decoded_reg_strb.ctrl && !decoded_req_is_wr) ? field_storage.ctrl.ifg.value : '0;
     assign readback_array[0][31:16] = '0;
-    assign readback_array[1][0:0] = (decoded_reg_strb.mac.stats && !decoded_req_is_wr) ? field_storage.mac.stats.tx_error_underflow.value : '0;
-    assign readback_array[1][1:1] = (decoded_reg_strb.mac.stats && !decoded_req_is_wr) ? field_storage.mac.stats.tx_fifo_overflow.value : '0;
-    assign readback_array[1][2:2] = (decoded_reg_strb.mac.stats && !decoded_req_is_wr) ? field_storage.mac.stats.tx_fifo_bad_frame.value : '0;
-    assign readback_array[1][3:3] = (decoded_reg_strb.mac.stats && !decoded_req_is_wr) ? field_storage.mac.stats.tx_fifo_good_frame.value : '0;
-    assign readback_array[1][4:4] = (decoded_reg_strb.mac.stats && !decoded_req_is_wr) ? field_storage.mac.stats.rx_error_bad_frame.value : '0;
-    assign readback_array[1][5:5] = (decoded_reg_strb.mac.stats && !decoded_req_is_wr) ? field_storage.mac.stats.rx_error_bad_fcs.value : '0;
-    assign readback_array[1][6:6] = (decoded_reg_strb.mac.stats && !decoded_req_is_wr) ? field_storage.mac.stats.rx_fifo_overflow.value : '0;
-    assign readback_array[1][7:7] = (decoded_reg_strb.mac.stats && !decoded_req_is_wr) ? field_storage.mac.stats.rx_fifo_bad_frame.value : '0;
-    assign readback_array[1][8:8] = (decoded_reg_strb.mac.stats && !decoded_req_is_wr) ? field_storage.mac.stats.rx_fifo_good_frame.value : '0;
+    assign readback_array[1][0:0] = (decoded_reg_strb.stats && !decoded_req_is_wr) ? field_storage.stats.tx_error_underflow.value : '0;
+    assign readback_array[1][1:1] = (decoded_reg_strb.stats && !decoded_req_is_wr) ? field_storage.stats.tx_fifo_overflow.value : '0;
+    assign readback_array[1][2:2] = (decoded_reg_strb.stats && !decoded_req_is_wr) ? field_storage.stats.tx_fifo_bad_frame.value : '0;
+    assign readback_array[1][3:3] = (decoded_reg_strb.stats && !decoded_req_is_wr) ? field_storage.stats.tx_fifo_good_frame.value : '0;
+    assign readback_array[1][4:4] = (decoded_reg_strb.stats && !decoded_req_is_wr) ? field_storage.stats.rx_error_bad_frame.value : '0;
+    assign readback_array[1][5:5] = (decoded_reg_strb.stats && !decoded_req_is_wr) ? field_storage.stats.rx_error_bad_fcs.value : '0;
+    assign readback_array[1][6:6] = (decoded_reg_strb.stats && !decoded_req_is_wr) ? field_storage.stats.rx_fifo_overflow.value : '0;
+    assign readback_array[1][7:7] = (decoded_reg_strb.stats && !decoded_req_is_wr) ? field_storage.stats.rx_fifo_bad_frame.value : '0;
+    assign readback_array[1][8:8] = (decoded_reg_strb.stats && !decoded_req_is_wr) ? field_storage.stats.rx_fifo_good_frame.value : '0;
     assign readback_array[1][31:9] = '0;
 
     // Reduce the array

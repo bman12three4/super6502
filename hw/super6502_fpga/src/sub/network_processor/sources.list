@@ -2,6 +2,10 @@ src/regs/tcp_stream_regs_pkg.sv
 src/regs/tcp_stream_regs.sv
 src/regs/tcp_top_regfile_pkg.sv
 src/regs/tcp_top_regfile.sv
+src/regs/mac_regs_pkg.sv
+src/regs/mac_regs.sv
+src/regs/ntw_top_regfile_pkg.sv
+src/regs/ntw_top_regfile.sv
 src/network_processor.sv
 src/tcp_state_manager.sv
 src/tcp_stream.sv

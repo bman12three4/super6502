@@ -1,4 +1,4 @@
-addrmap mac_t {
+addrmap mac_regs {
     reg {
         name = "Control";
         desc = "Control bits for the MAC";

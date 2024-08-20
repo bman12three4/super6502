@@ -10,7 +10,7 @@ package ntw_top_regfile_pkg;
         logic rd_ack;
         logic [31:0] rd_data;
         logic wr_ack;
-    } mac_t__external__in_t;
+    } mac_regs__external__in_t;
 
     typedef struct {
         logic rd_ack;
@@ -19,7 +19,7 @@ package ntw_top_regfile_pkg;
     } tcp_top_regfile__external__in_t;
 
     typedef struct {
-        mac_t__external__in_t mac;
+        mac_regs__external__in_t mac;
         tcp_top_regfile__external__in_t tcp_top;
     } ntw_top_regfile__in_t;
 
@@ -29,7 +29,7 @@ package ntw_top_regfile_pkg;
         logic req_is_wr;
         logic [31:0] wr_data;
         logic [31:0] wr_biten;
-    } mac_t__external__out_t;
+    } mac_regs__external__out_t;
 
     typedef struct {
         logic req;
@@ -40,7 +40,7 @@ package ntw_top_regfile_pkg;
     } tcp_top_regfile__external__out_t;
 
     typedef struct {
-        mac_t__external__out_t mac;
+        mac_regs__external__out_t mac;
         tcp_top_regfile__external__out_t tcp_top;
     } ntw_top_regfile__out_t;
 endpackage
