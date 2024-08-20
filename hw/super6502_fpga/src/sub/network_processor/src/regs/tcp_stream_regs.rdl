@@ -1,4 +1,4 @@
-regfile tcp_stream {
+addrmap tcp_stream_regs {
     name = "TCP Stream Regs";
     desc = "";
 
@@ -132,8 +132,4 @@ regfile tcp_stream {
 
         } rx_bad_crc @ 0x8;
     };
-};
-
-addrmap tcp_stream_regs {
-    tcp_stream tcp_streams;
 };

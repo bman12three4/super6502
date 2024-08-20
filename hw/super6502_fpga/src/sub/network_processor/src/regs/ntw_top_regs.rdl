@@ -1,0 +1,4 @@
+addrmap ntw_top_regfile {
+    external mac_t mac;
+    external tcp_top_regfile tcp_top;
+};

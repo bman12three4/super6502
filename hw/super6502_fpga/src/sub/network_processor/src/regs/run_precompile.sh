@@ -1,10 +1,4 @@
-peakrdl regblock tcp_stream.rdl tcp_top_regs.rdl -o . --cpuif axi4-lite-flat
-peakrdl regblock -t tcp_stream_regs tcp_stream.rdl -o . --cpuif passthrough
-
-# sed -i -e 's/struct/struct packed/g' tcp_stream_regs.sv
-# sed -i -e 's/struct/struct packed/g' tcp_stream_regs_pkg.sv
-# sed -i -e 's/automatic/static/g' tcp_stream_regs.sv
-
-# sed -i -e 's/struct/struct packed/g' tcp_top_regfile.sv
-# sed -i -e 's/struct/struct packed/g' tcp_top_regfile_pkg.sv
-# sed -i -e 's/automatic/static/g' tcp_top_regfile.sv
+peakrdl regblock -t tcp_top_regfile tcp_stream_regs.rdl tcp_top_regs.rdl -o . --cpuif passthrough
+peakrdl regblock -t tcp_stream_regs tcp_stream_regs.rdl -o . --cpuif passthrough
+peakrdl regblock -t mac_t mac_regs.rdl -o . --cpuif passthrough
+peakrdl regblock -t ntw_top_regfile mac_regs.rdl tcp_stream_regs.rdl tcp_top_regs.rdl ntw_top_regs.rdl -o . --cpuif axi4-lite-flat

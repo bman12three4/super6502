@@ -1,0 +1,121 @@
+addrmap mac_t {
+    reg {
+        name = "Control";
+        desc = "Control bits for the MAC";
+
+        field {
+            name = "TX Enable";
+            desc = "Enable TX";
+            hw   = r;
+            sw   = rw;
+        } tx_en[0:0] = 0x0;
+
+        field {
+            name = "RX Enable";
+            desc = "Enable RX";
+            hw   = r;
+            sw   = rw;
+        } rx_en[1:1] = 0x0;
+
+        field {
+            name = "PHY Reset";
+            desc = "phy_rstn";
+            hw   = r;
+            sw   = rw;
+        } phy_rstn[2:2] = 0x1;
+
+        field {
+            name = "Interframe Gap";
+            desc = "Interframe gap in mii clock cycles";
+            hw   = r;
+            sw   = rw;
+        } ifg[15:8] = 0x0;
+
+    } ctrl @ 0x0;
+
+    reg {
+        name = "Error";
+        desc = "Latched Error from the MAC";
+
+        field {
+            name = "tx_error_underflow";
+            desc = "";
+            hw   = r;
+            sw   = r;
+            rclr;
+            hwset;
+        } tx_error_underflow[0:0] = 0x0;
+
+        field {
+            name = "tx_fifo_overflow";
+            desc = "";
+            hw   = r;
+            sw   = r;
+            rclr;
+            hwset;
+        } tx_fifo_overflow[1:1] = 0x0;
+
+        field {
+            name = "tx_fifo_bad_frame";
+            desc = "";
+            hw   = r;
+            sw   = r;
+            rclr;
+            hwset;
+        } tx_fifo_bad_frame[2:2] = 0x0;
+
+        field {
+            name = "tx_fifo_good_frame";
+            desc = "";
+            hw   = r;
+            sw   = r;
+            rclr;
+            hwset;
+        } tx_fifo_good_frame[3:3] = 0x0;
+
+        field {
+            name = "rx_error_bad_frame";
+            desc = "";
+            hw   = r;
+            sw   = r;
+            rclr;
+            hwset;
+        } rx_error_bad_frame[4:4] = 0x0;
+
+        field {
+            name = "rx_error_bad_fcs";
+            desc = "";
+            hw   = r;
+            sw   = r;
+            rclr;
+            hwset;
+        } rx_error_bad_fcs[5:5] = 0x0;
+
+        field {
+            name = "rx_fifo_overflow";
+            desc = "";
+            hw   = r;
+            sw   = r;
+            rclr;
+            hwset;
+        } rx_fifo_overflow[6:6] = 0x0;
+
+        field {
+            name = "rx_fifo_bad_frame";
+            desc = "";
+            hw   = r;
+            sw   = r;
+            rclr;
+            hwset;
+        } rx_fifo_bad_frame[7:7] = 0x0;
+
+        field {
+            name = "rx_fifo_good_frame";
+            desc = "";
+            hw   = r;
+            sw   = r;
+            rclr;
+            hwset;
+        } rx_fifo_good_frame[8:8] = 0x0;
+    } stats @ 0x4;
+};

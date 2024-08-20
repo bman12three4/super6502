@@ -10,10 +10,10 @@ package tcp_top_regfile_pkg;
         logic rd_ack;
         logic [31:0] rd_data;
         logic wr_ack;
-    } tcp_stream__external__in_t;
+    } tcp_stream_regs__external__in_t;
 
     typedef struct {
-        tcp_stream__external__in_t tcp_streams[8];
+        tcp_stream_regs__external__in_t tcp_streams[8];
     } tcp_top_regfile__in_t;
 
     typedef struct {
@@ -22,9 +22,9 @@ package tcp_top_regfile_pkg;
         logic req_is_wr;
         logic [31:0] wr_data;
         logic [31:0] wr_biten;
-    } tcp_stream__external__out_t;
+    } tcp_stream_regs__external__out_t;
 
     typedef struct {
-        tcp_stream__external__out_t tcp_streams[8];
+        tcp_stream_regs__external__out_t tcp_streams[8];
     } tcp_top_regfile__out_t;
 endpackage

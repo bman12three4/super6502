@@ -66,13 +66,11 @@ module tcp_stream_regs (
     // Address Decode
     //--------------------------------------------------------------------------
     typedef struct {
-        struct {
-            logic source_port;
-            logic source_ip;
-            logic dest_port;
-            logic dest_ip;
-            logic control;
-        } tcp_streams;
+        logic source_port;
+        logic source_ip;
+        logic dest_port;
+        logic dest_ip;
+        logic control;
     } decoded_reg_strb_t;
     decoded_reg_strb_t decoded_reg_strb;
     logic decoded_req;
@@ -81,11 +79,11 @@ module tcp_stream_regs (
     logic [31:0] decoded_wr_biten;
 
     always_comb begin
-        decoded_reg_strb.tcp_streams.source_port = cpuif_req_masked & (cpuif_addr == 5'h0);
-        decoded_reg_strb.tcp_streams.source_ip = cpuif_req_masked & (cpuif_addr == 5'h4);
-        decoded_reg_strb.tcp_streams.dest_port = cpuif_req_masked & (cpuif_addr == 5'h8);
-        decoded_reg_strb.tcp_streams.dest_ip = cpuif_req_masked & (cpuif_addr == 5'hc);
-        decoded_reg_strb.tcp_streams.control = cpuif_req_masked & (cpuif_addr == 5'h10);
+        decoded_reg_strb.source_port = cpuif_req_masked & (cpuif_addr == 5'h0);
+        decoded_reg_strb.source_ip = cpuif_req_masked & (cpuif_addr == 5'h4);
+        decoded_reg_strb.dest_port = cpuif_req_masked & (cpuif_addr == 5'h8);
+        decoded_reg_strb.dest_ip = cpuif_req_masked & (cpuif_addr == 5'hc);
+        decoded_reg_strb.control = cpuif_req_masked & (cpuif_addr == 5'h10);
     end
 
     // Pass down signals to next stage
@@ -100,237 +98,233 @@ module tcp_stream_regs (
     typedef struct {
         struct {
             struct {
-                struct {
-                    logic [31:0] next;
-                    logic load_next;
-                } d;
-            } source_port;
+                logic [31:0] next;
+                logic load_next;
+            } d;
+        } source_port;
+        struct {
             struct {
-                struct {
-                    logic [31:0] next;
-                    logic load_next;
-                } d;
-            } source_ip;
+                logic [31:0] next;
+                logic load_next;
+            } d;
+        } source_ip;
+        struct {
             struct {
-                struct {
-                    logic [31:0] next;
-                    logic load_next;
-                } d;
-            } dest_port;
+                logic [31:0] next;
+                logic load_next;
+            } d;
+        } dest_port;
+        struct {
             struct {
-                struct {
-                    logic [31:0] next;
-                    logic load_next;
-                } d;
-            } dest_ip;
+                logic [31:0] next;
+                logic load_next;
+            } d;
+        } dest_ip;
+        struct {
             struct {
-                struct {
-                    logic next;
-                    logic load_next;
-                } enable;
-                struct {
-                    logic next;
-                    logic load_next;
-                } open;
-                struct {
-                    logic next;
-                    logic load_next;
-                } close;
-            } control;
-        } tcp_streams;
+                logic next;
+                logic load_next;
+            } enable;
+            struct {
+                logic next;
+                logic load_next;
+            } open;
+            struct {
+                logic next;
+                logic load_next;
+            } close;
+        } control;
     } field_combo_t;
     field_combo_t field_combo;
 
     typedef struct {
         struct {
             struct {
-                struct {
-                    logic [31:0] value;
-                } d;
-            } source_port;
+                logic [31:0] value;
+            } d;
+        } source_port;
+        struct {
             struct {
-                struct {
-                    logic [31:0] value;
-                } d;
-            } source_ip;
+                logic [31:0] value;
+            } d;
+        } source_ip;
+        struct {
             struct {
-                struct {
-                    logic [31:0] value;
-                } d;
-            } dest_port;
+                logic [31:0] value;
+            } d;
+        } dest_port;
+        struct {
             struct {
-                struct {
-                    logic [31:0] value;
-                } d;
-            } dest_ip;
+                logic [31:0] value;
+            } d;
+        } dest_ip;
+        struct {
             struct {
-                struct {
-                    logic value;
-                } enable;
-                struct {
-                    logic value;
-                } open;
-                struct {
-                    logic value;
-                } close;
-            } control;
-        } tcp_streams;
+                logic value;
+            } enable;
+            struct {
+                logic value;
+            } open;
+            struct {
+                logic value;
+            } close;
+        } control;
     } field_storage_t;
     field_storage_t field_storage;
 
-    // Field: tcp_stream_regs.tcp_streams.source_port.d
+    // Field: tcp_stream_regs.source_port.d
     always_comb begin
         automatic logic [31:0] next_c;
         automatic logic load_next_c;
-        next_c = field_storage.tcp_streams.source_port.d.value;
+        next_c = field_storage.source_port.d.value;
         load_next_c = '0;
-        if(decoded_reg_strb.tcp_streams.source_port && decoded_req_is_wr) begin // SW write
-            next_c = (field_storage.tcp_streams.source_port.d.value & ~decoded_wr_biten[31:0]) | (decoded_wr_data[31:0] & decoded_wr_biten[31:0]);
+        if(decoded_reg_strb.source_port && decoded_req_is_wr) begin // SW write
+            next_c = (field_storage.source_port.d.value & ~decoded_wr_biten[31:0]) | (decoded_wr_data[31:0] & decoded_wr_biten[31:0]);
             load_next_c = '1;
         end
-        field_combo.tcp_streams.source_port.d.next = next_c;
-        field_combo.tcp_streams.source_port.d.load_next = load_next_c;
+        field_combo.source_port.d.next = next_c;
+        field_combo.source_port.d.load_next = load_next_c;
     end
     always_ff @(posedge clk) begin
         if(rst) begin
-            field_storage.tcp_streams.source_port.d.value <= 32'h0;
-        end else if(field_combo.tcp_streams.source_port.d.load_next) begin
-            field_storage.tcp_streams.source_port.d.value <= field_combo.tcp_streams.source_port.d.next;
+            field_storage.source_port.d.value <= 32'h0;
+        end else if(field_combo.source_port.d.load_next) begin
+            field_storage.source_port.d.value <= field_combo.source_port.d.next;
         end
     end
-    assign hwif_out.tcp_streams.source_port.d.value = field_storage.tcp_streams.source_port.d.value;
-    // Field: tcp_stream_regs.tcp_streams.source_ip.d
+    assign hwif_out.source_port.d.value = field_storage.source_port.d.value;
+    // Field: tcp_stream_regs.source_ip.d
     always_comb begin
         automatic logic [31:0] next_c;
         automatic logic load_next_c;
-        next_c = field_storage.tcp_streams.source_ip.d.value;
+        next_c = field_storage.source_ip.d.value;
         load_next_c = '0;
-        if(decoded_reg_strb.tcp_streams.source_ip && decoded_req_is_wr) begin // SW write
-            next_c = (field_storage.tcp_streams.source_ip.d.value & ~decoded_wr_biten[31:0]) | (decoded_wr_data[31:0] & decoded_wr_biten[31:0]);
+        if(decoded_reg_strb.source_ip && decoded_req_is_wr) begin // SW write
+            next_c = (field_storage.source_ip.d.value & ~decoded_wr_biten[31:0]) | (decoded_wr_data[31:0] & decoded_wr_biten[31:0]);
             load_next_c = '1;
         end
-        field_combo.tcp_streams.source_ip.d.next = next_c;
-        field_combo.tcp_streams.source_ip.d.load_next = load_next_c;
+        field_combo.source_ip.d.next = next_c;
+        field_combo.source_ip.d.load_next = load_next_c;
     end
     always_ff @(posedge clk) begin
         if(rst) begin
-            field_storage.tcp_streams.source_ip.d.value <= 32'h0;
-        end else if(field_combo.tcp_streams.source_ip.d.load_next) begin
-            field_storage.tcp_streams.source_ip.d.value <= field_combo.tcp_streams.source_ip.d.next;
+            field_storage.source_ip.d.value <= 32'h0;
+        end else if(field_combo.source_ip.d.load_next) begin
+            field_storage.source_ip.d.value <= field_combo.source_ip.d.next;
         end
     end
-    assign hwif_out.tcp_streams.source_ip.d.value = field_storage.tcp_streams.source_ip.d.value;
-    // Field: tcp_stream_regs.tcp_streams.dest_port.d
+    assign hwif_out.source_ip.d.value = field_storage.source_ip.d.value;
+    // Field: tcp_stream_regs.dest_port.d
     always_comb begin
         automatic logic [31:0] next_c;
         automatic logic load_next_c;
-        next_c = field_storage.tcp_streams.dest_port.d.value;
+        next_c = field_storage.dest_port.d.value;
         load_next_c = '0;
-        if(decoded_reg_strb.tcp_streams.dest_port && decoded_req_is_wr) begin // SW write
-            next_c = (field_storage.tcp_streams.dest_port.d.value & ~decoded_wr_biten[31:0]) | (decoded_wr_data[31:0] & decoded_wr_biten[31:0]);
+        if(decoded_reg_strb.dest_port && decoded_req_is_wr) begin // SW write
+            next_c = (field_storage.dest_port.d.value & ~decoded_wr_biten[31:0]) | (decoded_wr_data[31:0] & decoded_wr_biten[31:0]);
             load_next_c = '1;
         end
-        field_combo.tcp_streams.dest_port.d.next = next_c;
-        field_combo.tcp_streams.dest_port.d.load_next = load_next_c;
+        field_combo.dest_port.d.next = next_c;
+        field_combo.dest_port.d.load_next = load_next_c;
     end
     always_ff @(posedge clk) begin
         if(rst) begin
-            field_storage.tcp_streams.dest_port.d.value <= 32'h0;
-        end else if(field_combo.tcp_streams.dest_port.d.load_next) begin
-            field_storage.tcp_streams.dest_port.d.value <= field_combo.tcp_streams.dest_port.d.next;
+            field_storage.dest_port.d.value <= 32'h0;
+        end else if(field_combo.dest_port.d.load_next) begin
+            field_storage.dest_port.d.value <= field_combo.dest_port.d.next;
         end
     end
-    assign hwif_out.tcp_streams.dest_port.d.value = field_storage.tcp_streams.dest_port.d.value;
-    // Field: tcp_stream_regs.tcp_streams.dest_ip.d
+    assign hwif_out.dest_port.d.value = field_storage.dest_port.d.value;
+    // Field: tcp_stream_regs.dest_ip.d
     always_comb begin
         automatic logic [31:0] next_c;
         automatic logic load_next_c;
-        next_c = field_storage.tcp_streams.dest_ip.d.value;
+        next_c = field_storage.dest_ip.d.value;
         load_next_c = '0;
-        if(decoded_reg_strb.tcp_streams.dest_ip && decoded_req_is_wr) begin // SW write
-            next_c = (field_storage.tcp_streams.dest_ip.d.value & ~decoded_wr_biten[31:0]) | (decoded_wr_data[31:0] & decoded_wr_biten[31:0]);
+        if(decoded_reg_strb.dest_ip && decoded_req_is_wr) begin // SW write
+            next_c = (field_storage.dest_ip.d.value & ~decoded_wr_biten[31:0]) | (decoded_wr_data[31:0] & decoded_wr_biten[31:0]);
             load_next_c = '1;
         end
-        field_combo.tcp_streams.dest_ip.d.next = next_c;
-        field_combo.tcp_streams.dest_ip.d.load_next = load_next_c;
+        field_combo.dest_ip.d.next = next_c;
+        field_combo.dest_ip.d.load_next = load_next_c;
     end
     always_ff @(posedge clk) begin
         if(rst) begin
-            field_storage.tcp_streams.dest_ip.d.value <= 32'h0;
-        end else if(field_combo.tcp_streams.dest_ip.d.load_next) begin
-            field_storage.tcp_streams.dest_ip.d.value <= field_combo.tcp_streams.dest_ip.d.next;
+            field_storage.dest_ip.d.value <= 32'h0;
+        end else if(field_combo.dest_ip.d.load_next) begin
+            field_storage.dest_ip.d.value <= field_combo.dest_ip.d.next;
         end
     end
-    assign hwif_out.tcp_streams.dest_ip.d.value = field_storage.tcp_streams.dest_ip.d.value;
-    // Field: tcp_stream_regs.tcp_streams.control.enable
+    assign hwif_out.dest_ip.d.value = field_storage.dest_ip.d.value;
+    // Field: tcp_stream_regs.control.enable
     always_comb begin
         automatic logic [0:0] next_c;
         automatic logic load_next_c;
-        next_c = field_storage.tcp_streams.control.enable.value;
+        next_c = field_storage.control.enable.value;
         load_next_c = '0;
-        if(decoded_reg_strb.tcp_streams.control && decoded_req_is_wr) begin // SW write
-            next_c = (field_storage.tcp_streams.control.enable.value & ~decoded_wr_biten[0:0]) | (decoded_wr_data[0:0] & decoded_wr_biten[0:0]);
+        if(decoded_reg_strb.control && decoded_req_is_wr) begin // SW write
+            next_c = (field_storage.control.enable.value & ~decoded_wr_biten[0:0]) | (decoded_wr_data[0:0] & decoded_wr_biten[0:0]);
             load_next_c = '1;
         end
-        field_combo.tcp_streams.control.enable.next = next_c;
-        field_combo.tcp_streams.control.enable.load_next = load_next_c;
+        field_combo.control.enable.next = next_c;
+        field_combo.control.enable.load_next = load_next_c;
     end
     always_ff @(posedge clk) begin
         if(rst) begin
-            field_storage.tcp_streams.control.enable.value <= 1'h0;
-        end else if(field_combo.tcp_streams.control.enable.load_next) begin
-            field_storage.tcp_streams.control.enable.value <= field_combo.tcp_streams.control.enable.next;
+            field_storage.control.enable.value <= 1'h0;
+        end else if(field_combo.control.enable.load_next) begin
+            field_storage.control.enable.value <= field_combo.control.enable.next;
         end
     end
-    assign hwif_out.tcp_streams.control.enable.value = field_storage.tcp_streams.control.enable.value;
-    // Field: tcp_stream_regs.tcp_streams.control.open
+    assign hwif_out.control.enable.value = field_storage.control.enable.value;
+    // Field: tcp_stream_regs.control.open
     always_comb begin
         automatic logic [0:0] next_c;
         automatic logic load_next_c;
-        next_c = field_storage.tcp_streams.control.open.value;
+        next_c = field_storage.control.open.value;
         load_next_c = '0;
-        if(decoded_reg_strb.tcp_streams.control && decoded_req_is_wr) begin // SW write
-            next_c = (field_storage.tcp_streams.control.open.value & ~decoded_wr_biten[1:1]) | (decoded_wr_data[1:1] & decoded_wr_biten[1:1]);
+        if(decoded_reg_strb.control && decoded_req_is_wr) begin // SW write
+            next_c = (field_storage.control.open.value & ~decoded_wr_biten[1:1]) | (decoded_wr_data[1:1] & decoded_wr_biten[1:1]);
             load_next_c = '1;
-        end else if(hwif_in.tcp_streams.control.open.hwclr) begin // HW Clear
+        end else if(hwif_in.control.open.hwclr) begin // HW Clear
             next_c = '0;
             load_next_c = '1;
         end
-        field_combo.tcp_streams.control.open.next = next_c;
-        field_combo.tcp_streams.control.open.load_next = load_next_c;
+        field_combo.control.open.next = next_c;
+        field_combo.control.open.load_next = load_next_c;
     end
     always_ff @(posedge clk) begin
         if(rst) begin
-            field_storage.tcp_streams.control.open.value <= 1'h0;
-        end else if(field_combo.tcp_streams.control.open.load_next) begin
-            field_storage.tcp_streams.control.open.value <= field_combo.tcp_streams.control.open.next;
+            field_storage.control.open.value <= 1'h0;
+        end else if(field_combo.control.open.load_next) begin
+            field_storage.control.open.value <= field_combo.control.open.next;
         end
     end
-    assign hwif_out.tcp_streams.control.open.value = field_storage.tcp_streams.control.open.value;
-    // Field: tcp_stream_regs.tcp_streams.control.close
+    assign hwif_out.control.open.value = field_storage.control.open.value;
+    // Field: tcp_stream_regs.control.close
     always_comb begin
         automatic logic [0:0] next_c;
         automatic logic load_next_c;
-        next_c = field_storage.tcp_streams.control.close.value;
+        next_c = field_storage.control.close.value;
         load_next_c = '0;
-        if(decoded_reg_strb.tcp_streams.control && decoded_req_is_wr) begin // SW write
-            next_c = (field_storage.tcp_streams.control.close.value & ~decoded_wr_biten[2:2]) | (decoded_wr_data[2:2] & decoded_wr_biten[2:2]);
+        if(decoded_reg_strb.control && decoded_req_is_wr) begin // SW write
+            next_c = (field_storage.control.close.value & ~decoded_wr_biten[2:2]) | (decoded_wr_data[2:2] & decoded_wr_biten[2:2]);
             load_next_c = '1;
-        end else if(hwif_in.tcp_streams.control.close.hwclr) begin // HW Clear
+        end else if(hwif_in.control.close.hwclr) begin // HW Clear
             next_c = '0;
             load_next_c = '1;
         end
-        field_combo.tcp_streams.control.close.next = next_c;
-        field_combo.tcp_streams.control.close.load_next = load_next_c;
+        field_combo.control.close.next = next_c;
+        field_combo.control.close.load_next = load_next_c;
     end
     always_ff @(posedge clk) begin
         if(rst) begin
-            field_storage.tcp_streams.control.close.value <= 1'h0;
-        end else if(field_combo.tcp_streams.control.close.load_next) begin
-            field_storage.tcp_streams.control.close.value <= field_combo.tcp_streams.control.close.next;
+            field_storage.control.close.value <= 1'h0;
+        end else if(field_combo.control.close.load_next) begin
+            field_storage.control.close.value <= field_combo.control.close.next;
         end
     end
-    assign hwif_out.tcp_streams.control.close.value = field_storage.tcp_streams.control.close.value;
+    assign hwif_out.control.close.value = field_storage.control.close.value;
 
     //--------------------------------------------------------------------------
     // Write response
@@ -349,14 +343,14 @@ module tcp_stream_regs (
 
     // Assign readback values to a flattened array
     logic [31:0] readback_array[5];
-    assign readback_array[0][31:0] = (decoded_reg_strb.tcp_streams.source_port && !decoded_req_is_wr) ? field_storage.tcp_streams.source_port.d.value : '0;
-    assign readback_array[1][31:0] = (decoded_reg_strb.tcp_streams.source_ip && !decoded_req_is_wr) ? field_storage.tcp_streams.source_ip.d.value : '0;
-    assign readback_array[2][31:0] = (decoded_reg_strb.tcp_streams.dest_port && !decoded_req_is_wr) ? field_storage.tcp_streams.dest_port.d.value : '0;
-    assign readback_array[3][31:0] = (decoded_reg_strb.tcp_streams.dest_ip && !decoded_req_is_wr) ? field_storage.tcp_streams.dest_ip.d.value : '0;
-    assign readback_array[4][0:0] = (decoded_reg_strb.tcp_streams.control && !decoded_req_is_wr) ? field_storage.tcp_streams.control.enable.value : '0;
-    assign readback_array[4][1:1] = (decoded_reg_strb.tcp_streams.control && !decoded_req_is_wr) ? field_storage.tcp_streams.control.open.value : '0;
-    assign readback_array[4][2:2] = (decoded_reg_strb.tcp_streams.control && !decoded_req_is_wr) ? field_storage.tcp_streams.control.close.value : '0;
-    assign readback_array[4][5:3] = (decoded_reg_strb.tcp_streams.control && !decoded_req_is_wr) ? hwif_in.tcp_streams.control.state.next : '0;
+    assign readback_array[0][31:0] = (decoded_reg_strb.source_port && !decoded_req_is_wr) ? field_storage.source_port.d.value : '0;
+    assign readback_array[1][31:0] = (decoded_reg_strb.source_ip && !decoded_req_is_wr) ? field_storage.source_ip.d.value : '0;
+    assign readback_array[2][31:0] = (decoded_reg_strb.dest_port && !decoded_req_is_wr) ? field_storage.dest_port.d.value : '0;
+    assign readback_array[3][31:0] = (decoded_reg_strb.dest_ip && !decoded_req_is_wr) ? field_storage.dest_ip.d.value : '0;
+    assign readback_array[4][0:0] = (decoded_reg_strb.control && !decoded_req_is_wr) ? field_storage.control.enable.value : '0;
+    assign readback_array[4][1:1] = (decoded_reg_strb.control && !decoded_req_is_wr) ? field_storage.control.open.value : '0;
+    assign readback_array[4][2:2] = (decoded_reg_strb.control && !decoded_req_is_wr) ? field_storage.control.close.value : '0;
+    assign readback_array[4][5:3] = (decoded_reg_strb.control && !decoded_req_is_wr) ? hwif_in.control.state.next : '0;
     assign readback_array[4][31:6] = '0;
 
     // Reduce the array
