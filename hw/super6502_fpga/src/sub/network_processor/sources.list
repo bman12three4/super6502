@@ -10,3 +10,4 @@ src/network_processor.sv
 src/tcp_state_manager.sv
 src/tcp_stream.sv
 src/tcp.sv
+src/eth_wrapper.sv

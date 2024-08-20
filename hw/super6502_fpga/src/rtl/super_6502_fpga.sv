@@ -43,8 +43,26 @@ module super6502_fpga(
     input                       i_sd_dat,
     output                      o_sd_dat,
     output                      o_sd_dat_oe,
-    output                      o_sd_clk
-    // input                       i_sd_cd
+    output                      o_sd_clk,
+    // input                       i_sd_cd,
+
+    //MII Interface
+    input   wire                    mii_rx_clk,
+    input   wire    [3:0]           mii_rxd,
+    input   wire                    mii_rx_dv,
+    input   wire                    mii_rx_er,
+    input   wire                    mii_tx_clk,
+    output  wire    [3:0]           mii_txd,
+    output  wire                    mii_tx_en,
+    output  wire                    mii_tx_er,
+
+    // MDIO Interface
+    input                           i_Mdi,
+    output                          o_Mdo,
+    output                          o_MdoEn,
+    output                          o_Mdc,
+
+    output                          phy_rstn
 );
 
 

@@ -9,7 +9,7 @@ SIM_SOURCES=$(shell cat $(SIM_SRCS_LIST))
 
 INCLUDE=include/sdram_controller_define.vh
 
-TB_NAME=sim_top
+TB_NAME=./obj_dir/Vsim_top
 
 COPY_FILES=addr_map.mem init_hex.mem
 SD_IMAGE=sd_image.bin

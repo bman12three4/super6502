@@ -5,25 +5,63 @@ module tcp #(
     input i_clk,
     input i_rst,
 
-    output  logic           s_reg_axil_awready,
-    input   wire            s_reg_axil_awvalid,
-    input   wire [8:0]      s_reg_axil_awaddr,
-    input   wire [2:0]      s_reg_axil_awprot,
-    output  logic           s_reg_axil_wready,
-    input   wire            s_reg_axil_wvalid,
-    input   wire [31:0]     s_reg_axil_wdata,
-    input   wire [3:0]      s_reg_axil_wstrb,
-    input   wire            s_reg_axil_bready,
-    output  logic           s_reg_axil_bvalid,
-    output  logic [1:0]     s_reg_axil_bresp,
-    output  logic           s_reg_axil_arready,
-    input   wire            s_reg_axil_arvalid,
-    input   wire [8:0]      s_reg_axil_araddr,
-    input   wire [2:0]      s_reg_axil_arprot,
-    input   wire            s_reg_axil_rready,
-    output  logic           s_reg_axil_rvalid,
-    output  logic [31:0]    s_reg_axil_rdata,
-    output  logic [1:0]     s_reg_axil_rresp
+    input  wire                         m_cpuif_req,
+    input  wire                         m_cpuif_req_is_wr,
+    input  wire [4:0]                   m_cpuif_addr,
+    input  wire [31:0]                  m_cpuif_wr_data,
+    input  wire [31:0]                  m_cpuif_wr_biten,
+    output wire                         m_cpuif_req_stall_wr,
+    output wire                         m_cpuif_req_stall_rd,
+    output wire                         m_cpuif_rd_ack,
+    output wire                         m_cpuif_rd_err,
+    output wire [31:0]                  m_cpuif_rd_data,
+    output wire                         m_cpuif_wr_ack,
+    output wire                         m_cpuif_wr_err
+
+    /*
+     * IP input
+     */
+    input  wire                         s_ip_hdr_valid,
+    output wire                         s_ip_hdr_ready,
+    input  wire [47:0]                  s_ip_eth_dest_mac,
+    input  wire [47:0]                  s_ip_eth_src_mac,
+    input  wire [15:0]                  s_ip_eth_type,
+    input  wire [3:0]                   s_ip_version,
+    input  wire [3:0]                   s_ip_ihl,
+    input  wire [5:0]                   s_ip_dscp,
+    input  wire [1:0]                   s_ip_ecn,
+    input  wire [15:0]                  s_ip_length,
+    input  wire [15:0]                  s_ip_identification,
+    input  wire [2:0]                   s_ip_flags,
+    input  wire [12:0]                  s_ip_fragment_offset,
+    input  wire [7:0]                   s_ip_ttl,
+    input  wire [7:0]                   s_ip_protocol,
+    input  wire [15:0]                  s_ip_header_checksum,
+    input  wire [31:0]                  s_ip_source_ip,
+    input  wire [31:0]                  s_ip_dest_ip,
+    input  wire [7:0]                   s_ip_payload_axis_tdata,
+    input  wire                         s_ip_payload_axis_tvalid
+    output wire                         s_ip_payload_axis_tready
+    input  wire                         s_ip_payload_axis_tlast,
+    input  wire                         s_ip_payload_axis_tuser,
+
+    /*
+    * IP output
+    */
+    output wire                         m_ip_hdr_valid,
+    input  wire                         m_ip_hdr_ready,
+    output wire [5:0]                   m_ip_dscp,
+    output wire [1:0]                   m_ip_ecn,
+    output wire [15:0]                  m_ip_length,
+    output wire [7:0]                   m_ip_ttl,
+    output wire [7:0]                   m_ip_protocol,
+    output wire [31:0]                  m_ip_source_ip,
+    output wire [31:0]                  m_ip_dest_ip,
+    output wire [7:0]                   m_ip_payload_axis_tdata,
+    output wire                         m_ip_payload_axis_tvalid
+    input  wire                         m_ip_payload_axis_tready
+    output wire                         m_ip_payload_axis_tlast,
+    output wire                         m_ip_payload_axis_tuser
 );
 
 tcp_top_regfile_pkg::tcp_top_regfile__in_t tcp_hwif_in;
@@ -34,25 +72,18 @@ tcp_top_regfile u_tcp_top_regfile (
     .clk            (i_clk),
     .rst            (i_rst),
 
-    .s_axil_awready (s_reg_axil_awready),
-    .s_axil_awvalid (s_reg_axil_awvalid),
-    .s_axil_awaddr  (s_reg_axil_awaddr),
-    .s_axil_awprot  (s_reg_axil_awprot),
-    .s_axil_wready  (s_reg_axil_wready),
-    .s_axil_wvalid  (s_reg_axil_wvalid),
-    .s_axil_wdata   (s_reg_axil_wdata),
-    .s_axil_wstrb   (s_reg_axil_wstrb),
-    .s_axil_bready  (s_reg_axil_bready),
-    .s_axil_bvalid  (s_reg_axil_bvalid),
-    .s_axil_bresp   (s_reg_axil_bresp),
-    .s_axil_arready (s_reg_axil_arready),
-    .s_axil_arvalid (s_reg_axil_arvalid),
-    .s_axil_araddr  (s_reg_axil_araddr),
-    .s_axil_arprot  (s_reg_axil_arprot),
-    .s_axil_rready  (s_reg_axil_rready),
-    .s_axil_rvalid  (s_reg_axil_rvalid),
-    .s_axil_rdata   (s_reg_axil_rdata),
-    .s_axil_rresp   (s_reg_axil_rresp),
+    .s_cpuif_req            (s_cpuif_req),
+    .s_cpuif_req_is_wr      (s_cpuif_req_is_wr),
+    .s_cpuif_addr           (s_cpuif_addr),
+    .s_cpuif_wr_data        (s_cpuif_wr_data),
+    .s_cpuif_wr_biten       (s_cpuif_wr_biten),
+    .s_cpuif_req_stall_wr   (),
+    .s_cpuif_req_stall_rd   (),
+    .s_cpuif_rd_ack         (s_cpuif_rd_ack),
+    .s_cpuif_rd_err         (),
+    .s_cpuif_rd_data        (s_cpuif_rd_data),
+    .s_cpuif_wr_ack         (s_cpuif_wr_ack),
+    .s_cpuif_wr_err         (),
 
     .hwif_in        (tcp_hwif_in),
     .hwif_out       (tcp_hwif_out)
@@ -70,22 +101,6 @@ logic                           m2s_tx_axis_tlast;
 logic [DEST_WIDTH-1:0]          m2s_tx_axis_tdest;
 logic [USER_WIDTH-1:0]          m2s_tx_axis_tuser;
 
-logic [NUM_TCP*DATA_WIDTH-1:0]  tcp_tx_axis_tdata;
-logic [NUM_TCP*KEEP_WIDTH-1:0]  tcp_tx_axis_tkeep;
-logic [NUM_TCP-1:0]             tcp_tx_axis_tvalid;
-logic [NUM_TCP-1:0]             tcp_tx_axis_tready;
-logic [NUM_TCP-1:0]             tcp_tx_axis_tlast;
-logic [NUM_TCP*DEST_WIDTH-1:0]  tcp_tx_axis_tdest;
-logic [NUM_TCP*USER_WIDTH-1:0]  tcp_tx_axis_tuser;
-
-logic [NUM_TCP*DATA_WIDTH-1:0]  tcp_rx_axis_tdata;
-logic [NUM_TCP*KEEP_WIDTH-1:0]  tcp_rx_axis_tkeep;
-logic [NUM_TCP-1:0]             tcp_rx_axis_tvalid;
-logic [NUM_TCP-1:0]             tcp_rx_axis_tready;
-logic [NUM_TCP-1:0]             tcp_rx_axis_tlast;
-logic [NUM_TCP*DEST_WIDTH-1:0]  tcp_rx_axis_tdest;
-logic [NUM_TCP*USER_WIDTH-1:0]  tcp_rx_axis_tuser;
-
 logic [DATA_WIDTH-1:0]          s2m_rx_axis_tdata;
 logic [KEEP_WIDTH-1:0]          s2m_rx_axis_tkeep;
 logic                           s2m_rx_axis_tvalid;
@@ -94,73 +109,56 @@ logic                           s2m_rx_axis_tlast;
 logic [DEST_WIDTH-1:0]          s2m_rx_axis_tdest;
 logic [USER_WIDTH-1:0]          s2m_rx_axis_tuser;
 
+logic [NUM_TCP-1:0]             tcp_rx_ip_hdr_valid;
+logic [NUM_TCP-1:0]             tcp_rx_ip_hdr_ready;
+logic [NUM_TCP*48-1:0]          tcp_rx_eth_dest_mac;
+logic [NUM_TCP*48-1:0]          tcp_rx_eth_src_mac;
+logic [NUM_TCP*16-1:0]          tcp_rx_eth_type;
+logic [NUM_TCP*4-1:0]           tcp_rx_ip_version;
+logic [NUM_TCP*4-1:0]           tcp_rx_ip_ihl;
+logic [NUM_TCP*6-1:0]           tcp_rx_ip_dscp;
+logic [NUM_TCP*2-1:0]           tcp_rx_ip_ecn;
+logic [NUM_TCP*16-1:0]          tcp_rx_ip_length;
+logic [NUM_TCP*16-1:0]          tcp_rx_ip_identification;
+logic [NUM_TCP*3-1:0]           tcp_rx_ip_flags;
+logic [NUM_TCP*13-1:0]          tcp_rx_ip_fragment_offset;
+logic [NUM_TCP*8-1:0]           tcp_rx_ip_ttl;
+logic [NUM_TCP*8-1:0]           tcp_rx_ip_protocol;
+logic [NUM_TCP*16-1:0]          tcp_rx_ip_header_checksum;
+logic [NUM_TCP*32-1:0]          tcp_rx_ip_source_ip;
+logic [NUM_TCP*32-1:0]          tcp_rx_ip_dest_ip;
+logic [NUM_TCP*DATA_WIDTH-1:0]  tcp_rx_ip_payload_axis_tdata;
+logic [NUM_TCP*KEEP_WIDTH-1:0]  tcp_rx_ip_payload_axis_tkeep;
+logic [NUM_TCP-1:0]             tcp_rx_ip_payload_axis_tvalid;
+logic [NUM_TCP-1:0]             tcp_rx_ip_payload_axis_tready;
+logic [NUM_TCP-1:0]             tcp_rx_ip_payload_axis_tlast;
+logic [NUM_TCP*ID_WIDTH-1:0]    tcp_rx_ip_payload_axis_tid;
+logic [NUM_TCP*DEST_WIDTH-1:0]  tcp_rx_ip_payload_axis_tdest;
+logic [NUM_TCP*USER_WIDTH-1:0]  tcp_rx_ip_payload_axis_tuser;
+
+logic [NUM_TCP-1:0]             tcp_tx_ip_hdr_valid;
+logic [NUM_TCP-1:0]             tcp_tx_ip_hdr_ready;
+logic [NUM_TCP*6-1:0]           tcp_tx_ip_dscp;
+logic [NUM_TCP*2-1:0]           tcp_tx_ip_ecn;
+logic [NUM_TCP*16-1:0]          tcp_tx_ip_length;
+logic [NUM_TCP*8-1:0]           tcp_tx_ip_ttl;
+logic [NUM_TCP*8-1:0]           tcp_tx_ip_protocol;
+logic [NUM_TCP*32-1:0]          tcp_tx_ip_source_ip;
+logic [NUM_TCP*32-1:0]          tcp_tx_ip_dest_ip;
+logic [NUM_TCP*DATA_WIDTH-1:0]  tcp_tx_ip_payload_axis_tdata;
+logic [NUM_TCP-1:0]             tcp_tx_ip_payload_axis_tvalid;
+logic [NUM_TCP-1:0]             tcp_tx_ip_payload_axis_tready;
+logic [NUM_TCP-1:0]             tcp_tx_ip_payload_axis_tlast;
+logic [NUM_TCP*USER_WIDTH-1:0]  tcp_tx_ip_payload_axis_tuser;
+
 
 //m2s dma
 
 //s2m dma
 
-// tx_stream demux
-axis_demux   #(
-    .M_COUNT(NUM_TCP),
-    .DATA_WIDTH(DATA_WIDTH),
-    .M_DEST_WIDTH(DEST_WIDTH),
-    .DEST_ENABLE(1),
-    .TDEST_ROUTE(1)
-) tx_stream_demux (
-    .clk            (i_clk),
-    .rst            (i_rst),
+// tx_stream demux (ip)
 
-    .s_axis_tdata   (m2s_tx_axis_tdata),
-    .s_axis_tkeep   (m2s_tx_axis_tkeep),
-    .s_axis_tvalid  (m2s_tx_axis_tvalid),
-    .s_axis_tready  (m2s_tx_axis_tready),
-    .s_axis_tlast   (m2s_tx_axis_tlast),
-    .s_axis_tid     ('0),
-    .s_axis_tdest   (m2s_tx_axis_tdest),
-    .s_axis_tuser   (m2s_tx_axis_tuser),
-
-    .m_axis_tdata   (tcp_tx_axis_tdata),
-    .m_axis_tkeep   (tcp_tx_axis_tkeep),
-    .m_axis_tvalid  (tcp_tx_axis_tvalid),
-    .m_axis_tready  (tcp_tx_axis_tready),
-    .m_axis_tlast   (tcp_tx_axis_tlast),
-    .m_axis_tid     (),
-    .m_axis_tdest   (tcp_tx_axis_tdest),
-    .m_axis_tuser   (tcp_tx_axis_tuser),
-
-    .enable         ('1),
-    .drop           ('0),
-    .select         ('0)
-);
-
-// rx_stream arb
-axis_arb_mux #(
-    .S_COUNT(NUM_TCP),
-    .DATA_WIDTH(DATA_WIDTH),
-    .DEST_ENABLE(1),
-    .DEST_WIDTH(8)
-) rx_stream_demux (
-    .clk            (i_clk),
-    .rst            (i_rst),
-
-    .s_axis_tdata   (tcp_rx_axis_tdata),
-    .s_axis_tkeep   (tcp_rx_axis_tkeep),
-    .s_axis_tvalid  (tcp_rx_axis_tvalid),
-    .s_axis_tready  (tcp_rx_axis_tready),
-    .s_axis_tlast   (tcp_rx_axis_tlast),
-    .s_axis_tid     ('0),
-    .s_axis_tdest   (tcp_rx_axis_tdest),
-    .s_axis_tuser   (tcp_rx_axis_tuser),
-
-    .m_axis_tdata   (s2m_rx_axis_tdata),
-    .m_axis_tkeep   (s2m_rx_axis_tkeep),
-    .m_axis_tvalid  (s2m_rx_axis_tvalid),
-    .m_axis_tready  (s2m_rx_axis_tready),
-    .m_axis_tlast   (s2m_rx_axis_tlast),
-    .m_axis_tid     (),
-    .m_axis_tdest   (s2m_rx_axis_tdest),
-    .m_axis_tuser   (s2m_rx_axis_tuser)
-);
+// rx_stream arb (ip)
 
 
 generate
@@ -195,22 +193,6 @@ generate
             .s_cpuif_rd_data        (tcp_hwif_in.tcp_streams[i].rd_data),
             .s_cpuif_wr_ack         (tcp_hwif_in.tcp_streams[i].wr_ack),
             .s_cpuif_wr_err         (),
-
-            .s_axis_tdata           (tcp_tx_axis_tdata[i*DATA_WIDTH+:DATA_WIDTH]),
-            .s_axis_tkeep           (tcp_tx_axis_tkeep[i*KEEP_WIDTH+:KEEP_WIDTH]),
-            .s_axis_tvalid          (tcp_tx_axis_tvalid[i]),
-            .s_axis_tready          (tcp_tx_axis_tready[i]),
-            .s_axis_tlast           (tcp_tx_axis_tlast[i]),
-            .s_axis_tdest           (tcp_tx_axis_tdest[i*DEST_WIDTH+:DEST_WIDTH]),
-            .s_axis_tuser           (tcp_tx_axis_tuser[i*USER_WIDTH+:USER_WIDTH]),
-
-            .m_axis_tdata           (tcp_rx_axis_tdata[i*DATA_WIDTH+:DATA_WIDTH]),
-            .m_axis_tkeep           (tcp_rx_axis_tkeep[i*KEEP_WIDTH+:KEEP_WIDTH]),
-            .m_axis_tvalid          (tcp_rx_axis_tvalid[i]),
-            .m_axis_tready          (tcp_rx_axis_tready[i]),
-            .m_axis_tlast           (tcp_rx_axis_tlast[i]),
-            .m_axis_tdest           (tcp_rx_axis_tdest[i*DEST_WIDTH+:DEST_WIDTH]),
-            .m_axis_tuser           (tcp_rx_axis_tuser[i*USER_WIDTH+:USER_WIDTH])
         );
     end
 endgenerate
