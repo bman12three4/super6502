@@ -5,3 +5,4 @@ src/sub/network_processor/sources.list
 src/sub/rtl-common/sources.list
 src/sub/sd_controller_wrapper/sources.list
 src/sub/wb2axip/sources.list
+src/sub/verilog-ethernet/sources.list
