@@ -19,6 +19,7 @@
 
 # Drawio temp files.
 *.bkp
+*.dtmp
 
 *.mem
 sim_top
