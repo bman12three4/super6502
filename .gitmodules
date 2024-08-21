@@ -16,3 +16,6 @@
 [submodule "hw/super6502_fpga/src/sub/verilog-ethernet"]
 	path = hw/super6502_fpga/src/sub/verilog-ethernet
 	url = ../verilog-ethernet.git
+[submodule "hw/super6502_fpga/src/sub/stream_dmas"]
+	path = hw/super6502_fpga/src/sub/stream_dmas
+	url = ../stream_dmas.git
