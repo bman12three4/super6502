@@ -8,8 +8,8 @@ module eth_wrapper #(
     /*
      * AXI input
      */
-    input  wire [MAC_DATA_WIDTH-1:0] tx_axis_tdata,
-    input  wire [MAC_KEEP_WIDTH-1:0] tx_axis_tkeep,
+    input  wire [MAC_DATA_WIDTH-1:0]  tx_axis_tdata,
+    input  wire [MAC_KEEP_WIDTH-1:0]  tx_axis_tkeep,
     input  wire                       tx_axis_tvalid,
     output wire                       tx_axis_tready,
     input  wire                       tx_axis_tlast,
@@ -18,8 +18,8 @@ module eth_wrapper #(
     /*
      * AXI output
      */
-    output wire [MAC_DATA_WIDTH-1:0] rx_axis_tdata,
-    output wire [MAC_KEEP_WIDTH-1:0] rx_axis_tkeep,
+    output wire [MAC_DATA_WIDTH-1:0]  rx_axis_tdata,
+    output wire [MAC_KEEP_WIDTH-1:0]  rx_axis_tkeep,
     output wire                       rx_axis_tvalid,
     input  wire                       rx_axis_tready,
     output wire                       rx_axis_tlast,
