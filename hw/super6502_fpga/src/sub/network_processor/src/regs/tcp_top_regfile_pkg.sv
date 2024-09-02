@@ -18,7 +18,7 @@ package tcp_top_regfile_pkg;
 
     typedef struct {
         logic req;
-        logic [4:0] addr;
+        logic [5:0] addr;
         logic req_is_wr;
         logic [31:0] wr_data;
         logic [31:0] wr_biten;

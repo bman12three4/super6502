@@ -99,8 +99,8 @@ module tcp_top_regfile (
         automatic logic is_external;
         is_external = '0;
         for(int i0=0; i0<8; i0++) begin
-            decoded_reg_strb.tcp_streams[i0] = cpuif_req_masked & (cpuif_addr >= 9'h0 + i0*9'h40) & (cpuif_addr <= 9'h0 + i0*9'h40 + 9'h13);
-            is_external |= cpuif_req_masked & (cpuif_addr >= 9'h0 + i0*9'h40) & (cpuif_addr <= 9'h0 + i0*9'h40 + 9'h13);
+            decoded_reg_strb.tcp_streams[i0] = cpuif_req_masked & (cpuif_addr >= 9'h0 + i0*9'h40) & (cpuif_addr <= 9'h0 + i0*9'h40 + 9'h2f);
+            is_external |= cpuif_req_masked & (cpuif_addr >= 9'h0 + i0*9'h40) & (cpuif_addr <= 9'h0 + i0*9'h40 + 9'h2f);
         end
         decoded_strb_is_external = is_external;
         external_req = is_external;
@@ -123,7 +123,7 @@ module tcp_top_regfile (
 
     for(genvar i0=0; i0<8; i0++) begin
         assign hwif_out.tcp_streams[i0].req = decoded_reg_strb.tcp_streams[i0];
-        assign hwif_out.tcp_streams[i0].addr = decoded_addr[4:0];
+        assign hwif_out.tcp_streams[i0].addr = decoded_addr[5:0];
         assign hwif_out.tcp_streams[i0].req_is_wr = decoded_req_is_wr;
         assign hwif_out.tcp_streams[i0].wr_data = decoded_wr_data;
         assign hwif_out.tcp_streams[i0].wr_biten = decoded_wr_biten;

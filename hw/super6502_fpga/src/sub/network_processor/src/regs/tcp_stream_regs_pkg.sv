@@ -4,7 +4,7 @@
 package tcp_stream_regs_pkg;
 
     localparam TCP_STREAM_REGS_DATA_WIDTH = 32;
-    localparam TCP_STREAM_REGS_MIN_ADDR_WIDTH = 5;
+    localparam TCP_STREAM_REGS_MIN_ADDR_WIDTH = 6;
 
     typedef struct {
         logic hwclr;
@@ -25,7 +25,14 @@ package tcp_stream_regs_pkg;
     } tcp_stream_regs__control__in_t;
 
     typedef struct {
+        logic rd_ack;
+        logic [31:0] rd_data;
+        logic wr_ack;
+    } m2s_dma_regs__external__in_t;
+
+    typedef struct {
         tcp_stream_regs__control__in_t control;
+        m2s_dma_regs__external__in_t m2s_dma_regs;
     } tcp_stream_regs__in_t;
 
     typedef struct {
@@ -79,10 +86,19 @@ package tcp_stream_regs_pkg;
     } tcp_stream_regs__control__out_t;
 
     typedef struct {
+        logic req;
+        logic [3:0] addr;
+        logic req_is_wr;
+        logic [31:0] wr_data;
+        logic [31:0] wr_biten;
+    } m2s_dma_regs__external__out_t;
+
+    typedef struct {
         tcp_stream_regs__source_port__out_t source_port;
         tcp_stream_regs__source_ip__out_t source_ip;
         tcp_stream_regs__dest_port__out_t dest_port;
         tcp_stream_regs__dest_ip__out_t dest_ip;
         tcp_stream_regs__control__out_t control;
+        m2s_dma_regs__external__out_t m2s_dma_regs;
     } tcp_stream_regs__out_t;
 endpackage

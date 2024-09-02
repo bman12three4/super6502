@@ -21,9 +21,14 @@ module tcp_stream #(
     output wire s_cpuif_wr_err,
 
     ip_intf.SLAVE s_ip_rx,
-    ip_intf.MASTER m_ip_tx
+    ip_intf.MASTER m_ip_tx,
+
+    axil_intf.MASTER m_m2s_axil,
+    axil_intf.MASTER m_s2m_axil
 );
 
+axis_intf m2s_axis();
+axis_intf s2m_axis();
 
 // regs
 tcp_stream_regs_pkg::tcp_stream_regs__in_t hwif_in;
@@ -49,6 +54,29 @@ tcp_stream_regs u_tcp_stream_regs (
 
     .hwif_in                (hwif_in),
     .hwif_out               (hwif_out)
+);
+
+m2s_dma #(
+    .AXIS_DATA_WIDTH(DATA_WIDTH)
+) u_m2s_dma (
+    .i_clk                      (i_clk),
+    .i_rst                      (i_rst),
+
+    .s_cpuif_req                (hwif_out.m2s_dma_regs.req),
+    .s_cpuif_req_is_wr          (hwif_out.m2s_dma_regs.req_is_wr),
+    .s_cpuif_addr               (hwif_out.m2s_dma_regs.addr),
+    .s_cpuif_wr_data            (hwif_out.m2s_dma_regs.wr_data),
+    .s_cpuif_wr_biten           (hwif_out.m2s_dma_regs.wr_biten),
+    .s_cpuif_req_stall_wr       (),
+    .s_cpuif_req_stall_rd       (),
+    .s_cpuif_rd_ack             (hwif_in.m2s_dma_regs.rd_ack),
+    .s_cpuif_rd_err             (),
+    .s_cpuif_rd_data            (hwif_in.m2s_dma_regs.rd_data),
+    .s_cpuif_wr_ack             (hwif_in.m2s_dma_regs.wr_ack),
+    .s_cpuif_wr_err             (),
+
+    .m_axil                     (m_m2s_axil),
+    .m_axis                     (m2s_axis)
 );
 
 // tcp state manager

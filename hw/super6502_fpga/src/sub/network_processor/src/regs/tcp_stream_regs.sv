@@ -7,7 +7,7 @@ module tcp_stream_regs (
 
         input wire s_cpuif_req,
         input wire s_cpuif_req_is_wr,
-        input wire [4:0] s_cpuif_addr,
+        input wire [5:0] s_cpuif_addr,
         input wire [31:0] s_cpuif_wr_data,
         input wire [31:0] s_cpuif_wr_biten,
         output wire s_cpuif_req_stall_wr,
@@ -27,7 +27,7 @@ module tcp_stream_regs (
     //--------------------------------------------------------------------------
     logic cpuif_req;
     logic cpuif_req_is_wr;
-    logic [4:0] cpuif_addr;
+    logic [5:0] cpuif_addr;
     logic [31:0] cpuif_wr_data;
     logic [31:0] cpuif_wr_biten;
     logic cpuif_req_stall_wr;
@@ -54,10 +54,27 @@ module tcp_stream_regs (
     assign s_cpuif_wr_err = cpuif_wr_err;
 
     logic cpuif_req_masked;
+    logic external_req;
+    logic external_pending;
+    logic external_wr_ack;
+    logic external_rd_ack;
+    always_ff @(posedge clk) begin
+        if(rst) begin
+            external_pending <= '0;
+        end else begin
+            if(external_req & ~external_wr_ack & ~external_rd_ack) external_pending <= '1;
+            else if(external_wr_ack | external_rd_ack) external_pending <= '0;
+            assert(!external_wr_ack || (external_pending | external_req))
+                else $error("An external wr_ack strobe was asserted when no external request was active");
+            assert(!external_rd_ack || (external_pending | external_req))
+                else $error("An external rd_ack strobe was asserted when no external request was active");
+        end
+    end
 
     // Read & write latencies are balanced. Stalls not required
-    assign cpuif_req_stall_rd = '0;
-    assign cpuif_req_stall_wr = '0;
+    // except if external
+    assign cpuif_req_stall_rd = external_pending;
+    assign cpuif_req_stall_wr = external_pending;
     assign cpuif_req_masked = cpuif_req
                             & !(!cpuif_req_is_wr & cpuif_req_stall_rd)
                             & !(cpuif_req_is_wr & cpuif_req_stall_wr);
@@ -71,22 +88,35 @@ module tcp_stream_regs (
         logic dest_port;
         logic dest_ip;
         logic control;
+        logic m2s_dma_regs;
     } decoded_reg_strb_t;
     decoded_reg_strb_t decoded_reg_strb;
+    logic decoded_strb_is_external;
+
+    logic [5:0] decoded_addr;
+
     logic decoded_req;
     logic decoded_req_is_wr;
     logic [31:0] decoded_wr_data;
     logic [31:0] decoded_wr_biten;
 
     always_comb begin
-        decoded_reg_strb.source_port = cpuif_req_masked & (cpuif_addr == 5'h0);
-        decoded_reg_strb.source_ip = cpuif_req_masked & (cpuif_addr == 5'h4);
-        decoded_reg_strb.dest_port = cpuif_req_masked & (cpuif_addr == 5'h8);
-        decoded_reg_strb.dest_ip = cpuif_req_masked & (cpuif_addr == 5'hc);
-        decoded_reg_strb.control = cpuif_req_masked & (cpuif_addr == 5'h10);
+        automatic logic is_external;
+        is_external = '0;
+        decoded_reg_strb.source_port = cpuif_req_masked & (cpuif_addr == 6'h0);
+        decoded_reg_strb.source_ip = cpuif_req_masked & (cpuif_addr == 6'h4);
+        decoded_reg_strb.dest_port = cpuif_req_masked & (cpuif_addr == 6'h8);
+        decoded_reg_strb.dest_ip = cpuif_req_masked & (cpuif_addr == 6'hc);
+        decoded_reg_strb.control = cpuif_req_masked & (cpuif_addr == 6'h10);
+        decoded_reg_strb.m2s_dma_regs = cpuif_req_masked & (cpuif_addr >= 6'h20) & (cpuif_addr <= 6'h20 + 6'hf);
+        is_external |= cpuif_req_masked & (cpuif_addr >= 6'h20) & (cpuif_addr <= 6'h20 + 6'hf);
+        decoded_strb_is_external = is_external;
+        external_req = is_external;
     end
 
     // Pass down signals to next stage
+    assign decoded_addr = cpuif_addr;
+
     assign decoded_req = cpuif_req_masked;
     assign decoded_req_is_wr = cpuif_req_is_wr;
     assign decoded_wr_data = cpuif_wr_data;
@@ -325,24 +355,46 @@ module tcp_stream_regs (
         end
     end
     assign hwif_out.control.close.value = field_storage.control.close.value;
+    assign hwif_out.m2s_dma_regs.req = decoded_reg_strb.m2s_dma_regs;
+    assign hwif_out.m2s_dma_regs.addr = decoded_addr[4:0];
+    assign hwif_out.m2s_dma_regs.req_is_wr = decoded_req_is_wr;
+    assign hwif_out.m2s_dma_regs.wr_data = decoded_wr_data;
+    assign hwif_out.m2s_dma_regs.wr_biten = decoded_wr_biten;
 
     //--------------------------------------------------------------------------
     // Write response
     //--------------------------------------------------------------------------
-    assign cpuif_wr_ack = decoded_req & decoded_req_is_wr;
+    always_comb begin
+        automatic logic wr_ack;
+        wr_ack = '0;
+        wr_ack |= hwif_in.m2s_dma_regs.wr_ack;
+        external_wr_ack = wr_ack;
+    end
+    assign cpuif_wr_ack = external_wr_ack | (decoded_req & decoded_req_is_wr & ~decoded_strb_is_external);
     // Writes are always granted with no error response
     assign cpuif_wr_err = '0;
 
     //--------------------------------------------------------------------------
     // Readback
     //--------------------------------------------------------------------------
+    logic readback_external_rd_ack_c;
+    always_comb begin
+        automatic logic rd_ack;
+        rd_ack = '0;
+        rd_ack |= hwif_in.m2s_dma_regs.rd_ack;
+        readback_external_rd_ack_c = rd_ack;
+    end
+
+    logic readback_external_rd_ack;
+
+    assign readback_external_rd_ack = readback_external_rd_ack_c;
 
     logic readback_err;
     logic readback_done;
     logic [31:0] readback_data;
 
     // Assign readback values to a flattened array
-    logic [31:0] readback_array[5];
+    logic [31:0] readback_array[6];
     assign readback_array[0][31:0] = (decoded_reg_strb.source_port && !decoded_req_is_wr) ? field_storage.source_port.d.value : '0;
     assign readback_array[1][31:0] = (decoded_reg_strb.source_ip && !decoded_req_is_wr) ? field_storage.source_ip.d.value : '0;
     assign readback_array[2][31:0] = (decoded_reg_strb.dest_port && !decoded_req_is_wr) ? field_storage.dest_port.d.value : '0;
@@ -352,18 +404,20 @@ module tcp_stream_regs (
     assign readback_array[4][2:2] = (decoded_reg_strb.control && !decoded_req_is_wr) ? field_storage.control.close.value : '0;
     assign readback_array[4][5:3] = (decoded_reg_strb.control && !decoded_req_is_wr) ? hwif_in.control.state.next : '0;
     assign readback_array[4][31:6] = '0;
+    assign readback_array[5] = hwif_in.m2s_dma_regs.rd_ack ? hwif_in.m2s_dma_regs.rd_data : '0;
 
     // Reduce the array
     always_comb begin
         automatic logic [31:0] readback_data_var;
-        readback_done = decoded_req & ~decoded_req_is_wr;
+        readback_done = decoded_req & ~decoded_req_is_wr & ~decoded_strb_is_external;
         readback_err = '0;
         readback_data_var = '0;
-        for(int i=0; i<5; i++) readback_data_var |= readback_array[i];
+        for(int i=0; i<6; i++) readback_data_var |= readback_array[i];
         readback_data = readback_data_var;
     end
 
-    assign cpuif_rd_ack = readback_done;
+    assign external_rd_ack = readback_external_rd_ack;
+    assign cpuif_rd_ack = readback_done | readback_external_rd_ack;
     assign cpuif_rd_data = readback_data;
     assign cpuif_rd_err = readback_err;
 endmodule

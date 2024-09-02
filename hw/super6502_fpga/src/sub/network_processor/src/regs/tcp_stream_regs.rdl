@@ -132,4 +132,6 @@ addrmap tcp_stream_regs {
 
         } rx_bad_crc @ 0x8;
     };
+
+    external m2s_dma_regs m2s_dma_regs @ 0x20;
 };

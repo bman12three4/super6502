@@ -31,9 +31,7 @@ module tcp #(
     /*
     * AXI DMA Interface
     */
-    axil_intf.MASTER                    m_dma_m2s_axi,
-    axil_intf.MASTER                    m_dma_s2m_axi
-
+    axil_intf.MASTER                    m_dma_axil
 );
 
 tcp_top_regfile_pkg::tcp_top_regfile__in_t tcp_hwif_in;
@@ -88,8 +86,17 @@ wire    [NUM_TCP-1:0]       xbar_s_m2s_axi_rready;
 wire    [NUM_TCP*32-1:0]    xbar_s_m2s_axi_rdata;
 wire    [NUM_TCP*2-1:0]     xbar_s_m2s_axi_rresp;
 
+wire    [NUM_TCP-1:0]       xbar_s_s2m_axi_arvalid;
+wire    [NUM_TCP-1:0]       xbar_s_s2m_axi_arready;
+wire    [NUM_TCP*32-1:0]    xbar_s_s2m_axi_araddr;
+wire    [NUM_TCP*3-1:0]     xbar_s_s2m_axi_arprot;
+wire    [NUM_TCP-1:0]       xbar_s_s2m_axi_rvalid;
+wire    [NUM_TCP-1:0]       xbar_s_s2m_axi_rready;
+wire    [NUM_TCP*32-1:0]    xbar_s_s2m_axi_rdata;
+wire    [NUM_TCP*2-1:0]     xbar_s_s2m_axi_rresp;
+
 axilxbar #(
-    .NM(NUM_TCP),
+    .NM(NUM_TCP*2),
     .NS(1),
     .SLAVE_ADDR(
         {32'h0, 32'hffffffff}   // full address space
@@ -111,14 +118,14 @@ axilxbar #(
     .S_AXI_BREADY       ('0),
     .S_AXI_BRESP        (),
 
-    .S_AXI_ARVALID      (xbar_s_m2s_axi_arvalid),
-    .S_AXI_ARREADY      (xbar_s_m2s_axi_arready),
-    .S_AXI_ARADDR       (xbar_s_m2s_axi_araddr),
-    .S_AXI_ARPROT       (xbar_s_m2s_axi_arprot),
-    .S_AXI_RVALID       (xbar_s_m2s_axi_rvalid),
-    .S_AXI_RREADY       (xbar_s_m2s_axi_rready),
-    .S_AXI_RDATA        (xbar_s_m2s_axi_rdata),
-    .S_AXI_RRESP        (xbar_s_m2s_axi_rresp),
+    .S_AXI_ARVALID      ({xbar_s_m2s_axi_arvalid,   xbar_s_s2m_axi_arvalid  }),
+    .S_AXI_ARREADY      ({xbar_s_m2s_axi_arready,   xbar_s_s2m_axi_arready  }),
+    .S_AXI_ARADDR       ({xbar_s_m2s_axi_araddr,    xbar_s_s2m_axi_araddr   }),
+    .S_AXI_ARPROT       ({xbar_s_m2s_axi_arprot,    xbar_s_s2m_axi_arprot   }),
+    .S_AXI_RVALID       ({xbar_s_m2s_axi_rvalid,    xbar_s_s2m_axi_rvalid   }),
+    .S_AXI_RREADY       ({xbar_s_m2s_axi_rready,    xbar_s_s2m_axi_rready   }),
+    .S_AXI_RDATA        ({xbar_s_m2s_axi_rdata,     xbar_s_s2m_axi_rdata    }),
+    .S_AXI_RRESP        ({xbar_s_m2s_axi_rresp,     xbar_s_s2m_axi_rresp    }),
 
     .M_AXI_AWADDR       (),
     .M_AXI_AWPROT       (),
@@ -132,30 +139,18 @@ axilxbar #(
     .M_AXI_BVALID       ('0),
     .M_AXI_BREADY       (),
 
-    .M_AXI_ARADDR       (m_dma_s2m_axi.araddr),
-    .M_AXI_ARPROT       (m_dma_s2m_axi.arprot),
-    .M_AXI_ARVALID      (m_dma_s2m_axi.arvalid),
-    .M_AXI_ARREADY      (m_dma_s2m_axi.arready),
-    .M_AXI_RDATA        (m_dma_s2m_axi.rdata),
-    .M_AXI_RRESP        (m_dma_s2m_axi.rresp),
-    .M_AXI_RVALID       (m_dma_s2m_axi.rvalid),
-    .M_AXI_RREADY       (m_dma_s2m_axi.rready)
+    .M_AXI_ARADDR       (m_dma_axil.araddr),
+    .M_AXI_ARPROT       (m_dma_axil.arprot),
+    .M_AXI_ARVALID      (m_dma_axil.arvalid),
+    .M_AXI_ARREADY      (m_dma_axil.arready),
+    .M_AXI_RDATA        (m_dma_axil.rdata),
+    .M_AXI_RRESP        (m_dma_axil.rresp),
+    .M_AXI_RVALID       (m_dma_axil.rvalid),
+    .M_AXI_RREADY       (m_dma_axil.rready)
 );
 
 generate
     for (genvar i = 0; i < NUM_TCP; i++) begin
-        logic req;
-        logic req_is_wr;
-        logic [5:0] addr;
-        logic [31:0] wr_data;
-        logic [31:0] wr_biten;
-
-        assign req = tcp_hwif_out.tcp_streams[i].req;
-        assign req_is_wr = tcp_hwif_out.tcp_streams[i].req_is_wr;
-        assign addr = tcp_hwif_out.tcp_streams[i].addr;
-        assign wr_data = tcp_hwif_out.tcp_streams[i].wr_data;
-        assign wr_biten = tcp_hwif_out.tcp_streams[i].wr_biten;
-
         assign xbar_s_m2s_axi_arvalid[i] = m2s_stream_axil[i].arvalid;
         assign m2s_stream_axil[i].arready = xbar_s_m2s_axi_arready[i];
         assign xbar_s_m2s_axi_araddr[32*i+:32] = m2s_stream_axil[i].araddr;
@@ -165,28 +160,14 @@ generate
         assign m2s_stream_axil[i].rdata = xbar_s_m2s_axi_rdata[32*i+:32];
         assign m2s_stream_axil[i].rresp = xbar_s_m2s_axi_rresp[2*i+:2];
 
-        m2s_dma #(
-            .AXIS_DATA_WIDTH(8)
-        ) u_m2s_dma (
-            .i_clk                      (i_clk),
-            .i_rst                      (i_rst),
-
-            .s_cpuif_req                (req),
-            .s_cpuif_req_is_wr          (req_is_wr),
-            .s_cpuif_addr               (addr),
-            .s_cpuif_wr_data            (wr_data),
-            .s_cpuif_wr_biten           (wr_biten),
-            .s_cpuif_req_stall_wr       (),
-            .s_cpuif_req_stall_rd       (),
-            .s_cpuif_rd_ack             (tcp_hwif_in.tcp_streams[i].rd_ack),
-            .s_cpuif_rd_err             (),
-            .s_cpuif_rd_data            (tcp_hwif_in.tcp_streams[i].rd_data),
-            .s_cpuif_wr_ack             (tcp_hwif_in.tcp_streams[i].wr_ack),
-            .s_cpuif_wr_err             (),
-
-            .m_axil                     (m2s_stream_axil[i]),
-            .m_axis                     (tcp_stream_rx_axis[i])
-        );
+        assign xbar_s_s2m_axi_arvalid[i] = s2m_stream_axil[i].arvalid;
+        assign s2m_stream_axil[i].arready = xbar_s_s2m_axi_arready[i];
+        assign xbar_s_s2m_axi_araddr[32*i+:32] = s2m_stream_axil[i].araddr;
+        assign xbar_s_s2m_axi_arprot[3*i+:3] = s2m_stream_axil[i].arprot;
+        assign s2m_stream_axil[i].rvalid = xbar_s_s2m_axi_rvalid[i];
+        assign xbar_s_s2m_axi_rready[i] = s2m_stream_axil[i].rready;
+        assign s2m_stream_axil[i].rdata = xbar_s_s2m_axi_rdata[32*i+:32];
+        assign s2m_stream_axil[i].rresp = xbar_s_s2m_axi_rresp[2*i+:2];
     end
 endgenerate
 
@@ -213,18 +194,6 @@ ip_arb_mux_wrapper #(
 generate
 
     for (genvar i = 0; i < NUM_TCP; i++) begin
-        logic req;
-        logic req_is_wr;
-        logic [5:0] addr;
-        logic [31:0] wr_data;
-        logic [31:0] wr_biten;
-
-        assign req = tcp_hwif_out.tcp_streams[i].req;
-        assign req_is_wr = tcp_hwif_out.tcp_streams[i].req_is_wr;
-        assign addr = tcp_hwif_out.tcp_streams[i].addr;
-        assign wr_data = tcp_hwif_out.tcp_streams[i].wr_data;
-        assign wr_biten = tcp_hwif_out.tcp_streams[i].wr_biten;
-
         tcp_stream u_tcp_stream (
             .clk                        (i_clk),
             .rst                        (i_rst),
@@ -244,7 +213,10 @@ generate
             .s_cpuif_wr_err             (),
 
             .s_ip_rx                    (tcp_stream_rx_ip[i]),
-            .m_ip_tx                    (tcp_stream_tx_ip[i])
+            .m_ip_tx                    (tcp_stream_tx_ip[i]),
+
+            .m_m2s_axil                 (m2s_stream_axil[i]),
+            .m_s2m_axil                 (s2m_stream_axil[i])
         );
     end
 endgenerate

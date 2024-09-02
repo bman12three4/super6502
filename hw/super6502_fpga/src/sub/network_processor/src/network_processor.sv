@@ -333,7 +333,6 @@ tcp #(
     .s_ip                               (proto_rx_ip[TCP_IDX]),
     .m_ip                               (proto_tx_ip[TCP_IDX]),
 
-    .m_dma_m2s_axi                      (m_dma_axil), // HACK
-    .m_dma_s2m_axi                      (dummy)
+    .m_dma_axil                         (m_dma_axil)
 );
 endmodule
