@@ -9,7 +9,7 @@ module tcp_stream #(
 
     input wire s_cpuif_req,
     input wire s_cpuif_req_is_wr,
-    input wire [4:0] s_cpuif_addr,
+    input wire [5:0] s_cpuif_addr,
     input wire [31:0] s_cpuif_wr_data,
     input wire [31:0] s_cpuif_wr_biten,
     output wire s_cpuif_req_stall_wr,
@@ -29,6 +29,8 @@ module tcp_stream #(
 
 axis_intf m2s_axis();
 axis_intf s2m_axis();
+
+axis_intf m2s_post_saf_axis();
 
 // regs
 tcp_stream_regs_pkg::tcp_stream_regs__in_t hwif_in;
@@ -59,8 +61,8 @@ tcp_stream_regs u_tcp_stream_regs (
 m2s_dma #(
     .AXIS_DATA_WIDTH(DATA_WIDTH)
 ) u_m2s_dma (
-    .i_clk                      (i_clk),
-    .i_rst                      (i_rst),
+    .i_clk                      (clk),
+    .i_rst                      (rst),
 
     .s_cpuif_req                (hwif_out.m2s_dma_regs.req),
     .s_cpuif_req_is_wr          (hwif_out.m2s_dma_regs.req_is_wr),
@@ -78,6 +80,44 @@ m2s_dma #(
     .m_axil                     (m_m2s_axil),
     .m_axis                     (m2s_axis)
 );
+
+// SAF
+axis_fifo #(
+    .DEPTH(4096),
+    .DATA_WIDTH(DATA_WIDTH),
+    .FRAME_FIFO(1)
+) m2s_saf_fifo (
+    .clk                        (clk),
+    .rst                        (rst),
+
+    .s_axis_tdata               (m2s_axis.tdata),
+    .s_axis_tkeep               (m2s_axis.tkeep),
+    .s_axis_tvalid              (m2s_axis.tvalid),
+    .s_axis_tready              (m2s_axis.tready),
+    .s_axis_tlast               (m2s_axis.tlast),
+    .s_axis_tid                 (m2s_axis.tid),
+    .s_axis_tdest               (m2s_axis.tdest),
+    .s_axis_tuser               (m2s_axis.tuser),
+
+    .m_axis_tdata               (m2s_post_saf_axis.tdata),
+    .m_axis_tkeep               (m2s_post_saf_axis.tkeep),
+    .m_axis_tvalid              (m2s_post_saf_axis.tvalid),
+    .m_axis_tready              (m2s_post_saf_axis.tready),
+    .m_axis_tlast               (m2s_post_saf_axis.tlast),
+    .m_axis_tid                 (m2s_post_saf_axis.tid),
+    .m_axis_tdest               (m2s_post_saf_axis.tdest),
+    .m_axis_tuser               (m2s_post_saf_axis.tuser),
+
+    .pause_req                  ('0),
+    .pause_ack                  (),
+
+    .status_depth               (),
+    .status_depth_commit        (),
+    .status_overflow            (),
+    .status_bad_frame           (),
+    .status_good_frame          ()
+);
+
 
 // tcp state manager
 

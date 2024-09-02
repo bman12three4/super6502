@@ -7,7 +7,7 @@ module tcp #(
 
     input  wire                         s_cpuif_req,
     input  wire                         s_cpuif_req_is_wr,
-    input  wire [4:0]                   s_cpuif_addr,
+    input  wire [8:0]                   s_cpuif_addr,
     input  wire [31:0]                  s_cpuif_wr_data,
     input  wire [31:0]                  s_cpuif_wr_biten,
     output wire                         s_cpuif_req_stall_wr,
@@ -193,7 +193,19 @@ ip_arb_mux_wrapper #(
 
 generate
 
-    for (genvar i = 0; i < NUM_TCP; i++) begin
+    for (genvar i = 0; i < NUM_TCP; i++) begin : TCP_STREAMS
+        logic req;
+        logic req_is_wr;
+        logic [5:0] addr;
+        logic [31:0] wr_data;
+        logic [31:0] wr_biten;
+
+        assign req = tcp_hwif_out.tcp_streams[i].req;
+        assign req_is_wr = tcp_hwif_out.tcp_streams[i].req_is_wr;
+        assign addr = tcp_hwif_out.tcp_streams[i].addr;
+        assign wr_data = tcp_hwif_out.tcp_streams[i].wr_data;
+        assign wr_biten = tcp_hwif_out.tcp_streams[i].wr_biten;
+
         tcp_stream u_tcp_stream (
             .clk                        (i_clk),
             .rst                        (i_rst),

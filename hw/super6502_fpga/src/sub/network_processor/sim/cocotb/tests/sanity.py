@@ -39,6 +39,18 @@ async def test_simple(dut):
 
     await tb.cycle_reset()
 
-    await tb.axil_master.write_dword(0, 0xffff)
+    test_data = bytearray([x % 256 for x in range(256)])
+
+    tb.axil_ram.write(0x1000, test_data)
+    tb.axil_ram.write(0x2000, test_data)
+
+    tb.axil_ram.write_dword(0x00000400, 0x00001000)
+    tb.axil_ram.write_dword(0x00000404, 64)
+    tb.axil_ram.write_dword(0x00000408, 0)
+    tb.axil_ram.write_dword(0x0000040c, 0x000000400)
+
+    await tb.axil_master.write_dword(0x22c, 0x000)
+    await tb.axil_master.write_dword(0x220, 0x400)
+    await tb.axil_master.write_dword(0x224, 0x400)
 
     await Timer(Decimal(CLK_PERIOD_NS * 400), units='ns')
