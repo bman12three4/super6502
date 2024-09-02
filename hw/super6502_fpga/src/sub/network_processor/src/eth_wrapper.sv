@@ -5,25 +5,8 @@ module eth_wrapper #(
     input  wire                       rst,
     input  wire                       clk_sys,
 
-    /*
-     * AXI input
-     */
-    input  wire [MAC_DATA_WIDTH-1:0]  tx_axis_tdata,
-    input  wire [MAC_KEEP_WIDTH-1:0]  tx_axis_tkeep,
-    input  wire                       tx_axis_tvalid,
-    output wire                       tx_axis_tready,
-    input  wire                       tx_axis_tlast,
-    input  wire                       tx_axis_tuser,
-
-    /*
-     * AXI output
-     */
-    output wire [MAC_DATA_WIDTH-1:0]  rx_axis_tdata,
-    output wire [MAC_KEEP_WIDTH-1:0]  rx_axis_tkeep,
-    output wire                       rx_axis_tvalid,
-    input  wire                       rx_axis_tready,
-    output wire                       rx_axis_tlast,
-    output wire                       rx_axis_tuser,
+    axis_intf.SLAVE                   tx_axis,
+    axis_intf.MASTER                  rx_axis,
 
     /*
      * MII interface
@@ -105,28 +88,28 @@ eth_mac_mii_fifo #(
     .RX_FIFO_RAM_PIPELINE(1),
     .RX_FRAME_FIFO(1)
 ) u_mac (
-    .rst                (reset),
-    .logic_clk          (clk_100),
-    .logic_rst          (reset),
+    .rst                (rst),
+    .logic_clk          (clk_sys),
+    .logic_rst          (rst),
 
-    .tx_axis_tdata      (tx_axis_tdata),
-    .tx_axis_tkeep      (tx_axis_tkeep),
-    .tx_axis_tvalid     (tx_axis_tvalid),
-    .tx_axis_tready     (tx_axis_tready),
-    .tx_axis_tlast      (tx_axis_tlast),
+    .tx_axis_tdata      (tx_axis.tdata),
+    .tx_axis_tkeep      (tx_axis.tkeep),
+    .tx_axis_tvalid     (tx_axis.tvalid),
+    .tx_axis_tready     (tx_axis.tready),
+    .tx_axis_tlast      (tx_axis.tlast),
     .tx_axis_tuser      ('0),
 
-    .rx_axis_tdata      (rx_axis_tdata),
-    .rx_axis_tkeep      (rx_axis_tkeep),
-    .rx_axis_tvalid     (rx_axis_tvalid),
-    .rx_axis_tready     (rx_axis_tready),
-    .rx_axis_tlast      (rx_axis_tlast),
-    .rx_axis_tuser      (rx_axis_tuser),
+    .rx_axis_tdata      (rx_axis.tdata),
+    .rx_axis_tkeep      (rx_axis.tkeep),
+    .rx_axis_tvalid     (rx_axis.tvalid),
+    .rx_axis_tready     (rx_axis.tready),
+    .rx_axis_tlast      (rx_axis.tlast),
+    .rx_axis_tuser      (rx_axis.tuser),
 
     .mii_rx_clk         (mii_rx_clk),
-    .mii_rxd            (mii_rxd_mux),
-    .mii_rx_dv          (mii_rx_dv_mux),
-    .mii_rx_er          (mii_rx_er_mux),
+    .mii_rxd            (mii_rxd),
+    .mii_rx_dv          (mii_rx_dv),
+    .mii_rx_er          (mii_rx_er),
     .mii_tx_clk         (mii_tx_clk),
     .mii_txd            (mii_txd),
     .mii_tx_en          (mii_tx_en),

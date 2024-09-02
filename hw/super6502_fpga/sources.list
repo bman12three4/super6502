@@ -1,3 +1,4 @@
+src/sub/interfaces/sources.list
 src/rtl/super_6502_fpga.sv
 ip/sdram_controller/sdram_controller.v
 src/sub/cpu_wrapper/sources.list

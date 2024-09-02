@@ -48,8 +48,6 @@
         <efx:design_file name="src/sub/network_processor/src/packet_generator.sv" version="default" library="default" />
         <efx:design_file name="src/sub/network_processor/src/ring_buffer_manager.sv" version="default" library="default" />
         <efx:design_file name="src/sub/network_processor/src/eth_wrapper.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/s2m_dma.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/m2s_dma.sv" version="default" library="default" />
         <efx:design_file name="src/sub/network_processor/src/tcp.sv" version="default" library="default" />
         <efx:design_file name="src/sub/network_processor/src/tx_control.sv" version="default" library="default" />
         <efx:design_file name="src/sub/network_processor/src/regs/mac_regs_pkg.sv" version="default" library="default" />

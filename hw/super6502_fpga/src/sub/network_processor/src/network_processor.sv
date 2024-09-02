@@ -4,29 +4,8 @@ module network_processor #(
     input i_clk,
     input i_rst,
 
-    output  logic                       s_reg_axil_awready,
-    input   wire                        s_reg_axil_awvalid,
-    input   wire [8:0]                  s_reg_axil_awaddr,
-    input   wire [2:0]                  s_reg_axil_awprot,
-    output  logic                       s_reg_axil_wready,
-    input   wire                        s_reg_axil_wvalid,
-    input   wire [31:0]                 s_reg_axil_wdata,
-    input   wire [3:0]                  s_reg_axil_wstrb,
-    input   wire                        s_reg_axil_bready,
-    output  logic                       s_reg_axil_bvalid,
-    output  logic [1:0]                 s_reg_axil_bresp,
-    output  logic                       s_reg_axil_arready,
-    input   wire                        s_reg_axil_arvalid,
-    input   wire [8:0]                  s_reg_axil_araddr,
-    input   wire [2:0]                  s_reg_axil_arprot,
-    input   wire                        s_reg_axil_rready,
-    output  logic                       s_reg_axil_rvalid,
-    output  logic [31:0]                s_reg_axil_rdata,
-    output  logic [1:0]                 s_reg_axil_rresp,
-
-    // axil for m2s/s2m dma (can be combined into 1 or separate)
-
-    // axil for ring buffer managers
+    axil_intf.SLAVE                     s_reg_axil,
+    axil_intf.MASTER                    m_dma_axil,
 
     //MII Interface
     input   wire                        mii_rx_clk,
@@ -52,184 +31,28 @@ module network_processor #(
 `define PROTO_TCP 8'h6
 `define PROTO_UDP 8'h11
 
+localparam ICMP_IDX = 0;
+localparam UDP_IDX = 1;
+localparam TCP_IDX = 2;
+
 localparam MAC_DATA_WIDTH = 8;
 localparam AXIS_DATA_WIDTH = 8;
 localparam AXIS_KEEP_WIDTH = ((AXIS_DATA_WIDTH+7)/8);
 
-logic   [AXIS_DATA_WIDTH-1:0]           mac_tx_axis_tdata;
-logic                                   mac_tx_axis_tvalid;
-logic                                   mac_tx_axis_tready;
-logic                                   mac_tx_axis_tlast;
-logic                                   mac_tx_axis_tuser;
-logic   [AXIS_KEEP_WIDTH-1:0]           mac_tx_axis_tkeep;
+axis_intf #(.DATA_WIDTH(MAC_DATA_WIDTH)) mac_tx_axis();
+axis_intf #(.DATA_WIDTH(MAC_DATA_WIDTH)) mac_rx_axis();
 
-logic   [AXIS_DATA_WIDTH-1:0]           mac_rx_axis_tdata;
-logic                                   mac_rx_axis_tvalid;
-logic                                   mac_rx_axis_tready;
-logic                                   mac_rx_axis_tlast;
-logic                                   mac_rx_axis_tuser;
-logic   [AXIS_KEEP_WIDTH-1:0]           mac_rx_axis_tkeep;
+ip_intf #(.DATA_WIDTH(MAC_DATA_WIDTH)) mac_tx_ip();
+ip_intf #(.DATA_WIDTH(MAC_DATA_WIDTH)) mac_rx_ip();
 
-logic                                   mac_tx_eth_hdr_valid;
-logic                                   mac_tx_eth_hdr_ready;
-logic   [47:0]                          mac_tx_eth_dest_mac;
-logic   [47:0]                          mac_tx_eth_src_mac;
-logic   [15:0]                          mac_tx_eth_type;
-logic   [AXIS_DATA_WIDTH-1:0]           mac_tx_eth_payload_axis_tdata;
-logic   [AXIS_KEEP_WIDTH-1:0]           mac_tx_eth_payload_axis_tkeep;
-logic                                   mac_tx_eth_payload_axis_tvalid;
-logic                                   mac_tx_eth_payload_axis_tready;
-logic                                   mac_tx_eth_payload_axis_tlast;
-logic                                   mac_tx_eth_payload_axis_tuser;
+eth_intf #(.DATA_WIDTH(MAC_DATA_WIDTH)) mac_tx_eth();
+eth_intf #(.DATA_WIDTH(MAC_DATA_WIDTH)) mac_rx_eth();
 
-logic                                   mac_rx_eth_hdr_valid;
-logic                                   mac_rx_eth_hdr_ready;
-logic   [47:0]                          mac_rx_eth_dest_mac;
-logic   [47:0]                          mac_rx_eth_src_mac;
-logic   [15:0]                          mac_rx_eth_type;
-logic   [AXIS_DATA_WIDTH-1:0]           mac_rx_eth_payload_axis_tdata;
-logic   [AXIS_KEEP_WIDTH-1:0]           mac_rx_eth_payload_axis_tkeep;
-logic                                   mac_rx_eth_payload_axis_tvalid;
-logic                                   mac_rx_eth_payload_axis_tready;
-logic                                   mac_rx_eth_payload_axis_tlast;
-logic                                   mac_rx_eth_payload_axis_tuser;
+ip_intf #(.DATA_WIDTH(MAC_DATA_WIDTH)) ntw_tx_ip();
+ip_intf #(.DATA_WIDTH(MAC_DATA_WIDTH)) ntw_rx_ip();
 
-
-// tx is less because IP adds it automatically.
-logic                                   tx_ip_hdr_valid;
-logic                                   tx_ip_hdr_ready;
-logic   [5:0]                           tx_ip_dscp;
-logic   [1:0]                           tx_ip_ecn;
-logic   [15:0]                          tx_ip_length;
-logic   [7:0]                           tx_ip_ttl;
-logic   [7:0]                           tx_ip_protocol;
-logic   [31:0]                          tx_ip_source_ip;
-logic   [31:0]                          tx_ip_dest_ip;
-logic   [7:0]                           tx_ip_payload_axis_tdata;
-logic                                   tx_ip_payload_axis_tvalid;
-logic                                   tx_ip_payload_axis_tready;
-logic                                   tx_ip_payload_axis_tlast;
-logic                                   tx_ip_payload_axis_tuser;
-
-logic                                   tcp_rx_ip_hdr_valid;
-logic                                   tcp_rx_ip_hdr_ready;
-logic   [47:0]                          tcp_rx_ip_eth_dest_mac;
-logic   [47:0]                          tcp_rx_ip_eth_src_mac;
-logic   [15:0]                          tcp_rx_ip_eth_type;
-logic   [3:0]                           tcp_rx_ip_version;
-logic   [3:0]                           tcp_rx_ip_ihl;
-logic   [5:0]                           tcp_rx_ip_dscp;
-logic   [1:0]                           tcp_rx_ip_ecn;
-logic   [15:0]                          tcp_rx_ip_length;
-logic   [15:0]                          tcp_rx_ip_identification;
-logic   [2:0]                           tcp_rx_ip_flags;
-logic   [12:0]                          tcp_rx_ip_fragment_offset;
-logic   [7:0]                           tcp_rx_ip_ttl;
-logic   [7:0]                           tcp_rx_ip_protocol;
-logic   [15:0]                          tcp_rx_ip_header_checksum;
-logic   [31:0]                          tcp_rx_ip_source_ip;
-logic   [31:0]                          tcp_rx_ip_dest_ip;
-logic   [7:0]                           tcp_rx_ip_payload_axis_tdata;
-logic                                   tcp_rx_ip_payload_axis_tvalid;
-logic                                   tcp_rx_ip_payload_axis_tready;
-logic                                   tcp_rx_ip_payload_axis_tlast;
-logic                                   tcp_rx_ip_payload_axis_tuser;
-
-// tx is less because IP adds it automatically.
-logic                                   tcp_tx_ip_hdr_valid;
-logic                                   tcp_tx_ip_hdr_ready;
-logic   [5:0]                           tcp_tx_ip_dscp;
-logic   [1:0]                           tcp_tx_ip_ecn;
-logic   [15:0]                          tcp_tx_ip_length;
-logic   [7:0]                           tcp_tx_ip_ttl;
-logic   [7:0]                           tcp_tx_ip_protocol;
-logic   [31:0]                          tcp_tx_ip_source_ip;
-logic   [31:0]                          tcp_tx_ip_dest_ip;
-logic   [7:0]                           tcp_tx_ip_payload_axis_tdata;
-logic                                   tcp_tx_ip_payload_axis_tvalid;
-logic                                   tcp_tx_ip_payload_axis_tready;
-logic                                   tcp_tx_ip_payload_axis_tlast;
-logic                                   tcp_tx_ip_payload_axis_tuser;
-
-logic                                   udp_rx_ip_hdr_valid;
-logic                                   udp_rx_ip_hdr_ready;
-logic   [47:0]                          udp_rx_ip_eth_dest_mac;
-logic   [47:0]                          udp_rx_ip_eth_src_mac;
-logic   [15:0]                          udp_rx_ip_eth_type;
-logic   [3:0]                           udp_rx_ip_version;
-logic   [3:0]                           udp_rx_ip_ihl;
-logic   [5:0]                           udp_rx_ip_dscp;
-logic   [1:0]                           udp_rx_ip_ecn;
-logic   [15:0]                          udp_rx_ip_length;
-logic   [15:0]                          udp_rx_ip_identification;
-logic   [2:0]                           udp_rx_ip_flags;
-logic   [12:0]                          udp_rx_ip_fragment_offset;
-logic   [7:0]                           udp_rx_ip_ttl;
-logic   [7:0]                           udp_rx_ip_protocol;
-logic   [15:0]                          udp_rx_ip_header_checksum;
-logic   [31:0]                          udp_rx_ip_source_ip;
-logic   [31:0]                          udp_rx_ip_dest_ip;
-logic   [7:0]                           udp_rx_ip_payload_axis_tdata;
-logic                                   udp_rx_ip_payload_axis_tvalid;
-logic                                   udp_rx_ip_payload_axis_tready;
-logic                                   udp_rx_ip_payload_axis_tlast;
-logic                                   udp_rx_ip_payload_axis_tuser;
-
-// tx is less because IP adds it automatically.
-logic                                   udp_tx_ip_hdr_valid;
-logic                                   udp_tx_ip_hdr_ready;
-logic   [5:0]                           udp_tx_ip_dscp;
-logic   [1:0]                           udp_tx_ip_ecn;
-logic   [15:0]                          udp_tx_ip_length;
-logic   [7:0]                           udp_tx_ip_ttl;
-logic   [7:0]                           udp_tx_ip_protocol;
-logic   [31:0]                          udp_tx_ip_source_ip;
-logic   [31:0]                          udp_tx_ip_dest_ip;
-logic   [7:0]                           udp_tx_ip_payload_axis_tdata;
-logic                                   udp_tx_ip_payload_axis_tvalid;
-logic                                   udp_tx_ip_payload_axis_tready;
-logic                                   udp_tx_ip_payload_axis_tlast;
-logic                                   udp_tx_ip_payload_axis_tuser;
-
-logic                                   icmp_rx_ip_hdr_valid;
-logic                                   icmp_rx_ip_hdr_ready;
-logic   [47:0]                          icmp_rx_ip_eth_dest_mac;
-logic   [47:0]                          icmp_rx_ip_eth_src_mac;
-logic   [15:0]                          icmp_rx_ip_eth_type;
-logic   [3:0]                           icmp_rx_ip_version;
-logic   [3:0]                           icmp_rx_ip_ihl;
-logic   [5:0]                           icmp_rx_ip_dscp;
-logic   [1:0]                           icmp_rx_ip_ecn;
-logic   [15:0]                          icmp_rx_ip_length;
-logic   [15:0]                          icmp_rx_ip_identification;
-logic   [2:0]                           icmp_rx_ip_flags;
-logic   [12:0]                          icmp_rx_ip_fragment_offset;
-logic   [7:0]                           icmp_rx_ip_ttl;
-logic   [7:0]                           icmp_rx_ip_protocol;
-logic   [15:0]                          icmp_rx_ip_header_checksum;
-logic   [31:0]                          icmp_rx_ip_source_ip;
-logic   [31:0]                          icmp_rx_ip_dest_ip;
-logic   [7:0]                           icmp_rx_ip_payload_axis_tdata;
-logic                                   icmp_rx_ip_payload_axis_tvalid;
-logic                                   icmp_rx_ip_payload_axis_tready;
-logic                                   icmp_rx_ip_payload_axis_tlast;
-logic                                   icmp_rx_ip_payload_axis_tuser;
-
-// tx is less because IP adds it automatically.
-logic                                   icmp_tx_ip_hdr_valid;
-logic                                   icmp_tx_ip_hdr_ready;
-logic   [5:0]                           icmp_tx_ip_dscp;
-logic   [1:0]                           icmp_tx_ip_ecn;
-logic   [15:0]                          icmp_tx_ip_length;
-logic   [7:0]                           icmp_tx_ip_ttl;
-logic   [7:0]                           icmp_tx_ip_protocol;
-logic   [31:0]                          icmp_tx_ip_source_ip;
-logic   [31:0]                          icmp_tx_ip_dest_ip;
-logic   [7:0]                           icmp_tx_ip_payload_axis_tdata;
-logic                                   icmp_tx_ip_payload_axis_tvalid;
-logic                                   icmp_tx_ip_payload_axis_tready;
-logic                                   icmp_tx_ip_payload_axis_tlast;
-logic                                   icmp_tx_ip_payload_axis_tuser;
+ip_intf #(.DATA_WIDTH(MAC_DATA_WIDTH)) proto_rx_ip[3]();
+ip_intf #(.DATA_WIDTH(MAC_DATA_WIDTH)) proto_tx_ip[3]();
 
 ntw_top_regfile_pkg::ntw_top_regfile__in_t hwif_in;
 ntw_top_regfile_pkg::ntw_top_regfile__out_t hwif_out;
@@ -238,25 +61,25 @@ ntw_top_regfile u_ntw_top_regfile (
     .clk                                (i_clk),
     .rst                                (i_rst),
 
-    .s_axil_awready                     (s_reg_axil_awready),
-    .s_axil_awvalid                     (s_reg_axil_awvalid),
-    .s_axil_awaddr                      (s_reg_axil_awaddr),
-    .s_axil_awprot                      (s_reg_axil_awprot),
-    .s_axil_wready                      (s_reg_axil_wready),
-    .s_axil_wvalid                      (s_reg_axil_wvalid),
-    .s_axil_wdata                       (s_reg_axil_wdata),
-    .s_axil_wstrb                       (s_reg_axil_wstrb),
-    .s_axil_bready                      (s_reg_axil_bready),
-    .s_axil_bvalid                      (s_reg_axil_bvalid),
-    .s_axil_bresp                       (s_reg_axil_bresp),
-    .s_axil_arready                     (s_reg_axil_arready),
-    .s_axil_arvalid                     (s_reg_axil_arvalid),
-    .s_axil_araddr                      (s_reg_axil_araddr),
-    .s_axil_arprot                      (s_reg_axil_arprot),
-    .s_axil_rready                      (s_reg_axil_rready),
-    .s_axil_rvalid                      (s_reg_axil_rvalid),
-    .s_axil_rdata                       (s_reg_axil_rdata),
-    .s_axil_rresp                       (s_reg_axil_rresp),
+    .s_axil_awready                     (s_reg_axil.awready),
+    .s_axil_awvalid                     (s_reg_axil.awvalid),
+    .s_axil_awaddr                      (s_reg_axil.awaddr),
+    .s_axil_awprot                      (s_reg_axil.awprot),
+    .s_axil_wready                      (s_reg_axil.wready),
+    .s_axil_wvalid                      (s_reg_axil.wvalid),
+    .s_axil_wdata                       (s_reg_axil.wdata),
+    .s_axil_wstrb                       (s_reg_axil.wstrb),
+    .s_axil_bready                      (s_reg_axil.bready),
+    .s_axil_bvalid                      (s_reg_axil.bvalid),
+    .s_axil_bresp                       (s_reg_axil.bresp),
+    .s_axil_arready                     (s_reg_axil.arready),
+    .s_axil_arvalid                     (s_reg_axil.arvalid),
+    .s_axil_araddr                      (s_reg_axil.araddr),
+    .s_axil_arprot                      (s_reg_axil.arprot),
+    .s_axil_rready                      (s_reg_axil.rready),
+    .s_axil_rvalid                      (s_reg_axil.rvalid),
+    .s_axil_rdata                       (s_reg_axil.rdata),
+    .s_axil_rresp                       (s_reg_axil.rresp),
 
     .hwif_in                            (hwif_in),
     .hwif_out                           (hwif_out)
@@ -269,6 +92,19 @@ eth_wrapper #(
     .rst                                (i_rst),
     .clk_sys                            (i_clk),
 
+    .s_cpuif_req                        (hwif_out.mac.req),
+    .s_cpuif_req_is_wr                  (hwif_out.mac.req_is_wr),
+    .s_cpuif_addr                       (hwif_out.mac.addr),
+    .s_cpuif_wr_data                    (hwif_out.mac.wr_data),
+    .s_cpuif_wr_biten                   (hwif_out.mac.wr_biten),
+    .s_cpuif_req_stall_wr               (),
+    .s_cpuif_req_stall_rd               (),
+    .s_cpuif_rd_ack                     (hwif_in.mac.rd_ack),
+    .s_cpuif_rd_err                     (),
+    .s_cpuif_rd_data                    (hwif_in.mac.rd_data),
+    .s_cpuif_wr_ack                     (hwif_in.mac.wr_ack),
+    .s_cpuif_wr_err                     (),
+
     // MII
     .mii_rx_clk                         (mii_rx_clk),
     .mii_rxd                            (mii_rxd),
@@ -279,19 +115,8 @@ eth_wrapper #(
     .mii_tx_en                          (mii_tx_en),
     .mii_tx_er                          (mii_tx_er),
 
-    .tx_axis_tdata                      (mac_tx_axis_tdata),
-    .tx_axis_tvalid                     (mac_tx_axis_tvalid),
-    .tx_axis_tready                     (mac_tx_axis_tready),
-    .tx_axis_tlast                      (mac_tx_axis_tlast),
-    .tx_axis_tuser                      (mac_tx_axis_tuser),
-    .tx_axis_tkeep                      (mac_tx_axis_tkeep),
-
-    .rx_axis_tdata                      (mac_rx_axis_tdata),
-    .rx_axis_tvalid                     (mac_rx_axis_tvalid),
-    .rx_axis_tready                     (mac_rx_axis_tready),
-    .rx_axis_tlast                      (mac_rx_axis_tlast),
-    .rx_axis_tuser                      (mac_rx_axis_tuser),
-    .rx_axis_tkeep                      (mac_rx_axis_tkeep),
+    .tx_axis                            (mac_tx_axis),
+    .rx_axis                            (mac_rx_axis),
 
     .Mdi                                (i_Mdi),
     .Mdo                                (o_Mdo),
@@ -305,24 +130,24 @@ eth_axis_rx #(
     .clk                                (i_clk),
     .rst                                (i_rst),
 
-    .s_axis_tdata                       (mac_rx_axis_tdata),
-    .s_axis_tvalid                      (mac_rx_axis_tvalid),
-    .s_axis_tready                      (mac_rx_axis_tready),
-    .s_axis_tlast                       (mac_rx_axis_tlast),
-    .s_axis_tuser                       (mac_rx_axis_tuser),
-    .s_axis_tkeep                       (mac_rx_axis_tkeep),
+    .s_axis_tdata                       (mac_rx_axis.tdata),
+    .s_axis_tvalid                      (mac_rx_axis.tvalid),
+    .s_axis_tready                      (mac_rx_axis.tready),
+    .s_axis_tlast                       (mac_rx_axis.tlast),
+    .s_axis_tuser                       (mac_rx_axis.tuser),
+    .s_axis_tkeep                       (mac_rx_axis.tkeep),
 
-    .m_eth_hdr_valid                    (mac_rx_eth_hdr_valid),
-    .m_eth_hdr_ready                    (mac_rx_eth_hdr_ready),
-    .m_eth_dest_mac                     (mac_rx_eth_dest_mac),
-    .m_eth_src_mac                      (mac_rx_eth_src_mac),
-    .m_eth_type                         (mac_rx_eth_type),
-    .m_eth_payload_axis_tdata           (mac_rx_eth_payload_axis_tdata),
-    .m_eth_payload_axis_tkeep           (mac_rx_eth_payload_axis_tkeep),
-    .m_eth_payload_axis_tvalid          (mac_rx_eth_payload_axis_tvalid),
-    .m_eth_payload_axis_tready          (mac_rx_eth_payload_axis_tready),
-    .m_eth_payload_axis_tlast           (mac_rx_eth_payload_axis_tlast),
-    .m_eth_payload_axis_tuser           (mac_rx_eth_payload_axis_tuser),
+    .m_eth_hdr_valid                    (mac_rx_eth.eth_hdr_valid),
+    .m_eth_hdr_ready                    (mac_rx_eth.eth_hdr_ready),
+    .m_eth_dest_mac                     (mac_rx_eth.eth_dest_mac),
+    .m_eth_src_mac                      (mac_rx_eth.eth_src_mac),
+    .m_eth_type                         (mac_rx_eth.eth_type),
+    .m_eth_payload_axis_tdata           (mac_rx_eth.eth_payload_axis_tdata),
+    .m_eth_payload_axis_tkeep           (mac_rx_eth.eth_payload_axis_tkeep),
+    .m_eth_payload_axis_tvalid          (mac_rx_eth.eth_payload_axis_tvalid),
+    .m_eth_payload_axis_tready          (mac_rx_eth.eth_payload_axis_tready),
+    .m_eth_payload_axis_tlast           (mac_rx_eth.eth_payload_axis_tlast),
+    .m_eth_payload_axis_tuser           (mac_rx_eth.eth_payload_axis_tuser),
 
     .busy                               (),
     .error_header_early_termination     () // We can add this to a register
@@ -334,24 +159,24 @@ eth_axis_tx #(
     .clk                                (i_clk),
     .rst                                (i_rst),
 
-    .s_eth_hdr_valid                    (mac_tx_eth_hdr_valid),
-    .s_eth_hdr_ready                    (mac_tx_eth_hdr_ready),
-    .s_eth_dest_mac                     (mac_tx_eth_dest_mac),
-    .s_eth_src_mac                      (mac_tx_eth_src_mac),
-    .s_eth_type                         (mac_tx_eth_type),
-    .s_eth_payload_axis_tdata           (mac_tx_eth_payload_axis_tdata),
-    .s_eth_payload_axis_tkeep           (mac_tx_eth_payload_axis_tkeep),
-    .s_eth_payload_axis_tvalid          (mac_tx_eth_payload_axis_tvalid),
-    .s_eth_payload_axis_tready          (mac_tx_eth_payload_axis_tready),
-    .s_eth_payload_axis_tlast           (mac_tx_eth_payload_axis_tlast),
-    .s_eth_payload_axis_tuser           (mac_tx_eth_payload_axis_tuser),
+    .s_eth_hdr_valid                    (mac_tx_eth.eth_hdr_valid),
+    .s_eth_hdr_ready                    (mac_tx_eth.eth_hdr_ready),
+    .s_eth_dest_mac                     (mac_tx_eth.eth_dest_mac),
+    .s_eth_src_mac                      (mac_tx_eth.eth_src_mac),
+    .s_eth_type                         (mac_tx_eth.eth_type),
+    .s_eth_payload_axis_tdata           (mac_tx_eth.eth_payload_axis_tdata),
+    .s_eth_payload_axis_tkeep           (mac_tx_eth.eth_payload_axis_tkeep),
+    .s_eth_payload_axis_tvalid          (mac_tx_eth.eth_payload_axis_tvalid),
+    .s_eth_payload_axis_tready          (mac_tx_eth.eth_payload_axis_tready),
+    .s_eth_payload_axis_tlast           (mac_tx_eth.eth_payload_axis_tlast),
+    .s_eth_payload_axis_tuser           (mac_tx_eth.eth_payload_axis_tuser),
 
-    .m_axis_tdata                       (mac_tx_axis_tdata),
-    .m_axis_tvalid                      (mac_tx_axis_tvalid),
-    .m_axis_tready                      (mac_tx_axis_tready),
-    .m_axis_tlast                       (mac_tx_axis_tlast),
-    .m_axis_tuser                       (mac_tx_axis_tuser),
-    .m_axis_tkeep                       (mac_tx_axis_tkeep),
+    .m_axis_tdata                       (mac_tx_axis.tdata),
+    .m_axis_tvalid                      (mac_tx_axis.tvalid),
+    .m_axis_tready                      (mac_tx_axis.tready),
+    .m_axis_tlast                       (mac_tx_axis.tlast),
+    .m_axis_tuser                       (mac_tx_axis.tuser),
+    .m_axis_tkeep                       (mac_tx_axis.tkeep),
 
     .busy                               ()
 );
@@ -368,66 +193,66 @@ ip_complete #(
     .clk                                (i_clk),
     .rst                                (i_rst),
 
-    .s_eth_hdr_valid                    (mac_rx_eth_hdr_valid),
-    .s_eth_hdr_ready                    (mac_rx_eth_hdr_ready),
-    .s_eth_dest_mac                     (mac_rx_eth_dest_mac),
-    .s_eth_src_mac                      (mac_rx_eth_src_mac),
-    .s_eth_type                         (mac_rx_eth_type),
-    .s_eth_payload_axis_tdata           (mac_rx_eth_payload_axis_tdata),
-    .s_eth_payload_axis_tvalid          (mac_rx_eth_payload_axis_tvalid),
-    .s_eth_payload_axis_tready          (mac_rx_eth_payload_axis_tready),
-    .s_eth_payload_axis_tlast           (mac_rx_eth_payload_axis_tlast),
-    .s_eth_payload_axis_tuser           (mac_rx_eth_payload_axis_tuser),
+    .s_eth_hdr_valid                    (mac_rx_eth.eth_hdr_valid),
+    .s_eth_hdr_ready                    (mac_rx_eth.eth_hdr_ready),
+    .s_eth_dest_mac                     (mac_rx_eth.eth_dest_mac),
+    .s_eth_src_mac                      (mac_rx_eth.eth_src_mac),
+    .s_eth_type                         (mac_rx_eth.eth_type),
+    .s_eth_payload_axis_tdata           (mac_rx_eth.eth_payload_axis_tdata),
+    .s_eth_payload_axis_tvalid          (mac_rx_eth.eth_payload_axis_tvalid),
+    .s_eth_payload_axis_tready          (mac_rx_eth.eth_payload_axis_tready),
+    .s_eth_payload_axis_tlast           (mac_rx_eth.eth_payload_axis_tlast),
+    .s_eth_payload_axis_tuser           (mac_rx_eth.eth_payload_axis_tuser),
 
-    .m_eth_hdr_valid                    (mac_tx_eth_hdr_valid),
-    .m_eth_hdr_ready                    (mac_tx_eth_hdr_ready),
-    .m_eth_dest_mac                     (mac_tx_eth_dest_mac),
-    .m_eth_src_mac                      (mac_tx_eth_src_mac),
-    .m_eth_type                         (mac_tx_eth_type),
-    .m_eth_payload_axis_tdata           (mac_tx_eth_payload_axis_tdata),
-    .m_eth_payload_axis_tvalid          (mac_tx_eth_payload_axis_tvalid),
-    .m_eth_payload_axis_tready          (mac_tx_eth_payload_axis_tready),
-    .m_eth_payload_axis_tlast           (mac_tx_eth_payload_axis_tlast),
-    .m_eth_payload_axis_tuser           (mac_tx_eth_payload_axis_tuser),
+    .m_eth_hdr_valid                    (mac_tx_eth.eth_hdr_valid),
+    .m_eth_hdr_ready                    (mac_tx_eth.eth_hdr_ready),
+    .m_eth_dest_mac                     (mac_tx_eth.eth_dest_mac),
+    .m_eth_src_mac                      (mac_tx_eth.eth_src_mac),
+    .m_eth_type                         (mac_tx_eth.eth_type),
+    .m_eth_payload_axis_tdata           (mac_tx_eth.eth_payload_axis_tdata),
+    .m_eth_payload_axis_tvalid          (mac_tx_eth.eth_payload_axis_tvalid),
+    .m_eth_payload_axis_tready          (mac_tx_eth.eth_payload_axis_tready),
+    .m_eth_payload_axis_tlast           (mac_tx_eth.eth_payload_axis_tlast),
+    .m_eth_payload_axis_tuser           (mac_tx_eth.eth_payload_axis_tuser),
 
-    .s_ip_hdr_valid                     (tx_ip_hdr_valid),
-    .s_ip_hdr_ready                     (tx_ip_hdr_ready),
-    .s_ip_dscp                          (tx_ip_dscp),
-    .s_ip_ecn                           (tx_ip_ecn),
-    .s_ip_length                        (tx_ip_length),
-    .s_ip_ttl                           (tx_ip_ttl),
-    .s_ip_protocol                      (tx_ip_protocol),
-    .s_ip_source_ip                     (tx_ip_source_ip),
-    .s_ip_dest_ip                       (tx_ip_dest_ip),
-    .s_ip_payload_axis_tdata            (tx_ip_payload_axis_tdata),
-    .s_ip_payload_axis_tvalid           (tx_ip_payload_axis_tvalid),
-    .s_ip_payload_axis_tready           (tx_ip_payload_axis_tready),
-    .s_ip_payload_axis_tlast            (tx_ip_payload_axis_tlast),
-    .s_ip_payload_axis_tuser            (tx_ip_payload_axis_tuser),
+    .s_ip_hdr_valid                     (ntw_tx_ip.ip_hdr_valid),
+    .s_ip_hdr_ready                     (ntw_tx_ip.ip_hdr_ready),
+    .s_ip_dscp                          (ntw_tx_ip.ip_dscp),
+    .s_ip_ecn                           (ntw_tx_ip.ip_ecn),
+    .s_ip_length                        (ntw_tx_ip.ip_length),
+    .s_ip_ttl                           (ntw_tx_ip.ip_ttl),
+    .s_ip_protocol                      (ntw_tx_ip.ip_protocol),
+    .s_ip_source_ip                     (ntw_tx_ip.ip_source_ip),
+    .s_ip_dest_ip                       (ntw_tx_ip.ip_dest_ip),
+    .s_ip_payload_axis_tdata            (ntw_tx_ip.ip_payload_axis_tdata),
+    .s_ip_payload_axis_tvalid           (ntw_tx_ip.ip_payload_axis_tvalid),
+    .s_ip_payload_axis_tready           (ntw_tx_ip.ip_payload_axis_tready),
+    .s_ip_payload_axis_tlast            (ntw_tx_ip.ip_payload_axis_tlast),
+    .s_ip_payload_axis_tuser            (ntw_tx_ip.ip_payload_axis_tuser),
 
-    .m_ip_hdr_valid                     (rx_ip_hdr_valid),
-    .m_ip_hdr_ready                     (rx_ip_hdr_ready),
-    .m_ip_eth_dest_mac                  (rx_ip_eth_dest_mac),
-    .m_ip_eth_src_mac                   (rx_ip_eth_src_mac),
-    .m_ip_eth_type                      (rx_ip_eth_type),
-    .m_ip_version                       (rx_ip_version),
-    .m_ip_ihl                           (rx_ip_ihl),
-    .m_ip_dscp                          (rx_ip_dscp),
-    .m_ip_ecn                           (rx_ip_ecn),
-    .m_ip_length                        (rx_ip_length),
-    .m_ip_identification                (rx_ip_identification),
-    .m_ip_flags                         (rx_ip_flags),
-    .m_ip_fragment_offset               (rx_ip_fragment_offset),
-    .m_ip_ttl                           (rx_ip_ttl),
-    .m_ip_protocol                      (rx_ip_protocol),
-    .m_ip_header_checksum               (rx_ip_header_checksum),
-    .m_ip_source_ip                     (rx_ip_source_ip),
-    .m_ip_dest_ip                       (rx_ip_dest_ip),
-    .m_ip_payload_axis_tdata            (rx_ip_payload_axis_tdata),
-    .m_ip_payload_axis_tvalid           (rx_ip_payload_axis_tvalid),
-    .m_ip_payload_axis_tready           (rx_ip_payload_axis_tready),
-    .m_ip_payload_axis_tlast            (rx_ip_payload_axis_tlast),
-    .m_ip_payload_axis_tuser            (rx_ip_payload_axis_tuser),
+    .m_ip_hdr_valid                     (ntw_rx_ip.ip_hdr_valid),
+    .m_ip_hdr_ready                     (ntw_rx_ip.ip_hdr_ready),
+    .m_ip_eth_dest_mac                  (ntw_rx_ip.eth_dest_mac),
+    .m_ip_eth_src_mac                   (ntw_rx_ip.eth_src_mac),
+    .m_ip_eth_type                      (ntw_rx_ip.eth_type),
+    .m_ip_version                       (ntw_rx_ip.ip_version),
+    .m_ip_ihl                           (ntw_rx_ip.ip_ihl),
+    .m_ip_dscp                          (ntw_rx_ip.ip_dscp),
+    .m_ip_ecn                           (ntw_rx_ip.ip_ecn),
+    .m_ip_length                        (ntw_rx_ip.ip_length),
+    .m_ip_identification                (ntw_rx_ip.ip_identification),
+    .m_ip_flags                         (ntw_rx_ip.ip_flags),
+    .m_ip_fragment_offset               (ntw_rx_ip.ip_fragment_offset),
+    .m_ip_ttl                           (ntw_rx_ip.ip_ttl),
+    .m_ip_protocol                      (ntw_rx_ip.ip_protocol),
+    .m_ip_header_checksum               (ntw_rx_ip.ip_header_checksum),
+    .m_ip_source_ip                     (ntw_rx_ip.ip_source_ip),
+    .m_ip_dest_ip                       (ntw_rx_ip.ip_dest_ip),
+    .m_ip_payload_axis_tdata            (ntw_rx_ip.ip_payload_axis_tdata),
+    .m_ip_payload_axis_tvalid           (ntw_rx_ip.ip_payload_axis_tvalid),
+    .m_ip_payload_axis_tready           (ntw_rx_ip.ip_payload_axis_tready),
+    .m_ip_payload_axis_tlast            (ntw_rx_ip.ip_payload_axis_tlast),
+    .m_ip_payload_axis_tuser            (ntw_rx_ip.ip_payload_axis_tuser),
 
     .rx_busy                            (), // should go to stats register
     .tx_busy                            (), // should go to stats register
@@ -447,138 +272,44 @@ ip_complete #(
 
 
 logic ip_demux_drop;
-assign ip_demux_drop = !((rx_ip_protocol == `PROTO_ICMP) || (rx_ip_protocol == `PROTO_UDP) || (rx_ip_protocol == `PROTO_TCP));
+assign ip_demux_drop = !((ntw_rx_ip.ip_protocol == `PROTO_ICMP) || (ntw_rx_ip.ip_protocol == `PROTO_UDP) || (ntw_rx_ip.ip_protocol == `PROTO_TCP));
 
 logic [1:0] ip_demux_sel;
-assign ip_demux_sel = (rx_ip_protocol == `PROTO_ICMP) ? 2'h2 : (rx_ip_protocol == `PROTO_UDP) ? 2'h1 : 2'h0;
+assign ip_demux_sel = (ntw_rx_ip.ip_protocol == `PROTO_ICMP) ? 2'h2 : (ntw_rx_ip.ip_protocol == `PROTO_UDP) ? 2'h1 : 2'h0;
 
-ip_demux #(
+
+ip_demux_wrapper #(
     .M_COUNT(3),
     .DATA_WIDTH(MAC_DATA_WIDTH)
 ) u_ip_demux (
     .clk                                (i_clk),
     .rst                                (i_rst),
 
-    .s_ip_hdr_valid                     (rx_ip_hdr_valid),
-    .s_ip_hdr_ready                     (rx_ip_hdr_ready),
-    .s_eth_dest_mac                     (rx_ip_eth_dest_mac),
-    .s_eth_src_mac                      (rx_ip_eth_src_mac),
-    .s_eth_type                         (rx_ip_eth_type),
-    .s_ip_version                       (rx_ip_version),
-    .s_ip_ihl                           (rx_ip_ihl),
-    .s_ip_dscp                          (rx_ip_dscp),
-    .s_ip_ecn                           (rx_ip_ecn),
-    .s_ip_length                        (rx_ip_length),
-    .s_ip_identification                (rx_ip_identification),
-    .s_ip_flags                         (rx_ip_flags),
-    .s_ip_fragment_offset               (rx_ip_fragment_offset),
-    .s_ip_ttl                           (rx_ip_ttl),
-    .s_ip_protocol                      (rx_ip_protocol),
-    .s_ip_header_checksum               (rx_ip_header_checksum),
-    .s_ip_source_ip                     (rx_ip_source_ip),
-    .s_ip_dest_ip                       (rx_ip_dest_ip),
-    .s_ip_payload_axis_tdata            (rx_ip_payload_axis_tdata),
-    .s_ip_payload_axis_tvalid           (rx_ip_payload_axis_tvalid),
-    .s_ip_payload_axis_tready           (rx_ip_payload_axis_tready),
-    .s_ip_payload_axis_tlast            (rx_ip_payload_axis_tlast),
-    .s_ip_payload_axis_tuser            (rx_ip_payload_axis_tuser),
-
-    .m_ip_hdr_valid                     ({icmp_rx_ip_hdr_valid,            udp_rx_ip_hdr_valid,             tcp_rx_ip_hdr_valid}),
-    .m_ip_hdr_ready                     ({icmp_rx_ip_hdr_ready,            udp_rx_ip_hdr_ready,             tcp_rx_ip_hdr_ready}),
-    .m_eth_dest_mac                     ({icmp_rx_ip_eth_dest_mac,         udp_rx_ip_eth_dest_mac,          tcp_rx_ip_eth_dest_mac}),
-    .m_eth_src_mac                      ({icmp_rx_ip_eth_src_mac,          udp_rx_ip_eth_src_mac,           tcp_rx_ip_eth_src_mac}),
-    .m_eth_type                         ({icmp_rx_ip_eth_type,             udp_rx_ip_eth_type,              tcp_rx_ip_eth_type}),
-    .m_ip_version                       ({icmp_rx_ip_version,              udp_rx_ip_version,               tcp_rx_ip_version}),
-    .m_ip_ihl                           ({icmp_rx_ip_ihl,                  udp_rx_ip_ihl,                   tcp_rx_ip_ihl}),
-    .m_ip_dscp                          ({icmp_rx_ip_dscp,                 udp_rx_ip_dscp,                  tcp_rx_ip_dscp}),
-    .m_ip_ecn                           ({icmp_rx_ip_ecn,                  udp_rx_ip_ecn,                   tcp_rx_ip_ecn}),
-    .m_ip_length                        ({icmp_rx_ip_length,               udp_rx_ip_length,                tcp_rx_ip_length}),
-    .m_ip_identification                ({icmp_rx_ip_identification,       udp_rx_ip_identification,        tcp_rx_ip_identification}),
-    .m_ip_flags                         ({icmp_rx_ip_flags,                udp_rx_ip_flags,                 tcp_rx_ip_flags}),
-    .m_ip_fragment_offset               ({icmp_rx_ip_fragment_offset,      udp_rx_ip_fragment_offset,       tcp_rx_ip_fragment_offset}),
-    .m_ip_ttl                           ({icmp_rx_ip_ttl,                  udp_rx_ip_ttl,                   tcp_rx_ip_ttl}),
-    .m_ip_protocol                      ({icmp_rx_ip_protocol,             udp_rx_ip_protocol,              tcp_rx_ip_protocol}),
-    .m_ip_header_checksum               ({icmp_rx_ip_header_checksum,      udp_rx_ip_header_checksum,       tcp_rx_ip_header_checksum}),
-    .m_ip_source_ip                     ({icmp_rx_ip_source_ip,            udp_rx_ip_source_ip,             tcp_rx_ip_source_ip}),
-    .m_ip_dest_ip                       ({icmp_rx_ip_dest_ip,              udp_rx_ip_dest_ip,               tcp_rx_ip_dest_ip}),
-    .m_ip_payload_axis_tdata            ({icmp_rx_ip_payload_axis_tdata,   udp_rx_ip_payload_axis_tdata,    tcp_rx_ip_payload_axis_tdata}),
-    .m_ip_payload_axis_tkeep            (),
-    .m_ip_payload_axis_tvalid           ({icmp_rx_ip_payload_axis_tvalid,  udp_rx_ip_payload_axis_tvalid,   tcp_rx_ip_payload_axis_tvalid}),
-    .m_ip_payload_axis_tready           ({icmp_rx_ip_payload_axis_tready,  udp_rx_ip_payload_axis_tready,   tcp_rx_ip_payload_axis_tready}),
-    .m_ip_payload_axis_tlast            ({icmp_rx_ip_payload_axis_tlast,   udp_rx_ip_payload_axis_tlast,    tcp_rx_ip_payload_axis_tlast}),
-    .m_ip_payload_axis_tid              (),
-    .m_ip_payload_axis_tdest            (),
-    .m_ip_payload_axis_tuser            ({icmp_rx_ip_payload_axis_tuser,   udp_rx_ip_payload_axis_tuser,    tcp_rx_ip_payload_axis_tuser}),
+    .s_ip                               (ntw_rx_ip),
+    .m_ip                               (proto_rx_ip),
 
     .enable                             ('1),
     .drop                               (ip_demux_drop),
     .select                             (ip_demux_sel)
 );
 
-assign icmp_rx_ip_hdr_ready = '1;
-assign icmp_rx_ip_payload_axis_tready = '1;
-assign udp_rx_ip_hdr_ready = '1;
-assign udp_rx_ip_payload_axis_tready = '1;
+assign proto_rx_ip[ICMP_IDX].ip_hdr_ready = '1;
+assign proto_rx_ip[ICMP_IDX].ip_payload_axis_tready = '1;
+assign proto_rx_ip[UDP_IDX].ip_hdr_ready = '1;
+assign proto_rx_ip[UDP_IDX].ip_payload_axis_tready = '1;
 
-
-ip_arb_mux #(
+ip_arb_mux_wrapper #(
     .S_COUNT(3),
     .DATA_WIDTH(MAC_DATA_WIDTH)
-) u_ip_arb_mux (
-    .clk                                (i_clk),
-    .rst                                (i_rst),
+)  u_ip_arb_mux (
+    .i_clk                              (i_clk),
+    .i_rst                              (i_rst),
 
-    .s_ip_hdr_valid                     ({icmp_tx_ip_hdr_valid,            udp_tx_ip_hdr_valid,             tcp_tx_ip_hdr_valid}),
-    .s_ip_hdr_ready                     ({icmp_tx_ip_hdr_ready,            udp_tx_ip_hdr_ready,             tcp_tx_ip_hdr_ready}),
-    .s_eth_dest_mac                     ('0),
-    .s_eth_src_mac                      ('0),
-    .s_eth_type                         ('0),
-    .s_ip_version                       ('0),
-    .s_ip_ihl                           ('0),
-    .s_ip_dscp                          ({icmp_tx_ip_dscp,                 udp_tx_ip_dscp,                  tcp_tx_ip_dscp}),
-    .s_ip_ecn                           ({icmp_tx_ip_ecn,                  udp_tx_ip_ecn,                   tcp_tx_ip_ecn}),
-    .s_ip_length                        ({icmp_tx_ip_length,               udp_tx_ip_length,                tcp_tx_ip_length}),
-    .s_ip_identification                ('0),
-    .s_ip_flags                         ('0),
-    .s_ip_fragment_offset               ('0),
-    .s_ip_ttl                           ({icmp_tx_ip_ttl,                  udp_tx_ip_ttl,                   tcp_tx_ip_ttl}),
-    .s_ip_protocol                      ({icmp_tx_ip_protocol,             udp_tx_ip_protocol,              tcp_tx_ip_protocol}),
-    .s_ip_header_checksum               ('0),
-    .s_ip_source_ip                     ({icmp_tx_ip_source_ip,            udp_tx_ip_source_ip,             tcp_tx_ip_source_ip}),
-    .s_ip_dest_ip                       ({icmp_tx_ip_dest_ip,              udp_tx_ip_dest_ip,               tcp_tx_ip_dest_ip}),
-    .s_ip_payload_axis_tdata            ({icmp_tx_ip_payload_axis_tdata,   udp_tx_ip_payload_axis_tdata,    tcp_tx_ip_payload_axis_tdata}),
-    .s_ip_payload_axis_tkeep            ('1),
-    .s_ip_payload_axis_tvalid           ({icmp_tx_ip_payload_axis_tvalid,  udp_tx_ip_payload_axis_tvalid,   tcp_tx_ip_payload_axis_tvalid}),
-    .s_ip_payload_axis_tready           ({icmp_tx_ip_payload_axis_tready,  udp_tx_ip_payload_axis_tready,   tcp_tx_ip_payload_axis_tready}),
-    .s_ip_payload_axis_tlast            ({icmp_tx_ip_payload_axis_tlast,   udp_tx_ip_payload_axis_tlast,    tcp_tx_ip_payload_axis_tlast}),
-    .s_ip_payload_axis_tid              ('0),
-    .s_ip_payload_axis_tdest            ('0),
-    .s_ip_payload_axis_tuser            ({icmp_tx_ip_payload_axis_tuser,   udp_tx_ip_payload_axis_tuser,    tcp_tx_ip_payload_axis_tuser}),
-
-    .m_ip_hdr_valid                     (tx_ip_hdr_valid),
-    .m_ip_hdr_ready                     (tx_ip_hdr_ready),
-    .m_eth_dest_mac                     (),
-    .m_eth_src_mac                      (),
-    .m_eth_type                         (),
-    .m_ip_version                       (),
-    .m_ip_ihl                           (),
-    .m_ip_dscp                          (tx_ip_dscp),
-    .m_ip_ecn                           (tx_ip_ecn),
-    .m_ip_length                        (),
-    .m_ip_identification                (),
-    .m_ip_flags                         (),
-    .m_ip_fragment_offset               (),
-    .m_ip_ttl                           (tx_ip_ttl),
-    .m_ip_protocol                      (tx_ip_protocol),
-    .m_ip_header_checksum               (),
-    .m_ip_source_ip                     (tx_ip_source_ip),
-    .m_ip_dest_ip                       (tx_ip_dest_ip),
-    .m_ip_payload_axis_tdata            (tx_ip_payload_axis_tdata),
-    .m_ip_payload_axis_tvalid           (tx_ip_payload_axis_tvalid),
-    .m_ip_payload_axis_tready           (tx_ip_payload_axis_tready),
-    .m_ip_payload_axis_tlast            (tx_ip_payload_axis_tlast),
-    .m_ip_payload_axis_tuser            (tx_ip_payload_axis_tuser)
+    .s_ip                               (proto_tx_ip),
+    .m_ip                               (ntw_tx_ip)
 );
+
+axil_intf dummy();
 
 tcp #(
     .NUM_TCP(NUM_TCP)
@@ -597,6 +328,12 @@ tcp #(
     .s_cpuif_rd_err                     (),
     .s_cpuif_rd_data                    (hwif_in.tcp_top.rd_data),
     .s_cpuif_wr_ack                     (hwif_in.tcp_top.wr_ack),
-    .s_cpuif_wr_err                     ()
+    .s_cpuif_wr_err                     (),
+
+    .s_ip                               (proto_rx_ip[TCP_IDX]),
+    .m_ip                               (proto_tx_ip[TCP_IDX]),
+
+    .m_dma_m2s_axi                      (m_dma_axil), // HACK
+    .m_dma_s2m_axi                      (dummy)
 );
 endmodule

@@ -20,51 +20,10 @@ module tcp_stream #(
     output wire s_cpuif_wr_ack,
     output wire s_cpuif_wr_err,
 
-    /*
-     * IP input
-     */
-    input  wire                         s_ip_hdr_valid,
-    output wire                         s_ip_hdr_ready,
-    input  wire [47:0]                  s_ip_eth_dest_mac,
-    input  wire [47:0]                  s_ip_eth_src_mac,
-    input  wire [15:0]                  s_ip_eth_type,
-    input  wire [3:0]                   s_ip_version,
-    input  wire [3:0]                   s_ip_ihl,
-    input  wire [5:0]                   s_ip_dscp,
-    input  wire [1:0]                   s_ip_ecn,
-    input  wire [15:0]                  s_ip_length,
-    input  wire [15:0]                  s_ip_identification,
-    input  wire [2:0]                   s_ip_flags,
-    input  wire [12:0]                  s_ip_fragment_offset,
-    input  wire [7:0]                   s_ip_ttl,
-    input  wire [7:0]                   s_ip_protocol,
-    input  wire [15:0]                  s_ip_header_checksum,
-    input  wire [31:0]                  s_ip_source_ip,
-    input  wire [31:0]                  s_ip_dest_ip,
-    input  wire [7:0]                   s_ip_payload_axis_tdata,
-    input  wire                         s_ip_payload_axis_tvalid,
-    output wire                         s_ip_payload_axis_tready,
-    input  wire                         s_ip_payload_axis_tlast,
-    input  wire                         s_ip_payload_axis_tuser,
-
-    /*
-    * IP output
-    */
-    output wire                         m_ip_hdr_valid,
-    input  wire                         m_ip_hdr_ready,
-    output wire [5:0]                   m_ip_dscp,
-    output wire [1:0]                   m_ip_ecn,
-    output wire [15:0]                  m_ip_length,
-    output wire [7:0]                   m_ip_ttl,
-    output wire [7:0]                   m_ip_protocol,
-    output wire [31:0]                  m_ip_source_ip,
-    output wire [31:0]                  m_ip_dest_ip,
-    output wire [7:0]                   m_ip_payload_axis_tdata,
-    output wire                         m_ip_payload_axis_tvalid,
-    input  wire                         m_ip_payload_axis_tready,
-    output wire                         m_ip_payload_axis_tlast,
-    output wire                         m_ip_payload_axis_tuser
+    ip_intf.SLAVE s_ip_rx,
+    ip_intf.MASTER m_ip_tx
 );
+
 
 // regs
 tcp_stream_regs_pkg::tcp_stream_regs__in_t hwif_in;
