@@ -37,7 +37,7 @@ always_ff @(posedge i_clk) begin
     if (i_rst) begin
         tcp_state <= IDLE;
     end else begin
-        if (i_enable) begin
+        if (~i_enable) begin
             tcp_state <= IDLE;
         end else begin
             tcp_state <= tcp_state_next;
@@ -47,6 +47,8 @@ end
 
 always_comb begin
     tcp_state_next = tcp_state;
+
+    o_tx_ctrl_valid = '0;
 
     o_tx_ctrl = TX_CTRL_NOP;
     o_tx_ctrl_valid = '0;

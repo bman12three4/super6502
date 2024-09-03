@@ -45,6 +45,7 @@ logic [31:0]         w_tx_ack_number;
 logic [7:0]          w_tx_flags;
 logic [15:0]         w_tx_window_size;
 logic                w_tx_hdr_valid;
+logic                w_tx_packet_done;
 
 tcp_pkg::rx_msg_t rx_msg;
 
@@ -163,7 +164,9 @@ tcp_tx_ctrl u_tcp_tx_ctrl (
     .o_ack_number               (w_tx_ack_number),
     .o_flags                    (w_tx_flags),
     .o_window_size              (w_tx_window_size),
-    .o_hdr_valid                (w_tx_hdr_valid)
+    .o_hdr_valid                (w_tx_hdr_valid),
+
+    .i_packet_done              (w_tx_packet_done)
 );
 
 // packet generator
@@ -182,6 +185,8 @@ tcp_packet_generator u_tcp_packet_generator (
     .i_hdr_valid                (w_tx_hdr_valid),
     .i_src_ip                   (hwif_out.source_ip.d.value),
     .i_dst_ip                   (hwif_out.dest_ip.d.value),
+
+    .o_packet_done              (w_tx_packet_done),
 
     .m_ip                       (m_ip_tx)
 );

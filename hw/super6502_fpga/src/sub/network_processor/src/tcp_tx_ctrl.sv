@@ -12,7 +12,9 @@ module tcp_tx_ctrl(
     output logic [31:0]         o_ack_number,
     output logic [7:0]          o_flags,
     output logic [15:0]         o_window_size,
-    output logic                o_hdr_valid
+    output logic                o_hdr_valid,
+
+    input  wire                 i_packet_done
 );
 
 localparam FLAG_FIN = (1 << 0);
@@ -55,6 +57,10 @@ always_comb begin
         SEND_SYN: begin
             o_flags = FLAG_SYN;
             o_hdr_valid = '1;
+
+            if (i_packet_done) begin
+                state_next = IDLE;
+            end
         end
     endcase
 end
