@@ -36,6 +36,19 @@ axis_intf m2s_post_saf_axis();
 tcp_stream_regs_pkg::tcp_stream_regs__in_t hwif_in;
 tcp_stream_regs_pkg::tcp_stream_regs__out_t hwif_out;
 
+tcp_pkg::tx_ctrl_t tx_ctrl;
+logic tx_ctrl_valid;
+logic tx_ctrl_ack;
+
+logic [31:0]         o_seq_number;
+logic [31:0]         o_ack_number;
+logic [7:0]          o_flags;
+logic [15:0]         o_window_size;
+logic                o_hdr_vali;
+
+tcp_pkg::rx_msg_t rx_msg;
+
+
 
 tcp_stream_regs u_tcp_stream_regs (
     .clk                    (clk),
@@ -81,7 +94,26 @@ m2s_dma #(
     .m_axis                     (m2s_axis)
 );
 
-// SAF
+
+// tcp state manager
+tcp_state_manager u_tcp_state_manager (
+    .i_clk                      (clk),
+    .i_rst                      (rst),
+
+    .i_enable                   (hwif_out.control.enable.value),
+
+    .i_open                     (hwif_out.control.open.value),
+    .o_open_clr                 (hwif_in.control.open.hwclr),
+    .i_close                    (hwif_out.control.close.value),
+    .o_close_clr                (hwif_in.control.close.hwclr),
+
+    .o_tx_ctrl                  (tx_ctrl),
+    .o_tx_ctrl_valid            (tx_ctrl_valid),
+    .i_tx_ctrl_ack              (tx_ctrl_ack)
+);
+
+
+// tx buffer
 axis_fifo #(
     .DEPTH(4096),
     .DATA_WIDTH(DATA_WIDTH),
@@ -118,14 +150,39 @@ axis_fifo #(
     .status_good_frame          ()
 );
 
-
-// tcp state manager
-
-// tx buffer
-
 // tx control
+tcp_tx_ctrl u_tcp_tx_ctrl (
+    .i_clk                      (clk),
+    .i_rst                      (rst),
+
+    .i_tx_ctrl                  (tx_ctrl),
+    .i_tx_ctrl_valid            (tx_ctrl_valid),
+    .o_tx_ctrl_ack              (tx_ctrl_ack),
+
+    .o_seq_number               (w_tx_seq_number),
+    .o_ack_number               (w_tx_ack_number),
+    .o_flags                    (w_tx_flags),
+    .o_window_size              (w_tx_window_size),
+    .o_hdr_valid                (w_tx_hdr_valid)
+);
 
 // packet generator
+tcp_packet_generator u_tcp_packet_generator (
+    .i_clk                      (clk),
+    .i_rst                      (rst),
+
+    .s_axis_data                (m2s_post_saf_axis),
+
+    .i_seq_number               (w_tx_seq_number),
+    .i_ack_number               (w_tx_ack_number),
+    .i_source_port              (hwif_out.source_port.d.value),
+    .i_dest_port                (hwif_out.dest_port.d.value),
+    .i_flags                    (w_tx_flags),
+    .i_window_size              (w_tx_window_size),
+    .i_hdr_valid                (w_tx_hdr_valid)
+
+    .m_ip                       (m_ip_tx)
+);
 
 // parser
 

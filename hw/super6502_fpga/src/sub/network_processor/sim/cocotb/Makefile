@@ -19,6 +19,6 @@ GPI_IMPL := vpi
 
 export PYTHONPATH := $(PWD)/tests:$(PYTHONPATH)
 export TOPLEVEL_LANG
-MODULE=sanity
+MODULE=tcp_test
 
 include $(shell cocotb-config --makefiles)/Makefile.sim
