@@ -6,7 +6,7 @@ from cocotbext.axi import AxiLiteBus, AxiLiteMaster, AxiLiteRam
 from cocotbext.eth import MiiPhy, GmiiFrame
 import struct
 
-from scapy.layers.inet import Ether
+from scapy.layers.inet import Ether, IP, TCP
 from scapy.layers.l2 import ARP
 import logging
 
@@ -59,17 +59,20 @@ async def test_simple(dut):
 
     await tb.cycle_reset()
 
-    src_ip = "172.0.0.2"
-    dst_ip = "172.0.0.1"
+    dut_ip = "172.0.0.2"
+    tb_ip = "172.0.0.1"
 
-    local_mac = "02:00:00:11:22:33"
+    dut_port = 1234
+    tb_port = 5678
+
+    tb_mac = "02:00:00:11:22:33"
 
     await tb.axil_master.write_dword(0x0, 0x1807)
 
-    await tb.axil_master.write_dword(0x200, 0x1234)
-    await tb.axil_master.write_dword(0x204, ip_to_hex(src_ip))
-    await tb.axil_master.write_dword(0x208, 0x5678)
-    await tb.axil_master.write_dword(0x20c, ip_to_hex(dst_ip))
+    await tb.axil_master.write_dword(0x200, dut_port)
+    await tb.axil_master.write_dword(0x204, ip_to_hex(dut_ip))
+    await tb.axil_master.write_dword(0x208, tb_port)
+    await tb.axil_master.write_dword(0x20c, ip_to_hex(tb_ip))
     await tb.axil_master.write_dword(0x210, 0x3)
 
     resp = await tb.mii_phy.tx.recv() # type: GmiiFrame
@@ -90,14 +93,17 @@ async def test_simple(dut):
     tb.log.info(f"Arp psrc: {arp_request.psrc}")
     tb.log.info(f"Arp pdst: {arp_request.pdst}")
 
+    dut_mac = arp_request.hwsrc
+    dut_ip = arp_request.psrc
+
     assert arp_request.op == 1, "ARP type is not request!"
     assert arp_request.hwsrc == "02:00:00:aa:bb:cc", "ARP hwsrc does not match expected"
     assert arp_request.hwdst == "00:00:00:00:00:00", "ARP hwdst does not match expected"
-    assert arp_request.psrc == src_ip, "ARP psrc does not match expected"
-    assert arp_request.pdst == dst_ip, "ARP pdst does not match expected"
+    assert arp_request.psrc == dut_ip, "ARP psrc does not match expected"
+    assert arp_request.pdst == tb_ip, "ARP pdst does not match expected"
 
-    arp_response = Ether(dst=arp_request.hwsrc, src=local_mac)
-    arp_response /= ARP(op="is-at", hwsrc=local_mac, hwdst=arp_request.hwsrc, psrc=dst_ip, pdst=arp_request.psrc)
+    arp_response = Ether(dst=dut_mac, src=tb_mac)
+    arp_response /= ARP(op="is-at", hwsrc=tb_mac, hwdst=dut_mac, psrc=tb_ip, pdst=dut_ip)
     arp_response = arp_response.build()
 
     await tb.mii_phy.rx.send(GmiiFrame.from_payload(arp_response))
@@ -105,3 +111,31 @@ async def test_simple(dut):
     resp = await tb.mii_phy.tx.recv() # type: GmiiFrame
     packet = Ether(resp.get_payload())
     tb.log.info(f"Packet Type: {packet.type:x}")
+
+    ip_packet = packet.payload
+    assert isinstance(ip_packet, IP)
+
+    tcp_packet = ip_packet.payload
+    assert isinstance(tcp_packet, TCP)
+
+    tb.log.info(f"Source Port: {tcp_packet.sport}")
+    tb.log.info(f"Dest Port: {tcp_packet.dport}")
+    tb.log.info(f"Seq: {tcp_packet.seq}")
+    tb.log.info(f"Ack: {tcp_packet.ack}")
+    tb.log.info(f"Data Offs: {tcp_packet.dataofs}")
+    tb.log.info(f"flags: {tcp_packet.flags}")
+    tb.log.info(f"window: {tcp_packet.window}")
+    tb.log.info(f"Checksum: {tcp_packet.chksum}")
+
+
+    dut_seq = tcp_packet.seq
+    tb_seq = 0x12345678
+
+    tcp_synack = Ether(dst=dut_mac, src=tb_mac)
+    tcp_synack /= IP(src=tb_ip, dst=dut_ip)
+    tcp_synack /= TCP(sport=tb_port, dport=dut_port, seq=tb_seq, ack=dut_seq+1, flags="SA")
+    tcp_synack = tcp_synack.build()
+
+    await tb.mii_phy.rx.send(GmiiFrame.from_payload(tcp_synack))
+
+    await Timer(Decimal(CLK_PERIOD_NS * 800), units='ns')

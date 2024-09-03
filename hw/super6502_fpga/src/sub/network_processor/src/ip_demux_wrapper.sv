@@ -93,6 +93,9 @@ ip_demux #(
     .USER_ENABLE(USER_ENABLE),
     .USER_WIDTH(USER_WIDTH)
 ) u_ip_demux (
+    .clk                                (clk),
+    .rst                                (rst),
+
     .s_ip_hdr_valid                     (s_ip.ip_hdr_valid              ),
     .s_ip_hdr_ready                     (s_ip.ip_hdr_ready              ),
     .s_eth_dest_mac                     (s_ip.eth_dest_mac              ),
@@ -145,7 +148,11 @@ ip_demux #(
     .m_ip_payload_axis_tlast            (m_ip_payload_axis_tlast        ),
     .m_ip_payload_axis_tid              (m_ip_payload_axis_tid          ),
     .m_ip_payload_axis_tdest            (m_ip_payload_axis_tdest        ),
-    .m_ip_payload_axis_tuser            (m_ip_payload_axis_tuser        )
+    .m_ip_payload_axis_tuser            (m_ip_payload_axis_tuser        ),
+
+    .enable                             (enable),
+    .drop                               (drop),
+    .select                             (select)
 );
 
 endmodule
