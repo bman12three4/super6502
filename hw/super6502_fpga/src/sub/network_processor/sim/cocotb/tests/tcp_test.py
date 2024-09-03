@@ -6,8 +6,8 @@ from cocotbext.axi import AxiLiteBus, AxiLiteMaster, AxiLiteRam
 from cocotbext.eth import MiiPhy, GmiiFrame
 import struct
 
-from scapy.layers.inet import * 
-from scapy.layers.l2 import *
+from scapy.layers.inet import Ether
+from scapy.layers.l2 import ARP
 import logging
 
 from decimal import Decimal
@@ -64,7 +64,7 @@ async def test_simple(dut):
 
     local_mac = "02:00:00:11:22:33"
 
-    await tb.axil_master.write_dword(0x0, 0x3)
+    await tb.axil_master.write_dword(0x0, 0x1807)
 
     await tb.axil_master.write_dword(0x200, 0x1234)
     await tb.axil_master.write_dword(0x204, ip_to_hex(src_ip))
@@ -80,7 +80,7 @@ async def test_simple(dut):
 
     assert packet.type == 0x806, "Packet type is not ARP!"
 
-    
+
     arp_request = packet.payload
     assert isinstance(arp_request, ARP)
 
@@ -97,9 +97,11 @@ async def test_simple(dut):
     assert arp_request.pdst == dst_ip, "ARP pdst does not match expected"
 
     arp_response = Ether(dst=arp_request.hwsrc, src=local_mac)
-    arp_response /= ARP(hwsrc=local_mac, hwdst=arp_request.hwsrc, psrc=dst_ip, pdst=arp_request.psrc)
+    arp_response /= ARP(op="is-at", hwsrc=local_mac, hwdst=arp_request.hwsrc, psrc=dst_ip, pdst=arp_request.psrc)
     arp_response = arp_response.build()
 
     await tb.mii_phy.rx.send(GmiiFrame.from_payload(arp_response))
 
-    await Timer(Decimal(CLK_PERIOD_NS * 1000), units='ns')
+    resp = await tb.mii_phy.tx.recv() # type: GmiiFrame
+    packet = Ether(resp.get_payload())
+    tb.log.info(f"Packet Type: {packet.type:x}")
