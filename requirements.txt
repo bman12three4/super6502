@@ -4,3 +4,4 @@ rtl-manifest>=0.2.0
 cocotb
 cocotbext-axi
 cocotbext-eth
+scapy
