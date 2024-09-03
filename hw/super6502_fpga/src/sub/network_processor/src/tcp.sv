@@ -64,7 +64,6 @@ localparam USER_WIDTH = 1;
 localparam DEST_WIDTH = 8;
 localparam ID_WIDTH = 8;
 
-ip_intf #(.DATA_WIDTH(8)) tcp_tx_ip();
 ip_intf #(.DATA_WIDTH(8)) tcp_stream_tx_ip [NUM_TCP]();
 ip_intf #(.DATA_WIDTH(8)) tcp_rx_ip [NUM_TCP]();
 ip_intf #(.DATA_WIDTH(8)) tcp_stream_rx_ip [NUM_TCP]();
@@ -184,7 +183,7 @@ ip_arb_mux_wrapper #(
     .i_rst    (i_rst),
 
     .s_ip   (tcp_stream_tx_ip),
-    .m_ip   (tcp_tx_ip)
+    .m_ip   (m_ip)
 );
 
 

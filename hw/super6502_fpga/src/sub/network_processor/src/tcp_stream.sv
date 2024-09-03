@@ -40,11 +40,11 @@ tcp_pkg::tx_ctrl_t tx_ctrl;
 logic tx_ctrl_valid;
 logic tx_ctrl_ack;
 
-logic [31:0]         o_seq_number;
-logic [31:0]         o_ack_number;
-logic [7:0]          o_flags;
-logic [15:0]         o_window_size;
-logic                o_hdr_vali;
+logic [31:0]         w_tx_seq_number;
+logic [31:0]         w_tx_ack_number;
+logic [7:0]          w_tx_flags;
+logic [15:0]         w_tx_window_size;
+logic                w_tx_hdr_valid;
 
 tcp_pkg::rx_msg_t rx_msg;
 
@@ -179,7 +179,9 @@ tcp_packet_generator u_tcp_packet_generator (
     .i_dest_port                (hwif_out.dest_port.d.value),
     .i_flags                    (w_tx_flags),
     .i_window_size              (w_tx_window_size),
-    .i_hdr_valid                (w_tx_hdr_valid)
+    .i_hdr_valid                (w_tx_hdr_valid),
+    .i_src_ip                   (hwif_out.source_ip.d.value),
+    .i_dst_ip                   (hwif_out.dest_ip.d.value),
 
     .m_ip                       (m_ip_tx)
 );
