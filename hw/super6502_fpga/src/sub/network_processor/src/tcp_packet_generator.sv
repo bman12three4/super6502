@@ -81,14 +81,14 @@ always_comb begin
                 16: m_ip.ip_payload_axis_tdata = checksum[15:8];
                 17: m_ip.ip_payload_axis_tdata = checksum[7:0];
                 18: m_ip.ip_payload_axis_tdata = '0;
-                19: begin 
+                19: begin
                     m_ip.ip_payload_axis_tdata = '0;
                     m_ip.ip_payload_axis_tlast = '1;
                 end
             endcase
 
             if (m_ip.ip_payload_axis_tready) begin
-                counter_next <= counter + 1;
+                counter_next = counter + 1;
 
                 if (m_ip.ip_payload_axis_tlast) begin
                     state_next = IDLE;

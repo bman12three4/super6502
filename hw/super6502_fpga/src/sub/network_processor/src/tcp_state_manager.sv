@@ -68,7 +68,7 @@ always_comb begin
         end
 
         SYN_SENT: begin
-            $display("SYN_SENT not implemented");
+            // $display("SYN_SENT not implemented");
         end
     endcase
 end

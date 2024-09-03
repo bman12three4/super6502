@@ -309,8 +309,6 @@ ip_arb_mux_wrapper #(
     .m_ip                               (ntw_tx_ip)
 );
 
-axil_intf dummy();
-
 tcp #(
     .NUM_TCP(NUM_TCP)
 ) tcp (
