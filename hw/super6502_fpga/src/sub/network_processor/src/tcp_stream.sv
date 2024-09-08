@@ -20,6 +20,8 @@ module tcp_stream #(
     output wire s_cpuif_wr_ack,
     output wire s_cpuif_wr_err,
 
+    output logic [15:0] o_tcp_port,
+
     ip_intf.SLAVE s_ip_rx,
     ip_intf.MASTER m_ip_tx,
 
@@ -49,6 +51,7 @@ logic                w_tx_packet_done;
 
 tcp_pkg::rx_msg_t rx_msg;
 
+assign o_tcp_port = hwif_out.source_port.d.value;
 
 
 tcp_stream_regs u_tcp_stream_regs (
@@ -192,6 +195,12 @@ tcp_packet_generator u_tcp_packet_generator (
 );
 
 // parser
+tcp_parser u_tcp_parser (
+    .i_clk                      (clk),
+    .i_rst                      (rst),
+
+    .s_ip                       (s_ip_rx)
+);
 
 // rx control
 

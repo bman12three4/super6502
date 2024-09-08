@@ -31,9 +31,9 @@ module network_processor #(
 `define PROTO_TCP 8'h6
 `define PROTO_UDP 8'h11
 
-localparam ICMP_IDX = 0;
+localparam ICMP_IDX = 2;
 localparam UDP_IDX = 1;
-localparam TCP_IDX = 2;
+localparam TCP_IDX = 0;
 
 localparam MAC_DATA_WIDTH = 8;
 localparam AXIS_DATA_WIDTH = 8;

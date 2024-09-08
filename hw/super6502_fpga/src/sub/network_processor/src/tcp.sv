@@ -65,10 +65,8 @@ localparam DEST_WIDTH = 8;
 localparam ID_WIDTH = 8;
 
 ip_intf #(.DATA_WIDTH(8)) tcp_stream_tx_ip [NUM_TCP]();
-ip_intf #(.DATA_WIDTH(8)) tcp_rx_ip [NUM_TCP]();
+ip_intf #(.DATA_WIDTH(8)) tcp_delayed_rx_ip();
 ip_intf #(.DATA_WIDTH(8)) tcp_stream_rx_ip [NUM_TCP]();
-
-axis_intf #(.DATA_WIDTH(8)) tcp_stream_rx_axis [NUM_TCP]();
 
 axil_intf m2s_stream_axil[NUM_TCP]();
 axil_intf s2m_stream_axil[NUM_TCP]();
@@ -186,8 +184,47 @@ ip_arb_mux_wrapper #(
     .m_ip   (m_ip)
 );
 
+// dest decap
+logic [15:0] tcp_dest;
+logic tcp_dest_valid;
+
+tcp_dest_decap u_tcp_dest_decap(
+    .i_clk      (i_clk),
+    .i_rst      (i_rst),
+
+    .s_ip       (s_ip),
+    .m_ip       (tcp_delayed_rx_ip),
+
+    .o_tcp_dest (tcp_dest),
+    .o_tcp_dest_valid(tcp_dest_valid)
+);
 
 // rx_stream demux (ip)
+
+logic [$clog2(NUM_TCP)-1:0] tcp_demux_sel;
+logic [15:0] tcp_dests [NUM_TCP];
+
+always_comb begin : TCP_DEST_SEL
+    for (int i = 0; i < NUM_TCP; i++) begin
+        if (tcp_dest == tcp_dests[i]) begin
+            tcp_demux_sel = i;
+        end
+    end
+end
+
+ip_demux_wrapper #(
+    .M_COUNT(NUM_TCP)
+) u_ip_demux (
+    .clk        (i_clk),
+    .rst        (i_rst),
+
+    .s_ip       (tcp_delayed_rx_ip),
+    .m_ip       (tcp_stream_rx_ip),
+
+    .enable     (tcp_dest_valid),
+    .drop       ('0),
+    .select     (tcp_demux_sel)
+);
 
 
 generate
@@ -222,6 +259,8 @@ generate
             .s_cpuif_rd_data            (tcp_hwif_in.tcp_streams[i].rd_data),
             .s_cpuif_wr_ack             (tcp_hwif_in.tcp_streams[i].wr_ack),
             .s_cpuif_wr_err             (),
+
+            .o_tcp_port                 (tcp_dests[i]),
 
             .s_ip_rx                    (tcp_stream_rx_ip[i]),
             .m_ip_tx                    (tcp_stream_tx_ip[i]),

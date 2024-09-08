@@ -62,8 +62,8 @@ async def test_simple(dut):
     dut_ip = "172.0.0.2"
     tb_ip = "172.0.0.1"
 
-    dut_port = 1234
-    tb_port = 5678
+    dut_port = 0x1234
+    tb_port = 0x5678
 
     tb_mac = "02:00:00:11:22:33"
 
@@ -129,7 +129,7 @@ async def test_simple(dut):
 
 
     dut_seq = tcp_packet.seq
-    tb_seq = 0x12345678
+    tb_seq = 0x11111111
 
     tcp_synack = Ether(dst=dut_mac, src=tb_mac)
     tcp_synack /= IP(src=tb_ip, dst=dut_ip)
