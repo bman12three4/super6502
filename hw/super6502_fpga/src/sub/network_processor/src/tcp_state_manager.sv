@@ -23,7 +23,8 @@ module tcp_state_manager(
 enum logic [3:0] {
     IDLE,
     SYN_RCVD,       // In this design, this state should not be reached!
-    SYN_SENT,
+    SYN_SENT_1,
+    SYN_SENT_2,
     ESTABLISHED,
     WAIT_CLOSE,
     LAST_ACK,
@@ -62,13 +63,28 @@ always_comb begin
                 o_tx_ctrl_valid = '1;
 
                 if (i_tx_ctrl_ack) begin
-                    tcp_state_next = SYN_SENT;
+                    tcp_state_next = SYN_SENT_1;
                 end
             end
         end
 
-        SYN_SENT: begin
-            // $display("SYN_SENT not implemented");
+        SYN_SENT_1: begin
+            if (i_rx_msg_valid && i_rx_msg== RX_MSG_RECV_SYNACK) begin
+                tcp_state_next = SYN_SENT_2;
+            end
+        end
+
+        SYN_SENT_2: begin
+            o_tx_ctrl = TX_CTRL_SEND_ACK;
+            o_tx_ctrl_valid = '1;
+
+            if (i_tx_ctrl_ack) begin
+                tcp_state_next = ESTABLISHED;
+            end
+        end
+
+        ESTABLISHED: begin
+
         end
     endcase
 end

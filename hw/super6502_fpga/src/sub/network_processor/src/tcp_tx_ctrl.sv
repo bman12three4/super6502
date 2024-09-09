@@ -26,7 +26,7 @@ localparam FLAG_URG = (1 << 5);
 localparam FLAG_ECE = (1 << 6);
 localparam FLAG_CWR = (1 << 7);
 
-enum logic [2:0] {IDLE, SEND_SYN} state, state_next;
+enum logic [2:0] {IDLE, SEND_SYN, SEND_ACK} state, state_next;
 
 always_ff @(posedge i_clk) begin
     if (i_rst) begin
@@ -50,12 +50,22 @@ always_comb begin
 
                 case (i_tx_ctrl)
                     TX_CTRL_SEND_SYN: state_next = SEND_SYN;
+                    TX_CTRL_SEND_ACK: state_next = SEND_ACK;
                 endcase
             end
         end
 
         SEND_SYN: begin
             o_flags = FLAG_SYN;
+            o_hdr_valid = '1;
+
+            if (i_packet_done) begin
+                state_next = IDLE;
+            end
+        end
+
+        SEND_ACK: begin
+            o_flags = FLAG_ACK;
             o_hdr_valid = '1;
 
             if (i_packet_done) begin

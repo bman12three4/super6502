@@ -37,11 +37,15 @@ end
 
 always_comb begin
     m_ip.ip_hdr_valid = '0;
+    m_ip.ip_payload_axis_tvalid = '0;
+    m_ip.ip_payload_axis_tlast = '0;
     o_packet_done = '0;
 
     case (state)
 
         IDLE: begin
+            counter_next = '0;
+
             if (i_hdr_valid) begin
                 m_ip.ip_hdr_valid   = '1;
                 m_ip.ip_dscp        = '0;

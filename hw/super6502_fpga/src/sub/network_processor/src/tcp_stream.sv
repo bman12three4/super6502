@@ -33,6 +33,7 @@ axis_intf m2s_axis();
 axis_intf s2m_axis();
 
 axis_intf m2s_post_saf_axis();
+axis_intf s2m_pre_saf_axis();
 
 // regs
 tcp_stream_regs_pkg::tcp_stream_regs__in_t hwif_in;
@@ -42,6 +43,10 @@ tcp_pkg::tx_ctrl_t tx_ctrl;
 logic tx_ctrl_valid;
 logic tx_ctrl_ack;
 
+tcp_pkg::rx_msg_t rx_msg;
+logic rx_msg_valid;
+logic rx_msg_ack;
+
 logic [31:0]         w_tx_seq_number;
 logic [31:0]         w_tx_ack_number;
 logic [7:0]          w_tx_flags;
@@ -49,7 +54,12 @@ logic [15:0]         w_tx_window_size;
 logic                w_tx_hdr_valid;
 logic                w_tx_packet_done;
 
-tcp_pkg::rx_msg_t rx_msg;
+logic [31:0]         w_rx_seq_number;
+logic [31:0]         w_rx_ack_number;
+logic [7:0]          w_rx_flags;
+logic [15:0]         w_rx_window_size;
+logic                w_rx_hdr_valid;
+
 
 assign o_tcp_port = hwif_out.source_port.d.value;
 
@@ -113,7 +123,11 @@ tcp_state_manager u_tcp_state_manager (
 
     .o_tx_ctrl                  (tx_ctrl),
     .o_tx_ctrl_valid            (tx_ctrl_valid),
-    .i_tx_ctrl_ack              (tx_ctrl_ack)
+    .i_tx_ctrl_ack              (tx_ctrl_ack),
+
+    .i_rx_msg                   (rx_msg),
+    .i_rx_msg_valid             (rx_msg_valid),
+    .o_rx_msg_ack               (rx_msg_ack)
 );
 
 
@@ -199,10 +213,31 @@ tcp_parser u_tcp_parser (
     .i_clk                      (clk),
     .i_rst                      (rst),
 
-    .s_ip                       (s_ip_rx)
+    .s_ip                       (s_ip_rx),
+    .m_axis                     (s2m_pre_saf_axis),
+
+    .o_seq_number               (w_rx_seq_number),
+    .o_ack_number               (w_rx_ack_number),
+    .o_flags                    (w_rx_flags),
+    .o_window_size              (w_rx_window_size),
+    .o_hdr_valid                (w_rx_hdr_valid)
 );
 
 // rx control
+tcp_rx_ctrl u_tcp_rx_ctrl (
+    .i_clk                      (clk),
+    .i_rst                      (rst),
+
+    .o_rx_msg                   (rx_msg),
+    .o_rx_msg_valid             (rx_msg_valid),
+    .i_rx_msg_ack               (rx_msg_ack),
+
+    .i_seq_number               (w_rx_seq_number),
+    .i_ack_number               (w_rx_ack_number),
+    .i_flags                    (w_rx_flags),
+    .i_window_size              (w_rx_window_size),
+    .i_hdr_valid                (w_rx_hdr_valid)
+);
 
 // rx buffer
 

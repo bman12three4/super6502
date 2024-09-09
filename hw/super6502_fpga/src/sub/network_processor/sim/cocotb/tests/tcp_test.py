@@ -138,4 +138,22 @@ async def test_simple(dut):
 
     await tb.mii_phy.rx.send(GmiiFrame.from_payload(tcp_synack))
 
-    await Timer(Decimal(CLK_PERIOD_NS * 800), units='ns')
+    resp = await tb.mii_phy.tx.recv() # type: GmiiFrame
+    packet = Ether(resp.get_payload())
+    tb.log.info(f"Packet Type: {packet.type:x}")
+
+
+    ip_packet = packet.payload
+    assert isinstance(ip_packet, IP)
+
+    tcp_packet = ip_packet.payload
+    assert isinstance(tcp_packet, TCP)
+
+    tb.log.info(f"Source Port: {tcp_packet.sport}")
+    tb.log.info(f"Dest Port: {tcp_packet.dport}")
+    tb.log.info(f"Seq: {tcp_packet.seq}")
+    tb.log.info(f"Ack: {tcp_packet.ack}")
+    tb.log.info(f"Data Offs: {tcp_packet.dataofs}")
+    tb.log.info(f"flags: {tcp_packet.flags}")
+    tb.log.info(f"window: {tcp_packet.window}")
+    tb.log.info(f"Checksum: {tcp_packet.chksum}")
