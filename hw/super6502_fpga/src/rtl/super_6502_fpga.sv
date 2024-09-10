@@ -260,7 +260,7 @@ cpu_wrapper u_cpu_wrapper_0(
 
 
 axilxbar #(
-    .NM(2),
+    .NM(3),
     .NS(5),
     .SLAVE_ADDR({
         {32'h000001ff, 32'h00000000},
@@ -273,23 +273,23 @@ axilxbar #(
     .S_AXI_ACLK         (i_sysclk),
     .S_AXI_ARESETN      (master_resetn),
 
-    .S_AXI_ARADDR       ({cpu0_ARADDR,  sd_controller_dma_ARADDR        }),
-    .S_AXI_ARVALID      ({cpu0_ARVALID, sd_controller_dma_ARVALID       }),
-    .S_AXI_ARREADY      ({cpu0_ARREADY, sd_controller_dma_ARREADY       }),
-    .S_AXI_RDATA        ({cpu0_RDATA,   sd_controller_dma_RDATA         }),
-    .S_AXI_RRESP        ({cpu0_RRESP,   sd_controller_dma_RRESP         }),
-    .S_AXI_RVALID       ({cpu0_RVALID,  sd_controller_dma_RVALID        }),
-    .S_AXI_RREADY       ({cpu0_RREADY,  sd_controller_dma_RREADY        }),
-    .S_AXI_AWADDR       ({cpu0_AWADDR,  sd_controller_dma_AWADDR        }),
-    .S_AXI_AWREADY      ({cpu0_AWREADY, sd_controller_dma_AWREADY       }),
-    .S_AXI_AWVALID      ({cpu0_AWVALID, sd_controller_dma_AWVALID       }),
-    .S_AXI_WVALID       ({cpu0_WVALID,  sd_controller_dma_WVALID        }),
-    .S_AXI_WREADY       ({cpu0_WREADY,  sd_controller_dma_WREADY        }),
-    .S_AXI_WDATA        ({cpu0_WDATA,   sd_controller_dma_WDATA         }),
-    .S_AXI_WSTRB        ({cpu0_WSTRB,   sd_controller_dma_WSTRB         }),
-    .S_AXI_BRESP        ({cpu0_BRESP,   sd_controller_dma_BRESP         }),
-    .S_AXI_BVALID       ({cpu0_BVALID,  sd_controller_dma_BVALID        }),
-    .S_AXI_BREADY       ({cpu0_BREADY,  sd_controller_dma_BREADY        }),
+    .S_AXI_ARADDR       ({cpu0_ARADDR,  sd_controller_dma_ARADDR,       ntw_dma.araddr  }),
+    .S_AXI_ARVALID      ({cpu0_ARVALID, sd_controller_dma_ARVALID,      ntw_dma.arvalid }),
+    .S_AXI_ARREADY      ({cpu0_ARREADY, sd_controller_dma_ARREADY,      ntw_dma.arready }),
+    .S_AXI_RDATA        ({cpu0_RDATA,   sd_controller_dma_RDATA,        ntw_dma.rdata   }),
+    .S_AXI_RRESP        ({cpu0_RRESP,   sd_controller_dma_RRESP,        ntw_dma.rresp   }),
+    .S_AXI_RVALID       ({cpu0_RVALID,  sd_controller_dma_RVALID,       ntw_dma.rvalid  }),
+    .S_AXI_RREADY       ({cpu0_RREADY,  sd_controller_dma_RREADY,       ntw_dma.rready  }),
+    .S_AXI_AWADDR       ({cpu0_AWADDR,  sd_controller_dma_AWADDR,       ntw_dma.awaddr  }),
+    .S_AXI_AWVALID      ({cpu0_AWVALID, sd_controller_dma_AWVALID,      ntw_dma.awvalid }),
+    .S_AXI_AWREADY      ({cpu0_AWREADY, sd_controller_dma_AWREADY,      ntw_dma.awready }),
+    .S_AXI_WVALID       ({cpu0_WVALID,  sd_controller_dma_WVALID,       ntw_dma.wvalid  }),
+    .S_AXI_WDATA        ({cpu0_WDATA,   sd_controller_dma_WDATA,        ntw_dma.wdata   }),
+    .S_AXI_WREADY       ({cpu0_WREADY,  sd_controller_dma_WREADY,       ntw_dma.wready  }),
+    .S_AXI_WSTRB        ({cpu0_WSTRB,   sd_controller_dma_WSTRB,        ntw_dma.wstrb   }),
+    .S_AXI_BRESP        ({cpu0_BRESP,   sd_controller_dma_BRESP,        ntw_dma.bresp   }),
+    .S_AXI_BVALID       ({cpu0_BVALID,  sd_controller_dma_BVALID,       ntw_dma.bvalid  }),
+    .S_AXI_BREADY       ({cpu0_BREADY,  sd_controller_dma_BREADY,       ntw_dma.bready  }),
     .M_AXI_ARADDR       ({ram_araddr,   rom_araddr,     sdram_ARADDR,   sd_controller_ctrl_ARADDR,  ntw_reg.araddr  }),
     .M_AXI_ARVALID      ({ram_arvalid,  rom_arvalid,    sdram_ARVALID,  sd_controller_ctrl_ARVALID, ntw_reg.arvalid }),
     .M_AXI_ARREADY      ({ram_arready,  rom_arready,    sdram_ARREADY,  sd_controller_ctrl_ARREADY, ntw_reg.arready }),
@@ -507,7 +507,7 @@ sd_controller_wrapper #(
 );
 
 network_processor #(
-    .NUM_TCP(8)
+    .NUM_TCP(4)
 ) u_network_processor (
     .i_clk              (i_sysclk),
     .i_rst              (~master_resetn),

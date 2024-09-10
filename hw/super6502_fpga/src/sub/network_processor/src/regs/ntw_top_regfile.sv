@@ -262,8 +262,8 @@ module ntw_top_regfile (
         is_external = '0;
         decoded_reg_strb.mac = cpuif_req_masked & (cpuif_addr >= 10'h0) & (cpuif_addr <= 10'h0 + 10'h7);
         is_external |= cpuif_req_masked & (cpuif_addr >= 10'h0) & (cpuif_addr <= 10'h0 + 10'h7);
-        decoded_reg_strb.tcp_top = cpuif_req_masked & (cpuif_addr >= 10'h200) & (cpuif_addr <= 10'h200 + 10'h1ff);
-        is_external |= cpuif_req_masked & (cpuif_addr >= 10'h200) & (cpuif_addr <= 10'h200 + 10'h1ff);
+        decoded_reg_strb.tcp_top = cpuif_req_masked & (cpuif_addr >= 10'h200) & (cpuif_addr <= 10'h200 + 10'hff);
+        is_external |= cpuif_req_masked & (cpuif_addr >= 10'h200) & (cpuif_addr <= 10'h200 + 10'hff);
         decoded_strb_is_external = is_external;
         external_req = is_external;
     end
@@ -289,7 +289,7 @@ module ntw_top_regfile (
     assign hwif_out.mac.wr_data = decoded_wr_data;
     assign hwif_out.mac.wr_biten = decoded_wr_biten;
     assign hwif_out.tcp_top.req = decoded_reg_strb.tcp_top;
-    assign hwif_out.tcp_top.addr = decoded_addr[9:0];
+    assign hwif_out.tcp_top.addr = decoded_addr[8:0];
     assign hwif_out.tcp_top.req_is_wr = decoded_req_is_wr;
     assign hwif_out.tcp_top.wr_data = decoded_wr_data;
     assign hwif_out.tcp_top.wr_biten = decoded_wr_biten;

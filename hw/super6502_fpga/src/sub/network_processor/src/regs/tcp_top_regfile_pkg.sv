@@ -4,7 +4,7 @@
 package tcp_top_regfile_pkg;
 
     localparam TCP_TOP_REGFILE_DATA_WIDTH = 32;
-    localparam TCP_TOP_REGFILE_MIN_ADDR_WIDTH = 9;
+    localparam TCP_TOP_REGFILE_MIN_ADDR_WIDTH = 8;
 
     typedef struct {
         logic rd_ack;
@@ -13,7 +13,7 @@ package tcp_top_regfile_pkg;
     } tcp_stream_regs__external__in_t;
 
     typedef struct {
-        tcp_stream_regs__external__in_t tcp_streams[8];
+        tcp_stream_regs__external__in_t tcp_streams[4];
     } tcp_top_regfile__in_t;
 
     typedef struct {
@@ -25,6 +25,6 @@ package tcp_top_regfile_pkg;
     } tcp_stream_regs__external__out_t;
 
     typedef struct {
-        tcp_stream_regs__external__out_t tcp_streams[8];
+        tcp_stream_regs__external__out_t tcp_streams[4];
     } tcp_top_regfile__out_t;
 endpackage

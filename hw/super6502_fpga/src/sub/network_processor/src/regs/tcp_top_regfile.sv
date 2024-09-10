@@ -7,7 +7,7 @@ module tcp_top_regfile (
 
         input wire s_cpuif_req,
         input wire s_cpuif_req_is_wr,
-        input wire [8:0] s_cpuif_addr,
+        input wire [7:0] s_cpuif_addr,
         input wire [31:0] s_cpuif_wr_data,
         input wire [31:0] s_cpuif_wr_biten,
         output wire s_cpuif_req_stall_wr,
@@ -27,7 +27,7 @@ module tcp_top_regfile (
     //--------------------------------------------------------------------------
     logic cpuif_req;
     logic cpuif_req_is_wr;
-    logic [8:0] cpuif_addr;
+    logic [7:0] cpuif_addr;
     logic [31:0] cpuif_wr_data;
     logic [31:0] cpuif_wr_biten;
     logic cpuif_req_stall_wr;
@@ -83,12 +83,12 @@ module tcp_top_regfile (
     // Address Decode
     //--------------------------------------------------------------------------
     typedef struct {
-        logic tcp_streams[8];
+        logic tcp_streams[4];
     } decoded_reg_strb_t;
     decoded_reg_strb_t decoded_reg_strb;
     logic decoded_strb_is_external;
 
-    logic [8:0] decoded_addr;
+    logic [7:0] decoded_addr;
 
     logic decoded_req;
     logic decoded_req_is_wr;
@@ -98,9 +98,9 @@ module tcp_top_regfile (
     always_comb begin
         automatic logic is_external;
         is_external = '0;
-        for(int i0=0; i0<8; i0++) begin
-            decoded_reg_strb.tcp_streams[i0] = cpuif_req_masked & (cpuif_addr >= 9'h0 + i0*9'h40) & (cpuif_addr <= 9'h0 + i0*9'h40 + 9'h2f);
-            is_external |= cpuif_req_masked & (cpuif_addr >= 9'h0 + i0*9'h40) & (cpuif_addr <= 9'h0 + i0*9'h40 + 9'h2f);
+        for(int i0=0; i0<4; i0++) begin
+            decoded_reg_strb.tcp_streams[i0] = cpuif_req_masked & (cpuif_addr >= 8'h0 + i0*8'h40) & (cpuif_addr <= 8'h0 + i0*8'h40 + 8'h2f);
+            is_external |= cpuif_req_masked & (cpuif_addr >= 8'h0 + i0*8'h40) & (cpuif_addr <= 8'h0 + i0*8'h40 + 8'h2f);
         end
         decoded_strb_is_external = is_external;
         external_req = is_external;
@@ -121,7 +121,7 @@ module tcp_top_regfile (
 
     
 
-    for(genvar i0=0; i0<8; i0++) begin
+    for(genvar i0=0; i0<4; i0++) begin
         assign hwif_out.tcp_streams[i0].req = decoded_reg_strb.tcp_streams[i0];
         assign hwif_out.tcp_streams[i0].addr = decoded_addr[5:0];
         assign hwif_out.tcp_streams[i0].req_is_wr = decoded_req_is_wr;
@@ -135,7 +135,7 @@ module tcp_top_regfile (
     always_comb begin
         automatic logic wr_ack;
         wr_ack = '0;
-        for(int i0=0; i0<8; i0++) begin
+        for(int i0=0; i0<4; i0++) begin
             wr_ack |= hwif_in.tcp_streams[i0].wr_ack;
         end
         external_wr_ack = wr_ack;
@@ -151,7 +151,7 @@ module tcp_top_regfile (
     always_comb begin
         automatic logic rd_ack;
         rd_ack = '0;
-        for(int i0=0; i0<8; i0++) begin
+        for(int i0=0; i0<4; i0++) begin
             rd_ack |= hwif_in.tcp_streams[i0].rd_ack;
         end
         readback_external_rd_ack_c = rd_ack;
@@ -166,8 +166,8 @@ module tcp_top_regfile (
     logic [31:0] readback_data;
 
     // Assign readback values to a flattened array
-    logic [31:0] readback_array[8];
-    for(genvar i0=0; i0<8; i0++) begin
+    logic [31:0] readback_array[4];
+    for(genvar i0=0; i0<4; i0++) begin
         assign readback_array[i0*1 + 0] = hwif_in.tcp_streams[i0].rd_ack ? hwif_in.tcp_streams[i0].rd_data : '0;
     end
 
@@ -177,7 +177,7 @@ module tcp_top_regfile (
         readback_done = decoded_req & ~decoded_req_is_wr & ~decoded_strb_is_external;
         readback_err = '0;
         readback_data_var = '0;
-        for(int i=0; i<8; i++) readback_data_var |= readback_array[i];
+        for(int i=0; i<4; i++) readback_data_var |= readback_array[i];
         readback_data = readback_data_var;
     end
 
