@@ -1,7 +1,7 @@
 module tcp_dest_decap (
     input               i_clk,
     input               i_rst,
-    
+
     ip_intf.SLAVE       s_ip,
     ip_intf.MASTER      m_ip,
 
@@ -15,6 +15,8 @@ logic [31:0] pipe, pipe_next;
 logic [3:0] pipe_valid, pipe_valid_next;
 logic [3:0] pipe_last, pipe_last_next;
 
+logic valid;
+
 
 enum logic [1:0] {PORTS, PASSTHROUGH} state, state_next;
 logic [1:0] counter, counter_next;
@@ -25,6 +27,7 @@ assign m_ip.eth_src_mac = '0;
 assign m_ip.eth_dest_mac = '0;
 assign m_ip.eth_type = '0;
 
+assign o_tcp_dest_valid = valid;
 assign o_tcp_dest = tcp_dest;
 
 skidbuffer #(
@@ -100,7 +103,7 @@ always_comb begin
     case (state)
         PORTS: begin
             s_ip.ip_payload_axis_tready = 1;
-            o_tcp_dest_valid = '0;
+            valid = '0;
 
             if (s_ip.ip_payload_axis_tvalid) begin
                 counter_next = counter + 1;
@@ -124,7 +127,7 @@ always_comb begin
             m_ip.ip_payload_axis_tlast = pipe_last[3];
             m_ip.ip_payload_axis_tdata = pipe[31:24];
 
-            o_tcp_dest_valid = '1;
+            valid = '1;
         end
     endcase
 end

@@ -1,3 +1,5 @@
+import tcp_pkg::*;
+
 module tcp_rx_ctrl (
     input wire              i_clk,
     input wire              i_rst,

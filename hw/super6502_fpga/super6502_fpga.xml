@@ -1,4 +1,4 @@
-<efx:project xmlns:efx="http://www.efinixinc.com/enf_proj" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="super6502_fpga" description="" last_change_date="Mon Aug 19 2024 11:14:10 PM" location="/cluster/projects/super6502/hw/super6502_fpga" sw_version="2023.1.150" last_run_state="pass" last_run_tool="efx_pgm" last_run_flow="bitstream" config_result_in_sync="sync" design_ood="sync" place_ood="sync" route_ood="sync" xsi:schemaLocation="http://www.efinixinc.com/enf_proj enf_proj.xsd">
+<efx:project xmlns:efx="http://www.efinixinc.com/enf_proj" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="super6502_fpga" description="" last_change_date="Mon Sep 09 2024 09:57:50 PM" location="/cluster/projects/super6502/hw/super6502_fpga" sw_version="2023.1.150" last_run_state="pass" last_run_tool="efx_pgm" last_run_flow="bitstream" config_result_in_sync="sync" design_ood="sync" place_ood="sync" route_ood="sync" xsi:schemaLocation="http://www.efinixinc.com/enf_proj enf_proj.xsd">
     <efx:device_info>
         <efx:family name="Trion" />
         <efx:device name="T20F256" />
@@ -45,11 +45,8 @@
         <efx:design_file name="src/sub/network_processor/src/regs/tcp_top_regfile.sv" version="default" library="default" />
         <efx:design_file name="src/sub/network_processor/src/regs/tcp_stream_regs.sv" version="default" library="default" />
         <efx:design_file name="src/sub/network_processor/src/regs/tcp_top_regfile_pkg.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/packet_generator.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/ring_buffer_manager.sv" version="default" library="default" />
         <efx:design_file name="src/sub/network_processor/src/eth_wrapper.sv" version="default" library="default" />
         <efx:design_file name="src/sub/network_processor/src/tcp.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/tx_control.sv" version="default" library="default" />
         <efx:design_file name="src/sub/network_processor/src/regs/mac_regs_pkg.sv" version="default" library="default" />
         <efx:design_file name="src/sub/network_processor/src/regs/ntw_top_regfile.sv" version="default" library="default" />
         <efx:design_file name="src/sub/network_processor/src/regs/mac_regs.sv" version="default" library="default" />
@@ -190,6 +187,22 @@
         <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_frame_len.v" version="default" library="default" />
         <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/sync_reset.v" version="default" library="default" />
         <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/priority_encoder.v" version="default" library="default" />
+        <efx:design_file name="src/sub/stream_dmas/src/m2s_dma.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/stream_dmas/src/regs/m2s_dma_regs.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/stream_dmas/src/regs/m2s_dma_regs_pkg.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/network_processor/src/tcp_pkg.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/network_processor/src/tcp_parser.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/network_processor/src/ip_demux_wrapper.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/network_processor/src/tcp_rx_ctrl.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/network_processor/src/ip_arb_mux_wrapper.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/network_processor/src/s2m_dma.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/network_processor/src/tcp_dest_decap.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/network_processor/src/tcp_packet_generator.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/network_processor/src/tcp_tx_ctrl.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/interfaces/axil_intf.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/interfaces/axis_intf.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/interfaces/ip_intf.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/interfaces/eth_intf.sv" version="default" library="default" />
         <efx:top_vhdl_arch name="" />
     </efx:design_info>
     <efx:constraint_info>
