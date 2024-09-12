@@ -8,6 +8,8 @@ import struct
 
 from scapy.layers.inet import Ether, IP, TCP
 from scapy.layers.l2 import ARP
+from scapy.utils import PcapWriter
+
 import logging
 
 from decimal import Decimal
@@ -55,6 +57,9 @@ def ip_to_hex(ip: str) -> int:
 
 @cocotb.test()
 async def test_simple(dut):
+    pktdump = PcapWriter("tcp.pcap", append=True, sync=True)
+
+
     tb = TB(dut)
 
     await tb.cycle_reset()
@@ -78,6 +83,7 @@ async def test_simple(dut):
     resp = await tb.mii_phy.tx.recv() # type: GmiiFrame
 
     packet = Ether(resp.get_payload())
+    pktdump.write(packet)
 
     tb.log.info(f"Packet Type: {packet.type:x}")
 
@@ -106,10 +112,15 @@ async def test_simple(dut):
     arp_response /= ARP(op="is-at", hwsrc=tb_mac, hwdst=dut_mac, psrc=tb_ip, pdst=dut_ip)
     arp_response = arp_response.build()
 
+    pktdump.write(arp_response)
+
     await tb.mii_phy.rx.send(GmiiFrame.from_payload(arp_response))
+
+    # 1. DUT sends syn with seq number
 
     resp = await tb.mii_phy.tx.recv() # type: GmiiFrame
     packet = Ether(resp.get_payload())
+    pktdump.write(packet)
     tb.log.info(f"Packet Type: {packet.type:x}")
 
     ip_packet = packet.payload
@@ -129,17 +140,23 @@ async def test_simple(dut):
 
 
     dut_seq = tcp_packet.seq
-    tb_seq = 0x11111111
+    tb_seq = 11111111
+
+    # 2. Send SYNACK with seq as our sequence number, and ACK as their sequence number plus 1
 
     tcp_synack = Ether(dst=dut_mac, src=tb_mac)
     tcp_synack /= IP(src=tb_ip, dst=dut_ip)
     tcp_synack /= TCP(sport=tb_port, dport=dut_port, seq=tb_seq, ack=dut_seq+1, flags="SA")
     tcp_synack = tcp_synack.build()
+    pktdump.write(tcp_synack)
 
     await tb.mii_phy.rx.send(GmiiFrame.from_payload(tcp_synack))
 
+    # 3. Receieve ACK with our sequence number plus 1
+
     resp = await tb.mii_phy.tx.recv() # type: GmiiFrame
     packet = Ether(resp.get_payload())
+    pktdump.write(packet)
     tb.log.info(f"Packet Type: {packet.type:x}")
 
 
@@ -157,3 +174,5 @@ async def test_simple(dut):
     tb.log.info(f"flags: {tcp_packet.flags}")
     tb.log.info(f"window: {tcp_packet.window}")
     tb.log.info(f"Checksum: {tcp_packet.chksum}")
+
+    assert tcp_packet.ack == tb_seq + 1

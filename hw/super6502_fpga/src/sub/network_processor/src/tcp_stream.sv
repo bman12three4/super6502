@@ -178,7 +178,7 @@ tcp_tx_ctrl u_tcp_tx_ctrl (
     .o_tx_ctrl_ack              (tx_ctrl_ack),
 
     .o_seq_number               (w_tx_seq_number),
-    .o_ack_number               (w_tx_ack_number),
+    // .o_ack_number               (w_tx_ack_number),
     .o_flags                    (w_tx_flags),
     .o_window_size              (w_tx_window_size),
     .o_hdr_valid                (w_tx_hdr_valid),
@@ -236,7 +236,9 @@ tcp_rx_ctrl u_tcp_rx_ctrl (
     .i_ack_number               (w_rx_ack_number),
     .i_flags                    (w_rx_flags),
     .i_window_size              (w_rx_window_size),
-    .i_hdr_valid                (w_rx_hdr_valid)
+    .i_hdr_valid                (w_rx_hdr_valid),
+
+    .o_ack_number               (w_tx_ack_number)
 );
 
 // rx buffer

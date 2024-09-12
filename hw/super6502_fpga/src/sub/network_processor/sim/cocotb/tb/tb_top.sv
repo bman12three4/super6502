@@ -99,7 +99,7 @@ assign s_regs_axil_rresp    = regs_axil.rresp;
 
 
 network_processor #(
-    .NUM_TCP(8)
+    .NUM_TCP(4)
 ) u_network_processor (
     .i_clk                  (clk),
     .i_rst                  (rst),
