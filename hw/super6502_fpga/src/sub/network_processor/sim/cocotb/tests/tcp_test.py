@@ -57,7 +57,7 @@ def ip_to_hex(ip: str) -> int:
 
 @cocotb.test()
 async def test_simple(dut):
-    pktdump = PcapWriter("tcp.pcap", append=True, sync=True)
+    pktdump = PcapWriter("tcp.pcapng", append=True, sync=True)
 
 
     tb = TB(dut)
