@@ -50,7 +50,7 @@ always_comb begin
                 m_ip.ip_hdr_valid   = '1;
                 m_ip.ip_dscp        = '0;
                 m_ip.ip_ecn         = '0;
-                m_ip.ip_length      = '0;
+                m_ip.ip_length      = 16'd40;
                 m_ip.ip_ttl         = '1;
                 m_ip.ip_protocol    = 8'h6;
                 m_ip.ip_source_ip   = i_src_ip;
@@ -78,7 +78,7 @@ always_comb begin
                 9:  m_ip.ip_payload_axis_tdata = i_ack_number[23:16];
                 10: m_ip.ip_payload_axis_tdata = i_ack_number[15:8];
                 11: m_ip.ip_payload_axis_tdata = i_ack_number[7:0];
-                12: m_ip.ip_payload_axis_tdata = '0;
+                12: m_ip.ip_payload_axis_tdata = {4'h5, 4'h0};
                 13: m_ip.ip_payload_axis_tdata = i_flags;
                 14: m_ip.ip_payload_axis_tdata = i_window_size[15:8];
                 15: m_ip.ip_payload_axis_tdata = i_window_size[7:0];
@@ -86,7 +86,7 @@ always_comb begin
                 17: m_ip.ip_payload_axis_tdata = checksum[7:0];
                 18: m_ip.ip_payload_axis_tdata = '0;
                 19: begin
-                    m_ip.ip_payload_axis_tdata = '0;
+                    m_ip.ip_payload_axis_tdata = '1;
                     m_ip.ip_payload_axis_tlast = '1;
                 end
             endcase

@@ -42,9 +42,6 @@ localparam AXIS_KEEP_WIDTH = ((AXIS_DATA_WIDTH+7)/8);
 axis_intf #(.DATA_WIDTH(MAC_DATA_WIDTH)) mac_tx_axis();
 axis_intf #(.DATA_WIDTH(MAC_DATA_WIDTH)) mac_rx_axis();
 
-ip_intf #(.DATA_WIDTH(MAC_DATA_WIDTH)) mac_tx_ip();
-ip_intf #(.DATA_WIDTH(MAC_DATA_WIDTH)) mac_rx_ip();
-
 eth_intf #(.DATA_WIDTH(MAC_DATA_WIDTH)) mac_tx_eth();
 eth_intf #(.DATA_WIDTH(MAC_DATA_WIDTH)) mac_rx_eth();
 
