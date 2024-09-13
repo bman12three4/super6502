@@ -4,6 +4,7 @@ module tcp_packet_generator (
 
     axis_intf.SLAVE         s_axis_data,
 
+    input  wire [15:0]      i_ip_len,
     input  wire [31:0]      i_seq_number,
     input  wire [31:0]      i_ack_number,
     input  wire [15:0]      i_source_port,
@@ -50,7 +51,7 @@ always_comb begin
                 m_ip.ip_hdr_valid   = '1;
                 m_ip.ip_dscp        = '0;
                 m_ip.ip_ecn         = '0;
-                m_ip.ip_length      = 16'd40;
+                m_ip.ip_length      = i_ip_len;
                 m_ip.ip_ttl         = '1;
                 m_ip.ip_protocol    = 8'h6;
                 m_ip.ip_source_ip   = i_src_ip;
@@ -86,7 +87,7 @@ always_comb begin
                 17: m_ip.ip_payload_axis_tdata = checksum[7:0];
                 18: m_ip.ip_payload_axis_tdata = '0;
                 19: begin
-                    m_ip.ip_payload_axis_tdata = '1;
+                    m_ip.ip_payload_axis_tdata = '0;
                     m_ip.ip_payload_axis_tlast = '1;
                 end
             endcase

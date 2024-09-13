@@ -47,6 +47,7 @@ tcp_pkg::rx_msg_t rx_msg;
 logic rx_msg_valid;
 logic rx_msg_ack;
 
+logic [15:0]         w_tx_ip_len;
 logic [31:0]         w_tx_seq_number;
 logic [31:0]         w_tx_ack_number;
 logic [7:0]          w_tx_flags;
@@ -177,6 +178,7 @@ tcp_tx_ctrl u_tcp_tx_ctrl (
     .i_tx_ctrl_valid            (tx_ctrl_valid),
     .o_tx_ctrl_ack              (tx_ctrl_ack),
 
+    .o_ip_len                   (w_tx_ip_len),
     .o_seq_number               (w_tx_seq_number),
     // .o_ack_number               (w_tx_ack_number),
     .o_flags                    (w_tx_flags),
@@ -193,6 +195,7 @@ tcp_packet_generator u_tcp_packet_generator (
 
     .s_axis_data                (m2s_post_saf_axis),
 
+    .i_ip_len                   (w_tx_ip_len),
     .i_seq_number               (w_tx_seq_number),
     .i_ack_number               (w_tx_ack_number),
     .i_source_port              (hwif_out.source_port.d.value),
