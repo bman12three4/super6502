@@ -199,6 +199,7 @@
         <efx:design_file name="src/sub/network_processor/src/tcp_dest_decap.sv" version="default" library="default" />
         <efx:design_file name="src/sub/network_processor/src/tcp_packet_generator.sv" version="default" library="default" />
         <efx:design_file name="src/sub/network_processor/src/tcp_tx_ctrl.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/network_processor/src/checksum_calc.sv" version="default" library="default" />
         <efx:design_file name="src/sub/interfaces/axil_intf.sv" version="default" library="default" />
         <efx:design_file name="src/sub/interfaces/axis_intf.sv" version="default" library="default" />
         <efx:design_file name="src/sub/interfaces/ip_intf.sv" version="default" library="default" />
