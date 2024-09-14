@@ -24,14 +24,34 @@ module tcp_packet_generator (
 logic [31:0] counter, counter_next;
 enum logic [1:0] {IDLE, HEADER, DATA} state, state_next;
 
-logic [15:0] checksum;
+
+logic [31:0] checksum_counter, checksum_counter_next;
+logic [15:0] data_checksum;
+assign data_checksum = '0;
+
+logic checksum_enable;
+logic checksum_clear;
+logic [31:0] checksum_data;
+logic [15:0] checksum_final;
+
+checksum_calc u_checksum_calc(
+    .i_rst      (i_rst),
+    .i_clk      (i_clk),
+    .i_clear    (checksum_clear),
+    .i_enable   (checksum_enable),
+
+    .i_data     (checksum_data),
+    .o_checksum (checksum_final)
+);
 
 always_ff @(posedge i_clk) begin
     if (i_rst) begin
         counter <= '0;
+        checksum_counter <= '0;
         state <= IDLE;
     end else begin
         counter <= counter_next;
+        checksum_counter <= checksum_counter_next;
         state <= state_next;
     end
 end
@@ -41,11 +61,15 @@ always_comb begin
     m_ip.ip_payload_axis_tvalid = '0;
     m_ip.ip_payload_axis_tlast = '0;
     o_packet_done = '0;
+    checksum_clear = '0;
+    checksum_enable = '0;
 
     case (state)
 
         IDLE: begin
             counter_next = '0;
+            checksum_counter_next = '0;
+            checksum_clear = '1;
 
             if (i_hdr_valid) begin
                 m_ip.ip_hdr_valid   = '1;
@@ -65,6 +89,21 @@ always_comb begin
 
         HEADER: begin
             m_ip.ip_payload_axis_tvalid = '1;
+            if (checksum_counter < 8) begin
+                checksum_counter_next = checksum_counter + 1;
+                checksum_enable = '1;
+            end
+
+            case (checksum_counter)
+                0: checksum_data = m_ip.ip_source_ip;
+                1: checksum_data = m_ip.ip_dest_ip;
+                2: checksum_data = {8'b0, m_ip.ip_protocol, 16'd20}; // tcp length, not IP length
+                3: checksum_data = {i_source_port, i_dest_port};
+                4: checksum_data = i_seq_number;
+                5: checksum_data = i_ack_number;
+                6: checksum_data = {4'h5, 4'h0, i_flags, i_window_size};
+                7: checksum_data = '0;  // checksum and urgent pointer
+            endcase
 
             case (counter)
                 0:  m_ip.ip_payload_axis_tdata = i_source_port[15:8];
@@ -83,8 +122,8 @@ always_comb begin
                 13: m_ip.ip_payload_axis_tdata = i_flags;
                 14: m_ip.ip_payload_axis_tdata = i_window_size[15:8];
                 15: m_ip.ip_payload_axis_tdata = i_window_size[7:0];
-                16: m_ip.ip_payload_axis_tdata = checksum[15:8];
-                17: m_ip.ip_payload_axis_tdata = checksum[7:0];
+                16: m_ip.ip_payload_axis_tdata = checksum_final[15:8];
+                17: m_ip.ip_payload_axis_tdata = checksum_final[7:0];
                 18: m_ip.ip_payload_axis_tdata = '0;
                 19: begin
                     m_ip.ip_payload_axis_tdata = '0;

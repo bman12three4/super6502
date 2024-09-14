@@ -19,3 +19,4 @@ src/ip_arb_mux_wrapper.sv
 src/ip_demux_wrapper.sv
 src/tcp_dest_decap.sv
 src/tcp_parser.sv
+src/checksum_calc.sv
