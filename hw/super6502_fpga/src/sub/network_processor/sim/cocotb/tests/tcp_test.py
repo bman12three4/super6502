@@ -176,3 +176,40 @@ async def test_simple(dut):
     tb.log.info(f"Checksum: {tcp_packet.chksum}")
 
     assert tcp_packet.ack == tb_seq + 1
+
+    # Try to send a packet from M2S
+
+    # Construct a descriptor in memry
+    tb.axil_ram.write_dword(0x00000000, 0x00001000)
+    tb.axil_ram.write_dword(0x00000004, 64)
+    tb.axil_ram.write_dword(0x00000008, 0)
+    tb.axil_ram.write_dword(0x0000000c, 0)
+
+    test_data = bytearray([x % 256 for x in range(256)])
+
+    tb.axil_ram.write(0x1000, test_data)
+
+
+
+    await tb.axil_master.write_dword(0x22c, 0)
+    await tb.axil_master.write_dword(0x220, 0x00000000)
+    await tb.axil_master.write_dword(0x224, 0x00000000)
+
+    resp = await tb.mii_phy.tx.recv() # type: GmiiFrame
+    packet = Ether(resp.get_payload())
+    pktdump.write(packet)
+    tb.log.info(f"Packet Type: {packet.type:x}")
+
+    tcp_packet = ip_packet.payload
+    assert isinstance(tcp_packet, TCP)
+
+    tb.log.info(f"Source Port: {tcp_packet.sport}")
+    tb.log.info(f"Dest Port: {tcp_packet.dport}")
+    tb.log.info(f"Seq: {tcp_packet.seq}")
+    tb.log.info(f"Ack: {tcp_packet.ack}")
+    tb.log.info(f"Data Offs: {tcp_packet.dataofs}")
+    tb.log.info(f"flags: {tcp_packet.flags}")
+    tb.log.info(f"window: {tcp_packet.window}")
+    tb.log.info(f"Checksum: {tcp_packet.chksum}")
+
+    pktdump.close()

@@ -35,6 +35,8 @@ axis_intf s2m_axis();
 axis_intf m2s_post_saf_axis();
 axis_intf s2m_pre_saf_axis();
 
+axis_intf m_tx_ctrl_axis_data();
+
 // regs
 tcp_stream_regs_pkg::tcp_stream_regs__in_t hwif_in;
 tcp_stream_regs_pkg::tcp_stream_regs__out_t hwif_out;
@@ -47,6 +49,7 @@ tcp_pkg::rx_msg_t rx_msg;
 logic rx_msg_valid;
 logic rx_msg_ack;
 
+logic [15:0]         w_saf_pkt_len;
 logic [15:0]         w_tx_ip_len;
 logic [31:0]         w_tx_seq_number;
 logic [31:0]         w_tx_ack_number;
@@ -133,41 +136,26 @@ tcp_state_manager u_tcp_state_manager (
 
 
 // tx buffer
-axis_fifo #(
-    .DEPTH(4096),
-    .DATA_WIDTH(DATA_WIDTH),
-    .FRAME_FIFO(1)
+axis_saf_fifo #(
+    .DATA_DEPTH_L2(12),
+    .CTRL_DEPTH_L2(7),
+    .DATA_MEM("distributed"),
+    .CTRL_MEM("distributed")
 ) m2s_saf_fifo (
-    .clk                        (clk),
-    .rst                        (rst),
+    .sclk       (clk),
+    .srst       (rst),
+    .s_axis     (m2s_axis),
 
-    .s_axis_tdata               (m2s_axis.tdata),
-    .s_axis_tkeep               (m2s_axis.tkeep),
-    .s_axis_tvalid              (m2s_axis.tvalid),
-    .s_axis_tready              (m2s_axis.tready),
-    .s_axis_tlast               (m2s_axis.tlast),
-    .s_axis_tid                 (m2s_axis.tid),
-    .s_axis_tdest               (m2s_axis.tdest),
-    .s_axis_tuser               (m2s_axis.tuser),
+    .mclk       (clk),
+    .mrst       (rst),
+    .m_axis     (m2s_post_saf_axis),
 
-    .m_axis_tdata               (m2s_post_saf_axis.tdata),
-    .m_axis_tkeep               (m2s_post_saf_axis.tkeep),
-    .m_axis_tvalid              (m2s_post_saf_axis.tvalid),
-    .m_axis_tready              (m2s_post_saf_axis.tready),
-    .m_axis_tlast               (m2s_post_saf_axis.tlast),
-    .m_axis_tid                 (m2s_post_saf_axis.tid),
-    .m_axis_tdest               (m2s_post_saf_axis.tdest),
-    .m_axis_tuser               (m2s_post_saf_axis.tuser),
-
-    .pause_req                  ('0),
-    .pause_ack                  (),
-
-    .status_depth               (),
-    .status_depth_commit        (),
-    .status_overflow            (),
-    .status_bad_frame           (),
-    .status_good_frame          ()
+    .o_len      (w_saf_pkt_len),
+    .o_rx_pkt   (),
+    .o_tx_pkt   (),
+    .o_drop     ()
 );
+
 
 // tx control
 tcp_tx_ctrl u_tcp_tx_ctrl (
@@ -185,6 +173,10 @@ tcp_tx_ctrl u_tcp_tx_ctrl (
     .o_window_size              (w_tx_window_size),
     .o_hdr_valid                (w_tx_hdr_valid),
 
+    .s_axis_len                 (w_saf_pkt_len),
+    .s_axis                     (m2s_post_saf_axis),
+    .m_axis                     (m_tx_ctrl_axis_data),
+
     .i_packet_done              (w_tx_packet_done)
 );
 
@@ -193,7 +185,7 @@ tcp_packet_generator u_tcp_packet_generator (
     .i_clk                      (clk),
     .i_rst                      (rst),
 
-    .s_axis_data                (m2s_post_saf_axis),
+    .s_axis_data                (m_tx_ctrl_axis_data),
 
     .i_ip_len                   (w_tx_ip_len),
     .i_seq_number               (w_tx_seq_number),

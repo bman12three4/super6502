@@ -15,8 +15,21 @@ module tcp_tx_ctrl(
     output logic [15:0]         o_window_size,
     output logic                o_hdr_valid,
 
+    axis_intf.SLAVE             s_axis,
+    input logic [15:0]          s_axis_len,
+    axis_intf.MASTER            m_axis,
+
     input  wire                 i_packet_done
 );
+
+assign m_axis.tdata     = s_axis.tdata;
+assign m_axis.tkeep     = s_axis.tkeep;
+assign m_axis.tvalid    = s_axis.tvalid;
+assign s_axis.tready    = m_axis.tready;
+assign m_axis.tlast     = s_axis.tlast;
+assign m_axis.tid       = s_axis.tid;
+assign m_axis.tdest     = s_axis.tdest;
+assign m_axis.tuser     = s_axis.tuser;
 
 localparam FLAG_FIN = (1 << 0);
 localparam FLAG_SYN = (1 << 1);
@@ -30,7 +43,7 @@ localparam FLAG_CWR = (1 << 7);
 logic [31:0] seq_num, seq_num_next;
 assign o_seq_number = seq_num;
 
-enum logic [2:0] {IDLE, SEND_SYN, SEND_ACK} state, state_next;
+enum logic [2:0] {IDLE, SEND_SYN, SEND_ACK, SEND_DATA} state, state_next;
 
 always_ff @(posedge i_clk) begin
     if (i_rst) begin
@@ -43,6 +56,8 @@ always_ff @(posedge i_clk) begin
 end
 
 always_comb begin
+    state_next = state;
+
     o_ack_number    = '0;
     o_flags         = '0;
     o_window_size   = 16'b1;
@@ -62,6 +77,10 @@ always_comb begin
                     TX_CTRL_SEND_ACK: state_next = SEND_ACK;
                 endcase
             end
+
+            if (s_axis.tvalid) begin
+                state_next = SEND_DATA;
+            end
         end
 
         SEND_SYN: begin
@@ -80,7 +99,18 @@ always_comb begin
 
             if (i_packet_done) begin
                 state_next = IDLE;
-                seq_num_next = seq_num + 1;
+                seq_num_next = seq_num;
+            end
+        end
+
+        SEND_DATA: begin
+            o_flags = FLAG_ACK;
+            o_ip_len = 16'd40 + s_axis_len;   // default length of IP packet
+            o_hdr_valid = '1;
+
+            if (i_packet_done) begin
+                state_next = IDLE;
+                seq_num_next = seq_num + s_axis_len;
             end
         end
     endcase

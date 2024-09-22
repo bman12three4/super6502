@@ -127,17 +127,34 @@ always_comb begin
                 18: m_ip.ip_payload_axis_tdata = '0;
                 19: begin
                     m_ip.ip_payload_axis_tdata = '0;
-                    m_ip.ip_payload_axis_tlast = '1;
+                    m_ip.ip_payload_axis_tlast = ~s_axis_data.tvalid;    // kinda hacky
                 end
             endcase
 
             if (m_ip.ip_payload_axis_tready) begin
                 counter_next = counter + 1;
 
+                if (counter == 19) begin
+                    state_next = DATA;
+                end
+
                 if (m_ip.ip_payload_axis_tlast) begin
                     state_next = IDLE;
                     o_packet_done = '1;
                 end
+            end
+        end
+
+        DATA: begin
+            state_next = DATA;
+            s_axis_data.tready = m_ip.ip_payload_axis_tready;
+            m_ip.ip_payload_axis_tvalid = s_axis_data.tvalid;
+            m_ip.ip_payload_axis_tdata = s_axis_data.tdata;
+            m_ip.ip_payload_axis_tlast = s_axis_data.tlast;
+
+            if (s_axis_data.tlast && s_axis_data.tvalid && s_axis_data.tready) begin
+                state_next = IDLE;
+                o_packet_done = '1;
             end
         end
     endcase
