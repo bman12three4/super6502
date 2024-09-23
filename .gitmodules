@@ -22,3 +22,6 @@
 [submodule "hw/super6502_fpga/src/sub/interfaces"]
 	path = hw/super6502_fpga/src/sub/interfaces
 	url = ../interfaces.git
+[submodule "hw/super6502_fpga/src/sub/my-fifos"]
+	path = hw/super6502_fpga/src/sub/my-fifos
+	url = ../my-fifos.git

@@ -261,8 +261,8 @@ ip_complete #(
     .tx_error_arp_failed                (), // should go to stats register
 
     .local_mac                          (48'h020000aabbcc), // should be a register
-    .local_ip                           (32'hac000002),     // should be a register
-    .gateway_ip                         (32'hac000001),     // should be a register
+    .local_ip                           (32'hAC000002),     // should be a register
+    .gateway_ip                         (32'hAC000001),     // should be a register
     .subnet_mask                        (32'hffffff00),     // should be a register
     .clear_arp_cache                    ('0)                // should come from sw
 );

@@ -1,3 +1,13 @@
+from http import server
+from scapy.layers.inet import Ether, IP, TCP
+from scapy.layers.l2 import ARP
+
+from scapy import sendrecv
+
+from scapy.config import conf
+
+from scapy.supersocket import L3RawSocket
+
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import Timer
@@ -10,6 +20,7 @@ from scapy.layers.inet import Ether, IP, TCP
 from scapy.layers.l2 import ARP
 from scapy.utils import PcapWriter
 
+from scapy.layers.tuntap import TunTapInterface
 import logging
 
 from decimal import Decimal
@@ -17,6 +28,34 @@ from decimal import Decimal
 CLK_PERIOD_NS = 10
 
 MII_CLK_PERIOD_NS = 40
+
+
+import socket
+
+# In order for this to work, you need to run these commands:
+# sudo ip tuntap add name tun0 mode tun user $USER
+# sudo ip a add 172.0.0.1 peer 172.0.0.2 dev tun0
+# sudo ip link set tun0 up
+
+
+def main():
+    serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    serversocket.bind(("172.0.0.1", 5678))
+    serversocket.listen(5)
+
+    t = TunTapInterface('tun0')
+
+    tcp_syn = IP(src="172.0.0.2", dst="172.0.0.1")/TCP(sport=1234, dport=5678, seq=0, ack=0, flags="S")
+    t.send(tcp_syn)
+
+    pkt = t.recv()
+    print(pkt)
+
+
+if __name__ == "__main__":
+    main()
+
+
 
 class TB:
     def __init__(self, dut):
@@ -35,7 +74,6 @@ class TB:
 
         self.mii_phy = MiiPhy(dut.mii_txd, dut.mii_tx_er, dut.mii_tx_en, dut.mii_tx_clk,
             dut.mii_rxd, dut.mii_rx_er, dut.mii_rx_dv, dut.mii_rx_clk, None, speed=100e6)
-
 
     async def cycle_reset(self):
         self.dut.rst.setimmediatevalue(0)
@@ -56,10 +94,7 @@ def ip_to_hex(ip: str) -> int:
     return result
 
 @cocotb.test()
-async def test_simple(dut):
-    pktdump = PcapWriter("tcp.pcapng", append=False, sync=True)
-
-
+async def test_irl(dut):
     tb = TB(dut)
 
     await tb.cycle_reset()
@@ -67,10 +102,16 @@ async def test_simple(dut):
     dut_ip = "172.0.0.2"
     tb_ip = "172.0.0.1"
 
-    dut_port = 0x1234
-    tb_port = 0x5678
-
     tb_mac = "02:00:00:11:22:33"
+
+    serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    serversocket.bind((tb_ip, 5678))
+    serversocket.listen(5)
+    t = TunTapInterface('tun0')
+
+
+    dut_port = 1234
+    tb_port = 5678
 
     await tb.axil_master.write_dword(0x0, 0x1807)
 
@@ -83,7 +124,6 @@ async def test_simple(dut):
     resp = await tb.mii_phy.tx.recv() # type: GmiiFrame
 
     packet = Ether(resp.get_payload())
-    pktdump.write(packet)
 
     tb.log.info(f"Packet Type: {packet.type:x}")
 
@@ -112,15 +152,10 @@ async def test_simple(dut):
     arp_response /= ARP(op="is-at", hwsrc=tb_mac, hwdst=dut_mac, psrc=tb_ip, pdst=dut_ip)
     arp_response = arp_response.build()
 
-    pktdump.write(arp_response)
-
     await tb.mii_phy.rx.send(GmiiFrame.from_payload(arp_response))
 
-    # 1. DUT sends syn with seq number
-
     resp = await tb.mii_phy.tx.recv() # type: GmiiFrame
     packet = Ether(resp.get_payload())
-    pktdump.write(packet)
     tb.log.info(f"Packet Type: {packet.type:x}")
 
     ip_packet = packet.payload
@@ -138,27 +173,18 @@ async def test_simple(dut):
     tb.log.info(f"window: {tcp_packet.window}")
     tb.log.info(f"Checksum: {tcp_packet.chksum}")
 
+    t.send(ip_packet)
 
-    dut_seq = tcp_packet.seq
-    tb_seq = 11111111
+    pkt = t.recv()
+    print(pkt)
 
-    # 2. Send SYNACK with seq as our sequence number, and ACK as their sequence number plus 1
+    tcp_synack = Ether(dst=dut_mac, src=tb_mac)  / pkt
 
-    tcp_synack = Ether(dst=dut_mac, src=tb_mac)
-    tcp_synack /= IP(src=tb_ip, dst=dut_ip)
-    tcp_synack /= TCP(sport=tb_port, dport=dut_port, seq=tb_seq, ack=dut_seq+1, flags="SA")
-    tcp_synack = tcp_synack.build()
-    pktdump.write(tcp_synack)
-
-    await tb.mii_phy.rx.send(GmiiFrame.from_payload(tcp_synack))
-
-    # 3. Receieve ACK with our sequence number plus 1
+    await tb.mii_phy.rx.send(GmiiFrame.from_payload(tcp_synack.build()))
 
     resp = await tb.mii_phy.tx.recv() # type: GmiiFrame
     packet = Ether(resp.get_payload())
-    pktdump.write(packet)
     tb.log.info(f"Packet Type: {packet.type:x}")
-
 
     ip_packet = packet.payload
     assert isinstance(ip_packet, IP)
@@ -175,9 +201,9 @@ async def test_simple(dut):
     tb.log.info(f"window: {tcp_packet.window}")
     tb.log.info(f"Checksum: {tcp_packet.chksum}")
 
-    assert tcp_packet.ack == tb_seq + 1
+    t.send(ip_packet)
 
-    # Try to send a packet from M2S
+    con, addr = serversocket.accept()
 
     # Construct a descriptor in memry
     tb.axil_ram.write_dword(0x00000000, 0x00001000)
@@ -197,19 +223,9 @@ async def test_simple(dut):
 
     resp = await tb.mii_phy.tx.recv() # type: GmiiFrame
     packet = Ether(resp.get_payload())
-    pktdump.write(packet)
-    tb.log.info(f"Packet Type: {packet.type:x}")
 
-    tcp_packet = ip_packet.payload
-    assert isinstance(tcp_packet, TCP)
+    t.send(packet.payload)
 
-    tb.log.info(f"Source Port: {tcp_packet.sport}")
-    tb.log.info(f"Dest Port: {tcp_packet.dport}")
-    tb.log.info(f"Seq: {tcp_packet.seq}")
-    tb.log.info(f"Ack: {tcp_packet.ack}")
-    tb.log.info(f"Data Offs: {tcp_packet.dataofs}")
-    tb.log.info(f"flags: {tcp_packet.flags}")
-    tb.log.info(f"window: {tcp_packet.window}")
-    tb.log.info(f"Checksum: {tcp_packet.chksum}")
+    # con.recv(64)
 
-    pktdump.close()
+    serversocket.close()
