@@ -1,3 +1,4 @@
+from http import server
 from scapy.layers.inet import Ether, IP, TCP
 from scapy.layers.l2 import ARP
 
@@ -201,3 +202,30 @@ async def test_irl(dut):
     tb.log.info(f"Checksum: {tcp_packet.chksum}")
 
     t.send(ip_packet)
+
+    con, addr = serversocket.accept()
+
+    # Construct a descriptor in memry
+    tb.axil_ram.write_dword(0x00000000, 0x00001000)
+    tb.axil_ram.write_dword(0x00000004, 64)
+    tb.axil_ram.write_dword(0x00000008, 0)
+    tb.axil_ram.write_dword(0x0000000c, 0)
+
+    test_data = bytearray([x % 256 for x in range(256)])
+
+    tb.axil_ram.write(0x1000, test_data)
+
+
+
+    await tb.axil_master.write_dword(0x22c, 0)
+    await tb.axil_master.write_dword(0x220, 0x00000000)
+    await tb.axil_master.write_dword(0x224, 0x00000000)
+
+    resp = await tb.mii_phy.tx.recv() # type: GmiiFrame
+    packet = Ether(resp.get_payload())
+
+    t.send(packet.payload)
+
+    con.recv(64)
+
+    serversocket.close()

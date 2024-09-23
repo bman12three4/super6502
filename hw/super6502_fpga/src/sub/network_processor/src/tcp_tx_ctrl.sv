@@ -104,7 +104,7 @@ always_comb begin
         end
 
         SEND_DATA: begin
-            o_flags = FLAG_ACK;
+            o_flags = FLAG_ACK | FLAG_PSH;
             o_ip_len = 16'd40 + s_axis_len;   // default length of IP packet
             o_hdr_valid = '1;
 
