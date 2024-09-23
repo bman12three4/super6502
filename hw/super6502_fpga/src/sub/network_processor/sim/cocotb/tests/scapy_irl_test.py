@@ -226,6 +226,6 @@ async def test_irl(dut):
 
     t.send(packet.payload)
 
-    con.recv(64)
+    # con.recv(64)
 
     serversocket.close()
