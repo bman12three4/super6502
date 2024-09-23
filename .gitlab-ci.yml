@@ -7,6 +7,7 @@ stages:
 
 build:
   stage: build
+  when: manual
   tags:
     - efinity
     - linux
@@ -18,6 +19,7 @@ build:
 
 sim:
   stage: sim
+  needs: []
   tags:
     - linux
     - efinity

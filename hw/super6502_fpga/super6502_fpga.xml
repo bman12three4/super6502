@@ -204,6 +204,11 @@
         <efx:design_file name="src/sub/interfaces/axis_intf.sv" version="default" library="default" />
         <efx:design_file name="src/sub/interfaces/ip_intf.sv" version="default" library="default" />
         <efx:design_file name="src/sub/interfaces/eth_intf.sv" version="default" library="default" />
+        <efx:design_file name="src/sub/my-fifos/src/axis_saf.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/my-fifos/src/dpram.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/my-fifos/src/fifo_fwft.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/my-fifos/src/fifo.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/my-fifos/src/fwft_adapter.sv" version="default" library="default"/>
         <efx:top_vhdl_arch name="" />
     </efx:design_info>
     <efx:constraint_info>
