@@ -13,3 +13,6 @@
 [submodule "hw/super6502_fpga/src/sub/sdspi"]
 	path = hw/super6502_fpga/src/sub/sd_controller_wrapper/sdspi
 	url = ../sdspi.git
+[submodule "hw/kicad_library"]
+	path = hw/kicad_library
+	url = ../kicad_library.git
