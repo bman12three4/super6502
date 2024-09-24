@@ -4,9 +4,9 @@
 # ENV=".env/$HOSTNAME"
 
 export REPO_TOP=$(git rev-parse --show-toplevel)
-export KICAD7_SYMBOL_DIR=$REPO_TOP/hw/kicad_library/symbols
-export KICAD7_3DMODEL_DIR=$REPO_TOP/hw/kicad_library/3dmodels
-export KICAD7_FOOTPRINT_DIR=$REPO_TOP/hw/kicad_library/footprints
+export KICAD8_SYMBOL_DIR=$REPO_TOP/hw/kicad_library/symbols
+export KICAD8_3DMODEL_DIR=$REPO_TOP/hw/kicad_library/3dmodels
+export KICAD8_FOOTPRINT_DIR=$REPO_TOP/hw/kicad_library/footprints
 
 
 python3.11 -m venv .user_venv
