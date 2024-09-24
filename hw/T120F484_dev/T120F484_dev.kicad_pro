@@ -335,11 +335,29 @@
           "label": "DNP",
           "name": "${DNP}",
           "show": true
+        },
+        {
+          "group_by": false,
+          "label": "#",
+          "name": "${ITEM_NUMBER}",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Digikey",
+          "name": "Digikey",
+          "show": true
+        },
+        {
+          "group_by": false,
+          "label": "Description",
+          "name": "Description",
+          "show": false
         }
       ],
       "filter_string": "",
       "group_symbols": true,
-      "name": "Grouped By Value",
+      "name": "",
       "sort_asc": true,
       "sort_field": "Reference"
     },
@@ -389,11 +407,23 @@
     ],
     [
       "f085d9c0-aa96-4d9d-ba76-31038a6b4413",
-      "power"
+      "fpga_power"
     ],
     [
       "4b6a0d07-8936-411b-9846-64d6ef0783de",
       "config"
+    ],
+    [
+      "ccc94dcb-e18b-43e8-8734-8b400da79052",
+      "power"
+    ],
+    [
+      "94e15953-1e80-4b12-b1f3-c9e680581b64",
+      "clock"
+    ],
+    [
+      "fffcc102-91a1-4cf0-a84c-ddfbd535f5ae",
+      "ddr"
     ]
   ],
   "text_variables": {}
