@@ -1000,7 +1000,7 @@
 					)
 				)
 			)
-			(property "Footprint" ""
+			(property "Footprint" "Package_BGA:BGA-484_22x22_18.0x18.0mm"
 				(at -29.21 -40.64 0)
 				(effects
 					(font
@@ -15244,7 +15244,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_BGA:BGA-484_22x22_18.0x18.0mm"
 			(at 166.37 78.74 0)
 			(effects
 				(font
