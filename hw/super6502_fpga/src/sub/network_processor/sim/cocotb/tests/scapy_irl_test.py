@@ -1,6 +1,7 @@
 from http import server
 from scapy.layers.inet import Ether, IP, TCP
 from scapy.layers.l2 import ARP
+from scapy.data import IP_PROTOS
 
 from scapy import sendrecv
 
@@ -204,6 +205,44 @@ async def test_irl(dut):
     t.send(ip_packet)
 
     con, addr = serversocket.accept()
+
+    con.close()
+    serversocket.close()
+
+    while True:
+        pkt = t.recv()
+        if (pkt.proto == IP_PROTOS.tcp):
+            break
+    print(pkt)
+
+    tcp_fin = Ether(dst=dut_mac, src=tb_mac) / pkt
+
+    await tb.mii_phy.rx.send(GmiiFrame.from_payload(tcp_fin.build()))
+
+    resp = await tb.mii_phy.tx.recv() # type: GmiiFrame
+    packet = Ether(resp.get_payload())
+    tb.log.info(f"Packet Type: {packet.type:x}")
+
+    ip_packet = packet.payload
+    assert isinstance(ip_packet, IP)
+
+    tcp_packet = ip_packet.payload
+    assert isinstance(tcp_packet, TCP)
+
+    tb.log.info(f"Source Port: {tcp_packet.sport}")
+    tb.log.info(f"Dest Port: {tcp_packet.dport}")
+    tb.log.info(f"Seq: {tcp_packet.seq}")
+    tb.log.info(f"Ack: {tcp_packet.ack}")
+    tb.log.info(f"Data Offs: {tcp_packet.dataofs}")
+    tb.log.info(f"flags: {tcp_packet.flags}")
+    tb.log.info(f"window: {tcp_packet.window}")
+    tb.log.info(f"Checksum: {tcp_packet.chksum}")
+
+    t.send(ip_packet)
+
+    return
+
+
 
     # Construct a descriptor in memry
     tb.axil_ram.write_dword(0x00000000, 0x00001000)

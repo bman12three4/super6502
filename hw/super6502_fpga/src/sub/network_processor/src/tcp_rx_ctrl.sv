@@ -32,11 +32,16 @@ end
 
 always_comb begin
     if (i_hdr_valid) begin
-        if (i_flags & 8'h12) begin
+        if (i_flags == 8'h12) begin
             o_rx_msg = RX_MSG_RECV_SYNACK;
             o_rx_msg_valid = '1;
 
             ack_num_next = i_seq_number + 1;
+        end
+
+        if (i_flags == 8'h11) begin
+            o_rx_msg = RX_MSG_RECV_FIN;
+            o_rx_msg_valid = '1;
         end
     end
 end

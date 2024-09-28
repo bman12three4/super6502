@@ -84,6 +84,14 @@ always_comb begin
         end
 
         ESTABLISHED: begin
+            if (i_rx_msg_valid && i_rx_msg == RX_MSG_RECV_FIN) begin
+                o_tx_ctrl = TX_CTRL_SEND_FIN;
+                o_tx_ctrl_valid = '1;
+                tcp_state_next = LAST_ACK;
+            end
+        end
+
+        LAST_ACK: begin
 
         end
     endcase
