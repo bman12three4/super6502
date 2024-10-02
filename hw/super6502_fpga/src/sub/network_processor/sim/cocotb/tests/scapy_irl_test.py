@@ -1,4 +1,5 @@
 from http import server
+from turtle import xcor
 from scapy.layers.inet import Ether, IP, TCP
 from scapy.layers.l2 import ARP
 from scapy.data import IP_PROTOS
@@ -107,7 +108,7 @@ async def test_irl(dut):
 
     serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     serversocket.bind((tb_ip, 5678))
-    serversocket.listen(5)
+    serversocket.listen(1)
     t = TunTapInterface('tun0')
 
 
@@ -176,7 +177,10 @@ async def test_irl(dut):
 
     t.send(ip_packet)
 
-    pkt = t.recv()
+    while True:
+        pkt = t.recv()
+        if (pkt.proto == IP_PROTOS.tcp):
+            break
     print(pkt)
 
     tcp_synack = Ether(dst=dut_mac, src=tb_mac)  / pkt
@@ -206,8 +210,42 @@ async def test_irl(dut):
 
     con, addr = serversocket.accept()
 
+    # Construct a descriptor in memry
+    tb.axil_ram.write_dword(0x00000000, 0x00001000)
+    tb.axil_ram.write_dword(0x00000004, 64)
+    tb.axil_ram.write_dword(0x00000008, 0)
+    tb.axil_ram.write_dword(0x0000000c, 0)
+
+    test_data = bytearray([x % 256 for x in range(256)])
+
+    tb.axil_ram.write(0x1000, test_data)
+
+    await tb.axil_master.write_dword(0x22c, 0)
+    await tb.axil_master.write_dword(0x220, 0x00000000)
+    await tb.axil_master.write_dword(0x224, 0x00000000)
+
+    resp = await tb.mii_phy.tx.recv() # type: GmiiFrame
+    packet = Ether(resp.get_payload())
+
+    t.send(packet.payload)
+
+    con.recv(64)
+    tb.log.info("Received 64 packets")
+
     con.close()
     serversocket.close()
+
+    while True:
+        pkt = t.recv()
+        if (pkt.proto == IP_PROTOS.tcp):
+            break
+    print(pkt)
+
+    tcp_ack = Ether(dst=dut_mac, src=tb_mac) / pkt
+
+    await tb.mii_phy.rx.send(GmiiFrame.from_payload(tcp_ack.build()))
+
+    tb.log.info("Expecting to send an F here")
 
     while True:
         pkt = t.recv()
@@ -240,31 +278,16 @@ async def test_irl(dut):
 
     t.send(ip_packet)
 
-    return
+    tb.log.info("Expecting to send last ACK here")
 
+    while True:
+        pkt = t.recv()
+        if (pkt.proto == IP_PROTOS.tcp):
+            break
+    print(pkt)
 
+    tcp_fin = Ether(dst=dut_mac, src=tb_mac) / pkt
 
-    # Construct a descriptor in memry
-    tb.axil_ram.write_dword(0x00000000, 0x00001000)
-    tb.axil_ram.write_dword(0x00000004, 64)
-    tb.axil_ram.write_dword(0x00000008, 0)
-    tb.axil_ram.write_dword(0x0000000c, 0)
+    await tb.mii_phy.rx.send(GmiiFrame.from_payload(tcp_fin.build()))
 
-    test_data = bytearray([x % 256 for x in range(256)])
-
-    tb.axil_ram.write(0x1000, test_data)
-
-
-
-    await tb.axil_master.write_dword(0x22c, 0)
-    await tb.axil_master.write_dword(0x220, 0x00000000)
-    await tb.axil_master.write_dword(0x224, 0x00000000)
-
-    resp = await tb.mii_phy.tx.recv() # type: GmiiFrame
-    packet = Ether(resp.get_payload())
-
-    t.send(packet.payload)
-
-    # con.recv(64)
-
-    serversocket.close()
+    await Timer(Decimal(CLK_PERIOD_NS * 1000), units='ns')

@@ -4,6 +4,8 @@ module tcp_packet_generator (
 
     axis_intf.SLAVE         s_axis_data,
 
+    input  wire             i_no_data,
+
     input  wire [15:0]      i_ip_len,
     input  wire [31:0]      i_seq_number,
     input  wire [31:0]      i_ack_number,
@@ -21,8 +23,33 @@ module tcp_packet_generator (
     ip_intf.MASTER          m_ip
 );
 
+axis_intf #(.DATA_WIDTH(8)) pre_checksum_data();
+axis_intf #(.DATA_WIDTH(8)) post_checksum_data();
+
+logic saf_ready;
+
+assign pre_checksum_data.tdata = s_axis_data.tdata;
+assign pre_checksum_data.tkeep = s_axis_data.tkeep;
+assign pre_checksum_data.tvalid = s_axis_data.tvalid & saf_ready;
+assign s_axis_data.tready = pre_checksum_data.tready & saf_ready;
+assign pre_checksum_data.tlast = s_axis_data.tlast;
+assign pre_checksum_data.tuser = s_axis_data.tuser;
+
+axis_saf_fifo #(
+    .DATA_DEPTH_L2(11),
+    .CTRL_DEPTH_L2(1)
+) u_checksum_fifo (
+    .sclk(i_clk),
+    .srst(i_rst),
+    .s_axis(pre_checksum_data),
+
+    .mclk(i_clk),
+    .mrst(i_rst),
+    .m_axis(post_checksum_data)
+);
+
 logic [31:0] counter, counter_next;
-enum logic [1:0] {IDLE, HEADER, DATA} state, state_next;
+enum logic [1:0] {IDLE, DATA_CHECKSUM, HEADER, DATA} state, state_next;
 
 
 logic [31:0] checksum_counter, checksum_counter_next;
@@ -34,7 +61,13 @@ logic checksum_clear;
 logic [31:0] checksum_data;
 logic [15:0] checksum_final;
 
-checksum_calc u_checksum_calc(
+logic [31:0] data_expand, data_expand_next;
+logic data_checksum_enable;
+logic data_checksum_clear;
+logic [31:0] data_checksum_data;
+logic [15:0] data_checksum_final;
+
+checksum_calc u_header_checksum_calc(
     .i_rst      (i_rst),
     .i_clk      (i_clk),
     .i_clear    (checksum_clear),
@@ -49,10 +82,12 @@ always_ff @(posedge i_clk) begin
         counter <= '0;
         checksum_counter <= '0;
         state <= IDLE;
+        data_expand <= '0;
     end else begin
         counter <= counter_next;
         checksum_counter <= checksum_counter_next;
         state <= state_next;
+        data_expand <= data_expand_next;
     end
 end
 
@@ -63,6 +98,10 @@ always_comb begin
     o_packet_done = '0;
     checksum_clear = '0;
     checksum_enable = '0;
+
+    saf_ready = '0;
+
+    data_expand_next = data_expand;
 
     case (state)
 
@@ -82,7 +121,32 @@ always_comb begin
                 m_ip.ip_dest_ip     = i_dst_ip;
 
                 if (m_ip.ip_hdr_ready) begin
+                    if (i_no_data) begin
+                        state_next = HEADER;
+                    end else begin
+                        state_next = DATA_CHECKSUM;
+                    end
+                end
+            end
+        end
+
+        DATA_CHECKSUM: begin
+            saf_ready = '1;
+
+            data_expand_next = {data_expand[23:0], pre_checksum_data.tdata};
+            // data_expand_next = {pre_checksum_data.tdata, data_expand[31:8]};
+
+            if (checksum_counter[1:0] == '1) begin
+                checksum_enable = '1;
+                checksum_data = data_expand_next;
+            end
+
+
+            if (s_axis_data.tready & s_axis_data.tvalid) begin
+                checksum_counter_next = checksum_counter + 1;
+                if (s_axis_data.tlast) begin
                     state_next = HEADER;
+                    checksum_counter_next = '0;
                 end
             end
         end
@@ -97,7 +161,7 @@ always_comb begin
             case (checksum_counter)
                 0: checksum_data = m_ip.ip_source_ip;
                 1: checksum_data = m_ip.ip_dest_ip;
-                2: checksum_data = {8'b0, m_ip.ip_protocol, 16'd20}; // tcp length, not IP length
+                2: checksum_data = {8'b0, m_ip.ip_protocol, (i_ip_len - 16'd20)}; // tcp length, not IP length
                 3: checksum_data = {i_source_port, i_dest_port};
                 4: checksum_data = i_seq_number;
                 5: checksum_data = i_ack_number;
@@ -127,7 +191,7 @@ always_comb begin
                 18: m_ip.ip_payload_axis_tdata = '0;
                 19: begin
                     m_ip.ip_payload_axis_tdata = '0;
-                    m_ip.ip_payload_axis_tlast = ~s_axis_data.tvalid;    // kinda hacky
+                    m_ip.ip_payload_axis_tlast = i_no_data;    // kinda hacky
                 end
             endcase
 
@@ -147,12 +211,12 @@ always_comb begin
 
         DATA: begin
             state_next = DATA;
-            s_axis_data.tready = m_ip.ip_payload_axis_tready;
-            m_ip.ip_payload_axis_tvalid = s_axis_data.tvalid;
-            m_ip.ip_payload_axis_tdata = s_axis_data.tdata;
-            m_ip.ip_payload_axis_tlast = s_axis_data.tlast;
+            post_checksum_data.tready = m_ip.ip_payload_axis_tready;
+            m_ip.ip_payload_axis_tvalid = post_checksum_data.tvalid;
+            m_ip.ip_payload_axis_tdata = post_checksum_data.tdata;
+            m_ip.ip_payload_axis_tlast = post_checksum_data.tlast;
 
-            if (s_axis_data.tlast && s_axis_data.tvalid && s_axis_data.tready) begin
+            if (post_checksum_data.tlast && post_checksum_data.tvalid && post_checksum_data.tready) begin
                 state_next = IDLE;
                 o_packet_done = '1;
             end

@@ -43,6 +43,12 @@ always_comb begin
             o_rx_msg = RX_MSG_RECV_FIN;
             o_rx_msg_valid = '1;
         end
+
+        if (i_flags == 8'h10) begin
+            o_rx_msg = RX_MSG_RECV_ACK;
+            o_rx_msg_valid = '1;
+        end
+
     end
 end
 
