@@ -128,6 +128,10 @@ always_comb begin
             m_ip.ip_payload_axis_tdata = pipe[31:24];
 
             valid = '1;
+
+            if (pipe_last[3] && pipe_valid[3]) begin
+                state_next = PORTS;
+            end
         end
     endcase
 end

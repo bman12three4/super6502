@@ -50,6 +50,7 @@ always_comb begin
     tcp_state_next = tcp_state;
 
     o_tx_ctrl_valid = '0;
+    o_open_clr = '0;
 
     o_tx_ctrl = TX_CTRL_NOP;
     o_tx_ctrl_valid = '0;
@@ -80,11 +81,22 @@ always_comb begin
 
             if (i_tx_ctrl_ack) begin
                 tcp_state_next = ESTABLISHED;
+                o_open_clr = '1;
             end
         end
 
         ESTABLISHED: begin
+            if (i_rx_msg_valid && i_rx_msg == RX_MSG_RECV_FIN) begin
+                o_tx_ctrl = TX_CTRL_SEND_FIN;
+                o_tx_ctrl_valid = '1;
+                tcp_state_next = LAST_ACK;
+            end
+        end
 
+        LAST_ACK: begin
+            if (i_rx_msg_valid && i_rx_msg == RX_MSG_RECV_ACK) begin
+                tcp_state_next = IDLE;
+            end
         end
     endcase
 end

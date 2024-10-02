@@ -49,6 +49,8 @@ tcp_pkg::rx_msg_t rx_msg;
 logic rx_msg_valid;
 logic rx_msg_ack;
 
+logic w_no_data;
+
 logic [15:0]         w_saf_pkt_len;
 logic [15:0]         w_tx_ip_len;
 logic [31:0]         w_tx_seq_number;
@@ -166,6 +168,7 @@ tcp_tx_ctrl u_tcp_tx_ctrl (
     .i_tx_ctrl_valid            (tx_ctrl_valid),
     .o_tx_ctrl_ack              (tx_ctrl_ack),
 
+    .o_no_data                  (w_no_data),
     .o_ip_len                   (w_tx_ip_len),
     .o_seq_number               (w_tx_seq_number),
     // .o_ack_number               (w_tx_ack_number),
@@ -187,6 +190,7 @@ tcp_packet_generator u_tcp_packet_generator (
 
     .s_axis_data                (m_tx_ctrl_axis_data),
 
+    .i_no_data                  (w_no_data),
     .i_ip_len                   (w_tx_ip_len),
     .i_seq_number               (w_tx_seq_number),
     .i_ack_number               (w_tx_ack_number),

@@ -1,6 +1,8 @@
 from http import server
+from turtle import xcor
 from scapy.layers.inet import Ether, IP, TCP
 from scapy.layers.l2 import ARP
+from scapy.data import IP_PROTOS
 
 from scapy import sendrecv
 
@@ -106,7 +108,7 @@ async def test_irl(dut):
 
     serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     serversocket.bind((tb_ip, 5678))
-    serversocket.listen(5)
+    serversocket.listen(1)
     t = TunTapInterface('tun0')
 
 
@@ -175,7 +177,10 @@ async def test_irl(dut):
 
     t.send(ip_packet)
 
-    pkt = t.recv()
+    while True:
+        pkt = t.recv()
+        if (pkt.proto == IP_PROTOS.tcp):
+            break
     print(pkt)
 
     tcp_synack = Ether(dst=dut_mac, src=tb_mac)  / pkt
@@ -215,8 +220,6 @@ async def test_irl(dut):
 
     tb.axil_ram.write(0x1000, test_data)
 
-
-
     await tb.axil_master.write_dword(0x22c, 0)
     await tb.axil_master.write_dword(0x220, 0x00000000)
     await tb.axil_master.write_dword(0x224, 0x00000000)
@@ -226,6 +229,65 @@ async def test_irl(dut):
 
     t.send(packet.payload)
 
-    # con.recv(64)
+    con.recv(64)
+    tb.log.info("Received 64 packets")
 
+    con.close()
     serversocket.close()
+
+    while True:
+        pkt = t.recv()
+        if (pkt.proto == IP_PROTOS.tcp):
+            break
+    print(pkt)
+
+    tcp_ack = Ether(dst=dut_mac, src=tb_mac) / pkt
+
+    await tb.mii_phy.rx.send(GmiiFrame.from_payload(tcp_ack.build()))
+
+    tb.log.info("Expecting to send an F here")
+
+    while True:
+        pkt = t.recv()
+        if (pkt.proto == IP_PROTOS.tcp):
+            break
+    print(pkt)
+
+    tcp_fin = Ether(dst=dut_mac, src=tb_mac) / pkt
+
+    await tb.mii_phy.rx.send(GmiiFrame.from_payload(tcp_fin.build()))
+
+    resp = await tb.mii_phy.tx.recv() # type: GmiiFrame
+    packet = Ether(resp.get_payload())
+    tb.log.info(f"Packet Type: {packet.type:x}")
+
+    ip_packet = packet.payload
+    assert isinstance(ip_packet, IP)
+
+    tcp_packet = ip_packet.payload
+    assert isinstance(tcp_packet, TCP)
+
+    tb.log.info(f"Source Port: {tcp_packet.sport}")
+    tb.log.info(f"Dest Port: {tcp_packet.dport}")
+    tb.log.info(f"Seq: {tcp_packet.seq}")
+    tb.log.info(f"Ack: {tcp_packet.ack}")
+    tb.log.info(f"Data Offs: {tcp_packet.dataofs}")
+    tb.log.info(f"flags: {tcp_packet.flags}")
+    tb.log.info(f"window: {tcp_packet.window}")
+    tb.log.info(f"Checksum: {tcp_packet.chksum}")
+
+    t.send(ip_packet)
+
+    tb.log.info("Expecting to send last ACK here")
+
+    while True:
+        pkt = t.recv()
+        if (pkt.proto == IP_PROTOS.tcp):
+            break
+    print(pkt)
+
+    tcp_fin = Ether(dst=dut_mac, src=tb_mac) / pkt
+
+    await tb.mii_phy.rx.send(GmiiFrame.from_payload(tcp_fin.build()))
+
+    await Timer(Decimal(CLK_PERIOD_NS * 1000), units='ns')
