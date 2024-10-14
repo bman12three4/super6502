@@ -110,6 +110,7 @@ always_comb begin
         end
 
         PAYLOAD: begin
+            s_ip.ip_payload_axis_tready = '1;
             if (s_ip.ip_payload_axis_tlast) begin
                 counter_next = '0;
                 state_next = HEADER;
