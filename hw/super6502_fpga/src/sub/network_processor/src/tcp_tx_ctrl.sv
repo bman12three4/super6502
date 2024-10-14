@@ -24,14 +24,13 @@ module tcp_tx_ctrl(
     input  wire                 i_packet_done
 );
 
-assign m_axis.tdata     = s_axis.tdata;
-assign m_axis.tkeep     = s_axis.tkeep;
-assign m_axis.tvalid    = s_axis.tvalid;
-assign s_axis.tready    = m_axis.tready;
-assign m_axis.tlast     = s_axis.tlast;
-assign m_axis.tid       = s_axis.tid;
-assign m_axis.tdest     = s_axis.tdest;
-assign m_axis.tuser     = s_axis.tuser;
+axis_pipeline_register_wrapper u_m2s_reg (
+    .clk(clk),
+    .rst(rst),
+
+    .s_axis(s_axis),
+    .m_axis(m_axis)
+);
 
 localparam FLAG_FIN = (1 << 0);
 localparam FLAG_SYN = (1 << 1);

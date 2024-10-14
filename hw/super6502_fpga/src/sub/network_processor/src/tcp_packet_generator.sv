@@ -37,7 +37,7 @@ assign pre_checksum_data.tuser = s_axis_data.tuser;
 
 axis_saf_fifo #(
     .DATA_DEPTH_L2(11),
-    .CTRL_DEPTH_L2(1)
+    .CTRL_DEPTH_L2(2)
 ) u_checksum_fifo (
     .sclk(i_clk),
     .srst(i_rst),

@@ -20,3 +20,5 @@ src/ip_demux_wrapper.sv
 src/tcp_dest_decap.sv
 src/tcp_parser.sv
 src/checksum_calc.sv
+src/ip_pipeline_register_wrapper.sv
+src/axil_reg_slice.sv

@@ -34,7 +34,7 @@ MII_CLK_PERIOD_NS = 40
 import socket
 
 # In order for this to work, you need to run these commands:
-# sudo ip tuntap add name tun0 mode tun user $USER
+# sudo ip tuntap add name tun0 mode tun group netdev
 # sudo ip a add 172.0.0.1 peer 172.0.0.2 dev tun0
 # sudo ip link set tun0 up
 
@@ -454,3 +454,5 @@ async def test_close(dut):
 
     tb.log.info("Sending packet to host")
     t.send(ip_packet)
+
+    await Timer(Decimal(CLK_PERIOD_NS * 10000), units='ns')

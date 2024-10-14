@@ -87,9 +87,9 @@ always_comb begin
 
         ESTABLISHED: begin
             if (i_rx_msg_valid && i_rx_msg == RX_MSG_RECV_FIN) begin
-                o_tx_ctrl = TX_CTRL_SEND_FIN;
+                o_tx_ctrl = TX_CTRL_SEND_ACK;
                 o_tx_ctrl_valid = '1;
-                tcp_state_next = LAST_ACK;
+                tcp_state_next = WAIT_CLOSE;
             end
 
             if (i_close) begin
@@ -121,6 +121,12 @@ always_comb begin
 
         TIME_WAIT: begin
             tcp_state_next = IDLE;
+        end
+
+        WAIT_CLOSE: begin
+            o_tx_ctrl = TX_CTRL_SEND_FIN;
+            o_tx_ctrl_valid = '1;
+            tcp_state_next = LAST_ACK;
         end
 
         LAST_ACK: begin

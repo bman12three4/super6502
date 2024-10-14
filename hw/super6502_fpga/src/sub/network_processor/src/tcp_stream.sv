@@ -30,7 +30,10 @@ module tcp_stream #(
 );
 
 axis_intf m2s_axis();
+axis_intf m2s_axis_pre_reg();
 axis_intf s2m_axis();
+
+ip_intf m_ip_tx_pre_reg();
 
 axis_intf m2s_post_saf_axis();
 axis_intf s2m_pre_saf_axis();
@@ -111,7 +114,15 @@ m2s_dma #(
     .s_cpuif_wr_err             (),
 
     .m_axil                     (m_m2s_axil),
-    .m_axis                     (m2s_axis)
+    .m_axis                     (m2s_axis_pre_reg)
+);
+
+axis_pipeline_register_wrapper u_m2s_reg (
+    .clk(clk),
+    .rst(rst),
+
+    .s_axis(m2s_axis_pre_reg),
+    .m_axis(m2s_axis)
 );
 
 
@@ -204,7 +215,15 @@ tcp_packet_generator u_tcp_packet_generator (
 
     .o_packet_done              (w_tx_packet_done),
 
-    .m_ip                       (m_ip_tx)
+    .m_ip                       (m_ip_tx_pre_reg)
+);
+
+ip_pipeline_register_wrapper u_tx_ip_reg (
+    .clk(clk),
+    .rst(rst),
+
+    .s_ip(m_ip_tx_pre_reg),
+    .m_ip(m_ip_tx)
 );
 
 // parser
