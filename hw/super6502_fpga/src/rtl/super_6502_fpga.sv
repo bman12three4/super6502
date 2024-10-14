@@ -526,7 +526,7 @@ logic network_processor_reset;
 always_ff @(posedge i_sysclk) network_processor_reset <= ~master_resetn;
 
 network_processor #(
-    .NUM_TCP(1)
+    .NUM_TCP(2)
 ) u_network_processor (
     .i_clk              (i_sysclk),
     .i_rst              (network_processor_reset),
