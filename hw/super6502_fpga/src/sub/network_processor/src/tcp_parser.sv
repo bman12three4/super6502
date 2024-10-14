@@ -66,6 +66,13 @@ always_comb begin
     checksum_next = checksum;
     hdr_valid = '0;
 
+    counter_next = counter;
+
+    state_next = state;
+
+    s_ip.ip_hdr_ready = '0;
+    s_ip.ip_payload_axis_tready = '0;
+
     case (state)
         HEADER: begin
             s_ip.ip_hdr_ready = '1;

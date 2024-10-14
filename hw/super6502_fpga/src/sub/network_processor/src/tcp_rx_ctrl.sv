@@ -38,6 +38,11 @@ always_ff @(posedge i_clk) begin
 end
 
 always_comb begin
+    rx_msg_next = RX_MSG_NOP;
+    rx_msg_valid_next = '0;
+
+    ack_num_next = ack_num;
+
     if (i_hdr_valid) begin
         if (i_flags == 8'h12) begin
             rx_msg_next = RX_MSG_RECV_SYNACK;

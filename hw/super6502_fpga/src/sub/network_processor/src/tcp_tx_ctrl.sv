@@ -25,8 +25,8 @@ module tcp_tx_ctrl(
 );
 
 axis_pipeline_register_wrapper u_m2s_reg (
-    .clk(clk),
-    .rst(rst),
+    .clk(i_clk),
+    .rst(i_rst),
 
     .s_axis(s_axis),
     .m_axis(m_axis)
@@ -59,6 +59,8 @@ end
 always_comb begin
     state_next = state;
     o_no_data = '0;
+
+    o_tx_ctrl_ack = '0;
 
     o_ack_number    = '0;
     o_flags         = '0;

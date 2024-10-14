@@ -92,9 +92,31 @@ always_ff @(posedge i_clk) begin
 end
 
 always_comb begin
+    state_next = state;
+
     m_ip.ip_hdr_valid = '0;
+    m_ip.ip_dscp        = '0;
+    m_ip.ip_ecn         = '0;
+    m_ip.ip_length      = '0;
+    m_ip.ip_ttl         = '0;
+    m_ip.ip_protocol    = '0;
+    m_ip.ip_source_ip   = '0;
+    m_ip.ip_dest_ip     = '0;
+
+    m_ip.ip_payload_axis_tdata  = '0;
     m_ip.ip_payload_axis_tvalid = '0;
-    m_ip.ip_payload_axis_tlast = '0;
+    m_ip.ip_payload_axis_tlast  = '0;
+    m_ip.ip_payload_axis_tuser  = '0;
+    m_ip.ip_payload_axis_tid    = '0;
+    m_ip.ip_payload_axis_tdest  = '0;
+
+    post_checksum_data.tready = '0;
+
+    checksum_counter_next = checksum_counter;
+    checksum_data = '0;
+
+    counter_next = counter;
+
     o_packet_done = '0;
     checksum_clear = '0;
     checksum_enable = '0;
