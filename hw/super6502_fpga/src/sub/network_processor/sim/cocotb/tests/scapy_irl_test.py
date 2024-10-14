@@ -1,7 +1,3 @@
-from http import server
-from turtle import xcor
-from scapy.layers.inet import Ether, IP, TCP
-from scapy.layers.l2 import ARP
 from scapy.data import IP_PROTOS
 
 from scapy import sendrecv
@@ -18,14 +14,17 @@ from cocotbext.axi import AxiLiteBus, AxiLiteMaster, AxiLiteRam
 from cocotbext.eth import MiiPhy, GmiiFrame
 import struct
 
-from scapy.layers.inet import Ether, IP, TCP
-from scapy.layers.l2 import ARP
+from scapy.layers.inet import IP, TCP
+from scapy.layers.l2 import ARP, Ether
+from scapy.packet import Packet
 from scapy.utils import PcapWriter
 
 from scapy.layers.tuntap import TunTapInterface
 import logging
 
 from decimal import Decimal
+
+import random
 
 CLK_PERIOD_NS = 10
 
@@ -95,9 +94,36 @@ def ip_to_hex(ip: str) -> int:
 
     return result
 
-@cocotb.test()
+# @cocotb.test()
 async def test_irl(dut):
     tb = TB(dut)
+
+    async def read_tcp_from_dut():
+        resp = await tb.mii_phy.tx.recv() # type: GmiiFrame
+        packet = Ether(resp.get_payload())
+        tb.log.info(f"Packet Type: {packet.type:x}")
+
+        ip_packet = packet.payload
+        assert isinstance(ip_packet, IP)
+
+        tcp_packet = ip_packet.payload
+        assert isinstance(tcp_packet, TCP)
+
+        tb.log.info(f"Source Port: {tcp_packet.sport}")
+        tb.log.info(f"Dest Port: {tcp_packet.dport}")
+        tb.log.info(f"Seq: {tcp_packet.seq}")
+        tb.log.info(f"Ack: {tcp_packet.ack}")
+        tb.log.info(f"Data Offs: {tcp_packet.dataofs}")
+        tb.log.info(f"flags: {tcp_packet.flags}")
+        tb.log.info(f"window: {tcp_packet.window}")
+        tb.log.info(f"Checksum: {tcp_packet.chksum}")
+
+        return ip_packet
+
+    #############################
+    # Reset DUT                 #
+    #############################
+
 
     await tb.cycle_reset()
 
@@ -106,14 +132,18 @@ async def test_irl(dut):
 
     tb_mac = "02:00:00:11:22:33"
 
+    dut_port = random.randint(1024, 65535)
+    tb_port = random.randint(1024, 65535)
+
     serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    serversocket.bind((tb_ip, 5678))
+    serversocket.bind((tb_ip, tb_port))
     serversocket.listen(1)
     t = TunTapInterface('tun0')
 
 
-    dut_port = 1234
-    tb_port = 5678
+    ###############################
+    # Configure DUT Network block #
+    ###############################
 
     await tb.axil_master.write_dword(0x0, 0x1807)
 
@@ -150,35 +180,25 @@ async def test_irl(dut):
     assert arp_request.psrc == dut_ip, "ARP psrc does not match expected"
     assert arp_request.pdst == tb_ip, "ARP pdst does not match expected"
 
+    # hardcode the ARP response for now
     arp_response = Ether(dst=dut_mac, src=tb_mac)
     arp_response /= ARP(op="is-at", hwsrc=tb_mac, hwdst=dut_mac, psrc=tb_ip, pdst=dut_ip)
     arp_response = arp_response.build()
 
     await tb.mii_phy.rx.send(GmiiFrame.from_payload(arp_response))
 
-    resp = await tb.mii_phy.tx.recv() # type: GmiiFrame
-    packet = Ether(resp.get_payload())
-    tb.log.info(f"Packet Type: {packet.type:x}")
 
-    ip_packet = packet.payload
-    assert isinstance(ip_packet, IP)
+    ###############################
+    # Start TCP handshake         #
+    ###############################
 
-    tcp_packet = ip_packet.payload
-    assert isinstance(tcp_packet, TCP)
-
-    tb.log.info(f"Source Port: {tcp_packet.sport}")
-    tb.log.info(f"Dest Port: {tcp_packet.dport}")
-    tb.log.info(f"Seq: {tcp_packet.seq}")
-    tb.log.info(f"Ack: {tcp_packet.ack}")
-    tb.log.info(f"Data Offs: {tcp_packet.dataofs}")
-    tb.log.info(f"flags: {tcp_packet.flags}")
-    tb.log.info(f"window: {tcp_packet.window}")
-    tb.log.info(f"Checksum: {tcp_packet.chksum}")
+    ip_packet = await read_tcp_from_dut()
 
     t.send(ip_packet)
 
     while True:
         pkt = t.recv()
+        assert isinstance(pkt, Packet)
         if (pkt.proto == IP_PROTOS.tcp):
             break
     print(pkt)
@@ -187,28 +207,15 @@ async def test_irl(dut):
 
     await tb.mii_phy.rx.send(GmiiFrame.from_payload(tcp_synack.build()))
 
-    resp = await tb.mii_phy.tx.recv() # type: GmiiFrame
-    packet = Ether(resp.get_payload())
-    tb.log.info(f"Packet Type: {packet.type:x}")
-
-    ip_packet = packet.payload
-    assert isinstance(ip_packet, IP)
-
-    tcp_packet = ip_packet.payload
-    assert isinstance(tcp_packet, TCP)
-
-    tb.log.info(f"Source Port: {tcp_packet.sport}")
-    tb.log.info(f"Dest Port: {tcp_packet.dport}")
-    tb.log.info(f"Seq: {tcp_packet.seq}")
-    tb.log.info(f"Ack: {tcp_packet.ack}")
-    tb.log.info(f"Data Offs: {tcp_packet.dataofs}")
-    tb.log.info(f"flags: {tcp_packet.flags}")
-    tb.log.info(f"window: {tcp_packet.window}")
-    tb.log.info(f"Checksum: {tcp_packet.chksum}")
+    ip_packet = await read_tcp_from_dut()
 
     t.send(ip_packet)
 
     con, addr = serversocket.accept()
+
+    ###############################
+    # Send data from DUT to host  #
+    ###############################
 
     # Construct a descriptor in memry
     tb.axil_ram.write_dword(0x00000000, 0x00001000)
@@ -232,11 +239,16 @@ async def test_irl(dut):
     con.recv(64)
     tb.log.info("Received 64 packets")
 
+    ###############################
+    # Close connection from host  #
+    ###############################
+
     con.close()
     serversocket.close()
 
     while True:
         pkt = t.recv()
+        assert isinstance(pkt, Packet)
         if (pkt.proto == IP_PROTOS.tcp):
             break
     print(pkt)
@@ -249,6 +261,7 @@ async def test_irl(dut):
 
     while True:
         pkt = t.recv()
+        assert isinstance(pkt, Packet)
         if (pkt.proto == IP_PROTOS.tcp):
             break
     print(pkt)
@@ -257,24 +270,7 @@ async def test_irl(dut):
 
     await tb.mii_phy.rx.send(GmiiFrame.from_payload(tcp_fin.build()))
 
-    resp = await tb.mii_phy.tx.recv() # type: GmiiFrame
-    packet = Ether(resp.get_payload())
-    tb.log.info(f"Packet Type: {packet.type:x}")
-
-    ip_packet = packet.payload
-    assert isinstance(ip_packet, IP)
-
-    tcp_packet = ip_packet.payload
-    assert isinstance(tcp_packet, TCP)
-
-    tb.log.info(f"Source Port: {tcp_packet.sport}")
-    tb.log.info(f"Dest Port: {tcp_packet.dport}")
-    tb.log.info(f"Seq: {tcp_packet.seq}")
-    tb.log.info(f"Ack: {tcp_packet.ack}")
-    tb.log.info(f"Data Offs: {tcp_packet.dataofs}")
-    tb.log.info(f"flags: {tcp_packet.flags}")
-    tb.log.info(f"window: {tcp_packet.window}")
-    tb.log.info(f"Checksum: {tcp_packet.chksum}")
+    ip_packet = await read_tcp_from_dut()
 
     t.send(ip_packet)
 
@@ -282,6 +278,7 @@ async def test_irl(dut):
 
     while True:
         pkt = t.recv()
+        assert isinstance(pkt, Packet)
         if (pkt.proto == IP_PROTOS.tcp):
             break
     print(pkt)
@@ -291,3 +288,169 @@ async def test_irl(dut):
     await tb.mii_phy.rx.send(GmiiFrame.from_payload(tcp_fin.build()))
 
     await Timer(Decimal(CLK_PERIOD_NS * 1000), units='ns')
+
+
+@cocotb.test()
+async def test_close(dut):
+    tb = TB(dut)
+
+    async def read_tcp_from_dut():
+        resp = await tb.mii_phy.tx.recv() # type: GmiiFrame
+        packet = Ether(resp.get_payload())
+        tb.log.info(f"Packet Type: {packet.type:x}")
+
+        ip_packet = packet.payload
+        assert isinstance(ip_packet, IP)
+
+        tcp_packet = ip_packet.payload
+        assert isinstance(tcp_packet, TCP)
+
+        tb.log.info(f"Source Port: {tcp_packet.sport}")
+        tb.log.info(f"Dest Port: {tcp_packet.dport}")
+        tb.log.info(f"Seq: {tcp_packet.seq}")
+        tb.log.info(f"Ack: {tcp_packet.ack}")
+        tb.log.info(f"Data Offs: {tcp_packet.dataofs}")
+        tb.log.info(f"flags: {tcp_packet.flags}")
+        tb.log.info(f"window: {tcp_packet.window}")
+        tb.log.info(f"Checksum: {tcp_packet.chksum}")
+
+        return ip_packet
+
+    def get_pkt_from_host():
+        while True:
+            pkt = t.recv()
+            assert isinstance(pkt, Packet)
+            if (pkt.proto == IP_PROTOS.tcp):
+                break
+        print(pkt)
+        return pkt
+
+    #############################
+    # Reset DUT                 #
+    #############################
+
+
+    await tb.cycle_reset()
+
+    dut_ip = "172.0.0.2"
+    tb_ip = "172.0.0.1"
+
+    tb_mac = "02:00:00:11:22:33"
+
+    dut_port = random.randint(1024, 65535)
+    tb_port = random.randint(1024, 65535)
+
+    serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    serversocket.bind((tb_ip, tb_port))
+    serversocket.listen(1)
+    t = TunTapInterface('tun0')
+
+
+    ###############################
+    # Configure DUT Network block #
+    ###############################
+
+    await tb.axil_master.write_dword(0x0, 0x1807)
+
+    await tb.axil_master.write_dword(0x200, dut_port)
+    await tb.axil_master.write_dword(0x204, ip_to_hex(dut_ip))
+    await tb.axil_master.write_dword(0x208, tb_port)
+    await tb.axil_master.write_dword(0x20c, ip_to_hex(tb_ip))
+    await tb.axil_master.write_dword(0x210, 0x3)
+
+    resp = await tb.mii_phy.tx.recv() # type: GmiiFrame
+
+    packet = Ether(resp.get_payload())
+
+    tb.log.info(f"Packet Type: {packet.type:x}")
+
+    assert packet.type == 0x806, "Packet type is not ARP!"
+
+
+    arp_request = packet.payload
+    assert isinstance(arp_request, ARP)
+
+    tb.log.info(f"Arp OP: {arp_request.op}")
+    tb.log.info(f"Arp hwsrc: {arp_request.hwsrc}")
+    tb.log.info(f"Arp hwdst: {arp_request.hwdst}")
+    tb.log.info(f"Arp psrc: {arp_request.psrc}")
+    tb.log.info(f"Arp pdst: {arp_request.pdst}")
+
+    dut_mac = arp_request.hwsrc
+    dut_ip = arp_request.psrc
+
+    assert arp_request.op == 1, "ARP type is not request!"
+    assert arp_request.hwsrc == "02:00:00:aa:bb:cc", "ARP hwsrc does not match expected"
+    assert arp_request.hwdst == "00:00:00:00:00:00", "ARP hwdst does not match expected"
+    assert arp_request.psrc == dut_ip, "ARP psrc does not match expected"
+    assert arp_request.pdst == tb_ip, "ARP pdst does not match expected"
+
+    # hardcode the ARP response for now
+    arp_response = Ether(dst=dut_mac, src=tb_mac)
+    arp_response /= ARP(op="is-at", hwsrc=tb_mac, hwdst=dut_mac, psrc=tb_ip, pdst=dut_ip)
+    arp_response = arp_response.build()
+
+    await tb.mii_phy.rx.send(GmiiFrame.from_payload(arp_response))
+
+
+    ###############################
+    # Start TCP handshake         #
+    ###############################
+
+    ip_packet = await read_tcp_from_dut()
+
+    t.send(ip_packet)
+
+
+    pkt = get_pkt_from_host()
+    tcp_synack = Ether(dst=dut_mac, src=tb_mac)  / pkt
+
+    await tb.mii_phy.rx.send(GmiiFrame.from_payload(tcp_synack.build()))
+
+    ip_packet = await read_tcp_from_dut()
+
+    t.send(ip_packet)
+
+    con, addr = serversocket.accept()
+
+    tb.log.info(f"con_timeout: {con.timeout}")
+
+    ###############################
+    # Close connection from DUT   #
+    ###############################
+
+    tb.log.info("Closing connection from the DUT side")
+    await tb.axil_master.write_dword(0x210, 5)
+
+    ip_packet = await read_tcp_from_dut()
+
+    tb.log.info("Sending packet to host")
+    t.send(ip_packet)
+
+    pkt = get_pkt_from_host()
+    tcp_synack = Ether(dst=dut_mac, src=tb_mac)  / pkt
+
+    tb.log.info("Sending reply to DUT, this should be an ACK?")
+    await tb.mii_phy.rx.send(GmiiFrame.from_payload(tcp_synack.build()))
+
+    tb.log.info(tcp_synack.flags)
+
+    # Host will send an ack first, then a finack?
+
+    tb.log.info("Closing server socket")
+    con.close()
+    serversocket.close()
+
+    pkt = get_pkt_from_host()
+    tcp_synack = Ether(dst=dut_mac, src=tb_mac)  / pkt
+
+    tb.log.info("Sending packet to DUT, this should be a FINACK?")
+    await tb.mii_phy.rx.send(GmiiFrame.from_payload(tcp_synack.build()))
+
+    pkt = get_pkt_from_host()
+    tcp_synack = Ether(dst=dut_mac, src=tb_mac)  / pkt
+
+    ip_packet = await read_tcp_from_dut()
+
+    tb.log.info("Sending packet to host")
+    t.send(ip_packet)

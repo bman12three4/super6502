@@ -91,6 +91,36 @@ always_comb begin
                 o_tx_ctrl_valid = '1;
                 tcp_state_next = LAST_ACK;
             end
+
+            if (i_close) begin
+                o_tx_ctrl = TX_CTRL_SEND_FIN;
+                o_tx_ctrl_valid = '1;
+                tcp_state_next = FIN_WAIT_1;
+            end
+        end
+
+        FIN_WAIT_1: begin
+            if (i_rx_msg_valid) begin
+                if (i_rx_msg == RX_MSG_RECV_ACK) begin
+                    tcp_state_next = FIN_WAIT_2;
+                end else if (i_rx_msg == RX_MSG_RECV_FIN) begin
+                    tcp_state_next = TIME_WAIT;
+                    o_tx_ctrl_valid = '1;
+                    o_tx_ctrl = TX_CTRL_SEND_ACK;
+                end
+            end
+        end
+
+        FIN_WAIT_2: begin
+            if (i_rx_msg == RX_MSG_RECV_FIN) begin
+                tcp_state_next = TIME_WAIT;
+                o_tx_ctrl = TX_CTRL_SEND_ACK;
+                o_tx_ctrl_valid = '1;
+            end
+        end
+
+        TIME_WAIT: begin
+            tcp_state_next = IDLE;
         end
 
         LAST_ACK: begin
