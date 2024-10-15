@@ -205,6 +205,8 @@ logic [$clog2(NUM_TCP)-1:0] tcp_demux_sel;
 logic [15:0] tcp_dests [NUM_TCP];
 
 always_comb begin : TCP_DEST_SEL
+    tcp_demux_sel = '0;
+
     for (int i = 0; i < NUM_TCP; i++) begin
         if (tcp_dest == tcp_dests[i]) begin
             tcp_demux_sel = i;

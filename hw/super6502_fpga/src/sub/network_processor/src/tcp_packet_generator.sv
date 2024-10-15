@@ -37,7 +37,7 @@ assign pre_checksum_data.tuser = s_axis_data.tuser;
 
 axis_saf_fifo #(
     .DATA_DEPTH_L2(11),
-    .CTRL_DEPTH_L2(1)
+    .CTRL_DEPTH_L2(2)
 ) u_checksum_fifo (
     .sclk(i_clk),
     .srst(i_rst),
@@ -67,6 +67,9 @@ logic data_checksum_clear;
 logic [31:0] data_checksum_data;
 logic [15:0] data_checksum_final;
 
+logic [31:0] src_ip, dst_ip_next;
+logic [31:0] dst_ip, src_ip_next;
+
 checksum_calc u_header_checksum_calc(
     .i_rst      (i_rst),
     .i_clk      (i_clk),
@@ -83,18 +86,44 @@ always_ff @(posedge i_clk) begin
         checksum_counter <= '0;
         state <= IDLE;
         data_expand <= '0;
+        src_ip <= '0;
+        dst_ip <= '0;
     end else begin
         counter <= counter_next;
         checksum_counter <= checksum_counter_next;
         state <= state_next;
         data_expand <= data_expand_next;
+        src_ip <= src_ip_next;
+        dst_ip <= dst_ip_next;
     end
 end
 
 always_comb begin
+    state_next = state;
+
     m_ip.ip_hdr_valid = '0;
+    m_ip.ip_dscp        = '0;
+    m_ip.ip_ecn         = '0;
+    m_ip.ip_length      = '0;
+    m_ip.ip_ttl         = '0;
+    m_ip.ip_protocol    = '0;
+    m_ip.ip_source_ip   = '0;
+    m_ip.ip_dest_ip     = '0;
+
+    m_ip.ip_payload_axis_tdata  = '0;
     m_ip.ip_payload_axis_tvalid = '0;
-    m_ip.ip_payload_axis_tlast = '0;
+    m_ip.ip_payload_axis_tlast  = '0;
+    m_ip.ip_payload_axis_tuser  = '0;
+    m_ip.ip_payload_axis_tid    = '0;
+    m_ip.ip_payload_axis_tdest  = '0;
+
+    post_checksum_data.tready = '0;
+
+    checksum_counter_next = checksum_counter;
+    checksum_data = '0;
+
+    counter_next = counter;
+
     o_packet_done = '0;
     checksum_clear = '0;
     checksum_enable = '0;
@@ -103,6 +132,8 @@ always_comb begin
 
     data_expand_next = data_expand;
 
+    src_ip_next = src_ip;
+    dst_ip_next = dst_ip;
     case (state)
 
         IDLE: begin
@@ -119,6 +150,9 @@ always_comb begin
                 m_ip.ip_protocol    = 8'h6;
                 m_ip.ip_source_ip   = i_src_ip;
                 m_ip.ip_dest_ip     = i_dst_ip;
+
+                src_ip_next = i_src_ip;
+                dst_ip_next = i_dst_ip;
 
                 if (m_ip.ip_hdr_ready) begin
                     if (i_no_data) begin
@@ -159,9 +193,9 @@ always_comb begin
             end
 
             case (checksum_counter)
-                0: checksum_data = m_ip.ip_source_ip;
-                1: checksum_data = m_ip.ip_dest_ip;
-                2: checksum_data = {8'b0, m_ip.ip_protocol, (i_ip_len - 16'd20)}; // tcp length, not IP length
+                0: checksum_data = src_ip;
+                1: checksum_data = dst_ip;
+                2: checksum_data = {8'b0, 8'h6, (i_ip_len - 16'd20)}; // tcp length, not IP length
                 3: checksum_data = {i_source_port, i_dest_port};
                 4: checksum_data = i_seq_number;
                 5: checksum_data = i_ack_number;

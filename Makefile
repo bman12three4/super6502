@@ -26,7 +26,7 @@ $(CC65):
 	$(MAKE) -C sw/toolchain/cc65 -j $(shell nproc)
 
 $(INIT_HEX): $(CC65) script/generate_rom_image.py $(HEX)
-	python script/generate_rom_image.py -i $(HEX) -o $@
+	python3 script/generate_rom_image.py -i $(HEX) -o $@
 
 # This should get dependencies of rom, not be phony
 .PHONY: $(HEX)

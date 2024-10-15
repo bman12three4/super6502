@@ -100,6 +100,15 @@ always_comb begin
 
     s_ip.ip_payload_axis_tready = '0;
 
+    valid = '0;
+
+    m_ip.ip_payload_axis_tdata = '0;
+    m_ip.ip_payload_axis_tvalid = '0;
+    m_ip.ip_payload_axis_tlast = '0;
+    m_ip.ip_payload_axis_tuser = '0;
+    m_ip.ip_payload_axis_tid = '0;
+    m_ip.ip_payload_axis_tdest = '0;
+
     case (state)
         PORTS: begin
             s_ip.ip_payload_axis_tready = 1;

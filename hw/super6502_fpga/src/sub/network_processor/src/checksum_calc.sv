@@ -11,6 +11,8 @@ module checksum_calc (
 );
 
 logic [31:0] sum;
+logic [31:0] pre_sum;
+logic [31:0] sum_next;
 logic [15:0] sum_wrapped;
 
 assign sum_wrapped = sum[15:0] + sum [31:16];
@@ -21,9 +23,14 @@ always @(posedge i_clk) begin
         sum <= '0;
     end else begin
         if (i_enable) begin
-            sum <= sum + i_data[31:16] + i_data[15:0];
+            sum <= sum_next;
         end
     end
+end
+
+always_comb begin
+    pre_sum = i_data[31:16] + i_data[15:0];
+    sum_next = sum + pre_sum;
 end
 
 endmodule

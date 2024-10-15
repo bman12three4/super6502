@@ -12,7 +12,8 @@ build:
     - efinity
     - linux
   script:
-    - source init_env.sh
+    # - source init_env.sh
+    - module load efinity/2024.1
     - make
   after_script:
     - cat hw/super6502_fpga/outflow/super6502_fpga.err.log

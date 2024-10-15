@@ -91,7 +91,9 @@ assign pre_resetn = button_resetn & vio0_resetn;
 
 assign sdram_ready = |w_sdr_state;
 
-assign master_resetn = pre_resetn & sdram_ready;
+always_ff @(posedge i_sysclk) begin
+    master_resetn <= pre_resetn & sdram_ready;
+end
 
 assign o_sd_cs = '1;
 
@@ -214,11 +216,14 @@ logic  [1:0]                sd_controller_dma_RRESP;
 axil_intf ntw_reg();
 axil_intf ntw_dma();
 
+logic cpu_wrapper_reset;
+always_ff @(posedge i_sysclk) cpu_wrapper_reset <= ~master_resetn;
+
 
 cpu_wrapper u_cpu_wrapper_0(
     .i_clk_cpu  (clk_cpu),
     .i_clk_100  (i_sysclk),
-    .i_rst      (~master_resetn),
+    .i_rst      (cpu_wrapper_reset),
 
     .o_cpu_rst  (o_cpu0_reset),
     .o_cpu_rdy  (o_cpu0_rdy),
@@ -258,6 +263,8 @@ cpu_wrapper u_cpu_wrapper_0(
     .i_nmi('0)
 );
 
+logic crossbar_resetn;
+always_ff @(posedge i_sysclk) crossbar_resetn <= master_resetn;
 
 axilxbar #(
     .NM(3),
@@ -271,7 +278,7 @@ axilxbar #(
     })
 ) u_crossbar (
     .S_AXI_ACLK         (i_sysclk),
-    .S_AXI_ARESETN      (master_resetn),
+    .S_AXI_ARESETN      (crossbar_resetn),
 
     .S_AXI_ARADDR       ({cpu0_ARADDR,  sd_controller_dma_ARADDR,       ntw_dma.araddr  }),
     .S_AXI_ARVALID      ({cpu0_ARVALID, sd_controller_dma_ARVALID,      ntw_dma.arvalid }),
@@ -310,13 +317,16 @@ axilxbar #(
 
 );
 
+logic rom_reset;
+always_ff @(posedge i_sysclk) rom_reset <= ~master_resetn;
+
 axi4_lite_rom #(
     .ROM_SIZE(12),
     .BASE_ADDRESS(32'h0000f000),
     .ROM_INIT_FILE("init_hex.mem")
 ) u_rom (
     .i_clk(i_sysclk),
-    .i_rst(~master_resetn),
+    .i_rst(rom_reset),
 
     .o_AWREADY(rom_awready),
     .o_WREADY(rom_wready),
@@ -344,12 +354,15 @@ axi4_lite_rom #(
     .i_WSTRB(rom_wstrb)
 );
 
+logic ram_reset;
+always_ff @(posedge i_sysclk) ram_reset <= ~master_resetn;
+
 axi4_lite_ram #(
     .RAM_SIZE(9),
     .ZERO_INIT(1)
 ) u_ram(
     .i_clk(i_sysclk),
-    .i_rst(~master_resetn),
+    .i_rst(ram_reset),
 
     .o_AWREADY(ram_awready),
     .o_WREADY(ram_wready),
@@ -452,12 +465,15 @@ sdram_controller u_sdram_controller(
 
 logic sd_irq;
 
+logic sd_controller_wrapper_reset;
+always_ff @(posedge i_sysclk) sd_controller_wrapper_reset <= ~master_resetn;
+
 sd_controller_wrapper #(
     .NUMIO              (1),   // board as it stands is in 1 bit mode
     .BASE_ADDRESS       (32'h0000E000)
 ) u_sdio_top (
     .i_clk              (i_sysclk),
-    .i_reset            (~master_resetn),
+    .i_reset            (sd_controller_wrapper_reset),
 
     .S_AXIL_AWVALID     (sd_controller_ctrl_AWVALID),
     .S_AXIL_AWREADY     (sd_controller_ctrl_AWREADY),
@@ -506,11 +522,14 @@ sd_controller_wrapper #(
     .o_int              (sd_irq)
 );
 
+logic network_processor_reset;
+always_ff @(posedge i_sysclk) network_processor_reset <= ~master_resetn;
+
 network_processor #(
-    .NUM_TCP(4)
+    .NUM_TCP(2)
 ) u_network_processor (
     .i_clk              (i_sysclk),
-    .i_rst              (~master_resetn),
+    .i_rst              (network_processor_reset),
 
     .s_reg_axil         (ntw_reg),
     .m_dma_axil         (ntw_dma),

@@ -39,6 +39,8 @@ localparam MAC_DATA_WIDTH = 8;
 localparam AXIS_DATA_WIDTH = 8;
 localparam AXIS_KEEP_WIDTH = ((AXIS_DATA_WIDTH+7)/8);
 
+axil_intf reg_axil_post_reg();
+
 axis_intf #(.DATA_WIDTH(MAC_DATA_WIDTH)) mac_tx_axis();
 axis_intf #(.DATA_WIDTH(MAC_DATA_WIDTH)) mac_rx_axis();
 
@@ -54,29 +56,37 @@ ip_intf #(.DATA_WIDTH(MAC_DATA_WIDTH)) proto_tx_ip[3]();
 ntw_top_regfile_pkg::ntw_top_regfile__in_t hwif_in;
 ntw_top_regfile_pkg::ntw_top_regfile__out_t hwif_out;
 
+axil_reg_slice u_reg_axil_reg_slice(
+    .clk(i_clk),
+    .rst(i_rst),
+
+    .s_axil(s_reg_axil),
+    .m_axil(reg_axil_post_reg)
+);
+
 ntw_top_regfile u_ntw_top_regfile (
     .clk                                (i_clk),
     .rst                                (i_rst),
 
-    .s_axil_awready                     (s_reg_axil.awready),
-    .s_axil_awvalid                     (s_reg_axil.awvalid),
-    .s_axil_awaddr                      (s_reg_axil.awaddr),
-    .s_axil_awprot                      (s_reg_axil.awprot),
-    .s_axil_wready                      (s_reg_axil.wready),
-    .s_axil_wvalid                      (s_reg_axil.wvalid),
-    .s_axil_wdata                       (s_reg_axil.wdata),
-    .s_axil_wstrb                       (s_reg_axil.wstrb),
-    .s_axil_bready                      (s_reg_axil.bready),
-    .s_axil_bvalid                      (s_reg_axil.bvalid),
-    .s_axil_bresp                       (s_reg_axil.bresp),
-    .s_axil_arready                     (s_reg_axil.arready),
-    .s_axil_arvalid                     (s_reg_axil.arvalid),
-    .s_axil_araddr                      (s_reg_axil.araddr),
-    .s_axil_arprot                      (s_reg_axil.arprot),
-    .s_axil_rready                      (s_reg_axil.rready),
-    .s_axil_rvalid                      (s_reg_axil.rvalid),
-    .s_axil_rdata                       (s_reg_axil.rdata),
-    .s_axil_rresp                       (s_reg_axil.rresp),
+    .s_axil_awready                     (reg_axil_post_reg.awready),
+    .s_axil_awvalid                     (reg_axil_post_reg.awvalid),
+    .s_axil_awaddr                      (reg_axil_post_reg.awaddr),
+    .s_axil_awprot                      (reg_axil_post_reg.awprot),
+    .s_axil_wready                      (reg_axil_post_reg.wready),
+    .s_axil_wvalid                      (reg_axil_post_reg.wvalid),
+    .s_axil_wdata                       (reg_axil_post_reg.wdata),
+    .s_axil_wstrb                       (reg_axil_post_reg.wstrb),
+    .s_axil_bready                      (reg_axil_post_reg.bready),
+    .s_axil_bvalid                      (reg_axil_post_reg.bvalid),
+    .s_axil_bresp                       (reg_axil_post_reg.bresp),
+    .s_axil_arready                     (reg_axil_post_reg.arready),
+    .s_axil_arvalid                     (reg_axil_post_reg.arvalid),
+    .s_axil_araddr                      (reg_axil_post_reg.araddr),
+    .s_axil_arprot                      (reg_axil_post_reg.arprot),
+    .s_axil_rready                      (reg_axil_post_reg.rready),
+    .s_axil_rvalid                      (reg_axil_post_reg.rvalid),
+    .s_axil_rdata                       (reg_axil_post_reg.rdata),
+    .s_axil_rresp                       (reg_axil_post_reg.rresp),
 
     .hwif_in                            (hwif_in),
     .hwif_out                           (hwif_out)

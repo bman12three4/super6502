@@ -1,289 +1,298 @@
-<efx:project xmlns:efx="http://www.efinixinc.com/enf_proj" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="super6502_fpga" description="" last_change_date="Mon Sep 09 2024 11:15:46 PM" location="/cluster/projects/super6502/hw/super6502_fpga" sw_version="2023.1.150" last_run_state="pass" last_run_tool="efx_pgm" last_run_flow="bitstream" config_result_in_sync="sync" design_ood="sync" place_ood="sync" route_ood="sync" xsi:schemaLocation="http://www.efinixinc.com/enf_proj enf_proj.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<efx:project name="super6502_fpga" description="" last_change="1728874681" sw_version="2024.1.163" last_run_state="pass" last_run_flow="bitstream" config_result_in_sync="sync" design_ood="sync" place_ood="sync" route_ood="sync" xmlns:efx="http://www.efinixinc.com/enf_proj" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.efinixinc.com/enf_proj enf_proj.xsd">
     <efx:device_info>
-        <efx:family name="Trion" />
-        <efx:device name="T20F256" />
-        <efx:timing_model name="I4" />
+        <efx:family name="Trion"/>
+        <efx:device name="T20F256"/>
+        <efx:timing_model name="I4"/>
     </efx:device_info>
     <efx:design_info def_veri_version="sv_09" def_vhdl_version="vhdl_2008">
-        <efx:top_module name="super6502_fpga" />
-        <efx:design_file name="src/rtl/super_6502_fpga.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/cpu_wrapper/cpu_wrapper.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/rtl-common/src/rtl/axi4_lite_rom.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/rtl-common/src/rtl/axi4_lite_ram.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/rtl-common/src/rtl/ff_cdc.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/rtl-common/src/rtl/axi4_lite_to_apb4.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/rtl-common/src/rtl/async_fifo.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/wb2axip/rtl/axilxbar.v" version="default" library="default" />
-        <efx:design_file name="src/sub/wb2axip/rtl/addrdecode.v" version="default" library="default" />
-        <efx:design_file name="src/sub/wb2axip/rtl/skidbuffer.v" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller_wrapper/sd_controller_wrapper.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller_wrapper/shadow_regs.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdckgen.v" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sddma_rxgears.v" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sddma.v" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdrxframe.v" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdtxframe.v" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sddma_s2mm.v" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sddma_s2mm_axi.v" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/afifo.v" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sddma_txgears.v" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdskid.v" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdfrontend.v" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/spicmd.v" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdaxil.v" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sddma_mm2s.v" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sddma_mm2s_axi.v" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdio_top.v" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdwb.v" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdio.v" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdcmd.v" version="default" library="default" />
-        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdfifo.v" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/tcp_stream.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/tcp_state_manager.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/network_processor.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/regs/tcp_stream_regs_pkg.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/regs/tcp_top_regfile.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/regs/tcp_stream_regs.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/regs/tcp_top_regfile_pkg.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/eth_wrapper.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/tcp.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/regs/mac_regs_pkg.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/regs/ntw_top_regfile.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/regs/mac_regs.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/regs/ntw_top_regfile_pkg.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/rgmii_phy_if.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/udp_ip_rx.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mux.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ip_64.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_duplicator.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ptp_clock_cdc.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_phy_10g.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/mac_ctrl_tx.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_phy_10g_rx.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/udp_arb_mux.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ptp_tag_insert.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_1g_rgmii.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/axis_gmii_tx.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_axis_rx.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_10g_fifo.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/udp_checksum_gen.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ssio_sdr_out.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ip_complete.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/axis_baser_rx_64.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ptp_td_phc.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_phy_10g_rx_if.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/axis_baser_tx_64.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/udp_demux.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_arb_mux.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/filter.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_1g.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ip_eth_tx_64.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/icmp_ip_rx.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/modifier.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/mac_pause_ctrl_tx.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/lfsr.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/arp_eth_tx.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_1g_rgmii_fifo.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_1g_fifo.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/axis_xgmii_tx_64.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/udp.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_1g_gmii.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ip_demux.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_phy_10g.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/udp_checksum_gen_64.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/mac_ctrl_rx.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_mii_fifo.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/icmp_ip_rx_64.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ssio_sdr_in_diff.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/axis_eth_fcs_check.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/axis_xgmii_rx_32.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_10g.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/xgmii_baser_enc_64.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ip_complete_64.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/udp_complete_64.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_phy_10g_tx.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/arp_eth_rx.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_phy_10g_rx.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/icmp_ip_tx_64.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/axis_eth_fcs.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ptp_clock.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ip_arb_mux.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/axis_eth_fcs_insert_64.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ptp_td_leaf.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ssio_ddr_in_diff.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_phy_10g_rx_ber_mon.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_phy_10g_tx.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_phy_10g_fifo.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/udp_64.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/axis_eth_fcs_check_64.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/mii_phy_if.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ip_mux.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ptp_td_rel2tod.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/xgmii_interleave.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/axis_gmii_rx.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/mac_pause_ctrl_rx.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ptp_perout.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/udp_ip_rx_64.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/axis_eth_fcs_insert.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/oddr.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ssio_sdr_in.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ssio_ddr_out_diff.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/arp.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/udp_complete.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/axis_xgmii_rx_64.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ip_eth_tx.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ssio_sdr_out_diff.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ip_eth_rx_64.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_axis_tx.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ip_eth_rx.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_phy_10g_rx_watchdog.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_mii.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/xgmii_deinterleave.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/udp_ip_tx.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/xgmii_baser_dec_64.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ptp_ts_extract.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/udp_ip_tx_64.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/axis_xgmii_tx_32.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ip.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/gmii_phy_if.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/icmp_ip_tx.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/iddr.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_1g_gmii_fifo.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_demux.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ssio_ddr_in.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/ssio_ddr_out.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_phy_10g_rx_frame_sync.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/arp_cache.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_phy_10g_tx_if.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/rtl/udp_mux.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_rate_limit.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_crosspoint.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_frame_length_adjust_fifo.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_frame_join.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_srl_fifo.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_fifo.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_ll_bridge.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_pipeline_fifo.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_switch.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_demux.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_async_fifo_adapter.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_tap.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_fifo_adapter.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_arb_mux.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/ll_axis_bridge.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_stat_counter.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_ram_switch.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_srl_register.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_adapter.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/arbiter.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_broadcast.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_async_fifo.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_register.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_cobs_decode.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_pipeline_register.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_mux.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_cobs_encode.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_frame_length_adjust.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_frame_len.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/sync_reset.v" version="default" library="default" />
-        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/priority_encoder.v" version="default" library="default" />
-        <efx:design_file name="src/sub/stream_dmas/src/m2s_dma.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/stream_dmas/src/regs/m2s_dma_regs.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/stream_dmas/src/regs/m2s_dma_regs_pkg.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/tcp_pkg.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/tcp_parser.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/ip_demux_wrapper.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/tcp_rx_ctrl.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/ip_arb_mux_wrapper.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/s2m_dma.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/tcp_dest_decap.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/tcp_packet_generator.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/tcp_tx_ctrl.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/network_processor/src/checksum_calc.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/interfaces/axil_intf.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/interfaces/axis_intf.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/interfaces/ip_intf.sv" version="default" library="default" />
-        <efx:design_file name="src/sub/interfaces/eth_intf.sv" version="default" library="default" />
+        <efx:top_module name="super6502_fpga"/>
+        <efx:design_file name="src/rtl/super_6502_fpga.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/cpu_wrapper/cpu_wrapper.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/rtl-common/src/rtl/axi4_lite_rom.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/rtl-common/src/rtl/axi4_lite_ram.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/rtl-common/src/rtl/ff_cdc.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/rtl-common/src/rtl/axi4_lite_to_apb4.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/rtl-common/src/rtl/async_fifo.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/wb2axip/rtl/axilxbar.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/wb2axip/rtl/addrdecode.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/wb2axip/rtl/skidbuffer.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/sd_controller_wrapper/sd_controller_wrapper.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/sd_controller_wrapper/shadow_regs.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdckgen.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sddma_rxgears.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sddma.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdrxframe.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdtxframe.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sddma_s2mm.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sddma_s2mm_axi.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/afifo.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sddma_txgears.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdskid.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdfrontend.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/spicmd.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdaxil.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sddma_mm2s.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sddma_mm2s_axi.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdio_top.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdwb.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdio.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdcmd.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/sd_controller_wrapper/sdspi/rtl/sdfifo.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/network_processor/src/tcp_stream.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/network_processor/src/tcp_state_manager.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/network_processor/src/network_processor.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/network_processor/src/regs/tcp_stream_regs_pkg.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/network_processor/src/regs/tcp_top_regfile.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/network_processor/src/regs/tcp_stream_regs.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/network_processor/src/regs/tcp_top_regfile_pkg.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/network_processor/src/eth_wrapper.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/network_processor/src/tcp.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/network_processor/src/regs/mac_regs_pkg.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/network_processor/src/regs/ntw_top_regfile.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/network_processor/src/regs/mac_regs.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/network_processor/src/regs/ntw_top_regfile_pkg.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/rgmii_phy_if.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/udp_ip_rx.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mux.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ip_64.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_duplicator.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ptp_clock_cdc.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_phy_10g.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/mac_ctrl_tx.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_phy_10g_rx.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/udp_arb_mux.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ptp_tag_insert.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_1g_rgmii.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/axis_gmii_tx.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_axis_rx.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_10g_fifo.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/udp_checksum_gen.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ssio_sdr_out.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ip_complete.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/axis_baser_rx_64.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ptp_td_phc.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_phy_10g_rx_if.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/axis_baser_tx_64.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/udp_demux.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_arb_mux.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/filter.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_1g.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ip_eth_tx_64.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/icmp_ip_rx.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/modifier.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/mac_pause_ctrl_tx.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/lfsr.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/arp_eth_tx.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_1g_rgmii_fifo.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_1g_fifo.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/axis_xgmii_tx_64.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/udp.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_1g_gmii.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ip_demux.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_phy_10g.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/udp_checksum_gen_64.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/mac_ctrl_rx.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_mii_fifo.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/icmp_ip_rx_64.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ssio_sdr_in_diff.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/axis_eth_fcs_check.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/axis_xgmii_rx_32.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_10g.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/xgmii_baser_enc_64.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ip_complete_64.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/udp_complete_64.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_phy_10g_tx.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/arp_eth_rx.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_phy_10g_rx.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/icmp_ip_tx_64.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/axis_eth_fcs.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ptp_clock.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ip_arb_mux.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/axis_eth_fcs_insert_64.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ptp_td_leaf.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ssio_ddr_in_diff.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_phy_10g_rx_ber_mon.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_phy_10g_tx.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_phy_10g_fifo.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/udp_64.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/axis_eth_fcs_check_64.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/mii_phy_if.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ip_mux.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ptp_td_rel2tod.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/xgmii_interleave.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/axis_gmii_rx.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/mac_pause_ctrl_rx.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ptp_perout.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/udp_ip_rx_64.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/axis_eth_fcs_insert.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/oddr.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ssio_sdr_in.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ssio_ddr_out_diff.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/arp.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/udp_complete.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/axis_xgmii_rx_64.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ip_eth_tx.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ssio_sdr_out_diff.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ip_eth_rx_64.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_axis_tx.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ip_eth_rx.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_phy_10g_rx_watchdog.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_mii.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/xgmii_deinterleave.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/udp_ip_tx.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/xgmii_baser_dec_64.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ptp_ts_extract.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/udp_ip_tx_64.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/axis_xgmii_tx_32.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ip.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/gmii_phy_if.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/icmp_ip_tx.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/iddr.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_mac_1g_gmii_fifo.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_demux.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ssio_ddr_in.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/ssio_ddr_out.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_phy_10g_rx_frame_sync.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/arp_cache.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/eth_phy_10g_tx_if.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/rtl/udp_mux.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_rate_limit.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_crosspoint.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_frame_length_adjust_fifo.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_frame_join.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_srl_fifo.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_fifo.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_ll_bridge.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_pipeline_fifo.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_switch.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_demux.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_async_fifo_adapter.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_tap.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_fifo_adapter.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_arb_mux.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/ll_axis_bridge.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_stat_counter.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_ram_switch.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_srl_register.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_adapter.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/arbiter.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_broadcast.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_async_fifo.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_register.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_cobs_decode.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_pipeline_register.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_mux.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_cobs_encode.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_frame_length_adjust.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_frame_len.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/sync_reset.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/priority_encoder.v" version="default" library="default"/>
+        <efx:design_file name="src/sub/stream_dmas/src/m2s_dma.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/stream_dmas/src/regs/m2s_dma_regs.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/stream_dmas/src/regs/m2s_dma_regs_pkg.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/network_processor/src/tcp_pkg.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/network_processor/src/tcp_parser.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/network_processor/src/ip_demux_wrapper.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/network_processor/src/tcp_rx_ctrl.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/network_processor/src/ip_arb_mux_wrapper.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/network_processor/src/s2m_dma.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/network_processor/src/tcp_dest_decap.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/network_processor/src/tcp_packet_generator.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/network_processor/src/tcp_tx_ctrl.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/network_processor/src/checksum_calc.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/interfaces/axil_intf.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/interfaces/axis_intf.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/interfaces/ip_intf.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/interfaces/eth_intf.sv" version="default" library="default"/>
         <efx:design_file name="src/sub/my-fifos/src/axis_saf.sv" version="default" library="default"/>
         <efx:design_file name="src/sub/my-fifos/src/dpram.sv" version="default" library="default"/>
         <efx:design_file name="src/sub/my-fifos/src/fifo_fwft.sv" version="default" library="default"/>
         <efx:design_file name="src/sub/my-fifos/src/fifo.sv" version="default" library="default"/>
         <efx:design_file name="src/sub/my-fifos/src/fwft_adapter.sv" version="default" library="default"/>
-        <efx:top_vhdl_arch name="" />
+        <efx:design_file name="src/sub/network_processor/src/ip_pipeline_register_wrapper.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/verilog-ethernet/lib/axis/rtl/axis_pipeline_register_wrapper.sv" version="default" library="default"/>
+        <efx:design_file name="src/sub/network_processor/src/axil_reg_slice.sv" version="default" library="default"/>
+        <efx:top_vhdl_arch name=""/>
     </efx:design_info>
     <efx:constraint_info>
-        <efx:sdc_file name="constraints/constraints.sdc" />
-        <efx:inter_file name="" />
+        <efx:sdc_file name="constraints/constraints.sdc"/>
+        <efx:inter_file name=""/>
     </efx:constraint_info>
-    <efx:sim_info />
-    <efx:misc_info />
+    <efx:sim_info/>
+    <efx:misc_info/>
     <efx:ip_info>
         <efx:ip instance_name="sdram_controller" path="ip/sdram_controller/settings.json">
-            <efx:ip_src_file name="sdram_controller.v" />
+            <efx:ip_src_file name="sdram_controller.v"/>
         </efx:ip>
     </efx:ip_info>
     <efx:synthesis tool_name="efx_map">
-        <efx:param name="work_dir" value="work_syn" value_type="e_string" />
-        <efx:param name="write_efx_verilog" value="on" value_type="e_bool" />
-        <efx:param name="allow-const-ram-index" value="0" value_type="e_option" />
-        <efx:param name="blackbox-error" value="1" value_type="e_option" />
-        <efx:param name="blast_const_operand_adders" value="1" value_type="e_option" />
-        <efx:param name="bram_output_regs_packing" value="1" value_type="e_option" />
-        <efx:param name="create-onehot-fsms" value="0" value_type="e_option" />
-        <efx:param name="fanout-limit" value="0" value_type="e_integer" />
-        <efx:param name="hdl-compile-unit" value="1" value_type="e_option" />
-        <efx:param name="infer-clk-enable" value="3" value_type="e_option" />
-        <efx:param name="infer-sync-set-reset" value="1" value_type="e_option" />
-        <efx:param name="max_ram" value="-1" value_type="e_integer" />
-        <efx:param name="max_mult" value="-1" value_type="e_integer" />
-        <efx:param name="min-sr-fanout" value="0" value_type="e_integer" />
-        <efx:param name="min-ce-fanout" value="0" value_type="e_integer" />
-        <efx:param name="mult-decomp-retime" value="0" value_type="e_option" />
-        <efx:param name="mode" value="speed" value_type="e_option" />
-        <efx:param name="operator-sharing" value="0" value_type="e_option" />
-        <efx:param name="optimize-adder-tree" value="0" value_type="e_option" />
-        <efx:param name="optimize-zero-init-rom" value="1" value_type="e_option" />
-        <efx:param name="retiming" value="1" value_type="e_option" />
-        <efx:param name="seq_opt" value="1" value_type="e_option" />
-        <efx:param name="seq-opt-sync-only" value="0" value_type="e_option" />
-        <efx:param name="mult_input_regs_packing" value="1" value_type="e_option" />
-        <efx:param name="mult_output_regs_packing" value="1" value_type="e_option" />
-        <efx:param name="include" value="ip/sdram_controller" value_type="e_string" />
-        <efx:defmacro name="SDIO_AXI" value="1" />
-        <efx:defmacro name="EFINIX" value="1" />
+        <efx:param name="work_dir" value="work_syn" value_type="e_string"/>
+        <efx:param name="write_efx_verilog" value="on" value_type="e_bool"/>
+        <efx:param name="allow-const-ram-index" value="0" value_type="e_option"/>
+        <efx:param name="blackbox-error" value="1" value_type="e_option"/>
+        <efx:param name="blast_const_operand_adders" value="1" value_type="e_option"/>
+        <efx:param name="bram_output_regs_packing" value="1" value_type="e_option"/>
+        <efx:param name="create-onehot-fsms" value="0" value_type="e_option"/>
+        <efx:param name="fanout-limit" value="0" value_type="e_integer"/>
+        <efx:param name="hdl-compile-unit" value="1" value_type="e_option"/>
+        <efx:param name="infer-clk-enable" value="3" value_type="e_option"/>
+        <efx:param name="infer-sync-set-reset" value="1" value_type="e_option"/>
+        <efx:param name="max_ram" value="-1" value_type="e_integer"/>
+        <efx:param name="max_mult" value="-1" value_type="e_integer"/>
+        <efx:param name="min-sr-fanout" value="0" value_type="e_integer"/>
+        <efx:param name="min-ce-fanout" value="0" value_type="e_integer"/>
+        <efx:param name="mult-decomp-retime" value="0" value_type="e_option"/>
+        <efx:param name="mode" value="speed" value_type="e_option"/>
+        <efx:param name="operator-sharing" value="0" value_type="e_option"/>
+        <efx:param name="optimize-adder-tree" value="0" value_type="e_option"/>
+        <efx:param name="optimize-zero-init-rom" value="1" value_type="e_option"/>
+        <efx:param name="retiming" value="1" value_type="e_option"/>
+        <efx:param name="seq_opt" value="1" value_type="e_option"/>
+        <efx:param name="seq-opt-sync-only" value="0" value_type="e_option"/>
+        <efx:param name="mult_input_regs_packing" value="1" value_type="e_option"/>
+        <efx:param name="mult_output_regs_packing" value="1" value_type="e_option"/>
+        <efx:param name="include" value="ip/sdram_controller" value_type="e_string"/>
+        <efx:param name="bram-push-tco-outreg" value="0" value_type="e_option"/>
+        <efx:param name="mult-auto-pipeline" value="0" value_type="e_integer"/>
+        <efx:param name="use-logic-for-small-mem" value="64" value_type="e_integer"/>
+        <efx:param name="use-logic-for-small-rom" value="64" value_type="e_integer"/>
+        <efx:defmacro name="SDIO_AXI" value="1"/>
+        <efx:defmacro name="EFINIX" value="1"/>
     </efx:synthesis>
     <efx:place_and_route tool_name="efx_pnr">
-        <efx:param name="work_dir" value="work_pnr" value_type="e_string" />
-        <efx:param name="verbose" value="off" value_type="e_bool" />
-        <efx:param name="load_delaym" value="on" value_type="e_bool" />
-        <efx:param name="optimization_level" value="TIMING_3" value_type="e_option" />
-        <efx:param name="seed" value="1" value_type="e_integer" />
-        <efx:param name="placer_effort_level" value="5" value_type="e_option" />
-        <efx:param name="max_threads" value="-1" value_type="e_integer" />
+        <efx:param name="work_dir" value="work_pnr" value_type="e_string"/>
+        <efx:param name="verbose" value="off" value_type="e_bool"/>
+        <efx:param name="load_delaym" value="on" value_type="e_bool"/>
+        <efx:param name="optimization_level" value="TIMING_3" value_type="e_option"/>
+        <efx:param name="seed" value="1" value_type="e_integer"/>
+        <efx:param name="placer_effort_level" value="5" value_type="e_option"/>
+        <efx:param name="max_threads" value="-1" value_type="e_integer"/>
+        <efx:param name="print_critical_path" value="10" value_type="e_integer"/>
     </efx:place_and_route>
     <efx:bitstream_generation tool_name="efx_pgm">
-        <efx:param name="mode" value="active" value_type="e_option" />
-        <efx:param name="width" value="1" value_type="e_option" />
-        <efx:param name="enable_roms" value="smart" value_type="e_option" />
-        <efx:param name="spi_low_power_mode" value="on" value_type="e_bool" />
-        <efx:param name="io_weak_pullup" value="on" value_type="e_bool" />
-        <efx:param name="oscillator_clock_divider" value="DIV8" value_type="e_option" />
-        <efx:param name="bitstream_compression" value="off" value_type="e_bool" />
-        <efx:param name="enable_external_master_clock" value="off" value_type="e_bool" />
-        <efx:param name="active_capture_clk_edge" value="posedge" value_type="e_option" />
-        <efx:param name="jtag_usercode" value="0xFFFFFFFF" value_type="e_string" />
-        <efx:param name="release_tri_then_reset" value="on" value_type="e_bool" />
-        <efx:param name="four_byte_addressing" value="off" value_type="e_bool" />
-        <efx:param name="generate_bit" value="on" value_type="e_bool" />
-        <efx:param name="generate_bitbin" value="off" value_type="e_bool" />
-        <efx:param name="generate_hex" value="on" value_type="e_bool" />
-        <efx:param name="generate_hexbin" value="off" value_type="e_bool" />
-        <efx:param name="cold_boot" value="off" value_type="e_bool" />
-        <efx:param name="cascade" value="off" value_type="e_option" />
+        <efx:param name="mode" value="active" value_type="e_option"/>
+        <efx:param name="width" value="1" value_type="e_option"/>
+        <efx:param name="enable_roms" value="smart" value_type="e_option"/>
+        <efx:param name="spi_low_power_mode" value="on" value_type="e_bool"/>
+        <efx:param name="io_weak_pullup" value="on" value_type="e_bool"/>
+        <efx:param name="oscillator_clock_divider" value="DIV8" value_type="e_option"/>
+        <efx:param name="bitstream_compression" value="off" value_type="e_bool"/>
+        <efx:param name="enable_external_master_clock" value="off" value_type="e_bool"/>
+        <efx:param name="active_capture_clk_edge" value="posedge" value_type="e_option"/>
+        <efx:param name="jtag_usercode" value="0xFFFFFFFF" value_type="e_string"/>
+        <efx:param name="release_tri_then_reset" value="on" value_type="e_bool"/>
+        <efx:param name="four_byte_addressing" value="off" value_type="e_bool"/>
+        <efx:param name="generate_bit" value="on" value_type="e_bool"/>
+        <efx:param name="generate_bitbin" value="off" value_type="e_bool"/>
+        <efx:param name="generate_hex" value="on" value_type="e_bool"/>
+        <efx:param name="generate_hexbin" value="off" value_type="e_bool"/>
+        <efx:param name="cold_boot" value="off" value_type="e_bool"/>
+        <efx:param name="cascade" value="off" value_type="e_option"/>
     </efx:bitstream_generation>
     <efx:debugger>
-        <efx:param name="work_dir" value="work_dbg" value_type="e_string" />
-        <efx:param name="auto_instantiation" value="off" value_type="e_bool" />
-        <efx:param name="profile" value="debug_profile.wizard.json" value_type="e_string" />
+        <efx:param name="work_dir" value="work_dbg" value_type="e_string"/>
+        <efx:param name="auto_instantiation" value="off" value_type="e_bool"/>
+        <efx:param name="profile" value="debug_profile.wizard.json" value_type="e_string"/>
     </efx:debugger>
 </efx:project>
