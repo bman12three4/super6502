@@ -94,7 +94,7 @@ def ip_to_hex(ip: str) -> int:
 
     return result
 
-# @cocotb.test()
+@cocotb.test()
 async def test_irl(dut):
     tb = TB(dut)
 
@@ -270,11 +270,19 @@ async def test_irl(dut):
 
     await tb.mii_phy.rx.send(GmiiFrame.from_payload(tcp_fin.build()))
 
+    tb.log.info("Expecting to get ACK from DUT")
+
     ip_packet = await read_tcp_from_dut()
 
     t.send(ip_packet)
 
-    tb.log.info("Expecting to send last ACK here")
+    tb.log.info("Expecting to get FINACK from DUT")
+
+    ip_packet = await read_tcp_from_dut()
+
+    t.send(ip_packet)
+
+    tb.log.info("Expecting to get ACK from host")
 
     while True:
         pkt = t.recv()
@@ -455,4 +463,4 @@ async def test_close(dut):
     tb.log.info("Sending packet to host")
     t.send(ip_packet)
 
-    await Timer(Decimal(CLK_PERIOD_NS * 10000), units='ns')
+    await Timer(Decimal(CLK_PERIOD_NS * 20000), units='ns')

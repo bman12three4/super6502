@@ -130,7 +130,7 @@ always_comb begin
 
             if (i_packet_done) begin
                 state_next = IDLE;
-                seq_num_next = seq_num + s_axis_len;
+                seq_num_next = seq_num + 1;
             end
         end
     endcase

@@ -126,7 +126,9 @@ always_comb begin
         WAIT_CLOSE: begin
             o_tx_ctrl = TX_CTRL_SEND_FIN;
             o_tx_ctrl_valid = '1;
-            tcp_state_next = LAST_ACK;
+            if (i_tx_ctrl_ack) begin        // we should be doing this other places too...
+                tcp_state_next = LAST_ACK;
+            end
         end
 
         LAST_ACK: begin

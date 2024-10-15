@@ -54,6 +54,7 @@ always_comb begin
         if (i_flags == 8'h11) begin
             rx_msg_next = RX_MSG_RECV_FIN;
             rx_msg_valid_next = '1;
+            ack_num_next = i_seq_number + 1;
         end
 
         if (i_flags == 8'h10) begin
