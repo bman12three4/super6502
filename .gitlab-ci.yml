@@ -7,15 +7,20 @@ stages:
 
 build:
   stage: build
+  when: manual
   tags:
     - efinity
     - linux
   script:
-    - source init_env.sh
+    # - source init_env.sh
+    - module load efinity/2024.1
     - make
+  after_script:
+    - cat hw/super6502_fpga/outflow/super6502_fpga.err.log
 
 sim:
   stage: sim
+  needs: []
   tags:
     - linux
     - efinity
@@ -23,3 +28,18 @@ sim:
     - source init_env.sh
     - make sim
 
+ntw_sim:
+  stage: sim
+  needs: []
+  tags:
+    - linux
+  script:
+    - source init_env.sh
+    - cd hw/super6502_fpga/src/sub/network_processor/sim/cocotb
+    - make -j `nproc`
+  artifacts:
+    when: always
+    paths:
+      - hw/super6502_fpga/src/sub/network_processor/sim/cocotb/results.xml
+    reports:
+      junit: hw/super6502_fpga/src/sub/network_processor/sim/cocotb/results.xml

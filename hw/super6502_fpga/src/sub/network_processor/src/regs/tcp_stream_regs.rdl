@@ -1,0 +1,137 @@
+addrmap tcp_stream_regs {
+    name = "TCP Stream Regs";
+    desc = "";
+
+    reg {
+        name = "SourcePort";
+        desc = "";
+
+        field {
+            name = "d";
+            desc = "";
+            hw   = r;
+            sw   = rw;
+        } d[31:0] = 0x0;
+    } source_port @ 0x0;
+
+    reg {
+        name = "SourceIP";
+        desc = "";
+
+        field {
+            name = "d";
+            desc = "";
+            hw   = r;
+            sw   = rw;
+        } d[31:0] = 0x0;
+    } source_ip @ 0x4;
+
+    reg {
+        name = "DestPort";
+        desc = "";
+
+        field {
+            name = "d";
+            desc = "";
+            hw   = r;
+            sw   = rw;
+        } d[31:0] = 0x0;
+    } dest_port @ 0x8;
+
+    reg {
+        name = "DestIP";
+        desc = "";
+
+        field {
+            name = "d";
+            desc = "";
+            hw   = r;
+            sw   = rw;
+        } d[31:0] = 0x0;
+    } dest_ip @ 0xc;
+
+    reg {
+        name = "Control";
+        desc = "";
+
+        field {
+            name = "Enable";
+            desc = "Enable the stream";
+            hw   = r;
+            sw   = rw;
+        } enable[0:0] = 0x0;
+
+        field {
+            name = "Open";
+            desc = "Open a new connection with the given parameters.
+                    When written with 1, initiate a TCP handshake.";
+            hw   = r;
+            sw   = rw;
+            hwclr;
+        } open[1:1] = 0x0;
+
+        field {
+            name = "Close";
+            desc = "Closes the exisitng connection when written with 1";
+            hw   = r;
+            sw   = rw;
+            hwclr;
+        } close[2:2] = 0x0;
+
+        field {
+            name = "State";
+            desc = "Current state of the TCP connection";
+            hw   = w;
+            sw   = r;
+        } state[5:3] = 0x0;
+
+    } control @ 0x10;
+
+    // is addrmap right for this? How do we specify the address of it though?
+    // Maybe we have to do this separately and include it?
+    regfile stats {
+        name = "Statistics";
+        desc = "";
+
+        reg {
+            name = "TXValidPackets";
+            desc = "Number of packets transmitted";
+
+            field {
+                name = "d";
+                desc = "";
+                hw   = r;
+                sw   = w;
+            } d[31:0] = 0x0;
+
+        } tx_valid_packets @ 0x14;
+
+        reg {
+            name = "RXValidPackets";
+            desc = "Number of valid received packets";
+
+            field {
+                name = "d";
+                desc = "";
+                hw   = r;
+                sw   = w;
+            } d[31:0] = 0x0;
+
+        } rx_valid_packets @ 0x4;
+
+        reg {
+            name = "RXBadCRC";
+            desc = "RX packets with bad CRC";
+
+            field {
+                name = "d";
+                desc = "";
+                hw   = r;
+                sw   = w;
+            } d[31:0] = 0x0;
+
+        } rx_bad_crc @ 0x8;
+    };
+
+    external m2s_dma_regs m2s_dma_regs @ 0x20;
+};

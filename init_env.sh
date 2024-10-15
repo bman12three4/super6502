@@ -8,12 +8,11 @@ export KICAD7_SYMBOL_DIR=$REPO_TOP/hw/kicad_library/symbols
 export KICAD7_3DMODEL_DIR=$REPO_TOP/hw/kicad_library/3dmodels
 export KICAD7_FOOTPRINT_DIR=$REPO_TOP/hw/kicad_library/footprints
 
-
-python3.11 -m venv .user_venv
-. .user_venv/bin/activate
-
-module load efinity/2023.1
-module load iverilog/12.0
+#module load efinity/2023.1
+module load verilator
 module load gtkwave/3.3_gtk3
 
-# pip install -r requirements.txt
+python3.12 -m venv .user_venv
+. .user_venv/bin/activate
+
+pip install -r requirements.txt

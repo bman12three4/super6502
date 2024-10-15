@@ -17,9 +17,22 @@
 *.gtkw
 *debug_profile*
 
+# Drawio temp files.
+*.bkp
+*.dtmp
 
 *.mem
 sim_top
 
 # Allow sources.list specifically
 !*sources.list
+
+# Cocotb
+sim_build
+*.fst
+__pycache__
+*.vcd
+*.fst.*
+results.xml
+html
+*.pcapng

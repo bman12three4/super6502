@@ -1,7 +1,7 @@
 hvl/sim_top.sv
 sub/verilog-6502/ALU.v
 sub/verilog-6502/cpu_65c02.v
-sub/sim_sdram/generic_sdr.v
+hvl/sdram_sram.sv
 ../sub/sd_controller_wrapper/sdspi/bench/verilog/mdl_sdio.v
 ../sub/sd_controller_wrapper/sdspi/bench/verilog/mdl_sdcmd.v
 ../sub/sd_controller_wrapper/sdspi/bench/verilog/mdl_sdrx.v

@@ -87,6 +87,7 @@ logic   [DQ_GROUP				-1:0]   w_sdr_DQM;
 wire    [DQ_GROUP	*DQ_WIDTH	-1:0]   w_sdr_DQ;
 // ^ Has to be wire because of tristate/inout stuff
 
+/*
 genvar i, j;
 generate
     for (i=0; i<DQ_GROUP*DQ_WIDTH; i=i+1)
@@ -111,7 +112,7 @@ generate
         );
     end
 endgenerate
-
+*/
 
 // potential sd card sim here?
 
@@ -179,13 +180,15 @@ IOBUF dat_buf (
     .IO(w_sd_dat)
 );
 
+wire [2:0] w_sd_dat_unused;
+
 mdl_sdio #(
     .LGMEMSZ(16),
     .MEMFILE("sd_image.bin")
 ) u_sd_card_emu (
     .sd_clk(o_sd_clk),
     .sd_cmd(w_sd_cmd),
-    .sd_dat(w_sd_dat)
+    .sd_dat({w_sd_dat_unused, w_sd_dat})
 );
 
 initial begin

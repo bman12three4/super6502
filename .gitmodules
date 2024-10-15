@@ -13,3 +13,15 @@
 [submodule "hw/super6502_fpga/src/sub/sdspi"]
 	path = hw/super6502_fpga/src/sub/sd_controller_wrapper/sdspi
 	url = ../sdspi.git
+[submodule "hw/super6502_fpga/src/sub/verilog-ethernet"]
+	path = hw/super6502_fpga/src/sub/verilog-ethernet
+	url = ../verilog-ethernet.git
+[submodule "hw/super6502_fpga/src/sub/stream_dmas"]
+	path = hw/super6502_fpga/src/sub/stream_dmas
+	url = ../stream_dmas.git
+[submodule "hw/super6502_fpga/src/sub/interfaces"]
+	path = hw/super6502_fpga/src/sub/interfaces
+	url = ../interfaces.git
+[submodule "hw/super6502_fpga/src/sub/my-fifos"]
+	path = hw/super6502_fpga/src/sub/my-fifos
+	url = ../my-fifos.git

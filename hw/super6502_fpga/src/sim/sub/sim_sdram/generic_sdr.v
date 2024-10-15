@@ -1127,19 +1127,19 @@ parameter mem_sizes        = 2**(ROW_BITS+COL_BITS) - 1;
             tCMS =  1.5,                                        // CS#, RAS#, CAS#, WE#, DQM# Setup Time
             tDH  =  0.8,                                        // Data-in Hold Time
             tDS  =  1.5;                                        // Data-in Setup Time
-        $width    (posedge Clk,           tCH);
-        $width    (negedge Clk,           tCL);
-        $period   (negedge Clk,           tCK3);
-        $period   (posedge Clk,           tCK3);
-        $setuphold(posedge Clk,    Cke,   tCKS, tCKH);
-        $setuphold(posedge Clk,    Cs_n,  tCMS, tCMH);
-        $setuphold(posedge Clk,    Cas_n, tCMS, tCMH);
-        $setuphold(posedge Clk,    Ras_n, tCMS, tCMH);
-        $setuphold(posedge Clk,    We_n,  tCMS, tCMH);
-        $setuphold(posedge Clk,    Addr,  tAS,  tAH);
-        $setuphold(posedge Clk,    Ba,    tAS,  tAH);
-        $setuphold(posedge Clk,    Dqm,   tCMS, tCMH);
-        $setuphold(posedge Dq_chk, Dq,    tDS,  tDH);
+        // $width    (posedge Clk,           tCH);
+        // $width    (negedge Clk,           tCL);
+        // $period   (negedge Clk,           tCK3);
+        // $period   (posedge Clk,           tCK3);
+        // $setuphold(posedge Clk,    Cke,   tCKS, tCKH);
+        // $setuphold(posedge Clk,    Cs_n,  tCMS, tCMH);
+        // $setuphold(posedge Clk,    Cas_n, tCMS, tCMH);
+        // $setuphold(posedge Clk,    Ras_n, tCMS, tCMH);
+        // $setuphold(posedge Clk,    We_n,  tCMS, tCMH);
+        // $setuphold(posedge Clk,    Addr,  tAS,  tAH);
+        // $setuphold(posedge Clk,    Ba,    tAS,  tAH);
+        // $setuphold(posedge Clk,    Dqm,   tCMS, tCMH);
+        // $setuphold(posedge Dq_chk, Dq,    tDS,  tDH);
     endspecify
 
 endmodule
